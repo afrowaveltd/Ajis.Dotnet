@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/Afrowave.AJIS.Benchmarks/Afrowave.AJIS.Benchmarks.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Afrowave.AJIS.Core.Tests/Afrowave.AJIS.Core.Tests.csproj" />
+    <Project Path="tests/Afrowave.AJIS.Records.Tests/Afrowave.AJIS.Records.Tests.csproj" />
+    <Project Path="tests/Afrowave.AJIS.Serialization.Tests/Afrowave.AJIS.Serialization.Tests.csproj" />
+    <Project Path="tests/Afrowave.AJIS.Testing/Afrowave.AJIS.Testing.csproj" />
+  </Folder>
+  <Project Path="src/Afrowave.AJIS.Core/Afrowave.AJIS.Core.csproj" />
+  <Project Path="src/Afrowave.AJIS.IO/Afrowave.AJIS.IO.csproj" />
+  <Project Path="src/Afrowave.AJIS.Net/Afrowave.AJIS.Net.csproj" />
+  <Project Path="src/Afrowave.AJIS.Records/Afrowave.AJIS.Records.csproj" />
+  <Project Path="src/Afrowave.AJIS.Serialization/Afrowave.AJIS.Serialization.csproj" />
+  <Project Path="src/Afrowave.AJIS/Afrowave.AJIS.csproj" />
+</Solution>

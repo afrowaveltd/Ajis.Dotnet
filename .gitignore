@@ -1,0 +1,102 @@
+# ==============================
+
+# AJIS .NET – Git Ignore
+
+# ==============================
+
+# --- Build outputs ---
+
+**/bin/
+**/obj/
+
+# --- .NET user-specific ---
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# --- VS / VS Code ---
+
+.vs/
+.vscode/
+
+# --- Rider / JetBrains ---
+
+.idea/
+*.sln.iml
+
+# --- OS generated files ---
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Logs ---
+
+*.log
+
+# --- Benchmark & test artifacts ---
+
+benchmarks/**/BenchmarkDotNet.Artifacts/
+benchmarks/**/results/
+
+# Large generated AJIS test files (normative test data is managed manually)
+
+**/test_data/*.ajis
+**/test_data/*.json
+**/test_data/*.bin
+
+# Allow small reference samples if explicitly added
+
+!**/test_data/samples/**
+
+# --- Coverage & reports ---
+
+coverage/
+*.coverage
+*.coveragexml
+
+# --- NuGet ---
+
+*.nupkg
+*.snupkg
+packages/
+
+# --- Temporary / scratch ---
+
+*.tmp
+*.temp
+*.bak
+*.old
+
+# --- PowerShell ---
+
+*.ps1.user
+
+# --- Python / misc tooling (if used) ---
+
+**pycache**/
+*.pyc
+
+# --- Secrets (never commit) ---
+
+.env
+.env.*
+
+# --- Local tooling state ---
+
+.tools/
+.local/
+
+# ==============================
+
+# Notes
+
+# ==============================
+
+# Large AJIS benchmark files (100k+, 1M+ records) are generated locally
+
+# and intentionally excluded from Git history.
+
+# Documentation and format specifications live in Docs/.
