@@ -2,7 +2,19 @@
   <Folder Name="/benchmarks/">
     <Project Path="benchmarks/Afrowave.AJIS.Benchmarks/Afrowave.AJIS.Benchmarks.csproj" />
   </Folder>
-  <Folder Name="/Docs/" />
+  <Folder Name="/Docs/">
+    <File Path="Docs/01_Repository_Overview_and_Architecture.md" />
+    <File Path="Docs/04_Test_Format_Deep_Dive.md" />
+    <File Path="Docs/10_Modes_And_Heuristics.md" />
+    <File Path="Docs/11_Streaming_parser_Algorithm.md" />
+    <File Path="Docs/12_ATP_Text_Binary_Container.md" />
+    <File Path="Docs/13_AJIS_Settings_And_Mapping.md" />
+    <File Path="Docs/14_Public_API_Developer_Experience.md" />
+    <File Path="Docs/15_Tools_CLI_and_FileOps.md" />
+    <File Path="Docs/16_Pipelines_and_Segments.md" />
+    <File Path="Docs/17_Transform_Recipes.md" />
+    <File Path="Docs/18_Implementation_Roadmap.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Afrowave.AJIS.Core/Afrowave.AJIS.Core.csproj" />
     <Project Path="src/Afrowave.AJIS.IO/Afrowave.AJIS.IO.csproj" />
