@@ -1,0 +1,1 @@
+﻿# Segment Contract

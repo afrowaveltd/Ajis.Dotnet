@@ -3,6 +3,7 @@
     <Project Path="benchmarks/Afrowave.AJIS.Benchmarks/Afrowave.AJIS.Benchmarks.csproj" />
   </Folder>
   <Folder Name="/Docs/">
+    <File Path="02a_Localization.md" />
     <File Path="Docs/01_Repository_Overview_and_Architecture.md" />
     <File Path="Docs/04_Test_Format_Deep_Dive.md" />
     <File Path="Docs/10_Modes_And_Heuristics.md" />
@@ -14,6 +15,9 @@
     <File Path="Docs/16_Pipelines_and_Segments.md" />
     <File Path="Docs/17_Transform_Recipes.md" />
     <File Path="Docs/18_Implementation_Roadmap.md" />
+  </Folder>
+  <Folder Name="/Položky řešení/">
+    <File Path="init-ajis-structure.ps1" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Afrowave.AJIS.Core/Afrowave.AJIS.Core.csproj" />

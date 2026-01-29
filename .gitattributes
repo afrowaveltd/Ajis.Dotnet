@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+# Windows skripty
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Shell skripty
+*.sh text eol=lf
+
+# Projektové soubory
+*.cs text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.md text eol=lf
