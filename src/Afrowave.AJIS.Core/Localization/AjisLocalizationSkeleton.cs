@@ -1,9 +1,8 @@
 ﻿#nullable enable
 
-using Afrowave.AJIS.Core.Abstractions;
+using Afrowave.AJIS.Core.Abstraction;
 using System.Globalization;
 using System.Text;
-
 
 namespace Afrowave.AJIS.Core.Localization;
 
@@ -28,16 +27,18 @@ public sealed class AjisLocLoader
    /// <param name="input">Input stream containing a .loc file in UTF-8.</param>
    /// <param name="ct">Cancellation token.</param>
    /// <returns>Loaded dictionary.</returns>
-   public async ValueTask<AjisLocDictionary> LoadAsync(Stream input, CancellationToken ct = default)
+   public static async ValueTask<AjisLocDictionary> LoadAsync(Stream input, CancellationToken ct = default)
    {
-      if(input is null) throw new ArgumentNullException(nameof(input));
-
-      // NOTE: We intentionally do not use StreamReader.ReadLineAsync() for maximum control.
-      // This implementation is already low-memory (line-by-line) and fast enough for large dictionaries.
+      ArgumentNullException.ThrowIfNull(input);
 
       var dict = new Dictionary<string, string>(StringComparer.Ordinal);
 
-      using var reader = new StreamReader(input, Encoding.UTF8, detectEncodingFromByteOrderMarks: true, bufferSize: 16 * 1024, leaveOpen: true);
+      using var reader = new StreamReader(
+         input,
+         Encoding.UTF8,
+         detectEncodingFromByteOrderMarks: true,
+         bufferSize: 16 * 1024,
+         leaveOpen: true);
 
       string? line;
       while((line = await reader.ReadLineAsync().WaitAsync(ct).ConfigureAwait(false)) is not null)
@@ -67,23 +68,18 @@ public sealed class AjisLocLoader
       key = string.Empty;
       value = string.Empty;
 
-      // Must start with opening quote.
       if(line.Length < 4 || line[0] != '"') return false;
 
       if(!TryReadQuotedString(line, startIndex: 0, out var keyText, out var afterKey))
          return false;
 
-      // Skip whitespace
       while(afterKey < line.Length && char.IsWhiteSpace(line[afterKey])) afterKey++;
 
-      // Expect ':'
       if(afterKey >= line.Length || line[afterKey] != ':') return false;
       afterKey++;
 
-      // Skip whitespace
       while(afterKey < line.Length && char.IsWhiteSpace(line[afterKey])) afterKey++;
 
-      // Expect opening quote for value
       if(afterKey >= line.Length || line[afterKey] != '"') return false;
 
       if(!TryReadQuotedString(line, startIndex: afterKey, out var valueText, out _))
@@ -114,7 +110,6 @@ public sealed class AjisLocLoader
 
          if(c == '"')
          {
-            // End of string.
             result = sb.ToString();
             nextIndex = i;
             return true;
@@ -132,7 +127,7 @@ public sealed class AjisLocLoader
                'n' => '\n',
                'r' => '\r',
                't' => '\t',
-               _ => e, // Unknown escapes are preserved as-is for now.
+               _ => e,
             });
 
             continue;
@@ -148,17 +143,10 @@ public sealed class AjisLocLoader
 /// <summary>
 /// Represents a localization dictionary loaded from AJIS LOC v1.
 /// </summary>
-public sealed class AjisLocDictionary
+public sealed class AjisLocDictionary(IReadOnlyDictionary<string, string> dict)
 {
-   private readonly IReadOnlyDictionary<string, string> _dict;
-
-   /// <summary>
-   /// Creates a dictionary wrapper.
-   /// </summary>
-   public AjisLocDictionary(IReadOnlyDictionary<string, string> dict)
-   {
-      _dict = dict ?? throw new ArgumentNullException(nameof(dict));
-   }
+   private readonly IReadOnlyDictionary<string, string> _dict =
+      dict ?? throw new ArgumentNullException(nameof(dict));
 
    /// <summary>
    /// Gets the underlying read-only dictionary.
@@ -170,7 +158,7 @@ public sealed class AjisLocDictionary
    /// </summary>
    public bool TryGet(string key, out string value)
    {
-      if(key is null) throw new ArgumentNullException(nameof(key));
+      ArgumentNullException.ThrowIfNull(key);
       return _dict.TryGetValue(key, out value!);
    }
 }
@@ -184,14 +172,14 @@ public sealed class AjisLocDictionary
 /// </remarks>
 public sealed class AjisTextProviderBuilder
 {
-   private readonly List<AjisLocDictionary> _chain = new();
+   private readonly List<AjisLocDictionary> _chain = [];
 
    /// <summary>
    /// Adds a dictionary at the highest priority (first lookup).
    /// </summary>
    public AjisTextProviderBuilder AddHighPriority(AjisLocDictionary dictionary)
    {
-      if(dictionary is null) throw new ArgumentNullException(nameof(dictionary));
+      ArgumentNullException.ThrowIfNull(dictionary);
       _chain.Insert(0, dictionary);
       return this;
    }
@@ -201,7 +189,7 @@ public sealed class AjisTextProviderBuilder
    /// </summary>
    public AjisTextProviderBuilder AddLowPriority(AjisLocDictionary dictionary)
    {
-      if(dictionary is null) throw new ArgumentNullException(nameof(dictionary));
+      ArgumentNullException.ThrowIfNull(dictionary);
       _chain.Add(dictionary);
       return this;
    }
@@ -209,46 +197,60 @@ public sealed class AjisTextProviderBuilder
    /// <summary>
    /// Builds a provider that resolves localization keys.
    /// </summary>
-   /// <remarks>
-   /// This is a minimal in-memory provider. Later we will connect it to diagnostics, events and logging.
-   /// </remarks>
    public IAjisTextProvider Build(MissingKeyBehavior missingKeyBehavior = MissingKeyBehavior.ReturnKey)
        => new ChainedAjisTextProvider(_chain, missingKeyBehavior);
 
-   private sealed class ChainedAjisTextProvider : IAjisTextProvider
+   private sealed class ChainedAjisTextProvider(IReadOnlyList<AjisLocDictionary> chain, MissingKeyBehavior missingKeyBehavior) : IAjisTextProvider
    {
-      private readonly IReadOnlyList<AjisLocDictionary> _chain;
-      private readonly MissingKeyBehavior _missingKeyBehavior;
+      private readonly IReadOnlyList<AjisLocDictionary> _chain = chain;
+      private readonly MissingKeyBehavior _missingKeyBehavior = missingKeyBehavior;
 
-      public ChainedAjisTextProvider(IReadOnlyList<AjisLocDictionary> chain, MissingKeyBehavior missingKeyBehavior)
+      public string GetText(string key, CultureInfo? culture = null, IReadOnlyDictionary<string, object?>? data = null)
       {
-         _chain = chain;
-         _missingKeyBehavior = missingKeyBehavior;
-      }
+         ArgumentNullException.ThrowIfNull(key);
 
-      public string Get(string key)
-      {
-         if(key is null) throw new ArgumentNullException(nameof(key));
+         string? raw = null;
 
          foreach(var d in _chain)
          {
             if(d.TryGet(key, out var value))
-               return value;
+            {
+               raw = value;
+               break;
+            }
          }
 
-         return _missingKeyBehavior switch
+         raw ??= _missingKeyBehavior switch
          {
             MissingKeyBehavior.ReturnKey => key,
             MissingKeyBehavior.Bracketed => $"[missing:{key}]",
+            MissingKeyBehavior.Empty => string.Empty,
             _ => key,
          };
+
+         if(data is null || data.Count == 0)
+            return raw;
+
+         // Minimal Core convention: data["args"] = object?[] for string.Format.
+         foreach(var kv in data)
+         {
+            if(!string.Equals(kv.Key, "args", StringComparison.OrdinalIgnoreCase))
+               continue;
+
+            if(kv.Value is object?[] args)
+            {
+               var fmtCulture = culture ?? CultureInfo.CurrentCulture;
+               return string.Format(fmtCulture, raw, args);
+            }
+         }
+
+         return raw;
       }
 
-      public string Format(string key, params object?[] args)
+      public string Format(CultureInfo? culture, string key, params object?[] args)
       {
-         var fmt = Get(key);
-         return string.Format(CultureInfo.CurrentCulture, fmt, args);
+         var fmt = GetText(key, culture ?? CultureInfo.CurrentUICulture, data: null);
+         return string.Format(culture ?? CultureInfo.CurrentCulture, fmt, args);
       }
    }
 }
-

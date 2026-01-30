@@ -3,9 +3,16 @@
     <Project Path="benchmarks/Afrowave.AJIS.Benchmarks/Afrowave.AJIS.Benchmarks.csproj" />
   </Folder>
   <Folder Name="/Docs/">
-    <File Path="02a_Localization.md" />
     <File Path="Docs/01_Repository_Overview_and_Architecture.md" />
+    <File Path="Docs/02a_Localization.md" />
+    <File Path="Docs/02_Diagnostics.md" />
+    <File Path="Docs/03_Format_Norms.md" />
     <File Path="Docs/04_Test_Format_Deep_Dive.md" />
+    <File Path="Docs/05_Events.md" />
+    <File Path="Docs/06_Parsers_and_Modes.md" />
+    <File Path="Docs/07_Core_API.md" />
+    <File Path="Docs/08_Serialization.md" />
+    <File Path="Docs/09_Streaming.md" />
     <File Path="Docs/10_Modes_And_Heuristics.md" />
     <File Path="Docs/11_Streaming_parser_Algorithm.md" />
     <File Path="Docs/12_ATP_Text_Binary_Container.md" />

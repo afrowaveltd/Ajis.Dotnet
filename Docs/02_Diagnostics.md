@@ -132,6 +132,44 @@ Rendering:
 
 ---
 
+### 8.1 Recommended APEP text rendering (default)
+
+Implementations SHOULD provide a two-line APEP-style rendering helper.
+
+Default (two-line):
+
+LINE 1:
+<SEV> <CODE> @ <line>:<col> (offset <offset>) <message>
+
+LINE 2:
+<source_excerpt>
+<caret_line>
+
+Where:
+- <SEV> is one of: ERR, WRN, INF
+- <CODE> is the diagnostic code (e.g., AJIS1003)
+- <line>:<col> are 1-based (human-facing)
+- offset is 0-based byte/char offset (implementation-defined, but must be consistent)
+- <message> is localized if possible
+
+If source excerpt is not available, LINE 2 may be omitted.
+
+Example:
+
+ERR AJIS1003 @ 12:34 (offset 9123) Unterminated string literal
+"hello world
+           ^
+
+### 8.2 Compact rendering (optional)
+
+Implementations MAY also provide a compact single-line rendering:
+
+<SEV> <CODE> @ <line>:<col> <message>
+
+Example:
+ERR AJIS1003 @ 12:34 Unterminated string literal
+
+
 ## 9. Diagnostics and event streams
 
 Diagnostics integrate with the AJIS event system.

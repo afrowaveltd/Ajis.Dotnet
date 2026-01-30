@@ -1,0 +1,33 @@
+﻿# AJIS Core (English) - LOC v1
+# Lines not starting with quotes are ignored.
+
+"ajis.meta.language":"English"
+"ajis.meta.code":"en"
+
+# Generic
+"ajis.error.unknown":"Unknown error."
+"ajis.error.missing_key":"[missing:{0}]"
+
+# Reader / structure
+"ajis.error.unexpected_eof":"Unexpected end of input."
+"ajis.error.unexpected_char":"Unexpected character '{0}'."
+"ajis.error.expected_char":"Expected '{0}' but found '{1}'."
+"ajis.error.depth_limit":"Nesting depth limit exceeded (max {0})."
+
+# Strings / escapes
+"ajis.error.string_unterminated":"Unterminated string literal."
+"ajis.error.string_invalid_escape":"Invalid escape sequence '\\{0}'."
+"ajis.error.string_invalid_unicode_escape":"Invalid unicode escape sequence '\\u{0}'."
+"ajis.error.string_control_char":"Control character is not allowed in string literal (code {0})."
+
+# Numbers
+"ajis.error.number_invalid":"Invalid number format."
+"ajis.error.number_base_invalid":"Invalid base prefix '{0}'."
+"ajis.error.number_grouping_invalid":"Invalid digit grouping in number."
+"ajis.error.number_fraction_grouping":"Digit grouping is not allowed in fraction part."
+
+# Arrays/Objects
+"ajis.error.array_trailing_comma":"Trailing comma is not allowed in array."
+"ajis.error.object_trailing_comma":"Trailing comma is not allowed in object."
+"ajis.error.object_expected_key":"Object key must be a string."
+"ajis.error.object_duplicate_key":"Duplicate key '{0}'."

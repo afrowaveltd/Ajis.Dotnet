@@ -174,3 +174,13 @@ This document is considered **stable**.
 
 Additions may be made to extend functionality,
 but existing API contracts must remain compatible.
+
+### Error handling policy
+
+Implementations MUST support at least these user-facing styles:
+
+1) Parse(...) – throws AjisException on fatal errors.
+2) TryParse(...) – returns false on error and provides diagnostic.
+3) ParseOrNull(...) – returns null on error; diagnostics are emitted/collected.
+
+Default behavior SHOULD be Parse(...) throwing, to match common .NET expectations.

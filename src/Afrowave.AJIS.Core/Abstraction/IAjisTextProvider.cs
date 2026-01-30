@@ -2,7 +2,7 @@
 
 using System.Globalization;
 
-namespace Afrowave.AJIS.Core.Abstractions;
+namespace Afrowave.AJIS.Core.Abstraction;
 
 /// <summary>
 /// Resolves localized strings for AJIS diagnostics and user-facing messages.
@@ -20,11 +20,23 @@ namespace Afrowave.AJIS.Core.Abstractions;
 public interface IAjisTextProvider
 {
    /// <summary>
-   /// Gets the localized text for <paramref name="key"/>.
+   /// Gets the localized text for <paramref name="key"/> (optionally formatted).
    /// </summary>
    /// <param name="key">Localization key.</param>
+   /// <param name="culture">Culture to use. If null, <see cref="CultureInfo.CurrentUICulture"/> is used.</param>
+   /// <param name="data">
+   /// Optional structured data for formatting.
+   /// Minimal convention supported by Core:
+   /// - if data contains "args" (case-insensitive) with value object?[] then string.Format is applied.
+   /// Other keys are ignored by Core provider (may be used by richer providers).
+   /// </param>
    /// <returns>Localized string (or fallback/missing-key behavior output).</returns>
-   string Get(string key);
+   string GetText(string key, CultureInfo? culture = null, IReadOnlyDictionary<string, object?>? data = null);
+
+   /// <summary>
+   /// Gets the localized text for <paramref name="key"/> using current UI culture.
+   /// </summary>
+   string Get(string key) => GetText(key, CultureInfo.CurrentUICulture, data: null);
 
    /// <summary>
    /// Formats a localized text for <paramref name="key"/> using the provided culture.
@@ -38,9 +50,6 @@ public interface IAjisTextProvider
    /// <summary>
    /// Formats a localized text for <paramref name="key"/> using <see cref="CultureInfo.CurrentCulture"/>.
    /// </summary>
-   /// <param name="key">Localization key.</param>
-   /// <param name="args">Formatting arguments.</param>
-   /// <returns>Formatted localized string.</returns>
    string Format(string key, params object?[] args)
        => Format(CultureInfo.CurrentCulture, key, args);
 }

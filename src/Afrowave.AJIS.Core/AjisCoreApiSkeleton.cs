@@ -1,5 +1,7 @@
 ﻿#nullable enable
 
+using Afrowave.AJIS.Core.Abstraction;
+using Afrowave.AJIS.Core.Events;
 using System.Globalization;
 
 namespace Afrowave.AJIS.Core;
@@ -217,20 +219,24 @@ public enum AjisErrorCode
 
    // Structure
    UnexpectedToken = 1000,
+
    UnexpectedEndOfInput = 1001,
    MaxDepthExceeded = 1002,
 
    // Strings
    UnterminatedString = 2000,
+
    InvalidEscapeSequence = 2001,
 
    // Numbers
    InvalidNumber = 3000,
+
    InvalidBasePrefix = 3001,
    InvalidDigitSeparator = 3002,
 
    // Objects/Arrays
    DuplicateKey = 4000,
+
    TrailingCommaNotAllowed = 4001,
 }
 
@@ -258,75 +264,59 @@ public sealed record AjisDiagnostic(
 /// <summary>
 /// Base exception for AJIS.
 /// </summary>
-public class AjisException : Exception
+/// <remarks>
+/// Initializes a new instance.
+/// </remarks>
+public class AjisException(AjisErrorCode code, AjisTextPosition position, string messageKey, Exception? inner = null) : Exception(messageKey, inner)
 {
-   /// <summary>
-   /// Initializes a new instance.
-   /// </summary>
-   public AjisException(AjisErrorCode code, AjisTextPosition position, string messageKey, Exception? inner = null)
-       : base(messageKey, inner)
-   {
-      Code = code;
-      Position = position;
-      MessageKey = messageKey;
-   }
-
    /// <summary>
    /// Diagnostic code associated with this exception.
    /// </summary>
-   public AjisErrorCode Code { get; }
+   public AjisErrorCode Code { get; } = code;
 
    /// <summary>
    /// Position of the error.
    /// </summary>
-   public AjisTextPosition Position { get; }
+   public AjisTextPosition Position { get; } = position;
 
    /// <summary>
    /// Localization key.
    /// </summary>
-   public string MessageKey { get; }
+   public string MessageKey { get; } = messageKey;
 }
 
 /// <summary>
 /// Exception thrown for invalid AJIS text.
 /// </summary>
-public sealed class AjisFormatException : AjisException
+/// <remarks>
+/// Initializes a new instance.
+/// </remarks>
+public sealed class AjisFormatException(AjisErrorCode code, AjisTextPosition position, string messageKey, Exception? inner = null) : AjisException(code, position, messageKey, inner)
 {
-   /// <summary>
-   /// Initializes a new instance.
-   /// </summary>
-   public AjisFormatException(AjisErrorCode code, AjisTextPosition position, string messageKey, Exception? inner = null)
-       : base(code, position, messageKey, inner)
-   {
-   }
 }
 
 /// <summary>
 /// Abstraction for providing localized texts.
 /// </summary>
-public interface IAjisTextProvider
-{
-   /// <summary>
-   /// Gets a localized string for <paramref name="key"/>.
-   /// </summary>
-   /// <param name="key">Message key (stable).</param>
-   /// <param name="culture">UI culture.</param>
-   /// <param name="data">Optional data used for interpolation.</param>
-   /// <returns>Localized text.</returns>
-   string GetText(string key, CultureInfo culture, IReadOnlyDictionary<string, object?>? data = null);
-}
 
 internal sealed class DefaultAjisTextProvider : IAjisTextProvider
 {
    public static DefaultAjisTextProvider Instance { get; } = new();
 
-   private DefaultAjisTextProvider() { }
+   private DefaultAjisTextProvider()
+   { }
 
-   public string GetText(string key, CultureInfo culture, IReadOnlyDictionary<string, object?>? data = null)
+   public string GetText(string key, CultureInfo? culture = null, IReadOnlyDictionary<string, object?>? data = null)
    {
       // Intentionally minimal fallback. Tools can provide richer dictionaries.
       // Do not throw here.
       return key;
+   }
+
+   public string Format(CultureInfo? culture, string key, params object?[] args)
+   {
+      var fmt = GetText(key, culture ?? CultureInfo.CurrentUICulture, data: null);
+      return string.Format(culture ?? CultureInfo.CurrentCulture, fmt, args);
    }
 }
 
@@ -382,22 +372,3 @@ public sealed record AjisDiagnosticEvent(DateTimeOffset Timestamp, AjisDiagnosti
 /// Signals a phase change.
 /// </summary>
 public sealed record AjisPhaseEvent(DateTimeOffset Timestamp, string Phase, string? Detail = null) : AjisEvent(Timestamp);
-
-/// <summary>
-/// Receives AJIS events.
-/// </summary>
-/// <remarks>
-/// Implementations should be fast. AJIS may call the sink frequently.
-/// Consider buffering/throttling in the sink.
-/// </remarks>
-public interface IAjisEventSink
-{
-   /// <summary>
-   /// Publishes an event.
-   /// </summary>
-   /// <remarks>
-   /// This method is designed for fire-and-forget usage by AJIS.
-   /// Implementations should not throw.
-   /// </remarks>
-   ValueTask PublishAsync(AjisEvent evt, CancellationToken ct = default);
-}

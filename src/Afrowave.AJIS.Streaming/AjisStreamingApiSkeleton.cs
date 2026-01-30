@@ -130,10 +130,6 @@ public static class AjisParse
       _ = settings;
       _ = ct;
       throw new NotImplementedException("Streaming parser not implemented yet. This is an API skeleton.");
-
-#pragma warning disable CS0162
-      yield break;
-#pragma warning restore CS0162
    }
 
    /// <summary>
