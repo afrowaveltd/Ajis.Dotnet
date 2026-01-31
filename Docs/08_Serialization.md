@@ -176,3 +176,110 @@ Implementations must not weaken the guarantees defined here.
 This document is considered **stable** for textual AJIS.
 
 Binary and ATP serialization is defined in a separate document.
+
+---
+
+# AJIS → JSON Export Profiles
+
+AJIS supports multiple JSON export profiles to balance interoperability, tooling support, and round‑trip fidelity.
+
+## Export Profiles
+
+### Minimal
+
+* Produces clean, standard JSON
+* No AJIS directives
+* No comments
+* No round‑trip guarantees
+
+Use when JSON is consumed by external systems or APIs.
+
+---
+
+### Functional (default)
+
+* Preserves AJIS directives required for tooling and transformations
+* Omits comments
+* Enables partial round‑trip reconstruction
+
+This is the **default export mode**.
+
+---
+
+### DeterministicRoundtrip
+
+* Preserves AJIS directives
+* Preserves comments
+* Enables full reconstruction of the AJIS text representation
+
+Use when complete round‑trip fidelity is required.
+
+---
+
+## Default Behavior
+
+> Functional mode is the default AJIS → JSON export profile.
+
+---
+
+# Directives and History
+
+## History Directives
+
+History directives are emitted **only** when exporting AJIS to JSON and only when information would otherwise be lost.
+
+### Example
+
+* Non‑decimal numbers are converted to decimal for JSON
+* A history directive records the original base
+
+```json
+{
+  "category": "history",
+  "name": "number_base",
+  "scope": "next",
+  "value": 16
+}
+```
+
+History directives MUST be concise and MUST NOT duplicate information already implicit in JSON.
+
+---
+
+# Comments and Export
+
+Comments are a first‑class feature of AJIS.
+
+## Comment Export Rules
+
+* **Minimal**: comments are discarded
+* **Functional**: comments are discarded
+* **DeterministicRoundtrip**: comments are preserved
+
+In DeterministicRoundtrip mode, comments are exported as JS‑escaped strings within `ajis_directives_block.comments`.
+
+Comment export is enabled **only** in DeterministicRoundtrip mode.
+
+---
+
+# JSON Interoperability
+
+## ajis_directives_block
+
+The `ajis_directives_block` object may be included in JSON output depending on export mode.
+
+* Present in **Functional** and **DeterministicRoundtrip** modes
+* May include:
+
+  * `directives`
+  * `comments` (DeterministicRoundtrip only)
+
+This block enables tooling, diagnostics, and optional round‑trip reconstruction while keeping JSON payloads interoperable.
+
+---
+
+# API Notes
+
+Serialization APIs default to Functional export unless explicitly specified otherwise.
+
+> Converts AJIS to JSON using the specified export mode. Functional mode is used by default.
