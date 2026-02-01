@@ -1,56 +1,39 @@
-﻿
-#nullable enable
-
+﻿#nullable enable
 
 using Afrowave.AJIS.Core;
-using Afrowave.AJIS.Streaming;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
+using Afrowave.AJIS.Streaming.Segments; // AjisSegment
 
 namespace Afrowave.AJIS.Serialization;
 
 /// <summary>
-/// Serialization entry points for AJIS.
+/// Serialization entry points (API skeleton).
 /// </summary>
 public static class AjisSerialize
 {
-   /// <summary>
-   /// Serializes a sequence of segments to a text stream.
-   /// </summary>
-   /// <remarks>
-   /// This is the primary building block for streaming pipelines:
-   /// parse -> transform -> serialize.
-   /// </remarks>
-   public static async ValueTask SerializeSegmentsAsync(
-       Stream output,
-       IAsyncEnumerable<AjisSegment> segments,
-       AjisSettings? settings = null,
-       CancellationToken ct = default)
+   public static string ToText(
+      IEnumerable<AjisSegment> segments,
+      AjisSettings? settings = null)
+   {
+      _ = segments;
+      _ = settings;
+      throw new NotImplementedException("Serializer not implemented yet. This is an API skeleton.");
+   }
+
+   public static async Task ToStreamAsync(
+      Stream output,
+      IAsyncEnumerable<AjisSegment> segments,
+      AjisSettings? settings = null,
+      CancellationToken ct = default)
    {
       _ = output;
       _ = segments;
       _ = settings;
       _ = ct;
-      throw new NotImplementedException("Segment serializer not implemented yet. This is an API skeleton.");
-   }
-
-   /// <summary>
-   /// Serializes segments to a UTF-8 byte array.
-   /// </summary>
-   public static async ValueTask<byte[]> SerializeSegmentsToUtf8Async(
-       IAsyncEnumerable<AjisSegment> segments,
-       AjisSettings? settings = null,
-       CancellationToken ct = default)
-   {
-      _ = segments;
-      _ = settings;
-      _ = ct;
-      throw new NotImplementedException("Segment serializer not implemented yet. This is an API skeleton.");
+      await Task.CompletedTask;
+      throw new NotImplementedException("Serializer not implemented yet. This is an API skeleton.");
    }
 }
+
 
 /// <summary>
 /// High-level serializer facade.

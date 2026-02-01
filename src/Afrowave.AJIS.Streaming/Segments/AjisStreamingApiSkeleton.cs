@@ -3,7 +3,7 @@
 using Afrowave.AJIS.Core;
 using System.Runtime.CompilerServices;
 
-namespace Afrowave.AJIS.Streaming;
+namespace Afrowave.AJIS.Streaming.Segments;
 
 /// <summary>
 /// Indicates what kind of container is currently being entered/exited.
@@ -38,17 +38,17 @@ public enum AjisValueKind
 public enum AjisSegmentKind
 {
    /// <summary>
-   /// Begins an object or array.
+   /// Entering a container (<c>{</c> or <c>[</c>).
    /// </summary>
-   BeginContainer = 0,
+   EnterContainer = 0,
 
    /// <summary>
-   /// Ends an object or array.
+   /// Exiting a container (<c>}</c> or <c>]</c>).
    /// </summary>
-   EndContainer = 1,
+   ExitContainer = 1,
 
    /// <summary>
-   /// Object property name.
+   /// A property name inside an object.
    /// </summary>
    PropertyName = 2,
 
@@ -59,44 +59,26 @@ public enum AjisSegmentKind
 }
 
 /// <summary>
-/// A streaming output unit produced while parsing AJIS text.
+/// A single streaming segment.
 /// </summary>
-/// <remarks>
-/// Segments allow callers to process massive inputs without materializing a full DOM.
-/// </remarks>
-public readonly record struct AjisSegment(
-    AjisSegmentKind Kind,
-    AjisTextPosition Position,
-    int Depth,
-    AjisContainerKind? ContainerKind,
-    AjisValueKind? ValueKind,
-    string? Text)
+public sealed record AjisSegment(
+   AjisSegmentKind Kind,
+   long Position,
+   int Depth,
+   AjisContainerKind? ContainerKind,
+   AjisValueKind? ValueKind,
+   string? Text)
 {
-   /// <summary>
-   /// Creates a begin-container segment.
-   /// </summary>
-   public static AjisSegment Begin(AjisTextPosition pos, int depth, AjisContainerKind kind)
-       => new(AjisSegmentKind.BeginContainer, pos, depth, kind, null, null);
+   public static AjisSegment Enter(AjisContainerKind kind, long pos, int depth)
+       => new(AjisSegmentKind.EnterContainer, pos, depth, kind, null, null);
 
-   /// <summary>
-   /// Creates an end-container segment.
-   /// </summary>
-   public static AjisSegment End(AjisTextPosition pos, int depth, AjisContainerKind kind)
-       => new(AjisSegmentKind.EndContainer, pos, depth, kind, null, null);
+   public static AjisSegment Exit(AjisContainerKind kind, long pos, int depth)
+       => new(AjisSegmentKind.ExitContainer, pos, depth, kind, null, null);
 
-   /// <summary>
-   /// Creates a property-name segment.
-   /// </summary>
-   public static AjisSegment Name(AjisTextPosition pos, int depth, string name)
+   public static AjisSegment Name(long pos, int depth, string name)
        => new(AjisSegmentKind.PropertyName, pos, depth, null, null, name);
 
-   /// <summary>
-   /// Creates a primitive value segment.
-   /// </summary>
-   /// <remarks>
-   /// <paramref name="text"/> is the raw textual representation (unescaped for strings depends on settings).
-   /// </remarks>
-   public static AjisSegment Value(AjisTextPosition pos, int depth, AjisValueKind kind, string? text)
+   public static AjisSegment Value(long pos, int depth, AjisValueKind kind, string? text)
        => new(AjisSegmentKind.Value, pos, depth, null, kind, text);
 }
 
@@ -126,10 +108,16 @@ public static class AjisParse
        AjisSettings? settings = null,
        [EnumeratorCancellation] CancellationToken ct = default)
    {
-      _ = input;
+      // Skeleton: keep API compiling and predictable.
+      // Implementation will come later (StreamWalk/Reader algorithm).
+
+      _ = input ?? throw new ArgumentNullException(nameof(input));
       _ = settings;
       _ = ct;
-      throw new NotImplementedException("Streaming parser not implemented yet. This is an API skeleton.");
+
+      // Ensure this is a valid async-iterator even before real parsing exists.
+      await Task.CompletedTask;
+      yield break;
    }
 
    /// <summary>
@@ -145,28 +133,5 @@ public static class AjisParse
       _ = utf8;
       _ = settings;
       throw new NotImplementedException("In-memory streaming parser not implemented yet. This is an API skeleton.");
-   }
-}
-
-/// <summary>
-/// Helpers for consuming segment streams.
-/// </summary>
-public static class AjisSegmentExtensions
-{
-   /// <summary>
-   /// Consumes segments and calls <paramref name="onSegment"/> for each.
-   /// </summary>
-   /// <remarks>
-   /// This is useful when the consumer wants a single callback-based pipeline.
-   /// </remarks>
-   public static async ValueTask ForEachAsync(
-       this IAsyncEnumerable<AjisSegment> segments,
-       Func<AjisSegment, ValueTask> onSegment,
-       CancellationToken ct = default)
-   {
-      await foreach(var s in segments.WithCancellation(ct).ConfigureAwait(false))
-      {
-         await onSegment(s).ConfigureAwait(false);
-      }
    }
 }

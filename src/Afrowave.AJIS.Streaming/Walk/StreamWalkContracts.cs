@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace Afrowave.AJIS.Streaming;
+namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>
 /// Kind of event produced by StreamWalk.

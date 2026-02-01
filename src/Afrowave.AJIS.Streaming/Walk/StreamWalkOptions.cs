@@ -1,4 +1,4 @@
-namespace Afrowave.AJIS.Streaming;
+namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>
 /// Options parsed from a StreamWalk test-case file.
@@ -11,32 +11,31 @@ public readonly record struct StreamWalkOptions
    /// <summary>
    /// Parse mode for StreamWalk.
    /// </summary>
-   public StreamWalkMode Mode { get; init; }
+   public StreamWalkMode Mode { get; init; } = StreamWalkMode.Ajis;
 
    /// <summary>
    /// Whether comment tokens are recognized/produced.
    /// </summary>
-   public bool Comments { get; init; }
+   public bool Comments { get; init; } = true;
 
    /// <summary>
    /// Whether directives are recognized/produced.
    /// </summary>
-   public bool Directives { get; init; }
+   public bool Directives { get; init; } = true;
 
    /// <summary>
    /// Whether identifiers are recognized/produced.
    /// </summary>
-   public bool Identifiers { get; init; }
-
+   public bool Identifiers { get; init; } = true;
    /// <summary>
    /// Maximum nesting depth allowed.
    /// </summary>
-   public int MaxDepth { get; init; }
+   public int MaxDepth { get; init; } = 256;
 
    /// <summary>
    /// Maximum bytes allowed per token (safety limit for streaming scenarios).
    /// </summary>
-   public int MaxTokenBytes { get; init; }
+   public int MaxTokenBytes { get; init; } = 8 * 1024 * 1024; // 8 MiB
 
    // CS8983 fix:
    // Structs with field/property initializers require an explicitly declared constructor.

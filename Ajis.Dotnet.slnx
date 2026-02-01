@@ -25,7 +25,9 @@
     <File Path="Docs/18_Implementation_Roadmap.md" />
   </Folder>
   <Folder Name="/Docs/Api/">
+    <File Path="Docs/api/compliance.md" />
     <File Path="Docs/api/errors.md" />
+    <File Path="Docs/api/events.md" />
     <File Path="Docs/api/options.md" />
     <File Path="Docs/api/reader.md" />
     <File Path="Docs/api/README.md" />
@@ -33,6 +35,8 @@
     <File Path="Docs/api/stream-reader.md" />
     <File Path="Docs/api/streamwalk.md" />
     <File Path="Docs/api/visitor.md" />
+    <File Path="Docs/api/walk.md" />
+    <File Path="Docs/tests/streamwalk.md" />
   </Folder>
   <Folder Name="/Položky řešení/">
     <File Path="init-ajis-structure.ps1" />
