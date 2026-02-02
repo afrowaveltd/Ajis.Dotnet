@@ -221,3 +221,14 @@ It should be read **before** starting implementation work.
 Stable.
 
 This document defines architectural intent and boundaries.
+
+## ATP (Attachment Transport Protocol)
+
+AJIS uses **ATP v1** to store and transport binary attachments alongside the AJIS text payload.
+
+The following documents are **normative** for the .NET implementation:
+
+* `Docs/atp/atp-v1.md`
+* `Docs/atp/ajis-atp-integration.md`
+
+All ATP-related code MUST conform to these specifications.

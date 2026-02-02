@@ -253,4 +253,15 @@ A compliant visitor/event stream MUST satisfy:
 
 ---
 
+## Unified event delivery (M1)
+
+StreamWalk uses a **single unified event channel**.
+
+* `OnEvent(AjisStreamWalkEvent evt)` is called for every event in strict document order.
+* `OnCompleted()` is called exactly once on successful completion.
+* `OnError(AjisStreamWalkError error)` is called exactly once on failure.
+
+This is the canonical M1 visitor contract and MUST NOT be split into multiple callbacks in M1.
+
+
 *End of document.*

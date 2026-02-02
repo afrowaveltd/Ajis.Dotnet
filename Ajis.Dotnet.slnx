@@ -36,7 +36,9 @@
     <File Path="Docs/api/streamwalk.md" />
     <File Path="Docs/api/visitor.md" />
     <File Path="Docs/api/walk.md" />
-    <File Path="Docs/tests/streamwalk.md" />
+  </Folder>
+  <Folder Name="/Docs/atp/">
+    <File Path="ajis-atp-integration.md" />
   </Folder>
   <Folder Name="/Položky řešení/">
     <File Path="init-ajis-structure.ps1" />

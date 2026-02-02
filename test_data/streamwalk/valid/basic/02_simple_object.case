@@ -24,7 +24,7 @@ STRING b"John Doe"
 NAME b"age"
 NUMBER b"30"
 NAME b"email"
-STRING b"mailto:john@example.com"
+STRING b"john@example.com"
 NAME b"active"
 TRUE
 END_OBJECT

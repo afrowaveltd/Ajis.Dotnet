@@ -139,7 +139,17 @@ Rules:
 
 ## 5. UTF-8 Slices
 
-Textual data (property names, strings, numbers, comments, directives) is exposed as `AjisSliceUtf8`.
+## Slice semantics (M1)
+
+In **M1**, all textual slices returned by StreamWalk **MUST** be byte-true views into the original UTF-8 input.
+
+* **PropertyName**: slice includes the surrounding quotes, e.g. `"name"`.
+* **String values**: slice includes the surrounding quotes, e.g. `"hello"`.
+* **Number values**: slice is the exact UTF-8 token text (no normalization), e.g. `-12.34e+5`.
+* **Literals** (`true`, `false`, `null`): slice is the exact literal text when provided.
+
+Rationale: this keeps StreamWalk allocation-free and makes the test-suite a precise, deterministic oracle.
+
 
 ### 5.1 Slice lifetime
 
