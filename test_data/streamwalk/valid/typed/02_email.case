@@ -1,0 +1,22 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{"Email": E"some@address.me"}
+
+# EXPECTED
+
+OK
+TRACE:
+BEGIN_OBJECT
+NAME b"Email"
+STRING b"E\"some@address.me\""
+END_OBJECT
+END_DOCUMENT
