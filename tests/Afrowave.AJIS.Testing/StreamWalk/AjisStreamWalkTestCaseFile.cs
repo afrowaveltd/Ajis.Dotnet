@@ -1,5 +1,4 @@
-﻿// File: tests/Afrowave.AJIS.Testing/StreamWalk/AjisStreamWalkTestCaseFile.cs
-#nullable enable
+﻿#nullable enable
 
 using System.Globalization;
 using System.Text;
@@ -9,16 +8,16 @@ namespace Afrowave.AJIS.Testing.StreamWalk;
 /// <summary>
 /// Represents one StreamWalk test case loaded from a <c>.case</c> file.
 /// Canonical format is defined in <c>Docs/tests/streamwalk.md</c> (M1).
-/// 
+///
 /// NOTE: All types in the test harness use an <c>AjisStreamWalkTest*</c> prefix
 /// to avoid name collisions with production types living in Afrowave.AJIS.Streaming.
 /// </summary>
 public sealed class AjisStreamWalkTestCase
 {
-   public required string CaseId { get; init; }
-   public required AjisStreamWalkTestOptions Options { get; init; }
-   public required byte[] InputUtf8 { get; init; }
-   public required AjisStreamWalkTestExpected Expected { get; init; }
+   public string CaseId { get; init; } = string.Empty;
+   public AjisStreamWalkTestOptions Options { get; init; } = new();
+   public ReadOnlyMemory<byte> InputUtf8 { get; init; } = ReadOnlyMemory<byte>.Empty;
+   public AjisStreamWalkTestExpected Expected { get; init; } = null!;
 
    public override string ToString() => CaseId;
 }
@@ -56,24 +55,25 @@ public enum AjisStreamWalkTestMode
 /// </summary>
 public abstract class AjisStreamWalkTestExpected
 {
-   private AjisStreamWalkTestExpected() { }
+   private AjisStreamWalkTestExpected()
+   { }
 
    public sealed class Success : AjisStreamWalkTestExpected
    {
-      public required IReadOnlyList<AjisStreamWalkTestTraceEvent> Trace { get; init; }
+      public IReadOnlyList<AjisStreamWalkTestTraceEvent> Trace { get; init; } = null!;
    }
 
    public sealed class Failure : AjisStreamWalkTestExpected
    {
-      public required string ErrorCode { get; init; }
-      public required int ErrorOffset { get; init; }
+      public string ErrorCode { get; init; } = string.Empty;
+      public long ErrorOffset { get; init; }
       public int? ErrorLine { get; init; }
       public int? ErrorColumn { get; init; }
    }
 }
 
 /// <summary>
-/// One expected event line.
+/// One expected trace event line.
 /// </summary>
 public readonly record struct AjisStreamWalkTestTraceEvent(string Kind, string? Slice);
 
@@ -101,7 +101,7 @@ public static class AjisStreamWalkTestCaseFile
    /// </summary>
    public static AjisStreamWalkTestCase Parse(string caseFileText, string caseId)
    {
-      if(caseFileText is null) throw new ArgumentNullException(nameof(caseFileText));
+      ArgumentNullException.ThrowIfNull(caseFileText);
       if(string.IsNullOrWhiteSpace(caseId)) throw new ArgumentException("CaseId is required.", nameof(caseId));
 
       // Normalize newlines (we treat CRLF and LF the same)
@@ -125,11 +125,11 @@ public static class AjisStreamWalkTestCaseFile
    }
 
    /// <summary>
-   /// Renders a UTF-8 byte slice into the canonical <c>b\"...\"</c> trace form.
+   /// Renders a UTF-8 byte slice into the canonical trace form: <c>b"..."</c>.
    /// </summary>
    public static string RenderSlice(ReadOnlySpan<byte> slice)
    {
-      // We follow the same escape rules as JSON for the textual representation,
+      // We follow JSON-like escaping for the textual representation,
       // but keep the outer wrapper b"..." to emphasize it is a byte slice.
       var sb = new StringBuilder(slice.Length + 8);
       sb.Append('b').Append('"');
@@ -162,6 +162,12 @@ public static class AjisStreamWalkTestCaseFile
       return sb.ToString();
    }
 
+   /// <summary>
+   /// Convenience overload for callers holding memory.
+   /// </summary>
+   public static string RenderSlice(ReadOnlyMemory<byte> slice)
+      => RenderSlice(slice.Span);
+
    // ----------------------------
    // Parsing helpers
    // ----------------------------
@@ -181,7 +187,7 @@ public static class AjisStreamWalkTestCaseFile
          var line = rawLine.Trim();
          if(line.Length == 0) continue;
          if(line.StartsWith("//", StringComparison.Ordinal)) continue;
-         if(line.StartsWith("#", StringComparison.Ordinal)) continue;
+         if(line.StartsWith('#')) continue;
 
          var idx = line.IndexOf('=');
          if(idx < 0) throw new FormatException($"Invalid option line (expected key=value): '{line}'");
@@ -190,29 +196,16 @@ public static class AjisStreamWalkTestCaseFile
          var value = line[(idx + 1)..].Trim();
 
          // We keep keys case-insensitive.
-         switch(key.ToUpperInvariant())
+         opt = key.ToUpperInvariant() switch
          {
-            case "MODE":
-               opt = opt with { Mode = ParseMode(value) };
-               break;
-            case "COMMENTS":
-               opt = opt with { Comments = ParseOnOff(value) };
-               break;
-            case "DIRECTIVES":
-               opt = opt with { Directives = ParseOnOff(value) };
-               break;
-            case "IDENTIFIERS":
-               opt = opt with { Identifiers = ParseOnOff(value) };
-               break;
-            case "MAX_DEPTH":
-               opt = opt with { MaxDepth = ParseInt(value, key) };
-               break;
-            case "MAX_TOKEN_BYTES":
-               opt = opt with { MaxTokenBytes = ParseInt(value, key) };
-               break;
-            default:
-               throw new FormatException($"Unknown option key: '{key}'");
-         }
+            "MODE" => opt with { Mode = ParseMode(value) },
+            "COMMENTS" => opt with { Comments = ParseOnOff(value) },
+            "DIRECTIVES" => opt with { Directives = ParseOnOff(value) },
+            "IDENTIFIERS" => opt with { Identifiers = ParseOnOff(value) },
+            "MAX_DEPTH" => opt with { MaxDepth = ParseInt(value, key) },
+            "MAX_TOKEN_BYTES" => opt with { MaxTokenBytes = ParseInt(value, key) },
+            _ => throw new FormatException($"Unknown option key: '{key}'"),
+         };
       }
 
       return opt;
@@ -291,7 +284,7 @@ public static class AjisStreamWalkTestCaseFile
 
          var code = payload[..at].Trim();
          var offsetText = payload[(at + 1)..].Trim();
-         if(!int.TryParse(offsetText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var offset))
+         if(!long.TryParse(offsetText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var offset))
             throw new FormatException($"Invalid ERROR offset: '{offsetText}'");
 
          int? lineNo = null;
@@ -310,7 +303,8 @@ public static class AjisStreamWalkTestCaseFile
                }
                else if(p.StartsWith("COL=", StringComparison.OrdinalIgnoreCase) || p.StartsWith("COLUMN=", StringComparison.OrdinalIgnoreCase))
                {
-                  var v = p.Contains('=') ? p[(p.IndexOf('=') + 1)..] : string.Empty;
+                  var eq = p.IndexOf('=');
+                  var v = eq >= 0 ? p[(eq + 1)..] : string.Empty;
                   if(int.TryParse(v, NumberStyles.Integer, CultureInfo.InvariantCulture, out var n)) colNo = n;
                }
             }
@@ -334,9 +328,7 @@ public static class AjisStreamWalkTestCaseFile
       using var sr = new StringReader(src);
       string? line;
       while((line = sr.ReadLine()) is not null)
-      {
          yield return line;
-      }
    }
 
    private static string ExtractSection(string src, string header, string? nextHeader, bool required)
@@ -360,9 +352,9 @@ public static class AjisStreamWalkTestCaseFile
          end = src.Length;
       }
 
-      var block = src.Substring(start, end - start);
+      var block = src[start..end];
       // Trim a single leading newline for convenience
-      if(block.StartsWith("\n", StringComparison.Ordinal)) block = block[1..];
+      if(block.StartsWith('\n')) block = block[1..];
       return block.TrimEnd('\n');
    }
 

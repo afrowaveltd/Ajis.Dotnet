@@ -3,52 +3,15 @@
 namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>
-/// Kind of event produced by StreamWalk.
-/// Matches canonical names used in Docs/tests/streamwalk.md.
-/// </summary>
-public enum StreamWalkEventKind
-{
-   BeginDocument,
-   EndDocument,
-
-   BeginObject,
-   EndObject,
-
-   BeginArray,
-   EndArray,
-
-   PropertyName,
-
-   StringValue,
-   NumberValue,
-   TrueValue,
-   FalseValue,
-   NullValue,
-
-   Comment,
-   Directive,
-}
-
-/// <summary>
-/// One streaming event produced by the walker.
-/// </summary>
-public readonly record struct StreamWalkEvent(
-    StreamWalkEventKind Kind,
-    ReadOnlyMemory<byte> Utf8Slice,
-    long Offset
-);
-
-/// <summary>
 /// Visitor interface for StreamWalk.
 /// Implementations receive events in strict document order.
 /// </summary>
-public interface IStreamWalkVisitor
+public interface IAjisStreamWalkVisitor
 {
    /// <summary>
-   /// Called for every event. Returning false requests early abort
-   /// (only if AllowVisitorAbort is enabled).
+   /// Called for every event.
    /// </summary>
-   bool OnEvent(in StreamWalkEvent evt);
+   void OnEvent(AjisStreamWalkEvent evt);
 
    /// <summary>
    /// Called exactly once on successful completion.
@@ -58,15 +21,30 @@ public interface IStreamWalkVisitor
    /// <summary>
    /// Called exactly once on failure.
    /// </summary>
-   void OnError(StreamWalkError error);
+   void OnError(AjisStreamWalkError error);
 }
+
+/// <summary>
+/// One streaming event produced by the walker.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <see cref="Kind"/> is a canonical textual name matching the test-case format.
+/// </para>
+/// <para>
+/// <see cref="Slice"/> is a raw UTF-8 byte slice referencing the input.
+/// </para>
+/// </remarks>
+public readonly record struct AjisStreamWalkEvent(
+   string Kind,
+   ReadOnlyMemory<byte> Slice,
+   long Offset);
 
 /// <summary>
 /// Structured error reported by StreamWalk.
 /// </summary>
-public sealed record StreamWalkError(
-    string Code,
-    long Offset,
-    int? Line,
-    int? Column
-);
+public sealed record AjisStreamWalkError(
+   string Code,
+   long Offset,
+   int? Line,
+   int? Column);

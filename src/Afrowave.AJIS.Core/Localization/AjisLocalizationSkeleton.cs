@@ -41,7 +41,7 @@ public sealed class AjisLocLoader
          leaveOpen: true);
 
       string? line;
-      while((line = await reader.ReadLineAsync().WaitAsync(ct).ConfigureAwait(false)) is not null)
+      while((line = await reader.ReadLineAsync(ct).ConfigureAwait(false)) is not null)
       {
          ct.ThrowIfCancellationRequested();
 

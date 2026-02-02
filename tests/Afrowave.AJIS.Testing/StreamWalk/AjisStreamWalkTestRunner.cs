@@ -1,9 +1,6 @@
 ﻿// File: tests/Afrowave.AJIS.Testing/StreamWalk/AjisStreamWalkTestRunner.cs
 #nullable enable
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Afrowave.AJIS.Streaming.Walk;
 
 namespace Afrowave.AJIS.Testing.StreamWalk;
@@ -18,7 +15,7 @@ public static class AjisStreamWalkTestRunner
        AjisStreamWalkTestCase testCase,
        AjisStreamWalkRunnerOptions runnerOptions)
    {
-      if(testCase is null) throw new ArgumentNullException(nameof(testCase));
+      ArgumentNullException.ThrowIfNull(testCase);
 
       var mismatches = new List<string>();
       var producedEvents = new List<AjisStreamWalkEvent>();
@@ -103,9 +100,9 @@ public static class AjisStreamWalkTestRunner
          }
 
          // Even on error, partial traces may exist
-         if(fail is AjisStreamWalkTestExpected.Failure)
+         if(fail is AjisStreamWalkTestExpected.Failure failure)
          {
-            // no trace comparison here (future M2+ extension)
+            // future: failure.Code, failure.Offset, ...
          }
       }
       else if(expected is AjisStreamWalkTestExpected.Success ok)
@@ -153,7 +150,7 @@ public static class AjisStreamWalkTestRunner
 
          if(exp.Slice is not null)
          {
-            var rendered = AjisStreamWalkTestCaseFile.RenderSlice(act.Slice);
+            var rendered = AjisStreamWalkTestCaseFile.RenderSlice(act.Slice.Span);
             if(!string.Equals(exp.Slice, rendered, StringComparison.Ordinal))
             {
                mismatches.Add($"Trace[{i}] slice mismatch. Expected {exp.Slice}, got {rendered}.");
@@ -171,23 +168,18 @@ public sealed record AjisStreamWalkTestRunResult(
     bool Success,
     IReadOnlyList<string> Mismatches);
 
-internal sealed class CollectingVisitor : IAjisStreamWalkVisitor
+internal sealed class CollectingVisitor(
+    Action<AjisStreamWalkEvent> onEvent,
+    Action<AjisStreamWalkError> onError,
+    Action onCompleted) : IAjisStreamWalkVisitor
 {
-   private readonly Action<AjisStreamWalkEvent> _onEvent;
-   private readonly Action<AjisStreamWalkError> _onError;
-   private readonly Action _onCompleted;
-
-   public CollectingVisitor(
-       Action<AjisStreamWalkEvent> onEvent,
-       Action<AjisStreamWalkError> onError,
-       Action onCompleted)
-   {
-      _onEvent = onEvent;
-      _onError = onError;
-      _onCompleted = onCompleted;
-   }
+   private readonly Action<AjisStreamWalkEvent> _onEvent = onEvent;
+   private readonly Action<AjisStreamWalkError> _onError = onError;
+   private readonly Action _onCompleted = onCompleted;
 
    public void OnEvent(AjisStreamWalkEvent evt) => _onEvent(evt);
+
    public void OnError(AjisStreamWalkError error) => _onError(error);
+
    public void OnCompleted() => _onCompleted();
 }

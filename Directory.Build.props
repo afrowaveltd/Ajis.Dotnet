@@ -1,34 +1,59 @@
 <Project>
 
   <PropertyGroup>
-    <!-- Language & compiler -->
-    <LangVersion>latest</LangVersion>
+    <!-- ============================= -->
+    <!-- Language / build hygiene      -->
+    <!-- ============================= -->
+
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <!-- Deterministic & reproducible builds -->
-    <Deterministic>true</Deterministic>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-
-    <!-- Warnings -->
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-
-    <!-- Docs -->
+    <!-- Vyžaduj XML dokumentaci -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <!-- 1591 = chybějící XML comment u public člena
+         (zachováme XML, ale nebudeme hned trestat) -->
 
-    <!-- NuGet metadata defaults -->
+    <!-- Treat warnings as errors? -->
+    <!-- <TreatWarningsAsErrors>true</TreatWarningsAsErrors> -->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- ============================= -->
+    <!-- Versioning                   -->
+    <!-- ============================= -->
+
+    <!-- Základní verze balíčku -->
+    <Version>0.1.0</Version>
+
+    <!-- Assembly versioning -->
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+
+    <!-- Pro NuGet / informational -->
+    <InformationalVersion>0.1.0-alpha</InformationalVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- ============================= -->
+    <!-- NuGet packaging defaults     -->
+    <!-- ============================= -->
+
+    <IsPackable>true</IsPackable>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+    <!-- Doporučené minimum -->
     <Authors>Afrowave</Authors>
     <Company>Afrowave</Company>
     <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/afrowaveltd/AJIS.dotnet</RepositoryUrl>
 
-    <!-- SourceLink -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- README do NuGetu (pokud existuje) -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- Symboly (debugging NuGet balíčků) -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-  </ItemGroup>
 
 </Project>
