@@ -1,646 +1,371 @@
 ﻿#nullable enable
 
-using System.Buffers;
-
 namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>
-/// Milestone M1 implementation for StreamWalk.
-/// Implements the canonical trace kinds defined in Docs/tests/streamwalk.md.
+/// Milestone M1: JSON-core StreamWalk (objects, arrays, strings, numbers, true/false/null).
 /// </summary>
-public static partial class AjisStreamWalkRunner
+/// <remarks>
+/// AJIS extensions (comments, directives, identifiers, typed literals) are handled in later milestones.
+/// </remarks>
+internal static class AjisStreamWalkRunnerM1
 {
-   // ----------------------------
-   // Public API delegates here (via AjisStreamWalkRunner.cs)
-   // ----------------------------
-
-   /// <summary>
-   /// M1 entrypoint used by the API shell.
-   ///
-   /// NOTE: Because <see cref="AjisStreamWalkEvent"/> carries slices as <see cref="ReadOnlyMemory{T}"/>
-   /// (to support stable referencing in tests), this overload materializes the input into a byte[] once.
-   /// The primary performance path should call the ReadOnlyMemory overload (added later) or evolve the
-   /// event contract to span-based slices.
-   /// </summary>
-   internal static void RunM1(
+   public static void Run(
       ReadOnlySpan<byte> inputUtf8,
       AjisStreamWalkOptions options,
       IAjisStreamWalkVisitor visitor,
       AjisStreamWalkRunnerOptions runnerOptions)
    {
-      // One-time materialization so events can reference stable ReadOnlyMemory slices.
-      var materialized = inputUtf8.ToArray();
-      RunM1(materialized, options, visitor, runnerOptions);
+      State st = new(inputUtf8, options, visitor, runnerOptions);
+
+      st.SkipWs();
+      if(st.AtEnd)
+      {
+         st.Fail("unexpected_eof", st.Offset);
+         return;
+      }
+
+      st.ParseValue(depth: 0);
+      if(st.Failed) return;
+
+      st.SkipWs();
+      if(!st.AtEnd)
+      {
+         st.Fail("trailing_garbage", st.Offset);
+         return;
+      }
+
+      st.Emit("END_DOCUMENT", ReadOnlyMemory<byte>.Empty, st.Offset);
+      visitor.OnCompleted();
    }
 
-   /// <summary>
-   /// M1 core over a materialized buffer.
-   /// </summary>
-   internal static void RunM1(
-      ReadOnlyMemory<byte> inputUtf8,
-      AjisStreamWalkOptions options,
-      IAjisStreamWalkVisitor visitor,
-      AjisStreamWalkRunnerOptions runnerOptions)
+   private ref struct State
    {
-      ArgumentNullException.ThrowIfNull(visitor);
+      private readonly ReadOnlySpan<byte> _src;
+      private readonly AjisStreamWalkOptions _opt;
+      private readonly IAjisStreamWalkVisitor _v;
+      private readonly AjisStreamWalkRunnerOptions _runnerOpt;
 
-      // M1 only: we ignore AJIS extensions controlled by options flags.
-      // The JSON-compatible core is always available.
+      private int _i;
+      private bool _failed;
 
-      var src = inputUtf8;
-      var s = src.Span;
-      var i = 0;
-      var depth = 0;
-
-      try
+      public State(
+         ReadOnlySpan<byte> src,
+         AjisStreamWalkOptions opt,
+         IAjisStreamWalkVisitor v,
+         AjisStreamWalkRunnerOptions runnerOpt)
       {
-         SkipWs(s, ref i);
+         _src = src;
+         _opt = opt;
+         _v = v;
+         _runnerOpt = runnerOpt;
+         _i = 0;
+         _failed = false;
+      }
 
-         if(i >= s.Length)
+      public readonly bool Failed => _failed;
+      public readonly long Offset => _i;
+      public readonly bool AtEnd => _i >= _src.Length;
+
+      public void SkipWs()
+      {
+         while(_i < _src.Length)
          {
-            // Empty input is invalid for StreamWalk tests (EXPECTED must exist).
-            Fail(visitor, "UnexpectedEndOfInput", offset: i);
+            byte b = _src[_i];
+            if(b is (byte)' ' or (byte)'\t' or (byte)'\r' or (byte)'\n') { _i++; continue; }
+            break;
+         }
+      }
+
+      public void ParseValue(int depth)
+      {
+         if(_failed) return;
+
+         if(depth > _opt.MaxDepth)
+         {
+            Fail("max_depth_exceeded", Offset);
             return;
          }
 
-         if(!ParseValue(src, ref i, ref depth, options, visitor))
-            return; // error already reported
+         SkipWs();
+         if(AtEnd) { Fail("unexpected_eof", Offset); return; }
 
-         SkipWs(s, ref i);
-         if(i != s.Length)
+         byte b = _src[_i];
+
+         if(b == (byte)'{') { ParseObject(depth); return; }
+         if(b == (byte)'[') { ParseArray(depth); return; }
+         if(b == (byte)'\"') { ParseStringValue(); return; }
+
+         if(b == (byte)'t') { ParseLiteral("true", "TRUE"); return; }
+         if(b == (byte)'f') { ParseLiteral("false", "FALSE"); return; }
+         if(b == (byte)'n') { ParseLiteral("null", "NULL"); return; }
+
+         if(b == (byte)'-' || (b >= (byte)'0' && b <= (byte)'9'))
          {
-            Fail(visitor, "TrailingGarbage", offset: i);
+            ParseNumber();
             return;
          }
 
-         // Success: END_DOCUMENT must appear exactly once.
-         visitor.OnEvent(new AjisStreamWalkEvent("END_DOCUMENT", default, i));
-         visitor.OnCompleted();
-      }
-      catch(Exception ex)
-      {
-         // StreamWalk should never throw in normal operation.
-         // Convert to a structured error for the harness.
-         Fail(visitor, "UnexpectedToken", offset: i);
-
-         // If you want diagnostics later, you can add a debug hook here.
-         _ = ex;
-      }
-   }
-
-   // ----------------------------
-   // Parsing (M1)
-   // ----------------------------
-
-   private static bool ParseValue(
-      ReadOnlyMemory<byte> src,
-      ref int i,
-      ref int depth,
-      AjisStreamWalkOptions options,
-      IAjisStreamWalkVisitor visitor)
-   {
-      var s = src.Span;
-      SkipWs(s, ref i);
-      if(i >= s.Length)
-      {
-         Fail(visitor, "UnexpectedEndOfInput", offset: i);
-         return false;
+         Fail("invalid_value", Offset);
       }
 
-      var b = s[i];
-      switch(b)
+      private void ParseObject(int depth)
       {
-         case (byte)'{':
-            return ParseObject(src, ref i, ref depth, options, visitor);
+         int start = _i;
+         _i++; // '{'
+         Emit("BEGIN_OBJECT", ReadOnlyMemory<byte>.Empty, start);
 
-         case (byte)'[':
-            return ParseArray(src, ref i, ref depth, options, visitor);
+         SkipWs();
+         if(AtEnd) { Fail("unexpected_eof", Offset); return; }
 
-         case (byte)'"':
+         if(_src[_i] == (byte)'}')
+         {
+            int endPos = _i;
+            _i++;
+            Emit("END_OBJECT", ReadOnlyMemory<byte>.Empty, endPos);
+            return;
+         }
+
+         while(true)
+         {
+            SkipWs();
+            if(AtEnd) { Fail("unexpected_eof", Offset); return; }
+
+            if(_src[_i] != (byte)'\"')
             {
-               var offset = i;
-               if(!TryParseString(src, ref i, options, out var decoded, out var errCode, out var errOffset))
+               Fail("expected_name", Offset);
+               return;
+            }
+
+            int nameOffset = _i;
+            var name = ParseQuotedSliceToMemory(nameOffset);
+            if(_failed) return;
+            Emit("NAME", name, nameOffset);
+
+            SkipWs();
+            if(AtEnd) { Fail("unexpected_eof", Offset); return; }
+
+            if(_src[_i] != (byte)':') { Fail("expected_colon", Offset); return; }
+            _i++; // ':'
+
+            ParseValue(depth + 1);
+            if(_failed) return;
+
+            SkipWs();
+            if(AtEnd) { Fail("unexpected_eof", Offset); return; }
+
+            byte b = _src[_i];
+            if(b == (byte)',') { _i++; continue; }
+            if(b == (byte)'}')
+            {
+               int endPos = _i;
+               _i++;
+               Emit("END_OBJECT", ReadOnlyMemory<byte>.Empty, endPos);
+               return;
+            }
+
+            Fail("expected_comma_or_end_object", Offset);
+            return;
+         }
+      }
+
+      private void ParseArray(int depth)
+      {
+         int start = _i;
+         _i++; // '['
+         Emit("BEGIN_ARRAY", ReadOnlyMemory<byte>.Empty, start);
+
+         SkipWs();
+         if(AtEnd) { Fail("unexpected_eof", Offset); return; }
+
+         if(_src[_i] == (byte)']')
+         {
+            int endPos = _i;
+            _i++;
+            Emit("END_ARRAY", ReadOnlyMemory<byte>.Empty, endPos);
+            return;
+         }
+
+         while(true)
+         {
+            ParseValue(depth + 1);
+            if(_failed) return;
+
+            SkipWs();
+            if(AtEnd) { Fail("unexpected_eof", Offset); return; }
+
+            byte b = _src[_i];
+            if(b == (byte)',') { _i++; continue; }
+            if(b == (byte)']')
+            {
+               int endPos = _i;
+               _i++;
+               Emit("END_ARRAY", ReadOnlyMemory<byte>.Empty, endPos);
+               return;
+            }
+
+            Fail("expected_comma_or_end_array", Offset);
+            return;
+         }
+      }
+
+      private void ParseStringValue()
+      {
+         int off = _i;
+         var mem = ParseQuotedSliceToMemory(off);
+         if(_failed) return;
+         Emit("STRING", mem, off);
+      }
+
+      /// <summary>
+      /// Parses a JSON string token starting at current index (must be '"').
+      /// Returns bytes inside quotes as a new byte[].
+      /// </summary>
+      private ReadOnlyMemory<byte> ParseQuotedSliceToMemory(int tokenOffset)
+      {
+         // opening quote
+         _i++;
+         int contentStart = _i;
+
+         while(_i < _src.Length)
+         {
+            byte b = _src[_i];
+            if(b == (byte)'\"')
+            {
+               int contentEnd = _i;
+               _i++; // closing quote
+
+               int len = contentEnd - contentStart;
+               if(len > _opt.MaxTokenBytes)
                {
-                  Fail(visitor, errCode, errOffset);
-                  return false;
+                  Fail("max_token_bytes_exceeded", tokenOffset);
+                  return ReadOnlyMemory<byte>.Empty;
                }
-               visitor.OnEvent(new AjisStreamWalkEvent("STRING", decoded, offset));
-               return true;
+
+               return new ReadOnlyMemory<byte>(_src.Slice(contentStart, len).ToArray());
             }
-         case (byte)'-':
-         case >= (byte)'0' and <= (byte)'9':
+
+            if(b == (byte)'\\')
             {
-               var start = i;
-               if(!TryParseNumberToken(s, ref i, options, out var errCode, out var errOffset))
+               // Skip escape marker + next char (and keep scanning). This keeps token boundaries correct.
+               _i++;
+               if(_i >= _src.Length)
                {
-                  Fail(visitor, errCode, errOffset);
-                  return false;
+                  Fail("unterminated_string", tokenOffset);
+                  return ReadOnlyMemory<byte>.Empty;
                }
-               var slice = src[start..i];
-               visitor.OnEvent(new AjisStreamWalkEvent("NUMBER", slice, start));
-               return true;
-            }
-         case (byte)'t':
-            return ParseLiteral(s, ref i, "true", "TRUE", visitor);
 
-         case (byte)'f':
-            return ParseLiteral(s, ref i, "false", "FALSE", visitor);
+               // Handle \uXXXX boundary safely by skipping 1 + 4 hex chars after 'u'
+               if(_src[_i] == (byte)'u')
+               {
+                  // We do not decode in M1, but must skip the 4 hex digits.
+                  for(int k = 0; k < 4; k++)
+                  {
+                     _i++;
+                     if(_i >= _src.Length)
+                     {
+                        Fail("unterminated_string", tokenOffset);
+                        return ReadOnlyMemory<byte>.Empty;
+                     }
+                  }
+               }
 
-         case (byte)'n':
-            return ParseLiteral(s, ref i, "null", "NULL", visitor);
-
-         default:
-            Fail(visitor, "UnexpectedCharacter", offset: i);
-            return false;
-      }
-   }
-
-   private static bool ParseObject(
-      ReadOnlyMemory<byte> src,
-      ref int i,
-      ref int depth,
-      AjisStreamWalkOptions options,
-      IAjisStreamWalkVisitor visitor)
-   {
-      var s = src.Span;
-      var start = i;
-      i++; // '{'
-
-      depth++;
-      if(depth > options.MaxDepth)
-      {
-         Fail(visitor, "UnexpectedToken", start);
-         return false;
-      }
-
-      visitor.OnEvent(new AjisStreamWalkEvent("BEGIN_OBJECT", default, start));
-
-      SkipWs(s, ref i);
-      if(i >= s.Length)
-      {
-         Fail(visitor, "UnexpectedEndOfInput", i);
-         return false;
-      }
-
-      if(s[i] == (byte)'}')
-      {
-         var end = i;
-         i++;
-         depth--;
-         visitor.OnEvent(new AjisStreamWalkEvent("END_OBJECT", default, end));
-         return true;
-      }
-
-      while(true)
-      {
-         SkipWs(s, ref i);
-         if(i >= s.Length)
-         {
-            Fail(visitor, "UnexpectedEndOfInput", i);
-            return false;
-         }
-
-         if(s[i] != (byte)'"')
-         {
-            Fail(visitor, "UnexpectedToken", i);
-            return false;
-         }
-
-         var nameOffset = i;
-         if(!TryParseString(src, ref i, options, out var nameDecoded, out var errCode, out var errOffset))
-         {
-            Fail(visitor, errCode, errOffset);
-            return false;
-         }
-
-         visitor.OnEvent(new AjisStreamWalkEvent("NAME", nameDecoded, nameOffset));
-
-         SkipWs(s, ref i);
-         if(i >= s.Length)
-         {
-            Fail(visitor, "UnexpectedEndOfInput", i);
-            return false;
-         }
-
-         if(s[i] != (byte)':')
-         {
-            Fail(visitor, "UnexpectedToken", i);
-            return false;
-         }
-
-         i++; // ':'
-
-         if(!ParseValue(src, ref i, ref depth, options, visitor))
-            return false;
-
-         SkipWs(s, ref i);
-         if(i >= s.Length)
-         {
-            Fail(visitor, "UnexpectedEndOfInput", i);
-            return false;
-         }
-
-         if(s[i] == (byte)',')
-         {
-            i++;
-            continue;
-         }
-
-         if(s[i] == (byte)'}')
-         {
-            var end = i;
-            i++;
-            depth--;
-            visitor.OnEvent(new AjisStreamWalkEvent("END_OBJECT", default, end));
-            return true;
-         }
-
-         Fail(visitor, "UnexpectedToken", i);
-         return false;
-      }
-   }
-
-   private static bool ParseArray(
-      ReadOnlyMemory<byte> src,
-      ref int i,
-      ref int depth,
-      AjisStreamWalkOptions options,
-      IAjisStreamWalkVisitor visitor)
-   {
-      var s = src.Span;
-      var start = i;
-      i++; // '['
-
-      depth++;
-      if(depth > options.MaxDepth)
-      {
-         Fail(visitor, "UnexpectedToken", start);
-         return false;
-      }
-
-      visitor.OnEvent(new AjisStreamWalkEvent("BEGIN_ARRAY", default, start));
-
-      SkipWs(s, ref i);
-      if(i >= s.Length)
-      {
-         Fail(visitor, "UnexpectedEndOfInput", i);
-         return false;
-      }
-
-      if(s[i] == (byte)']')
-      {
-         var end = i;
-         i++;
-         depth--;
-         visitor.OnEvent(new AjisStreamWalkEvent("END_ARRAY", default, end));
-         return true;
-      }
-
-      while(true)
-      {
-         if(!ParseValue(src, ref i, ref depth, options, visitor))
-            return false;
-
-         SkipWs(s, ref i);
-         if(i >= s.Length)
-         {
-            Fail(visitor, "UnexpectedEndOfInput", i);
-            return false;
-         }
-
-         if(s[i] == (byte)',')
-         {
-            i++;
-            SkipWs(s, ref i);
-            continue;
-         }
-
-         if(s[i] == (byte)']')
-         {
-            var end = i;
-            i++;
-            depth--;
-            visitor.OnEvent(new AjisStreamWalkEvent("END_ARRAY", default, end));
-            return true;
-         }
-
-         Fail(visitor, "UnexpectedToken", i);
-         return false;
-      }
-   }
-
-   private static bool ParseLiteral(ReadOnlySpan<byte> s, ref int i, string literal, string kind, IAjisStreamWalkVisitor visitor)
-   {
-      var start = i;
-      if(!MatchAscii(s, ref i, literal))
-      {
-         Fail(visitor, "UnexpectedToken", start);
-         return false;
-      }
-
-      visitor.OnEvent(new AjisStreamWalkEvent(kind, default, start));
-      return true;
-   }
-
-   // ----------------------------
-   // Token helpers
-   // ----------------------------
-
-   private static bool TryParseNumberToken(ReadOnlySpan<byte> s, ref int i, AjisStreamWalkOptions options, out string errCode, out int errOffset)
-   {
-      // Minimal JSON number lexer (M1): -? int frac? exp?
-      // We keep slice as lexical token.
-      errCode = "";
-      errOffset = i;
-
-      var start = i;
-      if(s[i] == (byte)'-')
-      {
-         i++;
-         if(i >= s.Length) { errCode = "UnexpectedEndOfInput"; errOffset = i; return false; }
-      }
-
-      if(s[i] == (byte)'0')
-      {
-         i++;
-      }
-      else if(s[i] >= (byte)'1' && s[i] <= (byte)'9')
-      {
-         i++;
-         while(i < s.Length && s[i] >= (byte)'0' && s[i] <= (byte)'9') i++;
-      }
-      else
-      {
-         errCode = "UnexpectedCharacter";
-         errOffset = i;
-         return false;
-      }
-
-      if(i < s.Length && s[i] == (byte)'.')
-      {
-         i++;
-         if(i >= s.Length) { errCode = "UnexpectedEndOfInput"; errOffset = i; return false; }
-         if(s[i] < (byte)'0' || s[i] > (byte)'9') { errCode = "UnexpectedToken"; errOffset = i; return false; }
-         while(i < s.Length && s[i] >= (byte)'0' && s[i] <= (byte)'9') i++;
-      }
-
-      if(i < s.Length && (s[i] == (byte)'e' || s[i] == (byte)'E'))
-      {
-         i++;
-         if(i >= s.Length) { errCode = "UnexpectedEndOfInput"; errOffset = i; return false; }
-         if(s[i] == (byte)'+' || s[i] == (byte)'-')
-         {
-            i++;
-            if(i >= s.Length) { errCode = "UnexpectedEndOfInput"; errOffset = i; return false; }
-         }
-         if(s[i] < (byte)'0' || s[i] > (byte)'9') { errCode = "UnexpectedToken"; errOffset = i; return false; }
-         while(i < s.Length && s[i] >= (byte)'0' && s[i] <= (byte)'9') i++;
-      }
-
-      if(i - start > options.MaxTokenBytes)
-      {
-         // M1 doesn't define a dedicated limit code yet; treat as UnexpectedToken.
-         errCode = "UnexpectedToken";
-         errOffset = start;
-         return false;
-      }
-
-      return true;
-   }
-
-   private static bool TryParseString(
-      ReadOnlyMemory<byte> src,
-      ref int i,
-      AjisStreamWalkOptions options,
-      out ReadOnlyMemory<byte> decoded,
-      out string errCode,
-      out int errOffset)
-   {
-      var s = src.Span;
-      decoded = default;
-      errCode = "";
-      errOffset = i;
-
-      if(i >= s.Length || s[i] != (byte)'"')
-      {
-         errCode = "UnexpectedToken";
-         errOffset = i;
-         return false;
-      }
-
-      i++; // opening quote
-      var contentStart = i;
-      var needsUnescape = false;
-
-      while(i < s.Length)
-      {
-         var b = s[i];
-         if(b == (byte)'"')
-         {
-            var contentEnd = i;
-            i++; // closing quote
-
-            if(!needsUnescape)
-            {
-               decoded = src[contentStart..contentEnd];
-               return decoded.Length <= options.MaxTokenBytes;
-            }
-
-            // Unescape into pooled buffer
-            return UnescapeString(src[contentStart..contentEnd], options, out decoded, out errCode, out errOffset);
-         }
-
-         if(b == (byte)'\\')
-         {
-            needsUnescape = true;
-            i++;
-            if(i >= s.Length)
-            {
-               errCode = "UnexpectedEndOfInput";
-               errOffset = i;
-               return false;
-            }
-            i++;
-            continue;
-         }
-
-         // Control chars not allowed in JSON strings
-         if(b < 0x20)
-         {
-            errCode = "UnexpectedCharacter";
-            errOffset = i;
-            return false;
-         }
-
-         i++;
-      }
-
-      errCode = "UnexpectedEndOfInput";
-      errOffset = i;
-      return false;
-   }
-
-   private static bool UnescapeString(
-      ReadOnlyMemory<byte> raw,
-      AjisStreamWalkOptions options,
-      out ReadOnlyMemory<byte> decoded,
-      out string errCode,
-      out int errOffset)
-   {
-      decoded = default;
-      errCode = "";
-      errOffset = 0;
-
-      var s = raw.Span;
-      // Worst case: decoded length <= raw length
-      var rented = ArrayPool<byte>.Shared.Rent(s.Length);
-      var w = 0;
-
-      try
-      {
-         for(var r = 0; r < s.Length; r++)
-         {
-            var b = s[r];
-            if(b != (byte)'\\')
-            {
-               rented[w++] = b;
+               _i++;
                continue;
             }
 
-            // escape
-            r++;
-            if(r >= s.Length)
+            // Disallow raw control chars in JSON strings
+            if(b < 0x20)
             {
-               errCode = "UnexpectedEndOfInput";
-               errOffset = raw.Length; // relative
-               return false;
+               Fail("invalid_string_control_char", _i);
+               return ReadOnlyMemory<byte>.Empty;
             }
 
-            var e = s[r];
-            switch(e)
-            {
-               case (byte)'"': rented[w++] = (byte)'"'; break;
-               case (byte)'\\': rented[w++] = (byte)'\\'; break;
-               case (byte)'/': rented[w++] = (byte)'/'; break;
-               case (byte)'b': rented[w++] = 0x08; break;
-               case (byte)'f': rented[w++] = 0x0C; break;
-               case (byte)'n': rented[w++] = (byte)'\n'; break;
-               case (byte)'r': rented[w++] = (byte)'\r'; break;
-               case (byte)'t': rented[w++] = (byte)'\t'; break;
-               case (byte)'u':
-                  {
-                     // \uXXXX
-                     if(r + 4 >= s.Length)
-                     {
-                        errCode = "UnexpectedEndOfInput";
-                        errOffset = r;
-                        return false;
-                     }
-
-                     var hex = s.Slice(r + 1, 4);
-                     if(!TryParseHex4(hex, out var codeUnit))
-                     {
-                        errCode = "InvalidEscapeSequence";
-                        errOffset = r - 1;
-                        return false;
-                     }
-
-                     r += 4;
-
-                     // Encode as UTF-8
-                     var ch = (char)codeUnit;
-                     w += EncodeUtf8(ch, rented.AsSpan(w));
-                     break;
-                  }
-               default:
-                  errCode = "InvalidEscapeSequence";
-                  errOffset = r - 1;
-                  return false;
-            }
-
-            if(w > options.MaxTokenBytes)
-            {
-               errCode = "UnexpectedToken";
-               errOffset = 0;
-               return false;
-            }
+            _i++;
          }
 
-         var arr = new byte[w];
-         Buffer.BlockCopy(rented, 0, arr, 0, w);
-         decoded = arr;
+         Fail("unterminated_string", tokenOffset);
+         return ReadOnlyMemory<byte>.Empty;
+      }
+
+      private void ParseNumber()
+      {
+         int start = _i;
+
+         if(_src[_i] == (byte)'-') _i++;
+         if(_i >= _src.Length) { Fail("invalid_number", start); return; }
+
+         if(_src[_i] == (byte)'0')
+         {
+            _i++;
+         }
+         else
+         {
+            if(_src[_i] < (byte)'1' || _src[_i] > (byte)'9') { Fail("invalid_number", start); return; }
+            while(_i < _src.Length && _src[_i] >= (byte)'0' && _src[_i] <= (byte)'9') _i++;
+         }
+
+         if(_i < _src.Length && _src[_i] == (byte)'.')
+         {
+            _i++;
+            if(_i >= _src.Length || _src[_i] < (byte)'0' || _src[_i] > (byte)'9') { Fail("invalid_number", start); return; }
+            while(_i < _src.Length && _src[_i] >= (byte)'0' && _src[_i] <= (byte)'9') _i++;
+         }
+
+         if(_i < _src.Length && (_src[_i] == (byte)'e' || _src[_i] == (byte)'E'))
+         {
+            _i++;
+            if(_i < _src.Length && (_src[_i] == (byte)'+' || _src[_i] == (byte)'-')) _i++;
+            if(_i >= _src.Length || _src[_i] < (byte)'0' || _src[_i] > (byte)'9') { Fail("invalid_number", start); return; }
+            while(_i < _src.Length && _src[_i] >= (byte)'0' && _src[_i] <= (byte)'9') _i++;
+         }
+
+         int len = _i - start;
+         if(len > _opt.MaxTokenBytes) { Fail("max_token_bytes_exceeded", start); return; }
+
+         ReadOnlyMemory<byte> mem = new(_src.Slice(start, len).ToArray());
+         Emit("NUMBER", mem, start);
+      }
+
+      private void ParseLiteral(string ascii, string kind)
+      {
+         int start = _i;
+         if(!TryConsumeAscii(ascii))
+         {
+            Fail("invalid_literal", start);
+            return;
+         }
+
+         Emit(kind, ReadOnlyMemory<byte>.Empty, start);
+      }
+
+      private bool TryConsumeAscii(string ascii)
+      {
+         if(_i + ascii.Length > _src.Length) return false;
+         for(int j = 0; j < ascii.Length; j++)
+            if(_src[_i + j] != (byte)ascii[j]) return false;
+         _i += ascii.Length;
          return true;
       }
-      finally
-      {
-         ArrayPool<byte>.Shared.Return(rented);
-      }
-   }
 
-   private static int EncodeUtf8(char ch, Span<byte> dest)
-   {
-      // M1: BMP only (sufficient for test corpus right now).
-      // If you later want full surrogate handling, we extend here.
-      if(ch <= 0x7F)
+      public void Emit(string kind, ReadOnlyMemory<byte> slice, long offset)
       {
-         dest[0] = (byte)ch;
-         return 1;
-      }
-      if(ch <= 0x7FF)
-      {
-         dest[0] = (byte)(0xC0 | (ch >> 6));
-         dest[1] = (byte)(0x80 | (ch & 0x3F));
-         return 2;
+         if(_failed) return;
+
+         bool cont = _v.OnEvent(new AjisStreamWalkEvent(kind, slice, offset));
+         if(!cont && _runnerOpt.AllowVisitorAbort)
+         {
+            Fail("visitor_abort", offset);
+         }
       }
 
-      dest[0] = (byte)(0xE0 | (ch >> 12));
-      dest[1] = (byte)(0x80 | ((ch >> 6) & 0x3F));
-      dest[2] = (byte)(0x80 | (ch & 0x3F));
-      return 3;
-   }
-
-   private static bool TryParseHex4(ReadOnlySpan<byte> hex, out int value)
-   {
-      value = 0;
-      for(var i = 0; i < 4; i++)
+      public void Fail(string code, long offset)
       {
-         var c = hex[i];
-         int v;
-         if(c >= (byte)'0' && c <= (byte)'9') v = c - (byte)'0';
-         else if(c >= (byte)'A' && c <= (byte)'F') v = 10 + (c - (byte)'A');
-         else if(c >= (byte)'a' && c <= (byte)'f') v = 10 + (c - (byte)'a');
-         else return false;
-         value = (value << 4) | v;
-      }
-      return true;
-   }
+         if(_failed) return;
+         _failed = true;
 
-   private static void SkipWs(ReadOnlySpan<byte> s, ref int i)
-   {
-      while(i < s.Length)
-      {
-         var b = s[i];
-         if(b == (byte)' ' || b == (byte)'\t' || b == (byte)'\r' || b == (byte)'\n')
-            i++;
-         else
-            break;
+         // M1 does not compute line/column yet.
+         _v.OnError(new AjisStreamWalkError(code, offset, Line: null, Column: null));
       }
-   }
-
-   private static bool MatchAscii(ReadOnlySpan<byte> s, ref int i, string literal)
-   {
-      var start = i;
-      for(var j = 0; j < literal.Length; j++)
-      {
-         if(start + j >= s.Length) return false;
-         if(s[start + j] != (byte)literal[j]) return false;
-      }
-      i += literal.Length;
-      return true;
-   }
-
-   private static void Fail(IAjisStreamWalkVisitor visitor, string code, int offset)
-   {
-      visitor.OnError(new AjisStreamWalkError(code, offset, Line: null, Column: null));
    }
 }
