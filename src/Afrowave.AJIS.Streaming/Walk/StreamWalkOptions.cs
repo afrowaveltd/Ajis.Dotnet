@@ -1,5 +1,7 @@
 #nullable enable
 
+using Afrowave.AJIS.Core.Diagnostics;
+
 namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>
@@ -67,14 +69,34 @@ public readonly record struct AjisStreamWalkOptions
 public readonly record struct AjisStreamWalkRunnerOptions
 {
    /// <summary>
-   /// If true, the runner respects <see cref="IAjisStreamWalkVisitor.OnEvent"/> returning false
-   /// as a request to abort early.
+   /// When enabled, the runner may stop early if the visitor requests it.
    /// </summary>
    public bool AllowVisitorAbort { get; init; }
+
+   /// <summary>
+   /// If true, emit <c>Debug</c>-level diagnostics for recoverable issues (primarily for <see cref="AjisStreamWalkMode.Lax"/>).
+   /// </summary>
+   public bool EmitDebugDiagnostics { get; init; }
+
+   /// <summary>
+   /// Optional diagnostic sink.
+   /// </summary>
+   /// <remarks>
+   /// <para>
+   /// This is intentionally on the runner options (not the parsing options): it does not affect parsing results,
+   /// only observability.
+   /// </para>
+   /// <para>
+   /// When null, no diagnostics are forwarded.
+   /// </para>
+   /// </remarks>
+   public Action<AjisDiagnostic>? OnDiagnostic { get; init; }
 
    public AjisStreamWalkRunnerOptions()
    {
       AllowVisitorAbort = false;
+      EmitDebugDiagnostics = false;
+      OnDiagnostic = null;
    }
 
    public static AjisStreamWalkRunnerOptions Default => new();

@@ -17,10 +17,10 @@ public static class AjisStreamWalkTestRunner
    {
       ArgumentNullException.ThrowIfNull(testCase);
 
-      var mismatches = new List<string>();
-      var producedEvents = new List<AjisStreamWalkEvent>();
+      List<string> mismatches = [];
+      List<AjisStreamWalkEvent> producedEvents = [];
       AjisStreamWalkError? producedError = null;
-      var completed = false;
+      bool completed = false;
 
       // Map test options -> production options
       var options = AjisStreamWalkOptions.DefaultForM1;
@@ -29,8 +29,8 @@ public static class AjisStreamWalkTestRunner
          options = options with
          {
             Mode = testCase.Options.Mode == AjisStreamWalkTestMode.JSON
-             ? AjisStreamWalkMode.Json
-             : AjisStreamWalkMode.Ajis
+               ? AjisStreamWalkMode.Json
+               : AjisStreamWalkMode.Ajis
          };
 
       if(testCase.Options.Comments is not null)
@@ -48,18 +48,19 @@ public static class AjisStreamWalkTestRunner
       if(testCase.Options.MaxTokenBytes is not null)
          options = options with { MaxTokenBytes = testCase.Options.MaxTokenBytes.Value };
 
-      var visitor = new CollectingVisitor(
+      CollectingVisitor visitor = new(
           onEvent: e => producedEvents.Add(e),
           onError: err => producedError = err,
           onCompleted: () => completed = true);
 
       try
       {
+         // Production runner consumes ReadOnlySpan<byte> (not ReadOnlyMemory<byte>).
          AjisStreamWalkRunner.Run(
-             inputUtf8: testCase.InputUtf8,
-             options: options,
-             visitor: visitor,
-             runnerOptions: runnerOptions);
+            inputUtf8: testCase.InputUtf8.Span,
+            options: options,
+            visitor: visitor,
+            runnerOptions: runnerOptions);
       }
       catch(Exception ex)
       {
@@ -89,40 +90,38 @@ public static class AjisStreamWalkTestRunner
          if(producedError is null)
          {
             mismatches.Add("Expected an error, but no error was reported.");
-         }
-         else
-         {
-            if(!string.Equals(fail.ErrorCode, producedError.Code, StringComparison.Ordinal))
-               mismatches.Add($"Error code mismatch. Expected '{fail.ErrorCode}', got '{producedError.Code}'.");
-
-            if(fail.ErrorOffset != producedError.Offset)
-               mismatches.Add($"Error offset mismatch. Expected {fail.ErrorOffset}, got {producedError.Offset}.");
+            return;
          }
 
-         // Even on error, partial traces may exist
-         if(fail is AjisStreamWalkTestExpected.Failure failure)
-         {
-            // future: failure.Code, failure.Offset, ...
-         }
+         if(!string.Equals(fail.ErrorCode, producedError.Code, StringComparison.Ordinal))
+            mismatches.Add($"Error code mismatch. Expected '{fail.ErrorCode}', got '{producedError.Code}'.");
+
+         if(fail.ErrorOffset != producedError.Offset)
+            mismatches.Add($"Error offset mismatch. Expected {fail.ErrorOffset}, got {producedError.Offset}.");
+
+         if(fail.ErrorLine is not null && fail.ErrorLine.Value != producedError.Line)
+            mismatches.Add($"Error line mismatch. Expected {fail.ErrorLine}, got {producedError.Line}.");
+
+         if(fail.ErrorColumn is not null && fail.ErrorColumn.Value != producedError.Column)
+            mismatches.Add($"Error column mismatch. Expected {fail.ErrorColumn}, got {producedError.Column}.");
+
+         // Even on error, partial traces may exist (we intentionally do not compare them in M1).
+         return;
       }
-      else if(expected is AjisStreamWalkTestExpected.Success ok)
+
+      if(expected is AjisStreamWalkTestExpected.Success ok)
       {
          if(producedError is not null)
-         {
             mismatches.Add($"Did not expect an error, but got '{producedError.Code}' at offset {producedError.Offset}.");
-         }
 
          if(!completed)
-         {
             mismatches.Add("Expected successful completion, but visitor OnCompleted() was not called.");
-         }
 
          CompareTrace(ok.Trace, producedEvents, runnerOptions, mismatches);
+         return;
       }
-      else
-      {
-         mismatches.Add("Unknown expected result type.");
-      }
+
+      mismatches.Add("Unknown expected result type.");
    }
 
    private static void CompareTrace(
@@ -137,7 +136,7 @@ public static class AjisStreamWalkTestRunner
          return;
       }
 
-      for(var i = 0; i < expected.Count; i++)
+      for(int i = 0; i < expected.Count; i++)
       {
          var exp = expected[i];
          var act = produced[i];
@@ -150,11 +149,9 @@ public static class AjisStreamWalkTestRunner
 
          if(exp.Slice is not null)
          {
-            var rendered = AjisStreamWalkTestCaseFile.RenderSlice(act.Slice.Span);
+            string rendered = AjisStreamWalkTestCaseFile.RenderSlice(act.Slice.Span);
             if(!string.Equals(exp.Slice, rendered, StringComparison.Ordinal))
-            {
                mismatches.Add($"Trace[{i}] slice mismatch. Expected {exp.Slice}, got {rendered}.");
-            }
          }
       }
    }
@@ -177,7 +174,11 @@ internal sealed class CollectingVisitor(
    private readonly Action<AjisStreamWalkError> _onError = onError;
    private readonly Action _onCompleted = onCompleted;
 
-   public void OnEvent(AjisStreamWalkEvent evt) => _onEvent(evt);
+   public bool OnEvent(AjisStreamWalkEvent evt)
+   {
+      _onEvent(evt);
+      return true;
+   }
 
    public void OnError(AjisStreamWalkError error) => _onError(error);
 
