@@ -1,67 +1,81 @@
-﻿﻿# AJIS Core (English) - LOC v1
+﻿# AJIS Core (English) - LOC v1
+
 # Lines not starting with quotes are ignored.
 
 "ajis.meta.language":"English"
 "ajis.meta.code":"en"
 
 # Generic
+
 "ajis.error.unknown":"Unknown error."
 "ajis.error.missing_key":"[missing:{0}]"
 
 # Reader / structure
+
 "ajis.error.unexpected_eof":"Unexpected end of input."
 "ajis.error.unexpected_char":"Unexpected character '{0}'."
 "ajis.error.expected_char":"Expected '{0}' but found '{1}'."
 "ajis.error.depth_limit":"Nesting depth limit exceeded (max {0})."
-"ajis.error.trailing_garbage":"Trailing data after the end of the document."
-"ajis.error.token_too_large":"Token size limit exceeded (max {0} bytes)."
-"ajis.error.mode_not_supported":"Mode '{0}' is not supported in this milestone."
-"ajis.error.invalid_utf8":"Invalid UTF-8 sequence."
+"ajis.error.trailing_garbage":"Unexpected data after end of document."
+"ajis.error.token_too_large":"Token exceeds maximum allowed size (max {0} bytes)."
 "ajis.error.visitor_abort":"Processing aborted by visitor."
+"ajis.error.mode_not_supported":"Requested mode is not supported in this build."
+"ajis.error.invalid_utf8":"Invalid UTF-8 sequence in input."
 
 # Strings / escapes
+
 "ajis.error.string_unterminated":"Unterminated string literal."
-"ajis.error.string_invalid_escape":"Invalid escape sequence '\\{0}'."
-"ajis.error.string_invalid_unicode_escape":"Invalid unicode escape sequence '\\u{0}'."
-"ajis.error.string_unicode_escape_not_supported":"Unicode escape sequences are not supported in this mode."
+"ajis.error.string_invalid_escape":"Invalid escape sequence '\{0}'."
+"ajis.error.string_invalid_unicode_escape":"Invalid unicode escape sequence '\u{0}'."
 "ajis.error.string_control_char":"Control character is not allowed in string literal (code {0})."
+"ajis.error.string_unicode_escape_not_supported":"Unicode escape sequences are not supported in this mode."
 
 # Numbers
+
 "ajis.error.number_invalid":"Invalid number format."
 "ajis.error.number_base_invalid":"Invalid base prefix '{0}'."
 "ajis.error.number_grouping_invalid":"Invalid digit grouping in number."
 "ajis.error.number_grouping_in_fraction":"Digit grouping is not allowed in fraction part."
-"ajis.error.number_overflow":"Number is out of range."
+"ajis.error.number_overflow":"Number value is out of range."
+
+# Backward-compat (older key used in early drafts)
+
+"ajis.error.number_fraction_grouping":"Digit grouping is not allowed in fraction part."
 
 # Arrays/Objects
+
 "ajis.error.array_trailing_comma":"Trailing comma is not allowed in array."
 "ajis.error.object_trailing_comma":"Trailing comma is not allowed in object."
 "ajis.error.object_expected_key":"Object key must be a string."
-"ajis.error.object_expected_colon":"Expected ':' after object key."
 "ajis.error.object_duplicate_key":"Duplicate key '{0}'."
+"ajis.error.object_expected_colon":"Expected ':' after object key."
 
-# AJIS text extensions (planned)
+# AJIS extensions
+
 "ajis.error.comment_unterminated":"Unterminated comment."
 "ajis.error.directive_invalid":"Invalid directive syntax."
 "ajis.error.directive_unknown":"Unknown directive '{0}'."
-"ajis.error.identifier_invalid":"Invalid identifier '{0}'."
+"ajis.error.identifier_invalid":"Invalid identifier."
 "ajis.error.identifier_duplicate":"Duplicate identifier '{0}'."
 
-# Typed literals (planned)
+# Typed literals
+
 "ajis.error.timestamp_invalid":"Invalid timestamp literal."
-"ajis.error.timestamp_unit_invalid":"Invalid timestamp unit '{0}'."
-"ajis.error.timestamp_overflow":"Timestamp is out of range."
+"ajis.error.timestamp_unit_invalid":"Invalid timestamp unit suffix '{0}'."
+"ajis.error.timestamp_overflow":"Timestamp value is out of range."
 
 # LAX recovery & tolerance
-"ajis.error.lax_recovered_unquoted_key":"Recovered unquoted key '{0}'."
-"ajis.error.lax_recovered_single_quoted_string":"Recovered single-quoted string."
-"ajis.error.lax_recovered_trailing_comma":"Recovered trailing comma."
-"ajis.error.lax_recovered_missing_comma":"Recovered missing comma."
-"ajis.error.lax_recovered_missing_colon":"Recovered missing colon."
-"ajis.error.lax_skipped_unknown_directive":"Skipped unknown directive '{0}'."
+
+"ajis.error.lax_recovered_unquoted_key":"Recovered unquoted object key (LAX mode)."
+"ajis.error.lax_recovered_single_quoted_string":"Recovered single-quoted string (LAX mode)."
+"ajis.error.lax_recovered_trailing_comma":"Recovered trailing comma (LAX mode)."
+"ajis.error.lax_recovered_missing_comma":"Recovered missing comma (LAX mode)."
+"ajis.error.lax_recovered_missing_colon":"Recovered missing colon (LAX mode)."
+"ajis.error.lax_skipped_unknown_directive":"Skipped unknown directive '{0}' (LAX mode)."
 
 # ATP / attachments (reserved)
+
 "ajis.error.attachment_table_invalid":"Attachment table is invalid."
 "ajis.error.attachment_out_of_range":"Attachment reference is out of range."
-"ajis.error.attachment_crc_mismatch":"Attachment checksum (CRC) mismatch."
+"ajis.error.attachment_crc_mismatch":"Attachment CRC mismatch."
 "ajis.error.attachment_not_found":"Attachment not found."
