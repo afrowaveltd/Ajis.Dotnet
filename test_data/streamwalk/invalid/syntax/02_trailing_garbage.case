@@ -13,6 +13,4 @@ MAX_TOKEN_BYTES: 1048576
 
 # EXPECTED
 
-BEGIN_OBJECT
-END_OBJECT
-ERROR TrailingGarbage offset=2
+ERROR trailing_garbage offset=2

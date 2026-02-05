@@ -1,0 +1,27 @@
+{
+  "header": {
+    "name": "AJIS Benchmark Payload",
+    "version": 1,
+    "generated": "2026-01-14",
+    "flags": 0b1010_1100_0011_1100
+  },
+  "stats": {
+    "requests": 1_000_000,
+    "errors": 12,
+    "ratio": 0.000012,
+    "budget": 12 345 678
+  },
+  "items": [
+    { "id": 1, "name": "alpha", "active": true, "score": 123_456, "hash": 0xDEAD_BEEF, "tags": ["a","b","c"] },
+    { "id": 2, "name": "beta",  "active": false,"score": 234_567, "hash": 0xCAFE_BABE, "tags": ["x","y"] },
+    { "id": 3, "name": "gamma", "active": true, "score": 345_678, "hash": 0x1234_5678, "tags": [] }
+  ],
+  "matrix": [
+    [1,2,3,4,5,6,7,8],
+    [9,10,11,12,13,14,15,16],
+    [17,18,19,20,21,22,23,24]
+  ],
+  "deep": {
+    "lvl1": { "lvl2": { "lvl3": { "lvl4": { "lvl5": [1, { "x": null }, [true, false]] } } } }
+  }
+}

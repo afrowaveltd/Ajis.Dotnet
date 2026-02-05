@@ -1,0 +1,5 @@
+{
+  "Key": "value1",
+  "key": "value2",  // different case - should be allowed (case-sensitive)
+  "KEY": "value3"
+}

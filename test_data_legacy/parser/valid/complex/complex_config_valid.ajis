@@ -1,0 +1,26 @@
+// Configuration file example
+{
+  "app": {
+    "name": "MyApplication",
+    "version": "1.2.3",
+    "build": 0x2A,  // Build number in hex
+    "features": {
+      "authentication": true,
+      "logging": true,
+      "metrics": false
+    }
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "mydb",
+    "credentials": {
+      "username": "admin",
+      "password_hash": hex"5F4DCC3B5AA765D61D8327DEB882CF99"
+    }
+  },
+  "servers": [
+    {"name": "primary", "ip": "192.168.1.100", "active": true},
+    {"name": "backup", "ip": "192.168.1.101", "active": false}
+  ]
+}

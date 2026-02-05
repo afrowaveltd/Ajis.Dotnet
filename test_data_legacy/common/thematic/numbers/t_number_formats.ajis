@@ -1,0 +1,12 @@
+// Number format showcase
+{
+  "decimal_integers": [0, 1, 42, 999, 1000, -1, -42],
+  "hex_integers": [0x0, 0xF, 0xFF, 0xDEAD, 0xBEEF, 0xCAFE],
+  "binary_integers": [0b0, 0b1, 0b1010, 0b1111_0000],
+  "octal_integers": [0o0, 0o7, 0o77, 0o777],
+  "floats": [0.0, 1.0, 3.14, -2.5, 0.001],
+  "exponential": [1e10, 1.5e-5, -2.5e3, 6.022e23],
+  "separated_decimals": [1_000, 1_000_000, 12_345_678],
+  "separated_hex": [0xFF_AA_BB, 0xDEAD_BEEF],
+  "separated_binary": [0b1010_1111, 0b1111_0000_1010_0101]
+}

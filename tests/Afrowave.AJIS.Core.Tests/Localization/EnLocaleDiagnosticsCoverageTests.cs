@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Afrowave.AJIS.Core.Tests.Localization;
 
-public sealed class EnLocaleDiagnosticsCoverageTests
+public sealed partial class EnLocaleDiagnosticsCoverageTests
 {
    [Fact]
    public void EnLocale_ShouldContain_AllDiagnosticKeys()
@@ -39,7 +39,7 @@ public sealed class EnLocaleDiagnosticsCoverageTests
 
    private static string FindRepoRoot()
    {
-      var dir = new DirectoryInfo(AppContext.BaseDirectory);
+      DirectoryInfo? dir = new(AppContext.BaseDirectory);
       while(dir is not null)
       {
          if(File.Exists(Path.Combine(dir.FullName, "Directory.Build.props"))
@@ -70,9 +70,8 @@ public sealed class EnLocaleDiagnosticsCoverageTests
    private static HashSet<string> ParseLocKeys(string locText)
    {
       // LOC format: "key":"value" (value supports escapes), other lines ignored.
-      var set = new HashSet<string>(StringComparer.Ordinal);
-      var rx = new Regex("^\\s*\"(?<k>[^\"]+)\"\\s*:\\s*\"(?:[^\"\\\\]|\\\\.)*\"\\s*$",
-         RegexOptions.Multiline | RegexOptions.CultureInvariant);
+      HashSet<string> set = new(StringComparer.Ordinal);
+      Regex rx = LocaleKeyRegex();
 
       foreach(Match m in rx.Matches(locText))
       {
@@ -83,4 +82,7 @@ public sealed class EnLocaleDiagnosticsCoverageTests
 
       return set;
    }
+
+   [GeneratedRegex("^\\s*\"(?<k>[^\"]+)\"\\s*:\\s*\"(?:[^\"\\\\]|\\\\.)*\"\\s*$", RegexOptions.Multiline | RegexOptions.CultureInvariant)]
+   private static partial Regex LocaleKeyRegex();
 }

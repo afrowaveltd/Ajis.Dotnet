@@ -234,7 +234,7 @@ Scope:
 ### 4.1 Data Sets
 
 * `test_data/streamwalk` – deterministic parsing contracts
-* `test_data/common` – shared semantic datasets (imported from legacy AJIS_ATP)
+* `test_data_legacy/common` – shared semantic datasets (imported from legacy AJIS_ATP)
 
 ### 4.2 Manifest
 

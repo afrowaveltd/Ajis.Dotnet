@@ -1,0 +1,5 @@
+{
+  "escaped": "Line 1\nLine 2\tTabbed\r\nWindows line",
+  "quotes": "He said \"Hello\"",
+  "backslash": "C:\\Path\\To\\File"
+}

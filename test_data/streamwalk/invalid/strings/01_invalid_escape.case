@@ -13,6 +13,4 @@ MAX_TOKEN_BYTES: 1048576
 
 # EXPECTED
 
-BEGIN_OBJECT
-PROPERTY_NAME s
-ERROR InvalidEscapeSequence offset=8
+ERROR invalid_escape offset=8

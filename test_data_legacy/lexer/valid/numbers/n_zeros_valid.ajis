@@ -1,0 +1,9 @@
+[
+  0,       // zero - valid
+  -0,      // negative zero - valid
+  0.0,     // zero with decimal - valid
+  0e0,     // zero with exponent - valid
+  0x0,     // hex zero - valid
+  0b0,     // binary zero - valid
+  0o0      // octal zero - valid
+]

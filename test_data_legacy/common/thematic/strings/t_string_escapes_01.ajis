@@ -1,0 +1,7 @@
+{
+  "a": "tab -> \\t",
+  "b": "newline -> \\n",
+  "c": "quote -> \\\"",
+  "d": "backslash -> \\\\",
+  "e": "slashes -> \\/ \\/"
+}

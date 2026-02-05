@@ -1,0 +1,6 @@
+[
+  01,      // leading zero - invalid
+  001,     // multiple leading zeros
+  0123,    // octal-style (not 0o prefix)
+  00       // double zero
+]

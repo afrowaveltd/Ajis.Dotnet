@@ -1,0 +1,26 @@
+[
+  // Binary - must be by 4 bits
+  0b10_10,          // grouping by 2 (should be 4)
+  0b101_010,        // grouping by 3 (should be 4)
+  0b1010_10,        // inconsistent grouping (4 then 2)
+  0b10_1010,        // inconsistent grouping (2 then 4)
+
+  // Octal - must be by 3 digits
+  0o7_5,            // grouping by 1
+  0o77_55,          // grouping by 2
+  0o777_1,          // inconsistent grouping (3 then 1)
+
+  // Hexadecimal - mixed grouping (2 vs 4)
+  0xFF_AABB,        // first by 2, then by 4
+  0xFFAA_BB,        // first by 4, then by 2
+  0xFF_AA_00BB,     // mixing 2 and 4
+  0xFFAA_00_BB,     // mixing 4 and 2
+
+  // Hexadecimal - invalid grouping sizes
+  0xF_FF,           // grouping by 1
+  0xFFF_AAA,        // grouping by 3
+
+  // Mixed separators (already tested, but good to have)
+  0b1010_1010 1010, // mixing _ and space
+  0xFF_AA,00BB      // mixing _ and ,
+]

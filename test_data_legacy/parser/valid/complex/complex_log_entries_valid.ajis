@@ -1,0 +1,50 @@
+// Log entries collection
+[
+  {
+    "timestamp": "2024-01-15T14:30:00.123Z",
+    "level": "INFO",
+    "logger": "app.main",
+    "message": "Application started successfully",
+    "context": {
+      "version": "1.2.3",
+      "environment": "production",
+      "pid": 12345
+    }
+  },
+  {
+    "timestamp": "2024-01-15T14:30:01.456Z",
+    "level": "DEBUG",
+    "logger": "app.database",
+    "message": "Database connection established",
+    "context": {
+      "host": "localhost",
+      "port": 5432,
+      "pool_size": 10,
+      "connection_id": hex"ABCD1234"
+    }
+  },
+  {
+    "timestamp": "2024-01-15T14:30:02.789Z",
+    "level": "WARNING",
+    "logger": "app.cache",
+    "message": "Cache miss rate above threshold",
+    "context": {
+      "miss_rate": 0.35,
+      "threshold": 0.30,
+      "total_requests": 1_000_000
+    }
+  },
+  {
+    "timestamp": "2024-01-15T14:30:03.012Z",
+    "level": "ERROR",
+    "logger": "app.api",
+    "message": "Request failed with timeout",
+    "context": {
+      "endpoint": "/api/v1/users",
+      "timeout_ms": 5000,
+      "attempt": 3,
+      "error_code": 0x504
+    },
+    "stack_trace": "Error: Timeout\n  at request.js:123\n  at async handler.js:456"
+  }
+]

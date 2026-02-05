@@ -1,0 +1,9 @@
+/* Mixed comments test */
+{
+  // Line comment
+  "field1": /* block */ "value1", // another line comment
+  /* Another block */
+  "field2": 123 // trailing line comment
+  // More line comments
+}
+// Final comment

@@ -1,0 +1,8 @@
+[
+  12_34,        // grouping not by 3
+  1__000,       // double separator
+  _1000,        // separator at the beginning
+  1000_,        // separator at the end
+  1_000.12_34,  // separator in fraction is forbidden
+  1_000._25     // separator/dot in weird place (fraction starts with separator)
+]

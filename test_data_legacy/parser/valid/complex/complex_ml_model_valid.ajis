@@ -1,0 +1,44 @@
+// Machine learning model metadata
+{
+  "model": {
+    "name": "image_classifier_v2",
+    "version": "2.1.0",
+    "type": "convolutional_neural_network",
+    "framework": "tensorflow",
+    "architecture": {
+      "layers": [
+        {"type": "conv2d", "filters": 32, "kernel_size": [3, 3], "activation": "relu"},
+        {"type": "maxpool2d", "pool_size": [2, 2]},
+        {"type": "conv2d", "filters": 64, "kernel_size": [3, 3], "activation": "relu"},
+        {"type": "maxpool2d", "pool_size": [2, 2]},
+        {"type": "flatten"},
+        {"type": "dense", "units": 128, "activation": "relu"},
+        {"type": "dropout", "rate": 0.5},
+        {"type": "dense", "units": 10, "activation": "softmax"}
+      ],
+      "input_shape": [28, 28, 1],
+      "output_classes": 10
+    }
+  },
+  "training": {
+    "dataset": "MNIST",
+    "samples": 60_000,
+    "validation_split": 0.2,
+    "epochs": 50,
+    "batch_size": 128,
+    "optimizer": {
+      "type": "adam",
+      "learning_rate": 0.001,
+      "beta_1": 0.9,
+      "beta_2": 0.999
+    },
+    "metrics": {
+      "accuracy": 0.9876,
+      "loss": 0.0432,
+      "val_accuracy": 0.9821,
+      "val_loss": 0.0587
+    }
+  },
+  "weights_checksum": hex"FEDCBA9876543210",
+  "saved_at": "2024-01-15T14:30:00Z"
+}

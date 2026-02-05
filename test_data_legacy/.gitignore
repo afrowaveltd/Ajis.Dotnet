@@ -1,0 +1,3 @@
+# Large benchmark files (generate locally with benchmark tool)
+users_*.ajis
+benchmark_results.json

@@ -207,6 +207,7 @@ public enum AjisDiagnosticSeverity
    /// Error that indicates invalid input or unrecoverable issue.
    /// </summary>
    Error = 2,
+   Debug = 3,
 }
 
 /// <summary>

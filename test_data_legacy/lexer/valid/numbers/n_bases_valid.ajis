@@ -1,0 +1,16 @@
+[
+  0b0,
+  0b0010_1010,
+  0b0010 1010,
+  0b0010,1010,
+
+  0o0,
+  0o755,
+  0o7_550,
+
+  0x0,
+  0xDEADBEEF,
+  0xDEAD_BEEF,
+  0xDEAD BEEF,
+  0xDEAD,BEEF
+]

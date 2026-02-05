@@ -66,38 +66,72 @@ public readonly record struct AjisStreamWalkOptions
 /// <summary>
 /// Runner-only options (behavioral switches not part of the parsing model).
 /// </summary>
+/// <remarks>
+/// Values here affect execution behavior, not the parsing model itself.
+/// </remarks>
+/// <summary>
+/// Engine selection preference (M1.1).
+/// </summary>
+public enum AjisStreamWalkEnginePreference
+{
+   /// <summary>
+   /// Balance memory usage and throughput.
+   /// </summary>
+   Balanced = 0,
+   /// <summary>
+   /// Prefer lower memory usage over throughput.
+   /// </summary>
+   LowMemory = 1,
+   /// <summary>
+   /// Prefer throughput over memory usage.
+   /// </summary>
+   Speed = 2
+}
+
+/// <summary>
+/// Runner-only options controlling StreamWalk execution behavior.
+/// </summary>
 public readonly record struct AjisStreamWalkRunnerOptions
 {
    /// <summary>
-   /// When enabled, the runner may stop early if the visitor requests it.
+   /// Whether the visitor is allowed to abort the walk.
    /// </summary>
    public bool AllowVisitorAbort { get; init; }
 
    /// <summary>
-   /// If true, emit <c>Debug</c>-level diagnostics for recoverable issues (primarily for <see cref="AjisStreamWalkMode.Lax"/>).
+   /// Preferred engine selection strategy.
+   /// </summary>
+   public AjisStreamWalkEnginePreference EnginePreference { get; init; }
+
+   /// <summary>
+   /// Payload size threshold (in bytes) that triggers large-payload handling.
+   /// </summary>
+   public int LargePayloadThresholdBytes { get; init; }
+
+   /// <summary>
+   /// Whether debug diagnostics are emitted during execution.
    /// </summary>
    public bool EmitDebugDiagnostics { get; init; }
 
    /// <summary>
-   /// Optional diagnostic sink.
+   /// Optional callback invoked for each diagnostic.
    /// </summary>
-   /// <remarks>
-   /// <para>
-   /// This is intentionally on the runner options (not the parsing options): it does not affect parsing results,
-   /// only observability.
-   /// </para>
-   /// <para>
-   /// When null, no diagnostics are forwarded.
-   /// </para>
-   /// </remarks>
    public Action<AjisDiagnostic>? OnDiagnostic { get; init; }
 
+   /// <summary>
+   /// Initializes the default runner-only options.
+   /// </summary>
    public AjisStreamWalkRunnerOptions()
    {
       AllowVisitorAbort = false;
+      EnginePreference = AjisStreamWalkEnginePreference.Balanced;
+      LargePayloadThresholdBytes = 256 * 1024; // 256 KiB
       EmitDebugDiagnostics = false;
       OnDiagnostic = null;
    }
 
+   /// <summary>
+   /// Canonical default runner-only profile.
+   /// </summary>
    public static AjisStreamWalkRunnerOptions Default => new();
 }

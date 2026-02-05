@@ -21,6 +21,7 @@
 "ajis.error.visitor_abort":"Processing aborted by visitor."
 "ajis.error.mode_not_supported":"Requested mode is not supported in this build."
 "ajis.error.invalid_utf8":"Invalid UTF-8 sequence in input."
+"ajis.error.engine_selected":"StreamWalk engine selected."
 
 # Strings / escapes
 

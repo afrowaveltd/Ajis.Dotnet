@@ -1,0 +1,8 @@
+// Array with AJIS-specific features
+[
+  0xFF,              // hex int
+  0b1010,            // binary int
+  1_000_000,         // digit separator
+  hex"DEADBEEF",     // hex binary
+  b64"SGVsbG8="      // base64 binary
+]

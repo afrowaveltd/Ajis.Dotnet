@@ -1,0 +1,5 @@
+/* Comment with special characters: !@#$%^&*()_+-={}[]|:";'<>?,./ */
+// Comment with Unicode: café, 日本語, emoji: 🎉
+{
+  "test": /* looks nested but is not */ true
+}

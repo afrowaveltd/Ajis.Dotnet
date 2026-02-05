@@ -1,0 +1,7 @@
+// Whitespace variations - all valid
+{
+"compact":"value",
+  "spaced"  :  "value"  ,
+	"tabs":	"value",
+  "mixed"	: 	"value"
+}

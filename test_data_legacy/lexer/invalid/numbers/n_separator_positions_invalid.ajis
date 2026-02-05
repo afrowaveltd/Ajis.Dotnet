@@ -1,0 +1,11 @@
+[
+  1._0,     // separator adjacent to decimal point (before)
+  1.0_,     // separator at end after decimal
+  1_.0,     // separator before decimal point
+  ._5,      // decimal without integer part
+  1e_5,     // separator adjacent to exponent (after 'e')
+  1_e5,     // separator before exponent
+  1e5_,     // separator at end after exponent
+  _123,     // leading separator
+  123_      // trailing separator (outside fraction)
+]

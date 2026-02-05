@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "author": "Test"
+  },
+  "data": {
+    "users": [
+      {
+        "id": 1,
+        "profile": {
+          "name": "Alice",
+          "settings": {
+            "theme": "dark",
+            "notifications": true
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+[
+  // Binary - grouping by 4 bits
+  0b1010_1010,
+  0b1010 1010,
+  0b1010,1010,
+  0b1111_0000_1111_0000,
+
+  // Octal - grouping by 3 digits
+  0o755,
+  0o7_777_123,
+  0o7 777 123,
+  0o7,777,123,
+
+  // Hexadecimal - grouping by 2 OR 4 (but consistently)
+  0xFF_AA,           // by 2
+  0xFF AA,           // by 2
+  0xFF,AA,           // by 2
+  0xFFAA_00BB,       // by 4
+  0xFFAA 00BB,       // by 4
+  0xFFAA,00BB,       // by 4
+  0xFFAA_00BB_AA01,  // by 4
+  
+  // Edge cases
+  0b0000_0001,
+  0o000_001,
+  0xFF
+]

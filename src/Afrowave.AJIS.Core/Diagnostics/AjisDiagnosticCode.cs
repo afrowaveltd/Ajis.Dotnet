@@ -19,6 +19,7 @@ public enum AjisDiagnosticCode
    VisitorAbort = 1007,
    ModeNotSupported = 1008,
    InvalidUtf8 = 1009,
+   EngineSelected = 1010,
 
    // Strings (1100–1199)
    StringUnterminated = 1101,

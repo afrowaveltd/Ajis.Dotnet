@@ -1,0 +1,10 @@
+// String escape sequences showcase
+{
+  "basic_escapes": "Tab:\t Newline:\n Carriage return:\r",
+  "quotes": "Quote: \" Backslash: \\",
+  "unicode_escapes": "Euro: \u20AC Smile: \u263A",
+  "mixed": "Path: C:\\Users\\Name\\file.txt\nLine 2",
+  "empty": "",
+  "single_char": "A",
+  "forward_slash": "https://example.com/path"
+}

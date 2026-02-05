@@ -1,0 +1,8 @@
+// Object with AJIS-specific features
+{
+  "hex": 0xDEADBEEF,
+  "binary": 0b1010_1111,
+  "separated": 1_000_000,
+  "hex_data": hex"48656C6C6F",
+  "base64_data": b64"V29ybGQ="
+}

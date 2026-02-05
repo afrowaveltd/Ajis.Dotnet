@@ -1,0 +1,62 @@
+// Game state save file
+{
+  "save_version": 3,
+  "game_version": "1.5.2",
+  "save_timestamp": 1_704_067_200,
+  "player": {
+    "name": "HeroPlayer123",
+    "level": 42,
+    "experience": 156_789,
+    "health": 100,
+    "max_health": 100,
+    "mana": 75,
+    "max_mana": 100,
+    "position": {
+      "x": 123.45,
+      "y": 67.89,
+      "z": -10.5,
+      "map": "dungeon_level_3"
+    },
+    "stats": {
+      "strength": 18,
+      "dexterity": 14,
+      "intelligence": 16,
+      "vitality": 20
+    },
+    "inventory": [
+      {
+        "id": "sword_001",
+        "name": "Legendary Sword",
+        "type": "weapon",
+        "damage": 50,
+        "durability": 87,
+        "enchantments": ["fire_damage", "lifesteal"],
+        "metadata": hex"FF00AA55"
+      },
+      {
+        "id": "potion_hp",
+        "name": "Health Potion",
+        "type": "consumable",
+        "quantity": 15,
+        "effect": "heal_50"
+      }
+    ],
+    "quests": {
+      "active": [
+        {"id": "quest_001", "name": "Defeat the Dragon", "progress": 0.75},
+        {"id": "quest_002", "name": "Find the Artifact", "progress": 0.30}
+      ],
+      "completed": ["quest_000", "quest_intro"]
+    },
+    "achievements": 0b0011_1010_1111,  // Bitfield of unlocked achievements
+    "playtime_seconds": 123_456
+  },
+  "world_state": {
+    "day": 145,
+    "time_of_day": 0.625,  // 0.0 = midnight, 0.5 = noon
+    "weather": "rain",
+    "defeated_bosses": ["skeleton_king", "frost_giant"],
+    "discovered_locations": 42
+  },
+  "checksum": hex"DEADBEEFCAFEBABE"
+}

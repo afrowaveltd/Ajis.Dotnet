@@ -1,0 +1,12 @@
+[
+  "basic string",
+  "quote: \"",
+  "backslash: \\",
+  "slash: /",
+  "backspace: \b",
+  "formfeed: \f",
+  "newline: \n",
+  "carriage return: \r",
+  "tab: \t",
+  "unicode: \u0041"
+]

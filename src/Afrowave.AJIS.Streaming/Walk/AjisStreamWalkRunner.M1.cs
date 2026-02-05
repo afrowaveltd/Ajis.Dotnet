@@ -138,7 +138,7 @@ internal static class AjisStreamWalkRunnerM1
             }
 
             int nameOffset = _i;
-            var name = ParseQuotedSliceToMemory(nameOffset);
+            ReadOnlyMemory<byte> name = ParseQuotedSliceToMemory(nameOffset);
             if(_failed) return;
             Emit("NAME", name, nameOffset);
 
@@ -212,10 +212,15 @@ internal static class AjisStreamWalkRunnerM1
       private void ParseStringValue()
       {
          int off = _i;
-         var mem = ParseQuotedSliceToMemory(off);
+         ReadOnlyMemory<byte> mem = ParseQuotedSliceToMemory(off);
          if(_failed) return;
          Emit("STRING", mem, off);
       }
+
+      private static bool IsHex(byte b) =>
+         (b >= (byte)'0' && b <= (byte)'9') ||
+         (b >= (byte)'a' && b <= (byte)'f') ||
+         (b >= (byte)'A' && b <= (byte)'F');
 
       /// <summary>
       /// Parses a JSON string token starting at current index (must be '"').
@@ -247,30 +252,55 @@ internal static class AjisStreamWalkRunnerM1
 
             if(b == (byte)'\\')
             {
-               // Skip escape marker + next char (and keep scanning). This keeps token boundaries correct.
-               _i++;
+               // Validate escape sequences (M1: JSON-safe, strict).
+               int escOffset = _i; // point at '\\'
+
+               _i++; // move to escape code
                if(_i >= _src.Length)
                {
                   Fail("unterminated_string", tokenOffset);
                   return ReadOnlyMemory<byte>.Empty;
                }
 
-               // Handle \uXXXX boundary safely by skipping 1 + 4 hex chars after 'u'
-               if(_src[_i] == (byte)'u')
+               byte e = _src[_i];
+               switch(e)
                {
-                  // We do not decode in M1, but must skip the 4 hex digits.
-                  for(int k = 0; k < 4; k++)
-                  {
-                     _i++;
-                     if(_i >= _src.Length)
+                  case (byte)'\"':
+                  case (byte)'\\':
+                  case (byte)'/':
+                  case (byte)'b':
+                  case (byte)'f':
+                  case (byte)'n':
+                  case (byte)'r':
+                  case (byte)'t':
+                     _i++; // consume escape code
+                     break;
+
+                  case (byte)'u':
+                     // Need 4 hex digits after \u
+                     if(_i + 4 >= _src.Length)
                      {
                         Fail("unterminated_string", tokenOffset);
                         return ReadOnlyMemory<byte>.Empty;
                      }
-                  }
+
+                     if(!IsHex(_src[_i + 1]) ||
+                        !IsHex(_src[_i + 2]) ||
+                        !IsHex(_src[_i + 3]) ||
+                        !IsHex(_src[_i + 4]))
+                     {
+                        Fail("invalid_escape", escOffset + 1);
+                        return ReadOnlyMemory<byte>.Empty;
+                     }
+
+                     _i += 5; // 'u' + 4 hex digits
+                     break;
+
+                  default:
+                     Fail("invalid_escape", escOffset + 1);
+                     return ReadOnlyMemory<byte>.Empty;
                }
 
-               _i++;
                continue;
             }
 

@@ -13,6 +13,4 @@ MAX_TOKEN_BYTES: 1048576
 
 # EXPECTED
 
-BEGIN_OBJECT
-PROPERTY_NAME a
-ERROR UnexpectedToken offset=5
+ERROR invalid_value offset=5

@@ -1,0 +1,13 @@
+{
+  "meta": { "version": 1, "name": "AJIS" },
+  "data": [
+    { "id": 1, "value": 1_000 },
+    { "id": 2, "value": 2 000 },
+    { "id": 3, "value": 3,000 }
+  ],
+  "flags": {
+    "bin": 0b0011_1100,
+    "hex": 0xCAFE_BABE,
+    "oct": 0o755
+  }
+}

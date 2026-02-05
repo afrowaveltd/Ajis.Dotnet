@@ -1,0 +1,7 @@
+{
+  "": "empty key is valid",
+  " ": "space key",
+  "unicode_café": "Unicode in key",
+  "emoji_🎉": "Emoji in key",
+  "with\nnewline": "escaped newline in key"
+}

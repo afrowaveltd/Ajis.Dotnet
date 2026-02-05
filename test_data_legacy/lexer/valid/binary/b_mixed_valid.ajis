@@ -1,0 +1,6 @@
+{
+  "hex_data": hex"48656C6C6F",
+  "base64_data": b64"V29ybGQ=",
+  "another_hex": hex"CAFE",
+  "text": "regular string"
+}

@@ -1,0 +1,80 @@
+// Stress test - all AJIS features combined
+{
+  // Configuration section
+  "config": {
+    "version": 0x0102,  // Version 1.2
+    "flags": 0b1010_1111_0000_1100,
+    "timeout_ms": 5_000,
+    "max_connections": 1_000_000
+  },
+  
+  /* Data section with various types */
+  "data": {
+    "users": [
+      {
+        "id": 1,
+        "name": "Administrátor",  // Czech characters
+        "api_key": hex"DEADBEEFCAFEBABE",
+        "permissions": 0b111,  // Read, write, execute
+        "created": 1_704_067_200
+      },
+      {
+        "id": 2,
+        "name": "用户",  // Chinese characters
+        "avatar": b64"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+        "permissions": 0b101,  // Read, execute
+        "created": 1_704_153_600
+      }
+    ],
+    
+    // Nested arrays with mixed types
+    "matrix": [
+      [1, 2, 3],
+      [0x10, 0x20, 0x30],
+      [0b1000, 0b0100, 0b0010]
+    ],
+    
+    /* Binary data examples */
+    "checksums": {
+      "md5": hex"5D41402ABC4B2A76B9719D911017C592",
+      "sha1": hex"2FD4E1C67A2D28FCED849EE1BB76E7391B93EB12",
+      "payload": b64"VGhpcyBpcyBhIHRlc3QgcGF5bG9hZA=="
+    },
+    
+    // Numeric formats showcase
+    "numbers": {
+      "decimal": [0, 1, 42, 1_234_567],
+      "hex": [0x0, 0xF, 0xFF, 0xDEAD_BEEF],
+      "binary": [0b0, 0b1, 0b1010, 0b1111_0000_1010_0101],
+      "octal": [0o0, 0o7, 0o77, 0o777],
+      "floats": [0.0, 3.14, -2.5, 1.23e-4],
+      "separated": {
+        "thousands": 1_000_000,
+        "hex_bytes": 0xFF_AA_BB_CC,
+        "binary_nibbles": 0b1111_0000_1010_0101
+      }
+    }
+  },
+  
+  // Edge cases
+  "edge_cases": {
+    "empty_string": "",
+    "empty_array": [],
+    "empty_object": {},
+    "null_value": null,
+    "bool_values": [true, false],
+    "unicode_key_🔑": "emoji in key",
+    "escape_test": "Tab:\t Newline:\n Quote:\" Backslash:\\"
+  },
+  
+  /* Final metadata */
+  "metadata": {
+    "checksum": hex"FFFFFFFFFFFFFFFF",
+    "signature": b64"U2lnbmF0dXJl",
+    "timestamp": 1_704_067_200_000,
+    "flags": 0b1111_1111,
+    "status_code": 0x200,  // HTTP 200 OK
+    "version": "1.0.0"
+  }
+}
+// End of stress test

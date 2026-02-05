@@ -1,0 +1,13 @@
+// Test for very large numbers
+{
+  "max_safe_integer_js": 9_007_199_254_740_991,
+  "large_negative": -9_007_199_254_740_991,
+  "scientific_large": 1.7976931348623157e308,
+  "scientific_small": 2.2250738585072014e-308,
+  "hex_large": 0xFFFFFFFFFFFFFFFF,
+  "binary_max_byte": 0b11111111,
+  "zero": 0,
+  "negative_zero": -0,
+  "one": 1,
+  "minus_one": -1
+}

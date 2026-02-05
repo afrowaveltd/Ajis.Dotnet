@@ -1,0 +1,8 @@
+/* Block comment before value */
+{
+  /* Comment before key */
+  "name" /* after key */: /* before value */ "value", /* after value */
+  "count": /* inline */ 42 /* after number */
+  /* Comment before closing brace */
+}
+/* Comment at end */

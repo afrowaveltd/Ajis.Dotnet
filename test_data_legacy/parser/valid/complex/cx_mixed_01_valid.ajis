@@ -1,0 +1,12 @@
+{
+  "name": "Example",
+  "enabled": true,
+  "retries": 3,
+  "limits": [ 1_000, 10_000, 100_000 ],
+  "users": [
+    { "id": 1, "flags": 0b1010, "quota": 1 024 },
+    { "id": 2, "flags": 0b0011, "quota": 2 048 }
+  ],
+  "checksum": 0xDEAD_BEEF,
+  "note": null
+}

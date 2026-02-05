@@ -1,0 +1,10 @@
+[
+  "\x41",       // invalid escape \x
+  "\u12",       // incomplete unicode escape (needs 4 hex digits)
+  "\u123",      // incomplete unicode escape  
+  "\uGGGG",     // invalid hex in unicode escape
+  "\q",         // invalid escape sequence
+  "\",          // incomplete escape at end
+  "unescaped
+newline"        // raw newline (invalid in strict JSON mode)
+]

@@ -1,0 +1,9 @@
+{
+  "array": [1, 2, 3],
+  "object": {"key": "value"},
+  "nested_array": [[1, 2], [3, 4]],
+  "array_of_objects": [
+    {"id": 1, "name": "first"},
+    {"id": 2, "name": "second"}
+  ]
+}

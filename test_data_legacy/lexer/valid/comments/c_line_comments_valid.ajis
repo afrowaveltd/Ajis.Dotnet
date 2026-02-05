@@ -1,0 +1,9 @@
+// Line comment before value
+[
+  // Comment at start of array
+  1, // Comment after element
+  2, // Another comment
+  3  // Comment before closing
+  // Comment just before close
+]
+// Comment at end of file

@@ -23,15 +23,19 @@ public static class AjisStreamWalkTestRunner
       bool completed = false;
 
       // Map test options -> production options
-      var options = AjisStreamWalkOptions.DefaultForM1;
+      AjisStreamWalkOptions options = AjisStreamWalkOptions.DefaultForM1;
 
       if(testCase.Options.Mode is not null)
          options = options with
          {
-            Mode = testCase.Options.Mode == AjisStreamWalkTestMode.JSON
-               ? AjisStreamWalkMode.Json
-               : AjisStreamWalkMode.Ajis
+            Mode = testCase.Options.Mode switch
+            {
+               AjisStreamWalkTestMode.JSON => AjisStreamWalkMode.Json,
+               AjisStreamWalkTestMode.LAX => AjisStreamWalkMode.Lax,
+               _ => AjisStreamWalkMode.Ajis
+            }
          };
+
 
       if(testCase.Options.Comments is not null)
          options = options with { Comments = testCase.Options.Comments.Value };
@@ -83,7 +87,7 @@ public static class AjisStreamWalkTestRunner
        AjisStreamWalkRunnerOptions runnerOptions,
        List<string> mismatches)
    {
-      var expected = testCase.Expected;
+      AjisStreamWalkTestExpected expected = testCase.Expected;
 
       if(expected is AjisStreamWalkTestExpected.Failure fail)
       {
@@ -93,17 +97,17 @@ public static class AjisStreamWalkTestRunner
             return;
          }
 
-         if(!string.Equals(fail.ErrorCode, producedError.Code, StringComparison.Ordinal))
-            mismatches.Add($"Error code mismatch. Expected '{fail.ErrorCode}', got '{producedError.Code}'.");
+         if(!string.Equals(fail.Code, producedError.Code, StringComparison.Ordinal))
+            mismatches.Add($"Error code mismatch. Expected '{fail.Code}', got '{producedError.Code}'.");
 
-         if(fail.ErrorOffset != producedError.Offset)
-            mismatches.Add($"Error offset mismatch. Expected {fail.ErrorOffset}, got {producedError.Offset}.");
+         if(fail.Offset != producedError.Offset)
+            mismatches.Add($"Error offset mismatch. Expected {fail.Offset}, got {producedError.Offset}.");
 
-         if(fail.ErrorLine is not null && fail.ErrorLine.Value != producedError.Line)
-            mismatches.Add($"Error line mismatch. Expected {fail.ErrorLine}, got {producedError.Line}.");
+         if(fail.Line is not null && fail.Line.Value != producedError.Line)
+            mismatches.Add($"Error line mismatch. Expected {fail.Line}, got {producedError.Line}.");
 
-         if(fail.ErrorColumn is not null && fail.ErrorColumn.Value != producedError.Column)
-            mismatches.Add($"Error column mismatch. Expected {fail.ErrorColumn}, got {producedError.Column}.");
+         if(fail.Col is not null && fail.Col.Value != producedError.Column)
+            mismatches.Add($"Error column mismatch. Expected {fail.Col}, got {producedError.Column}.");
 
          // Even on error, partial traces may exist (we intentionally do not compare them in M1).
          return;
@@ -138,8 +142,8 @@ public static class AjisStreamWalkTestRunner
 
       for(int i = 0; i < expected.Count; i++)
       {
-         var exp = expected[i];
-         var act = produced[i];
+         AjisStreamWalkTestTraceEvent exp = expected[i];
+         AjisStreamWalkEvent act = produced[i];
 
          if(!string.Equals(exp.Kind, act.Kind, StringComparison.Ordinal))
          {

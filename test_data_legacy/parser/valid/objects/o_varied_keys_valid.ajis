@@ -1,0 +1,11 @@
+{
+  "": "empty string key",
+  "key with spaces": "spaces",
+  "key-with-dashes": "dashes",
+  "key_with_underscores": "underscores",
+  "CamelCaseKey": "camel",
+  "snake_case_key": "snake",
+  "key.with.dots": "dots",
+  "key/with/slashes": "slashes",
+  "key:with:colons": "colons"
+}

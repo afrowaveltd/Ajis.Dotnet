@@ -1,0 +1,7 @@
+// TODO: This is a task
+// FIXME: This needs fixing
+// NOTE: Important note here
+// HACK: Temporary workaround
+{
+  "status": "documented"
+}

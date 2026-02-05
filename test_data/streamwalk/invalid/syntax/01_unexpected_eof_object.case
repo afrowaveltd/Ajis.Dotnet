@@ -13,4 +13,4 @@ MAX_TOKEN_BYTES: 1048576
 
 # EXPECTED
 
-ERROR UnexpectedEndOfInput offset=6
+ERROR unexpected_eof offset=6

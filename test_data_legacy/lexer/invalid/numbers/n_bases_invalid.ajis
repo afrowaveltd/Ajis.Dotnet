@@ -1,0 +1,12 @@
+[
+  0b,1010,      // separator immediately after prefix
+  0b1010_,      // separator at the end
+  0b10__10,     // double separator
+  0b10 10_10,   // mixed separators
+
+  0xDEAD: BEEF, // colon not allowed yet
+  0x_DEAD,      // separator immediately after prefix
+  0xDEAD__BEEF, // double separator
+  0xG123,       // invalid hex character
+  0o789         // invalid oct characters
+]

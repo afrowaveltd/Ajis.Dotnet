@@ -1,0 +1,17 @@
+// Primitives showcase
+{
+  "null_value": null,
+  "bool_true": true,
+  "bool_false": false,
+  "int_zero": 0,
+  "int_positive": 42,
+  "int_negative": -42,
+  "float_zero": 0.0,
+  "float_positive": 3.14159,
+  "float_negative": -2.71828,
+  "string_empty": "",
+  "string_simple": "hello",
+  "hex_int": 0xFF,
+  "bin_int": 0b1010,
+  "oct_int": 0o777
+}

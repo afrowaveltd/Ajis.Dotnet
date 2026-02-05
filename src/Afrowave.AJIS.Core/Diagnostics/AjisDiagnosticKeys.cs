@@ -19,6 +19,8 @@ public static class AjisDiagnosticKeys
    public const string VisitorAbort = "visitor_abort";
    public const string ModeNotSupported = "mode_not_supported";
    public const string InvalidUtf8 = "invalid_utf8";
+   public const string EngineSelected = "engine_selected";
+
 
    // Strings
    public const string StringUnterminated = "string_unterminated";
@@ -81,6 +83,8 @@ public static class AjisDiagnosticKeys
       AjisDiagnosticCode.VisitorAbort => VisitorAbort,
       AjisDiagnosticCode.ModeNotSupported => ModeNotSupported,
       AjisDiagnosticCode.InvalidUtf8 => InvalidUtf8,
+      AjisDiagnosticCode.EngineSelected => EngineSelected,
+
 
       AjisDiagnosticCode.StringUnterminated => StringUnterminated,
       AjisDiagnosticCode.StringInvalidEscape => StringInvalidEscape,

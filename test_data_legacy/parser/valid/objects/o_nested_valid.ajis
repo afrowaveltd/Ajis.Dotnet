@@ -1,0 +1,9 @@
+{
+  "outer": {
+    "middle": {
+      "inner": {
+        "value": "deep"
+      }
+    }
+  }
+}

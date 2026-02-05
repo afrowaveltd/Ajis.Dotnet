@@ -1,0 +1,36 @@
+// IoT device telemetry
+{
+  "device_id": hex"DEADBEEF",
+  "timestamp": 1_704_067_200_000,  // Milliseconds
+  "location": {
+    "latitude": 50.0755,
+    "longitude": 14.4378,
+    "altitude": 191.5,
+    "accuracy": 10.0
+  },
+  "sensors": {
+    "temperature": {
+      "value": 22.5,
+      "unit": "celsius",
+      "calibrated": true
+    },
+    "humidity": {
+      "value": 45.2,
+      "unit": "percent",
+      "calibrated": true
+    },
+    "pressure": {
+      "value": 1013.25,
+      "unit": "hPa",
+      "calibrated": false
+    }
+  },
+  "battery": {
+    "level": 87,
+    "voltage": 3.7,
+    "charging": false
+  },
+  "raw_data": b64"SGVsbG8gV29ybGQh",
+  "flags": 0b1010_1111,
+  "status_code": 0x200
+}

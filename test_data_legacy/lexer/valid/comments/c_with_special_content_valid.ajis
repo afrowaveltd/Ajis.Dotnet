@@ -1,0 +1,7 @@
+/* Comment with special chars: !@#$%^&*() */
+// Comment with unicode: Příliš žluťoučký
+/* Comment with emoji: 😀🎉 */
+/* Comment with // inside */
+{
+  "value": 42
+}

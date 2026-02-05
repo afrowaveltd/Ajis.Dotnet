@@ -1,0 +1,11 @@
+// Array with mixed nested structures
+[
+  [1, 2, 3],
+  {"key": "value"},
+  "string",
+  42,
+  [
+    {"nested": [1, 2, 3]},
+    [4, 5, 6]
+  ]
+]

@@ -1,0 +1,10 @@
+// Octal number tests
+{
+  "octal_zero": 0o0,
+  "octal_seven": 0o7,
+  "octal_eight": 0o10,
+  "octal_max_digit": 0o777,
+  "octal_large": 0o7777,
+  "octal_with_separator": 0o777_123,
+  "octal_negative": -0o777
+}

@@ -13,4 +13,4 @@ MAX_TOKEN_BYTES: 1048576
 
 # EXPECTED
 
-ERROR UnexpectedCharacter offset=0
+ERROR invalid_value offset=0
