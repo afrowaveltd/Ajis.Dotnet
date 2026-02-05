@@ -3,7 +3,7 @@
 namespace Afrowave.AJIS.Streaming.Walk.Engines;
 
 [Flags]
-internal enum AjisEngineCapabilities
+public enum AjisEngineCapabilities
 {
    None = 0,
 

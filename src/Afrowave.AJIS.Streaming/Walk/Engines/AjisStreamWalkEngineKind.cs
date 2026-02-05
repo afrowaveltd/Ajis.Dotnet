@@ -2,7 +2,7 @@
 
 namespace Afrowave.AJIS.Streaming.Walk.Engines;
 
-internal enum AjisStreamWalkEngineKind
+public enum AjisStreamWalkEngineKind
 {
    Serial = 0,
    Parallel = 1,

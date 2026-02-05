@@ -11,7 +11,7 @@ public static class AjisStreamWalkEngineRegistry
       new LowMemEngineDescriptor()
    ];
 
-   public static IReadOnlyList<IAjisStreamWalkEngineDescriptor> All { get; }
+   public static IReadOnlyList<IAjisStreamWalkEngineDescriptor> All { get; } = s_all;
 
    public sealed class M1EngineDescriptor : IAjisStreamWalkEngineDescriptor
    {
@@ -25,15 +25,22 @@ public static class AjisStreamWalkEngineRegistry
          => options.Mode != AjisStreamWalkMode.Lax; // M1 rejects LAX.
 
       public AjisEngineCost EstimateCost(
-         ReadOnlySpan<byte> inputUtf8,
-         AjisStreamWalkOptions options,
-         AjisStreamWalkRunnerOptions runnerOptions)
+   ReadOnlySpan<byte> inputUtf8,
+   AjisStreamWalkOptions options,
+   AjisStreamWalkRunnerOptions runnerOptions)
       {
-         // Balanced default: M1 is preferred for smaller payloads.
-         if(inputUtf8.Length >= runnerOptions.LargePayloadThresholdBytes)
-            return new AjisEngineCost(40, "Large payload prefers LowMem profile.");
+         // Single-pass, low allocation, optimized for throughput.
+         // Memory is approximate (we don't want exact accounting here).
+         long mem = Math.Max(4_096, inputUtf8.Length / 16);
 
-         return new AjisEngineCost(10, "Default small payload profile.");
+         // Penalize big payloads (balanced mode tends to prefer LowMem for huge inputs).
+         if(inputUtf8.Length >= runnerOptions.LargePayloadThresholdBytes)
+            mem *= 4;
+
+         return new AjisEngineCost(
+            EstimatedPasses: 1,
+            EstimatedMemoryBytes: mem,
+            RequiresRandomAccess: false);
       }
 
       public IAjisStreamWalkEngine CreateEngine() => s_engine;
@@ -51,16 +58,24 @@ public static class AjisStreamWalkEngineRegistry
          => options.Mode != AjisStreamWalkMode.Lax;
 
       public AjisEngineCost EstimateCost(
-         ReadOnlySpan<byte> inputUtf8,
-         AjisStreamWalkOptions options,
-         AjisStreamWalkRunnerOptions runnerOptions)
+   ReadOnlySpan<byte> inputUtf8,
+   AjisStreamWalkOptions options,
+   AjisStreamWalkRunnerOptions runnerOptions)
       {
-         // Balanced: low-mem is preferred for large payloads.
-         if(inputUtf8.Length >= runnerOptions.LargePayloadThresholdBytes)
-            return new AjisEngineCost(5, "Large payload low-mem profile.");
+         // Single-pass, minimal allocations.
+         // Fixed-ish memory behavior.
+         long mem = 16_384;
 
-         return new AjisEngineCost(30, "Small payload prefers M1 profile.");
+         // Slightly increase for tiny payloads to avoid always "winning".
+         if(inputUtf8.Length < 256)
+            mem *= 2;
+
+         return new AjisEngineCost(
+            EstimatedPasses: 1,
+            EstimatedMemoryBytes: mem,
+            RequiresRandomAccess: false);
       }
+
 
       public IAjisStreamWalkEngine CreateEngine() => s_engine;
    }

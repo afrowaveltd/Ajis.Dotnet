@@ -17,7 +17,7 @@ public sealed class EngineRegistryContractTests
    [Fact]
    public void Registry_EnginesMustDeclareCapabilities_AndIds()
    {
-      foreach(object? d in AjisStreamWalkEngineRegistry.All)
+      foreach(IAjisStreamWalkEngineDescriptor d in AjisStreamWalkEngineRegistry.All)
       {
          Assert.False(string.IsNullOrWhiteSpace(d.EngineId));
          Assert.NotEqual(AjisEngineCapabilities.None, d.Capabilities);

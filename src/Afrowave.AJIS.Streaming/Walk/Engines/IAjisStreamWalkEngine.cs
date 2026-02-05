@@ -2,7 +2,7 @@
 
 namespace Afrowave.AJIS.Streaming.Walk.Engines;
 
-internal interface IAjisStreamWalkEngine
+public interface IAjisStreamWalkEngine
 {
    string EngineId { get; }
 

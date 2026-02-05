@@ -13,7 +13,7 @@ public interface IAjisStreamWalkEngineDescriptor
    /// <summary>
    /// Returns true if this engine can run with the given options.
    /// </summary>
-   Supports(AjisStreamWalkOptions options);
+   bool Supports(AjisStreamWalkOptions options);
 
    /// <summary>
    /// Returns an estimated cost score for this input/options.
