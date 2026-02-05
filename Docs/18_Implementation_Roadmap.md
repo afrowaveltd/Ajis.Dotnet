@@ -1,232 +1,265 @@
-# AJIS Implementation Roadmap (Incremental)
+# AJIS.Dotnet – Implementation Roadmap
 
-> Step-by-step implementation plan for AJIS .NET with streaming-first focus
-
----
-
-## 1. Purpose
-
-This roadmap defines an **incremental build order** that:
-
-* keeps the project always buildable
-* grows features in coherent layers
-* protects performance work from API churn
-* produces usable tools early
+> **Status:** FIXED / CANONICAL
+>
+> This document defines the authoritative implementation roadmap for **AJIS.Dotnet**.
+> It supersedes any legacy or archived documentation (including historical AJIS_ATP binary headers).
+> All functionality MUST follow the specifications present in this repository.
 
 ---
 
-## 2. Phases overview
+## 0. Global Principles (Non‑Negotiable)
 
-1. Core foundations
-2. Text lexer + token reader
-3. Segment parser (streaming)
-4. Segment serializer (reconstruction)
-5. Transforms + path evaluation
-6. Tools (validate/stats/select/normalize)
-7. Patch + merge
-8. Mapping (reflection/resolver)
-9. Benchmarks + cross-language test_data discipline
-10. ATP binary container
+These principles apply to **all** phases and MUST NOT be violated by any implementation choice.
 
----
+1. **Streaming‑first**
+   A valid execution path MUST exist that can process arbitrarily large files with bounded memory usage.
 
-## 3. Phase 1 – Core foundations
+2. **Engine / Strategy Architecture**
+   A single public API is exposed, while multiple internal engines MAY exist and be selected dynamically.
 
-### 3.1 Deliverables
+3. **Strict JSON Compatibility**
+   AJIS parsers and serializers MUST support a strict JSON mode that is a drop‑in replacement for existing JSON tooling.
 
-* `AjisSettings` (minimal skeleton + defaults)
-* exceptions:
+4. **LAX Parsing Is Explicit and Isolated**
+   JavaScript‑tolerant parsing (LAX) is a separate mode and MUST NOT affect strict semantics.
 
-  * `AjisException` (code + position)
-  * `AjisFormatException` (parse)
-* diagnostics model:
+5. **Test Data Is a Contract**
+   All content under `test_data/` is considered normative and shared across language implementations.
 
-  * `AjisDiagnostic` (code, severity, position, messageKey)
-* localization abstraction:
-
-  * `IAjisTextProvider` (messageKey → localized string)
-* logger abstraction (optional):
-
-  * `IAjisLogger` (Warning+)
-* event stream abstraction:
-
-  * `IAjisEventSink` or channel-based sink
-
-### 3.2 Tests
-
-* settings defaults
-* exception formatting
-* localization fallback
+6. **Performance Is a Project Goal**
+   Performance parity with `System.Text.Json` is a required long‑term objective, not an optional optimization.
 
 ---
 
-## 4. Phase 2 – Text primitives (UTF-8 + spans)
+## 1. Compatibility Modes
 
-### 4.1 Deliverables
+### 1.1 Strict JSON Mode
 
-* `AjisReader` (span/sequence reader utilities)
-* whitespace + comments skipping (per AJIS spec)
-* string scanning:
+* Fully RFC‑compliant JSON
+* No comments, no trailing commas, no alternative numeric bases
+* Serializer output MUST be valid JSON
+* Intended as a **drop‑in replacement** for existing JSON libraries
 
-  * detect end quote with escapes
-  * support UTF-8
-* number token scanning:
+### 1.2 AJIS Canonical / Pretty Modes
 
-  * bases (bin/oct/dec/hex)
-  * `_` separators rules
+* Canonical mode produces deterministic output suitable for hashing, diffing and caching
+* Pretty mode prioritizes human readability
+* Both may use AJIS extensions defined by the current specification
 
-### 4.2 Tests
+### 1.3 LAX Mode (JavaScript‑Tolerant)
 
-* targeted token tests (tiny inputs)
-* escape sequences
-* unicode
-* number variations (including invalid)
+* Accepts a defined subset of JavaScript object literal syntax
+* Examples (subject to specification):
 
----
-
-## 5. Phase 3 – Segment parser (ParseSegments)
-
-### 5.1 Deliverables
-
-* `ParseSegments(Stream)` → `IAsyncEnumerable<AjisSegment>`
-* `ParseSegments(ReadOnlySequence<byte>)` (optional)
-* frame stack tracking
-* position tracking
-* strict error reporting
-
-### 5.2 Tests
-
-* round-trip structure checks
-* deep nesting
-* invalid structure errors with location
+  * Unquoted identifiers as keys
+  * Trailing commas
+  * Single‑quoted strings
+  * JavaScript‑style comments
+* LAX MUST always be explicitly enabled via options
+* Diagnostics SHOULD report tolerated constructs
 
 ---
 
-## 6. Phase 4 – Segment serializer
+## 2. Engine Selection Model
 
-### 6.1 Deliverables
+### 2.1 Engine Preferences
 
-* `SerializeSegments(Stream, IAsyncEnumerable<AjisSegment>)`
-* pretty/compact formatting
-* canonical formatting option
-* ignore meta segments
-* guarantee valid AJIS output
+The runtime MAY select different internal engines based on configuration and data characteristics.
 
-### 6.2 Tests
+```text
+Auto | LowMemory | Balanced | HighThroughput
+```
 
-* parse → segments → serialize → parse (equivalence)
-* canonicalization snapshot tests
+* **Auto**: runtime decides based on input size, mode and options
+* **LowMemory**: prioritizes minimal allocations and streaming safety
+* **Balanced**: general‑purpose default
+* **HighThroughput**: optimized for speed and server workloads
 
----
+### 2.2 Engine Contract
 
-## 7. Phase 5 – Transforms + paths
+Each engine MUST:
 
-### 7.1 Deliverables
-
-* transform primitives:
-
-  * `DropProperty`
-  * `RenameKeys`
-  * `SelectSubtree`
-* path evaluator:
-
-  * minimal JSONPath-like subset ($.a.b[0])
-* bounded buffering helper for per-item array filtering
-
-### 7.2 Tests
-
-* recipe tests from Docs/17
-* huge array simulation with small item buffer
+* Declare supported modes and features
+* Be selectable without changing public APIs
+* Preserve identical semantic results
 
 ---
 
-## 8. Phase 6 – Tools v1
+## 3. Milestones
 
-### 8.1 Deliverables
+### M1 – StreamWalk Reference (COMPLETED)
 
-* file validate
-* stats
-* normalize
-* select
+Purpose: establish deterministic behavior and diagnostics for text processing.
 
-### 8.2 CLI
+**Fixed & Unit‑Tested:**
 
-* `ajis validate`
-* `ajis stats`
-* `ajis normalize`
-* `ajis select --path`
+* `.case` test file contract (canonical + legacy tolerance)
+* Diagnostic code mapping
+* Deterministic trace slice rendering
+* LAX explicitly rejected as unsupported
 
 ---
 
-## 9. Phase 7 – Patch + merge
+### M1.1 – Engine Selection Skeleton
 
-### 9.1 Deliverables
-
-* patch operations:
-
-  * set/replace/remove/insert
-* patch document format (AJIS)
-* merge (overlay strategies)
-
-### 9.2 Tests
-
-* deterministic output
-* atomic write behavior
-
----
-
-## 10. Phase 8 – Mapping & converters
-
-### 10.1 Deliverables
-
-* reflection mapping cache
-* naming policy mapping
-* attributes
-* converters registry
-
-### 10.2 Optional
-
-* source generator package
-
----
-
-## 11. Phase 9 – Benchmark discipline
+Purpose: introduce engine abstraction without changing behavior.
 
 Deliverables:
 
-* standardized `test_data`
-* benchmark runner that:
+* Engine interface and selector
+* Engine preference enum
+* M1 wrapped as a selectable engine
 
-  * creates huge files only if missing
-  * runs all modes
-  * persists results
+**Fixed & Unit‑Tested:**
 
----
-
-## 12. Phase 10 – ATP container
-
-Deliverables:
-
-* ATP header reader/writer
-* stream handoff text → binary
-* checksum/signature hooks
+* Deterministic engine selection
+* Runner → selector → engine wiring
 
 ---
 
-## 13. Notes about missing docs (01, 04)
+### M2 – Text Primitives (Lexer / Reader)
 
-This roadmap assumes those docs will be added:
+Purpose: unified UTF‑8 reader for all parsers.
 
-* 01: repository overview & architecture map
-* 04: AJIS text format deep dive
+Scope:
 
-They can be written anytime, but are recommended before Phase 2 implementation.
+* Whitespace and comments
+* Strings and escape sequences
+* Numeric literals (bases, separators)
+* Offset / line / column tracking
+
+**Fixed & Unit‑Tested:**
+
+* Escape correctness
+* Unicode edge cases
+* Numeric validation
+* Position tracking accuracy
 
 ---
 
-## 14. Status
+### M3 – Low‑Memory Streaming Parser
 
-Stable.
+Purpose: guaranteed safe processing of very large documents.
 
-Implementation may rearrange minor tasks,
-but phases must preserve the streaming-first backbone.
+Scope:
+
+* Stream‑based segmentation
+* Minimal allocations
+* Configurable limits and protections
+
+**Fixed & Unit‑Tested:**
+
+* Segment structure
+* Error conditions
+* Limit enforcement
+
+**Suite Tests:**
+
+* Large generated datasets
+* Memory usage validation
+
+---
+
+### M4 – Serializer
+
+Modes:
+
+1. StrictJson
+2. AjisCanonical
+3. AjisPretty
+
+**Fixed & Unit‑Tested:**
+
+* Canonical determinism
+* Strict JSON validity
+
+---
+
+### M5 – LAX Parser
+
+Purpose: JavaScript‑tolerant reader.
+
+Scope (per specification):
+
+* Unquoted keys
+* Trailing commas
+* Single‑quoted strings
+* JavaScript comments
+
+Diagnostics MUST clearly indicate tolerated constructs.
+
+---
+
+### M6 – High‑Throughput Engines
+
+Purpose: performance parity with `System.Text.Json`.
+
+Techniques MAY include:
+
+* Span‑based fast paths
+* SIMD acceleration
+* Buffer pooling
+
+Validation via benchmarks, not unit tests.
+
+---
+
+### M7 – Mapping Layer
+
+Purpose: usability comparable to Newtonsoft.Json.
+
+Scope:
+
+* Flexible naming policies
+* Custom converters
+* Path‑aware error reporting
+
+---
+
+### M8 – Ecosystem Integration
+
+Scope:
+
+* AJIS file reader/writer
+* Search and sorting engine
+* Entity Framework integration
+* HTTP content type: `text/ajis`
+* JavaScript tooling
+
+---
+
+## 4. Test Data Strategy
+
+### 4.1 Data Sets
+
+* `test_data/streamwalk` – deterministic parsing contracts
+* `test_data/common` – shared semantic datasets (imported from legacy AJIS_ATP)
+
+### 4.2 Manifest
+
+Each dataset MUST be documented in `test_data/MANIFEST.md` with:
+
+* Purpose
+* Applicable milestones
+* Stability level
+
+---
+
+## 5. Explicit Exclusions
+
+* Legacy binary headers (e.g. `\0AJS`) are **ignored entirely**
+* No backward compatibility with deprecated binary formats
+* ATP and binary payloads are deferred until text processing is fully finalized
+
+---
+
+## 6. Roadmap Governance
+
+* Any change to this document requires explicit agreement
+* Conflicts with legacy documentation MUST be resolved in favor of this repository
+* Ambiguities MUST be clarified before implementation
+
+---
+
+**This roadmap is authoritative.**
