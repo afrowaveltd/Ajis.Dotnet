@@ -40,6 +40,9 @@
   <Folder Name="/Docs/atp/">
     <File Path="ajis-atp-integration.md" />
   </Folder>
+  <Folder Name="/Docs/tests/">
+    <File Path="streamwalk.md" />
+  </Folder>
   <Folder Name="/Položky řešení/">
     <File Path="init-ajis-structure.ps1" />
   </Folder>
