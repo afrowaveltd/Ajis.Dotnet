@@ -2,6 +2,8 @@
 
 using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Streaming.Segments; // AjisSegment
+using System.Text;
+using Afrowave.AJIS.Serialization.Engines;
 
 namespace Afrowave.AJIS.Serialization;
 
@@ -14,9 +16,11 @@ public static class AjisSerialize
       IEnumerable<AjisSegment> segments,
       AjisSettings? settings = null)
    {
-      _ = segments;
+      ArgumentNullException.ThrowIfNull(segments);
       _ = AjisSerializationProfileSelector.Select(settings);
-      throw new NotImplementedException("Serializer not implemented yet. This is an API skeleton.");
+      _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
+      bool compact = AjisSerializationFormatting.UseCompact(settings);
+      return new AjisSegmentTextWriter(compact).Write(segments);
    }
 
    public static async Task ToStreamAsync(
@@ -25,12 +29,12 @@ public static class AjisSerialize
       AjisSettings? settings = null,
       CancellationToken ct = default)
    {
-      _ = output;
-      _ = segments;
+      ArgumentNullException.ThrowIfNull(output);
+      ArgumentNullException.ThrowIfNull(segments);
       _ = AjisSerializationProfileSelector.Select(settings);
-      _ = ct;
-      await Task.CompletedTask;
-      throw new NotImplementedException("Serializer not implemented yet. This is an API skeleton.");
+      _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
+      bool compact = AjisSerializationFormatting.UseCompact(settings);
+      await new AjisSegmentTextWriter(compact).WriteAsync(output, segments, ct).ConfigureAwait(false);
    }
 }
 
@@ -56,10 +60,14 @@ public static class AjisSerializer
        AjisValue value,
        AjisSettings? settings = null)
    {
-      _ = output;
-      _ = value;
+      ArgumentNullException.ThrowIfNull(output);
+      ArgumentNullException.ThrowIfNull(value);
       _ = AjisSerializationProfileSelector.Select(settings);
-      throw new NotImplementedException("Value serializer not implemented yet. This is an API skeleton.");
+      _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
+      bool compact = AjisSerializationFormatting.UseCompact(settings);
+      string text = new AjisValueTextWriter(compact).Write(value);
+      byte[] bytes = Encoding.UTF8.GetBytes(text);
+      output.Write(bytes, 0, bytes.Length);
    }
 
    /// <summary>
@@ -71,11 +79,12 @@ public static class AjisSerializer
        AjisSettings? settings = null,
        CancellationToken ct = default)
    {
-      _ = output;
-      _ = value;
+      ArgumentNullException.ThrowIfNull(output);
+      ArgumentNullException.ThrowIfNull(value);
       _ = AjisSerializationProfileSelector.Select(settings);
-      _ = ct;
-      throw new NotImplementedException("Value serializer not implemented yet. This is an API skeleton.");
+      _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
+      bool compact = AjisSerializationFormatting.UseCompact(settings);
+      return new ValueTask(new AjisValueTextWriter(compact).WriteAsync(output, value, ct));
    }
 
    /// <summary>
@@ -83,10 +92,14 @@ public static class AjisSerializer
    /// </summary>
    public static byte[] SerializeToUtf8Bytes(AjisValue value, AjisSettings? settings = null)
    {
-      _ = value;
+      ArgumentNullException.ThrowIfNull(value);
       _ = AjisSerializationProfileSelector.Select(settings);
-      throw new NotImplementedException("Value serializer not implemented yet. This is an API skeleton.");
+      _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
+      bool compact = AjisSerializationFormatting.UseCompact(settings);
+      string text = new AjisValueTextWriter(compact).Write(value);
+      return Encoding.UTF8.GetBytes(text);
    }
+
 }
 
 /// <summary>

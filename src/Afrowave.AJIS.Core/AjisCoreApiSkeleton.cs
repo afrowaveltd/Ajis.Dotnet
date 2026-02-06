@@ -132,6 +132,21 @@ public sealed class AjisNumberOptions
    public bool EnableDigitSeparators { get; init; } = true;
 
    /// <summary>
+   /// Allows leading plus signs on numbers (e.g. <c>+123</c>).
+   /// </summary>
+   public bool AllowLeadingPlusOnNumbers { get; init; } = false;
+
+   /// <summary>
+   /// Allows <c>NaN</c> and <c>Infinity</c> numeric literals.
+   /// </summary>
+   public bool AllowNaNAndInfinity { get; init; } = false;
+
+   /// <summary>
+   /// Maximum allowed UTF-8 bytes per token.
+   /// </summary>
+   public int MaxTokenBytes { get; init; } = 8 * 1024 * 1024;
+
+   /// <summary>
    /// When enabled, AJIS enforces underscore grouping rules per spec (binary=4, oct/dec=3, hex=2 or 4).
    /// </summary>
    public bool EnforceSeparatorGroupingRules { get; init; } = true;
@@ -161,6 +176,16 @@ public sealed class AjisStringOptions
    /// Enables processing of escape sequences such as <c>\n</c>, <c>\t</c>, and <c>\uXXXX</c>.
    /// </summary>
    public bool EnableEscapes { get; init; } = true;
+
+   /// <summary>
+   /// Maximum size of a string token in UTF-8 bytes.
+   /// </summary>
+   public int? MaxStringBytes { get; init; }
+
+   /// <summary>
+   /// Maximum size of a property name token in UTF-8 bytes.
+   /// </summary>
+   public int? MaxPropertyNameBytes { get; init; }
 }
 
 /// <summary>

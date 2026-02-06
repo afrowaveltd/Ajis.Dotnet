@@ -17,7 +17,8 @@ public enum AjisTokenKind
    Directive = 10,
    True = 11,
    False = 12,
-   Null = 13
+   Null = 13,
+   Comment = 14
 }
 
 public readonly record struct AjisToken(AjisTokenKind Kind, long Offset, int Line, int Column, string? Text);

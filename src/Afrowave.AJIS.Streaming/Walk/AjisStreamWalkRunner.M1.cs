@@ -1,5 +1,7 @@
 ﻿#nullable enable
 
+using Afrowave.AJIS.Streaming;
+
 namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>
@@ -35,7 +37,7 @@ internal static class AjisStreamWalkRunnerM1
          return;
       }
 
-      st.Emit("END_DOCUMENT", ReadOnlyMemory<byte>.Empty, st.Offset);
+      st.Emit("END_DOCUMENT", AjisSliceUtf8.Empty, st.Offset);
       visitor.OnCompleted();
    }
 
@@ -113,7 +115,7 @@ internal static class AjisStreamWalkRunnerM1
       {
          int start = _i;
          _i++; // '{'
-         Emit("BEGIN_OBJECT", ReadOnlyMemory<byte>.Empty, start);
+          Emit("BEGIN_OBJECT", AjisSliceUtf8.Empty, start);
 
          SkipWs();
          if(AtEnd) { Fail("unexpected_eof", Offset); return; }
@@ -122,7 +124,7 @@ internal static class AjisStreamWalkRunnerM1
          {
             int endPos = _i;
             _i++;
-            Emit("END_OBJECT", ReadOnlyMemory<byte>.Empty, endPos);
+            Emit("END_OBJECT", AjisSliceUtf8.Empty, endPos);
             return;
          }
 
@@ -138,7 +140,7 @@ internal static class AjisStreamWalkRunnerM1
             }
 
             int nameOffset = _i;
-            ReadOnlyMemory<byte> name = ParseQuotedSliceToMemory(nameOffset);
+             AjisSliceUtf8 name = ParseQuotedSliceToMemory(nameOffset);
             if(_failed) return;
             Emit("NAME", name, nameOffset);
 
@@ -160,7 +162,7 @@ internal static class AjisStreamWalkRunnerM1
             {
                int endPos = _i;
                _i++;
-               Emit("END_OBJECT", ReadOnlyMemory<byte>.Empty, endPos);
+                Emit("END_OBJECT", AjisSliceUtf8.Empty, endPos);
                return;
             }
 
@@ -173,7 +175,7 @@ internal static class AjisStreamWalkRunnerM1
       {
          int start = _i;
          _i++; // '['
-         Emit("BEGIN_ARRAY", ReadOnlyMemory<byte>.Empty, start);
+          Emit("BEGIN_ARRAY", AjisSliceUtf8.Empty, start);
 
          SkipWs();
          if(AtEnd) { Fail("unexpected_eof", Offset); return; }
@@ -182,7 +184,7 @@ internal static class AjisStreamWalkRunnerM1
          {
             int endPos = _i;
             _i++;
-            Emit("END_ARRAY", ReadOnlyMemory<byte>.Empty, endPos);
+             Emit("END_ARRAY", AjisSliceUtf8.Empty, endPos);
             return;
          }
 
@@ -200,7 +202,7 @@ internal static class AjisStreamWalkRunnerM1
             {
                int endPos = _i;
                _i++;
-               Emit("END_ARRAY", ReadOnlyMemory<byte>.Empty, endPos);
+                Emit("END_ARRAY", AjisSliceUtf8.Empty, endPos);
                return;
             }
 
@@ -212,7 +214,7 @@ internal static class AjisStreamWalkRunnerM1
       private void ParseStringValue()
       {
          int off = _i;
-         ReadOnlyMemory<byte> mem = ParseQuotedSliceToMemory(off);
+          AjisSliceUtf8 mem = ParseQuotedSliceToMemory(off);
          if(_failed) return;
          Emit("STRING", mem, off);
       }
@@ -226,11 +228,12 @@ internal static class AjisStreamWalkRunnerM1
       /// Parses a JSON string token starting at current index (must be '"').
       /// Returns bytes inside quotes as a new byte[].
       /// </summary>
-      private ReadOnlyMemory<byte> ParseQuotedSliceToMemory(int tokenOffset)
+      private AjisSliceUtf8 ParseQuotedSliceToMemory(int tokenOffset)
       {
          // opening quote
          _i++;
          int contentStart = _i;
+         AjisSliceFlags flags = AjisSliceFlags.None;
 
          while(_i < _src.Length)
          {
@@ -244,14 +247,15 @@ internal static class AjisStreamWalkRunnerM1
                if(len > _opt.MaxTokenBytes)
                {
                   Fail("max_token_bytes_exceeded", tokenOffset);
-                  return ReadOnlyMemory<byte>.Empty;
+                   return AjisSliceUtf8.Empty;
                }
 
-               return new ReadOnlyMemory<byte>(_src.Slice(contentStart, len).ToArray());
+                return new AjisSliceUtf8(_src.Slice(contentStart, len).ToArray(), flags);
             }
 
             if(b == (byte)'\\')
             {
+                flags |= AjisSliceFlags.HasEscapes;
                // Validate escape sequences (M1: JSON-safe, strict).
                int escOffset = _i; // point at '\\'
 
@@ -259,7 +263,7 @@ internal static class AjisStreamWalkRunnerM1
                if(_i >= _src.Length)
                {
                   Fail("unterminated_string", tokenOffset);
-                  return ReadOnlyMemory<byte>.Empty;
+                   return AjisSliceUtf8.Empty;
                }
 
                byte e = _src[_i];
@@ -281,7 +285,7 @@ internal static class AjisStreamWalkRunnerM1
                      if(_i + 4 >= _src.Length)
                      {
                         Fail("unterminated_string", tokenOffset);
-                        return ReadOnlyMemory<byte>.Empty;
+                         return AjisSliceUtf8.Empty;
                      }
 
                      if(!IsHex(_src[_i + 1]) ||
@@ -290,7 +294,7 @@ internal static class AjisStreamWalkRunnerM1
                         !IsHex(_src[_i + 4]))
                      {
                         Fail("invalid_escape", escOffset + 1);
-                        return ReadOnlyMemory<byte>.Empty;
+                        return AjisSliceUtf8.Empty;
                      }
 
                      _i += 5; // 'u' + 4 hex digits
@@ -298,24 +302,27 @@ internal static class AjisStreamWalkRunnerM1
 
                   default:
                      Fail("invalid_escape", escOffset + 1);
-                     return ReadOnlyMemory<byte>.Empty;
+                     return AjisSliceUtf8.Empty;
                }
 
                continue;
             }
 
+             if(b >= 0x80)
+                flags |= AjisSliceFlags.HasNonAscii;
+
             // Disallow raw control chars in JSON strings
             if(b < 0x20)
             {
                Fail("invalid_string_control_char", _i);
-               return ReadOnlyMemory<byte>.Empty;
+               return AjisSliceUtf8.Empty;
             }
 
             _i++;
          }
 
          Fail("unterminated_string", tokenOffset);
-         return ReadOnlyMemory<byte>.Empty;
+         return AjisSliceUtf8.Empty;
       }
 
       private void ParseNumber()
@@ -353,20 +360,25 @@ internal static class AjisStreamWalkRunnerM1
          int len = _i - start;
          if(len > _opt.MaxTokenBytes) { Fail("max_token_bytes_exceeded", start); return; }
 
-         ReadOnlyMemory<byte> mem = new(_src.Slice(start, len).ToArray());
+         AjisSliceUtf8 mem = new(_src.Slice(start, len).ToArray(), AjisSliceFlags.None);
          Emit("NUMBER", mem, start);
       }
 
       private void ParseLiteral(string ascii, string kind)
       {
          int start = _i;
+         if(ascii.Length > _opt.MaxTokenBytes)
+         {
+            Fail("max_token_bytes_exceeded", start);
+            return;
+         }
          if(!TryConsumeAscii(ascii))
          {
             Fail("invalid_literal", start);
             return;
          }
 
-         Emit(kind, ReadOnlyMemory<byte>.Empty, start);
+         Emit(kind, AjisSliceUtf8.Empty, start);
       }
 
       private bool TryConsumeAscii(string ascii)
@@ -378,7 +390,7 @@ internal static class AjisStreamWalkRunnerM1
          return true;
       }
 
-      public void Emit(string kind, ReadOnlyMemory<byte> slice, long offset)
+      public void Emit(string kind, AjisSliceUtf8 slice, long offset)
       {
          if(_failed) return;
 

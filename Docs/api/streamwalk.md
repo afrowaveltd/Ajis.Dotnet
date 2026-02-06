@@ -62,6 +62,18 @@ The visitor observes structure and values, but **does not own the data**.
 
 ---
 
+## 3.1 .NET configuration mapping
+
+In the .NET reference implementation, `AjisStreamWalkOptions` may be derived from
+`Afrowave.AJIS.Core.Configuration.AjisSettings` via `AjisStreamWalkOptions.FromSettings`.
+This mapping applies core settings (mode, limits, directives/comments, identifiers) to
+StreamWalk defaults.
+
+The `AjisStreamWalkRunner.Run(ReadOnlySpan<byte>, IAjisStreamWalkVisitor, AjisSettings, ...)`
+overload uses this mapping internally to run StreamWalk without specifying options manually.
+
+---
+
 ## 4. Event Sequence Rules
 
 ### 4.1 Document lifecycle
@@ -147,11 +159,10 @@ In **M1**, all textual slices returned by StreamWalk are raw UTF-8 token slices.
 
 * **PropertyName**: slice contains the name bytes without surrounding quotes.
 * **String values**: slice contains the string bytes without surrounding quotes.
-* **Number values**: slice is the exact UTF-8 token text (no normalization), e.g. `-12.34e+5`.
+* **Number values**: slice is the exact UTF-8 token text (no normalization), e.g. `-12.34e+5` or `0xFF` when base prefixes are enabled.
 * **Literals** (`true`, `false`, `null`): slice is empty in the M1 reference implementation.
 
 Rationale: this keeps StreamWalk allocation-free and makes the test-suite a precise, deterministic oracle.
-
 
 ### 5.1 Slice lifetime
 
@@ -173,11 +184,14 @@ A slice represents the **raw textual representation** as it appears in the input
 * no normalization is applied
 * encoding is always UTF-8
 
+When base prefixes are enabled, numeric slices preserve the original prefix (`0x`, `0b`, `0o`).
+
 Flags may indicate:
 
 * presence of escape sequences
 * presence of non-ASCII characters
-* AJIS-specific syntax forms
+* AJIS-specific syntax forms (e.g., base-prefixed numbers via `AjisSliceFlags`)
+* string/name characteristics (escapes, non-ASCII, identifier-style)
 
 ---
 

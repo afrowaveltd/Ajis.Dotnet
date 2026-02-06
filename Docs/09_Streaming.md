@@ -56,6 +56,12 @@ Streamovací parser může respektovat **processing profile** z nastavení:
 * **LowMemory** – preferuje nízkou paměťovou stopu
 * **HighThroughput** – preferuje vyšší propustnost
 
+Aktuální výběr modulu pro segment parsing:
+
+* **Universal** → lexer-based parsing (span i stream)
+* **LowMemory** → memory-mapped stream cesta
+* **HighThroughput** → lexer-based parsing pro span, memory-mapped stream cesta
+
 ---
 
 ## 9.3 Segmentace dat

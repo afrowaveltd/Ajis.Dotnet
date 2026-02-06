@@ -94,7 +94,7 @@ Escapes in the trace output:
 * `\t` for tab
 
 The trace representation is **not** required to preserve original quoting style.
-It must preserve the decoded bytes of the slice.
+It must preserve the raw bytes of the slice.
 
 If a test requires lexical preservation, use the **Roundtrip** test family (future M2).
 

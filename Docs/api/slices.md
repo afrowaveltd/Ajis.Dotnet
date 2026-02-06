@@ -128,6 +128,8 @@ Note:
 
 * For JSON compatibility mode, `IsNumberHex/IsNumberBinary/IsNumberOctal` MUST NOT occur.
 
+In the .NET reference implementation, these flags are surfaced on `AjisSliceFlags` for string and name segments.
+
 ### 5.2 Optional flags (allowed)
 
 Implementations MAY provide additional flags as explainable performance hints, such as:
@@ -199,6 +201,9 @@ If AJIS supports base prefixes:
 
 * the slice includes the full token spelling, including any prefix
 * the corresponding base flag MUST be set
+
+The .NET M1 reference implementation preserves prefixed number spellings in segment text when base prefixes are enabled.
+When using segments, these flags are surfaced as `AjisSegmentFlags` on number segments.
 
 Examples (conceptual):
 

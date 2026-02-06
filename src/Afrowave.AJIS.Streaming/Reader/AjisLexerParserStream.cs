@@ -14,10 +14,13 @@ public static class AjisLexerParserStream
       global::Afrowave.AJIS.Core.AjisCommentOptions? commentOptions = null,
       global::Afrowave.AJIS.Core.AjisTextMode textMode = global::Afrowave.AJIS.Core.AjisTextMode.Ajis,
       bool allowTrailingCommas = false,
-      bool allowDirectives = true)
+      bool allowDirectives = true,
+      bool preserveStringEscapes = false,
+      bool emitDirectiveSegments = false,
+      bool emitCommentSegments = false)
    {
       using var reader = new AjisStreamReader(stream, bufferSize);
-      var parser = new AjisLexerParser(reader, numberOptions, stringOptions, commentOptions, textMode, allowTrailingCommas, allowDirectives);
+      var parser = new AjisLexerParser(reader, numberOptions, stringOptions, commentOptions, textMode, allowTrailingCommas, allowDirectives, preserveStringEscapes, emitDirectiveSegments, emitCommentSegments);
       return parser.Parse();
    }
 }

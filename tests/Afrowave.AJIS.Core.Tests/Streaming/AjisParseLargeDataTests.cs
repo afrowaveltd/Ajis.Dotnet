@@ -1,7 +1,9 @@
 #nullable enable
 
 using Afrowave.AJIS.Core;
+using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
+using System.Text;
 using Afrowave.AJIS.Testing.TestData;
 using Xunit;
 
@@ -50,16 +52,20 @@ public sealed class AjisParseLargeDataTests
 
          await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings))
             segments.Add(segment);
-
          Assert.Contains(segments, s => s.ValueKind == AjisValueKind.String
-            && s.Text is not null
-            && (s.Text.Contains("\n") || s.Text.Contains("\\n"))
-            && s.Text.Length > 1000);
+            && s.Slice is { } slice
+            && HasLargeEscapedPayload(slice));
       }
       finally
       {
          File.Delete(path);
       }
+   }
+
+   private static bool HasLargeEscapedPayload(AjisSliceUtf8 slice)
+   {
+      string text = Encoding.UTF8.GetString(slice.Bytes.Span);
+      return text.Length > 1000 && (text.Contains("\n") || text.Contains("\\n"));
    }
 
    [Theory]

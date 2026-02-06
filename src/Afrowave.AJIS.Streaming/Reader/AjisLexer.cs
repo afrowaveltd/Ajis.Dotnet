@@ -12,6 +12,8 @@ public sealed class AjisLexer
    private readonly global::Afrowave.AJIS.Core.AjisTextMode _textMode;
    private readonly global::Afrowave.AJIS.Core.AjisCommentOptions _commentOptions;
    private readonly bool _allowDirectives;
+   private readonly bool _preserveStringEscapes;
+   private readonly bool _emitCommentTokens;
 
    public AjisLexer(
       IAjisReader reader,
@@ -19,7 +21,9 @@ public sealed class AjisLexer
       global::Afrowave.AJIS.Core.AjisStringOptions? stringOptions = null,
       global::Afrowave.AJIS.Core.AjisCommentOptions? commentOptions = null,
       global::Afrowave.AJIS.Core.AjisTextMode textMode = global::Afrowave.AJIS.Core.AjisTextMode.Ajis,
-      bool allowDirectives = true)
+      bool allowDirectives = true,
+      bool preserveStringEscapes = false,
+      bool emitCommentTokens = false)
    {
       _reader = reader ?? throw new ArgumentNullException(nameof(reader));
       _numberOptions = numberOptions ?? new global::Afrowave.AJIS.Core.AjisNumberOptions();
@@ -27,6 +31,8 @@ public sealed class AjisLexer
       _commentOptions = commentOptions ?? new global::Afrowave.AJIS.Core.AjisCommentOptions();
       _textMode = textMode;
       _allowDirectives = allowDirectives && textMode != global::Afrowave.AJIS.Core.AjisTextMode.Json;
+      _preserveStringEscapes = preserveStringEscapes;
+      _emitCommentTokens = emitCommentTokens;
    }
 
    public AjisToken NextToken()
@@ -43,6 +49,9 @@ public sealed class AjisLexer
 
       if(current == '#' && IsLineStart())
          return ReadDirectiveToken(offset, line, column);
+
+      if(current == '/' && _emitCommentTokens)
+         return ReadCommentToken(offset, line, column);
 
       if(IsIdentifierStart(current) && AllowUnquotedPropertyNames())
          return ReadIdentifierToken(offset, line, column);
@@ -73,6 +82,7 @@ public sealed class AjisLexer
 
    private AjisToken ReadLiteral(string literal, AjisTokenKind kind, long offset, int line, int column)
    {
+      EnsureTokenLimit(literal.Length, offset);
       for(int i = 0; i < literal.Length; i++)
       {
          if(_reader.EndOfInput)
@@ -116,14 +126,25 @@ public sealed class AjisLexer
       if(buffer.Count == 0)
          throw new FormatException($"Invalid identifier at offset {offset}.");
 
+      EnsureTokenLimit(buffer.Count, offset);
+
       string text = Encoding.UTF8.GetString(buffer.ToArray());
-      return new AjisToken(AjisTokenKind.Identifier, offset, line, column, text);
+      return text switch
+      {
+         "true" => new AjisToken(AjisTokenKind.True, offset, line, column, text),
+         "false" => new AjisToken(AjisTokenKind.False, offset, line, column, text),
+         "null" => new AjisToken(AjisTokenKind.Null, offset, line, column, text),
+         "NaN" when _numberOptions.AllowNaNAndInfinity => new AjisToken(AjisTokenKind.Number, offset, line, column, text),
+         "Infinity" when _numberOptions.AllowNaNAndInfinity => new AjisToken(AjisTokenKind.Number, offset, line, column, text),
+         _ => new AjisToken(AjisTokenKind.Identifier, offset, line, column, text)
+      };
    }
 
    private AjisToken ReadStringToken(long offset, int line, int column, char delimiter)
    {
       _reader.Read();
       var builder = new StringBuilder();
+      int tokenBytes = 0;
       bool escapesEnabled = _textMode == global::Afrowave.AJIS.Core.AjisTextMode.Json || _stringOptions.EnableEscapes;
 
       while(true)
@@ -139,6 +160,9 @@ public sealed class AjisLexer
          byte b = _reader.Read();
          if(b == delimiter)
             break;
+
+         tokenBytes++;
+         EnsureStringLimits(tokenBytes, offset);
 
          if(IsControlByte(b))
          {
@@ -181,6 +205,34 @@ public sealed class AjisLexer
             }
 
             byte esc = _reader.Read();
+            tokenBytes++;
+            EnsureStringLimits(tokenBytes, offset);
+            if(_preserveStringEscapes)
+            {
+               if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Lex)
+               {
+                  builder.Append('\\');
+                  builder.Append((char)esc);
+                  continue;
+               }
+
+               if(esc == (byte)'u')
+               {
+                  builder.Append("\\u");
+                  builder.Append(ReadUnicodeEscapeRaw(offset));
+                  continue;
+               }
+
+               if(IsSimpleEscape(esc))
+               {
+                  builder.Append('\\');
+                  builder.Append((char)esc);
+                  continue;
+               }
+
+               throw new FormatException($"Invalid escape sequence at offset {offset}.");
+            }
+
             builder.Append(esc switch
             {
                (byte)'"' => '"',
@@ -207,11 +259,51 @@ public sealed class AjisLexer
       return new AjisToken(AjisTokenKind.String, offset, line, column, builder.ToString());
    }
 
+   private string ReadUnicodeEscapeRaw(long offset)
+   {
+      Span<char> buffer = stackalloc char[4];
+      for(int i = 0; i < 4; i++)
+      {
+         if(_reader.EndOfInput)
+            throw new FormatException("Unterminated unicode escape sequence.");
+
+         byte b = _reader.Read();
+         bool isHex = b is >= (byte)'0' and <= (byte)'9'
+            or >= (byte)'a' and <= (byte)'f'
+            or >= (byte)'A' and <= (byte)'F';
+
+         if(!isHex)
+            throw new FormatException($"Invalid unicode escape sequence at offset {offset}.");
+
+         buffer[i] = (char)b;
+      }
+
+      return buffer.ToString();
+   }
+
+   private static bool IsSimpleEscape(byte esc)
+      => esc is (byte)'"' or (byte)'\'' or (byte)'\\' or (byte)'/'
+         or (byte)'b' or (byte)'f' or (byte)'n' or (byte)'r' or (byte)'t';
+
    private AjisToken ReadNumberToken(long offset, int line, int column)
    {
       var signedPrefix = new List<byte>();
-      if(_reader.Peek() == '-')
+      if(_reader.Peek() == '-' || (_reader.Peek() == '+' && _numberOptions.AllowLeadingPlusOnNumbers))
          signedPrefix.Add(_reader.Read());
+
+      if(_numberOptions.AllowNaNAndInfinity)
+      {
+         byte next = _reader.Peek();
+         if(next == (byte)'N')
+         {
+            if(signedPrefix.Count > 0)
+               throw new FormatException($"Invalid number at offset {offset}.");
+            return ReadSpecialNumberToken(offset, line, column, signedPrefix, "NaN");
+         }
+
+         if(next == (byte)'I')
+            return ReadSpecialNumberToken(offset, line, column, signedPrefix, "Infinity");
+      }
 
       if(_numberOptions.EnableBasePrefixes && TryReadPrefixedNumber(offset, line, column, signedPrefix, out AjisToken prefixed))
          return prefixed;
@@ -272,6 +364,7 @@ public sealed class AjisLexer
 
       _ = hasDot;
       _ = hasExp;
+      EnsureTokenLimit(buffer.Count, offset);
       return new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString(buffer.ToArray()));
    }
 
@@ -295,6 +388,8 @@ public sealed class AjisLexer
 
       if(numberBase == 0)
       {
+         if(IsDigit(prefix) || (_numberOptions.EnableDigitSeparators && prefix == '_'))
+            throw new FormatException($"Invalid number at offset {offset}.");
          token = new AjisToken(AjisTokenKind.Number, offset, line, column, "0");
          return true;
       }
@@ -339,6 +434,7 @@ public sealed class AjisLexer
             throw new FormatException($"Invalid digit grouping at offset {offset}.");
       }
 
+      EnsureTokenLimit(buffer.Count, offset);
       token = new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString(buffer.ToArray()));
       return true;
    }
@@ -421,9 +517,8 @@ public sealed class AjisLexer
 
       if(allowHexGrouping)
       {
-         int size = groups.Length > 1 ? groups[1].Length : groups[0].Length;
+         int size = groups[0].Length;
          if(size is not (2 or 4)) return false;
-         if(groups[0].Length > size) return false;
          for(int i = 1; i < groups.Length; i++)
          {
             if(groups[i].Length != size)
@@ -493,6 +588,9 @@ public sealed class AjisLexer
 
          if(b == '/')
          {
+            if(_emitCommentTokens)
+               return;
+
             if(TryConsumeComment())
                continue;
          }
@@ -516,6 +614,7 @@ public sealed class AjisLexer
          buffer.Add(_reader.Read());
       }
 
+      EnsureTokenLimit(buffer.Count, offset);
       string text = Encoding.UTF8.GetString(buffer.ToArray()).Trim();
       return new AjisToken(AjisTokenKind.Directive, offset, line, column, text);
    }
@@ -577,8 +676,82 @@ public sealed class AjisLexer
       throw new FormatException($"Invalid comment start at {_reader.Line}:{_reader.Column}.");
    }
 
-   private static bool IsNumberStart(byte b)
-      => b == '-' || IsDigit(b);
+   private AjisToken ReadCommentToken(long offset, int line, int column)
+   {
+      if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Json)
+         throw new FormatException($"Comments are not allowed at {line}:{column}.");
+
+      _reader.Read();
+      if(_reader.EndOfInput)
+         throw new FormatException($"Invalid comment start at {line}:{column}.");
+
+      byte next = _reader.Peek();
+      if(next == '/')
+      {
+         if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Ajis && !_commentOptions.AllowLineComments)
+            throw new FormatException($"Line comments are not allowed at {line}:{column}.");
+
+         _reader.Read();
+         var buffer = new List<byte>();
+         while(!_reader.EndOfInput)
+         {
+            byte b = _reader.Read();
+            if(b == '\n')
+               break;
+
+            buffer.Add(b);
+         }
+
+         EnsureTokenLimit(buffer.Count, offset);
+         string text = Encoding.UTF8.GetString(buffer.ToArray()).TrimEnd();
+         return new AjisToken(AjisTokenKind.Comment, offset, line, column, text);
+      }
+
+      if(next == '*')
+      {
+         if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Ajis && !_commentOptions.AllowBlockComments)
+            throw new FormatException($"Block comments are not allowed at {line}:{column}.");
+
+         _reader.Read();
+         var buffer = new List<byte>();
+         byte prev = 0;
+         while(!_reader.EndOfInput)
+         {
+            byte b = _reader.Read();
+            if(_commentOptions.RejectNestedBlockComments && prev == '/' && b == '*')
+               throw new FormatException($"Nested block comments are not allowed at {_reader.Line}:{_reader.Column}.");
+
+            if(prev == '*' && b == '/')
+            {
+               if(buffer.Count > 0)
+                  buffer.RemoveAt(buffer.Count - 1);
+               EnsureTokenLimit(buffer.Count, offset);
+               string text = Encoding.UTF8.GetString(buffer.ToArray()).TrimEnd();
+               return new AjisToken(AjisTokenKind.Comment, offset, line, column, text);
+            }
+
+            buffer.Add(b);
+            prev = b;
+         }
+
+         if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Lex)
+         {
+            EnsureTokenLimit(buffer.Count, offset);
+            string text = Encoding.UTF8.GetString(buffer.ToArray()).TrimEnd();
+            return new AjisToken(AjisTokenKind.Comment, offset, line, column, text);
+         }
+
+         throw new FormatException("Unterminated block comment.");
+      }
+
+      throw new FormatException($"Invalid comment start at {line}:{column}.");
+   }
+
+   private bool IsNumberStart(byte b)
+      => b == '-'
+         || (b == '+' && _numberOptions.AllowLeadingPlusOnNumbers)
+         || IsDigit(b)
+         || (_numberOptions.AllowNaNAndInfinity && (b == (byte)'N' || b == (byte)'I'));
 
    private static bool IsDigit(byte b)
       => b >= '0' && b <= '9';
@@ -595,6 +768,39 @@ public sealed class AjisLexer
    private static bool IsControlByte(byte b)
       => b < 0x20;
 
+   private void EnsureTokenLimit(int tokenBytes, long offset)
+   {
+      if(_numberOptions.MaxTokenBytes > 0 && tokenBytes > _numberOptions.MaxTokenBytes)
+         throw new FormatException($"Token exceeds maximum size at offset {offset}.");
+   }
+
+   private void EnsureStringLimits(int tokenBytes, long offset)
+   {
+      EnsureTokenLimit(tokenBytes, offset);
+      if(_stringOptions.MaxStringBytes is int max && max > 0 && tokenBytes > max)
+         throw new FormatException($"String exceeds maximum size at offset {offset}.");
+   }
+
+   private AjisToken ReadSpecialNumberToken(long offset, int line, int column, List<byte> signedPrefix, string literal)
+   {
+      for(int i = 0; i < literal.Length; i++)
+      {
+         if(_reader.EndOfInput)
+            throw new FormatException($"Unexpected end of input while reading '{literal}'.");
+
+         byte b = _reader.Read();
+         if(b != literal[i])
+            throw new FormatException($"Invalid number at offset {offset}.");
+      }
+
+      var buffer = new List<byte>(signedPrefix.Count + literal.Length);
+      if(signedPrefix.Count > 0)
+         buffer.AddRange(signedPrefix);
+      buffer.AddRange(Encoding.UTF8.GetBytes(literal));
+      EnsureTokenLimit(buffer.Count, offset);
+      return new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString(buffer.ToArray()));
+   }
+
    private bool AllowUnquotedPropertyNames()
       => _textMode == global::Afrowave.AJIS.Core.AjisTextMode.Lex
          || (_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Ajis && _stringOptions.AllowUnquotedPropertyNames);
@@ -602,7 +808,7 @@ public sealed class AjisLexer
    private static bool IsIdentifierStart(byte b)
       => b is >= (byte)'A' and <= (byte)'Z'
          or >= (byte)'a' and <= (byte)'z'
-         or (byte)'_' or (byte)'$';
+         or (byte)'$';
 
    private static bool IsIdentifierPart(byte b)
       => IsIdentifierStart(b) || (b >= '0' && b <= '9');

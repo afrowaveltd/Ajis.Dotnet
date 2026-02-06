@@ -61,6 +61,33 @@ public readonly record struct AjisStreamWalkOptions
    /// Canonical default profile for milestone M1.
    /// </summary>
    public static AjisStreamWalkOptions DefaultForM1 => new();
+
+   /// <summary>
+   /// Creates StreamWalk options from core configuration settings.
+   /// </summary>
+   public static AjisStreamWalkOptions FromSettings(global::Afrowave.AJIS.Core.Configuration.AjisSettings settings)
+   {
+      ArgumentNullException.ThrowIfNull(settings);
+
+      AjisStreamWalkMode mode = settings.TextMode switch
+      {
+         global::Afrowave.AJIS.Core.AjisTextMode.Json => AjisStreamWalkMode.Json,
+         global::Afrowave.AJIS.Core.AjisTextMode.Lex => AjisStreamWalkMode.Lax,
+         _ => AjisStreamWalkMode.Ajis
+      };
+
+      bool commentsEnabled = settings.Comments.AllowLineComments || settings.Comments.AllowBlockComments;
+
+      return DefaultForM1 with
+      {
+         Mode = mode,
+         Comments = commentsEnabled,
+         Directives = settings.AllowDirectives,
+         Identifiers = settings.Strings.AllowUnquotedPropertyNames,
+         MaxDepth = settings.MaxDepth,
+         MaxTokenBytes = settings.MaxTokenBytes
+      };
+   }
 }
 
 /// <summary>

@@ -2,7 +2,9 @@
 
 using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Streaming.Reader;
+using Afrowave.AJIS.Streaming.Segments.Engines;
 using Afrowave.AJIS.Streaming.Walk;
+using Afrowave.AJIS.Streaming;
 using System.Buffers;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.CompilerServices;
@@ -62,6 +64,16 @@ public enum AjisSegmentKind
    /// A primitive value.
    /// </summary>
    Value = 3,
+
+   /// <summary>
+   /// A comment token emitted when enabled by options.
+   /// </summary>
+   Comment = 4,
+
+   /// <summary>
+   /// A directive token emitted when enabled by options.
+   /// </summary>
+   Directive = 5,
 }
 
 /// <summary>
@@ -73,7 +85,7 @@ public sealed record AjisSegment(
    int Depth,
    AjisContainerKind? ContainerKind,
    AjisValueKind? ValueKind,
-   string? Text)
+   AjisSliceUtf8? Slice)
 {
    public static AjisSegment Enter(AjisContainerKind kind, long pos, int depth)
        => new(AjisSegmentKind.EnterContainer, pos, depth, kind, null, null);
@@ -81,11 +93,23 @@ public sealed record AjisSegment(
    public static AjisSegment Exit(AjisContainerKind kind, long pos, int depth)
        => new(AjisSegmentKind.ExitContainer, pos, depth, kind, null, null);
 
-   public static AjisSegment Name(long pos, int depth, string name)
-       => new(AjisSegmentKind.PropertyName, pos, depth, null, null, name);
+   /// <summary>
+   /// Creates a property-name segment with an associated slice.
+   /// </summary>
+   public static AjisSegment Name(long pos, int depth, AjisSliceUtf8 slice)
+       => new(AjisSegmentKind.PropertyName, pos, depth, null, null, slice);
 
-   public static AjisSegment Value(long pos, int depth, AjisValueKind kind, string? text)
-       => new(AjisSegmentKind.Value, pos, depth, null, kind, text);
+   /// <summary>
+   /// Creates a value segment with an optional slice.
+   /// </summary>
+   public static AjisSegment Value(long pos, int depth, AjisValueKind kind, AjisSliceUtf8? slice = null)
+       => new(AjisSegmentKind.Value, pos, depth, null, kind, slice);
+
+   public static AjisSegment Comment(long pos, int depth, AjisSliceUtf8? slice)
+       => new(AjisSegmentKind.Comment, pos, depth, null, null, slice);
+
+   public static AjisSegment Directive(long pos, int depth, AjisSliceUtf8? slice)
+       => new(AjisSegmentKind.Directive, pos, depth, null, null, slice);
 }
 
 /// <summary>
@@ -115,10 +139,14 @@ public static class AjisParse
        [EnumeratorCancellation] CancellationToken ct = default)
    {
       _ = input ?? throw new ArgumentNullException(nameof(input));
-      _ = settings?.ParserProfile ?? AjisProcessingProfile.Universal;
+      AjisProcessingProfile profile = settings?.ParserProfile ?? AjisProcessingProfile.Universal;
+      _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
       _ = ct;
 
-      if(settings?.ParserProfile == AjisProcessingProfile.Universal)
+      if(settings is not null)
+         _ = ResolveChunkThresholdBytes(settings);
+
+      if(profile == AjisProcessingProfile.Universal)
       {
          foreach(var segment in AjisLexerParserStream.Parse(
             input,
@@ -127,13 +155,17 @@ public static class AjisParse
             commentOptions: settings?.Comments,
             textMode: settings?.TextMode ?? global::Afrowave.AJIS.Core.AjisTextMode.Ajis,
             allowTrailingCommas: settings?.AllowTrailingCommas ?? false,
-            allowDirectives: settings?.AllowDirectives ?? true))
+            allowDirectives: settings?.AllowDirectives ?? true,
+            preserveStringEscapes: true,
+            emitDirectiveSegments: settings?.AllowDirectives ?? true,
+            emitCommentSegments: true))
             yield return segment;
          yield break;
       }
 
       if(input is MemoryStream mem && mem.TryGetBuffer(out ArraySegment<byte> buffer))
       {
+         _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Span);
          foreach(var segment in ParseSegments(buffer.AsSpan(), settings))
             yield return segment;
          yield break;
@@ -141,6 +173,7 @@ public static class AjisParse
 
       if(input is FileStream fileStream && fileStream.CanSeek)
       {
+         _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
          foreach(var segment in ParseSegmentsMappedFile(fileStream.Name, settings))
             yield return segment;
          yield break;
@@ -152,6 +185,7 @@ public static class AjisParse
          await using(var tempStream = File.Create(tempPath))
             await input.CopyToAsync(tempStream, ct).ConfigureAwait(false);
 
+         _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
          foreach(var segment in ParseSegmentsMappedFile(tempPath, settings))
             yield return segment;
       }
@@ -172,7 +206,8 @@ public static class AjisParse
        ReadOnlySpan<byte> utf8,
        AjisSettings? settings = null)
    {
-      _ = settings?.ParserProfile ?? AjisProcessingProfile.Universal;
+      AjisProcessingProfile profile = settings?.ParserProfile ?? AjisProcessingProfile.Universal;
+      _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Span);
       return ParseSegmentsInternal(utf8, settings);
    }
 
@@ -186,7 +221,10 @@ public static class AjisParse
          settings?.Comments,
          settings?.TextMode ?? global::Afrowave.AJIS.Core.AjisTextMode.Ajis,
          settings?.AllowTrailingCommas ?? false,
-         settings?.AllowDirectives ?? true);
+         settings?.AllowDirectives ?? true,
+         preserveStringEscapes: true,
+         emitDirectiveSegments: settings?.AllowDirectives ?? true,
+         emitCommentSegments: true);
       return parser.Parse();
    }
 
@@ -197,6 +235,39 @@ public static class AjisParse
 
       return Encoding.UTF8.GetString(reader.ValueSequence.ToArray());
    }
+
+   private static AjisSliceFlags GetNumberFlags(string? text)
+   {
+      if(string.IsNullOrEmpty(text) || text.Length < 2)
+         return AjisSliceFlags.None;
+
+      return text[0] == '0' && (text[1] == 'x' || text[1] == 'X')
+         ? AjisSliceFlags.IsNumberHex
+         : text[0] == '0' && (text[1] == 'b' || text[1] == 'B')
+            ? AjisSliceFlags.IsNumberBinary
+            : text[0] == '0' && (text[1] == 'o' || text[1] == 'O')
+               ? AjisSliceFlags.IsNumberOctal
+               : AjisSliceFlags.None;
+   }
+
+   private static AjisSliceFlags GetStringFlags(string? text)
+   {
+      if(string.IsNullOrEmpty(text)) return AjisSliceFlags.None;
+
+      AjisSliceFlags flags = AjisSliceFlags.None;
+      foreach(char c in text)
+      {
+         if(c == '\\')
+            flags |= AjisSliceFlags.HasEscapes;
+         if(c > 0x7F)
+            flags |= AjisSliceFlags.HasNonAscii;
+      }
+
+      return flags;
+   }
+
+   private static AjisSliceUtf8 CreateSlice(string? text, AjisSliceFlags flags)
+      => new(text is null ? ReadOnlyMemory<byte>.Empty : Encoding.UTF8.GetBytes(text), flags);
 
    private static IEnumerable<AjisSegment> ParseSegmentsMappedFile(string path, AjisSettings? settings)
    {
@@ -288,22 +359,31 @@ public static class AjisParse
                      segments.Add(AjisSegment.Exit(AjisContainerKind.Array, tokenOffset, depth));
                      break;
                   case JsonTokenType.PropertyName:
-                     segments.Add(AjisSegment.Name(tokenOffset, depth, reader.GetString() ?? string.Empty));
+                  {
+                     string nameText = reader.GetString() ?? string.Empty;
+                     segments.Add(AjisSegment.Name(tokenOffset, depth, CreateSlice(nameText, GetStringFlags(nameText))));
                      break;
+                  }
                   case JsonTokenType.String:
-                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.String, reader.GetString()));
+                  {
+                     string stringText = reader.GetString() ?? string.Empty;
+                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.String, CreateSlice(stringText, GetStringFlags(stringText))));
                      break;
+                  }
                   case JsonTokenType.Number:
-                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Number, GetNumberText(reader)));
+                  {
+                     string numberText = GetNumberText(reader);
+                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Number, CreateSlice(numberText, GetNumberFlags(numberText))));
                      break;
+                  }
                   case JsonTokenType.True:
-                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Boolean, "true"));
+                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Boolean, CreateSlice("true", AjisSliceFlags.None)));
                      break;
                   case JsonTokenType.False:
-                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Boolean, "false"));
+                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Boolean, CreateSlice("false", AjisSliceFlags.None)));
                      break;
                   case JsonTokenType.Null:
-                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Null, null));
+                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Null));
                      break;
                }
             }

@@ -1,5 +1,7 @@
 #nullable enable
 
+using Afrowave.AJIS.Streaming;
+
 namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>
@@ -32,13 +34,13 @@ public interface IAjisStreamWalkVisitor
 /// <see cref="Kind"/> is a canonical textual name matching the test-case format.
 /// </para>
 /// <para>
-/// <see cref="Slice"/> is a raw UTF-8 byte payload of the token (when applicable).
+/// <see cref="Slice"/> is a raw UTF-8 payload of the token (when applicable).
 /// For NAME/STRING: bytes inside quotes. For NUMBER: token bytes. For TRUE/FALSE/NULL: empty.
 /// </para>
 /// </remarks>
 public readonly record struct AjisStreamWalkEvent(
     string Kind,
-    ReadOnlyMemory<byte> Slice,
+    AjisSliceUtf8 Slice,
     long Offset);
 
 /// <summary>

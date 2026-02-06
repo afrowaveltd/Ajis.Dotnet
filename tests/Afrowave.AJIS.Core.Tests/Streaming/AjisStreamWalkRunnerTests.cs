@@ -74,6 +74,20 @@ public sealed class AjisStreamWalkRunnerTests
    }
 
    [Fact]
+   public void Run_LiteralOverMaxTokenBytes_EmitsError()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { MaxTokenBytes = 3 };
+
+      AjisStreamWalkRunner.Run("true"u8, options, visitor, default);
+
+      visitor.Received(1).OnError(Arg.Is<AjisStreamWalkError>(e => e.Code == "max_token_bytes_exceeded"));
+      visitor.DidNotReceive().OnCompleted();
+   }
+
+   [Fact]
    public void Run_WithSettings_MapsParserProfileToEnginePreference()
    {
       var visitor = Substitute.For<IAjisStreamWalkVisitor>();
@@ -99,6 +113,22 @@ public sealed class AjisStreamWalkRunnerTests
 
       var data = Assert.IsType<global::Afrowave.AJIS.Core.Diagnostics.AjisEngineSelectedData>(selected!.Data);
       Assert.Equal("LowMemory", data.Preference);
+   }
+
+   [Fact]
+   public void Run_WithSettingsOverload_MapsLexModeToLax()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
+      {
+         TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lex
+      };
+
+      AjisStreamWalkRunner.Run("null"u8, visitor, settings, default);
+
+      visitor.Received(1).OnError(Arg.Is<AjisStreamWalkError>(e => e.Code == global::Afrowave.AJIS.Core.Diagnostics.AjisDiagnosticKeys.ModeNotSupported));
    }
 
    private sealed class NoSpanInput : IAjisInput

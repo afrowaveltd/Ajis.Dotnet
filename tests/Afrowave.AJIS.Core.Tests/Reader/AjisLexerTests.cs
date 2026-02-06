@@ -300,6 +300,82 @@ public sealed class AjisLexerTests
       Assert.Equal("-1.5e+2", token.Text);
    }
 
+   [Fact]
+   public void Lexer_AllowsLeadingPlus_WhenEnabled()
+   {
+      var options = new global::Afrowave.AJIS.Core.AjisNumberOptions
+      {
+         AllowLeadingPlusOnNumbers = true
+      };
+
+      var reader = new AjisSpanReader("+12"u8.ToArray());
+      var lexer = new AjisLexer(reader, options);
+
+      var token = lexer.NextToken();
+      Assert.Equal(AjisTokenKind.Number, token.Kind);
+      Assert.Equal("+12", token.Text);
+   }
+
+   [Fact]
+   public void Lexer_AllowsNaN_WhenEnabled()
+   {
+      var options = new global::Afrowave.AJIS.Core.AjisNumberOptions
+      {
+         AllowNaNAndInfinity = true
+      };
+
+      var reader = new AjisSpanReader("NaN"u8.ToArray());
+      var lexer = new AjisLexer(reader, options);
+
+      var token = lexer.NextToken();
+      Assert.Equal(AjisTokenKind.Number, token.Kind);
+      Assert.Equal("NaN", token.Text);
+   }
+
+   [Fact]
+   public void Lexer_AllowsInfinity_WhenEnabled()
+   {
+      var options = new global::Afrowave.AJIS.Core.AjisNumberOptions
+      {
+         AllowNaNAndInfinity = true
+      };
+
+      var reader = new AjisSpanReader("-Infinity"u8.ToArray());
+      var lexer = new AjisLexer(reader, options);
+
+      var token = lexer.NextToken();
+      Assert.Equal(AjisTokenKind.Number, token.Kind);
+      Assert.Equal("-Infinity", token.Text);
+   }
+
+   [Fact]
+   public void Lexer_RejectsNumberOverMaxTokenBytes()
+   {
+      var options = new global::Afrowave.AJIS.Core.AjisNumberOptions
+      {
+         MaxTokenBytes = 2
+      };
+
+      var reader = new AjisSpanReader("123"u8.ToArray());
+      var lexer = new AjisLexer(reader, options);
+
+      Assert.Throws<FormatException>(() => lexer.NextToken());
+   }
+
+   [Fact]
+   public void Lexer_RejectsStringOverMaxStringBytes()
+   {
+      var stringOptions = new global::Afrowave.AJIS.Core.AjisStringOptions
+      {
+         MaxStringBytes = 2
+      };
+
+      var reader = new AjisSpanReader("\"abc\""u8.ToArray());
+      var lexer = new AjisLexer(reader, stringOptions: stringOptions);
+
+      Assert.Throws<FormatException>(() => lexer.NextToken());
+   }
+
    [Theory]
    [InlineData("01")]
    [InlineData("1.")]

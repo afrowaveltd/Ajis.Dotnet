@@ -89,6 +89,10 @@ Notes:
 * conversion must be deterministic
 * can be driven by `AjisSettings.Naming`
 
+Reference helper:
+
+* `AjisSegmentMap.RenameProperties`
+
 ---
 
 ## 4. Recipe: Select a subtree into a new AJIS document
@@ -112,6 +116,11 @@ Notes:
 
 * selection may require ignoring all other segments
 * if the subtree is a container, copy segments from `ContainerStart` to matching `ContainerEnd`
+
+Reference helpers:
+
+* `AjisSegmentSelect.SelectRootPropertyValue`
+* `AjisSegmentSelect.SelectRootPropertyWrapped`
 
 ---
 
@@ -182,6 +191,10 @@ Implementation detail:
   * emit `String("dark")`
   * then emit the original `ContainerEnd`
 
+Reference helper:
+
+* `AjisSegmentPatch.ReplacePropertyValue`
+
 ---
 
 ## 7. Recipe: Patch – Remove a path
@@ -198,6 +211,15 @@ Notes:
 
 * array index tracking must be deterministic
 * if the target item is not an object, operation is a no-op or warning (settings-controlled)
+
+---
+
+## 8. Reference implementation notes
+
+The .NET reference implementation provides `AjisSegmentFilter` with:
+
+* predicate-based filtering with subtree skipping
+* `DropPropertyByName` helper for exact-name removal
 
 ---
 

@@ -2,6 +2,7 @@
 
 using Afrowave.AJIS.Core.Abstraction;
 using Afrowave.AJIS.Core.Events;
+using Afrowave.AJIS.Core;
 using System.Globalization;
 
 namespace Afrowave.AJIS.Core.Configuration;
@@ -25,6 +26,9 @@ public sealed class AjisSettings
 
    /// <summary>Maximum container nesting depth.</summary>
    public int MaxDepth { get; set; } = 256;
+
+   /// <summary>Maximum bytes allowed per token.</summary>
+   public int MaxTokenBytes { get; set; } = 8 * 1024 * 1024;
 
    /// <summary>Property naming strategy for mapping AJIS fields to C# members (where applicable).</summary>
    public AjisPropertyNaming Naming { get; set; } = AjisPropertyNaming.PascalCase;
@@ -64,6 +68,16 @@ public sealed class AjisSettings
    /// String parsing options.
    /// </summary>
    public AjisStringOptions Strings { get; set; } = new();
+
+   /// <summary>
+   /// Number parsing options.
+   /// </summary>
+   public AjisNumberOptions Numbers { get; set; } = new();
+
+   /// <summary>
+   /// Comment parsing options.
+   /// </summary>
+   public AjisCommentOptions Comments { get; set; } = new();
 }
 
 /// <summary>

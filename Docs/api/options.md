@@ -23,6 +23,19 @@ Options MUST be deterministic: same input + same options => same event stream an
 
 ---
 
+## 9. .NET configuration mapping
+
+In the .NET reference implementation, `Afrowave.AJIS.Core.Configuration.AjisSettings`
+provides a higher-level configuration surface. `AjisStreamWalkOptions.FromSettings`
+maps these settings to StreamWalk defaults by applying:
+
+* `TextMode` to StreamWalk mode
+* `MaxDepth` and `MaxTokenBytes`
+* `AllowDirectives` and comment options
+* `AllowUnquotedPropertyNames` for identifier support
+
+---
+
 ## 2. Option Profiles
 
 Implementations SHOULD expose common profiles:
@@ -58,7 +71,7 @@ Maximum nesting depth for objects/arrays.
 
 ### 3.2 MaxTokenBytes
 
-Maximum size of a single token (string, number, comment, directive).
+Maximum size of a single token (string, number, literal, comment, directive).
 
 * Type: integer
 * Default (recommended): 8 MiB
@@ -142,6 +155,7 @@ Allows identifier-style property names (AJIS extension).
 If enabled:
 
 * visitor must receive name slices with `IsIdentifierStyle` flag where applicable.
+* segment consumers should read `AjisSliceFlags.IsIdentifierStyle` for name segments.
 
 ### 4.6 AllowNumberBases
 
@@ -156,7 +170,7 @@ Allows non-decimal number forms (AJIS extension):
 If enabled:
 
 * number slices MUST include full token spelling
-* base flags MUST be set (`IsNumberHex`, etc.)
+* base flags MUST be set (`IsNumberHex`, etc.) and segment consumers should read `AjisSliceFlags`
 
 ### 4.7 AllowLeadingPlusOnNumbers
 

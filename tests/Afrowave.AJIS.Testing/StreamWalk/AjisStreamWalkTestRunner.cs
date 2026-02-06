@@ -1,6 +1,7 @@
 ﻿// File: tests/Afrowave.AJIS.Testing/StreamWalk/AjisStreamWalkTestRunner.cs
 #nullable enable
 
+using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Walk;
 
 namespace Afrowave.AJIS.Testing.StreamWalk;
@@ -163,7 +164,7 @@ public static class AjisStreamWalkTestRunner
 
          if(exp.Slice is not null)
          {
-            string rendered = AjisStreamWalkTestCaseFile.RenderSlice(act.Slice.Span);
+            string rendered = AjisStreamWalkTestCaseFile.RenderSlice(act.Slice.Bytes.Span);
             if(!string.Equals(exp.Slice, rendered, StringComparison.Ordinal))
                mismatches.Add($"Trace[{i}] slice mismatch. Expected {exp.Slice}, got {rendered}.");
          }

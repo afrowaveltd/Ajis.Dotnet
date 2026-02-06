@@ -27,6 +27,20 @@ public static class AjisStreamWalkRunner
 
       Run(inputUtf8, options, visitor, effective);
    }
+
+   /// <summary>
+   /// Runs StreamWalk over an in-memory UTF-8 payload using core configuration settings.
+   /// </summary>
+   public static void Run(
+      ReadOnlySpan<byte> inputUtf8,
+      IAjisStreamWalkVisitor visitor,
+      global::Afrowave.AJIS.Core.Configuration.AjisSettings settings,
+      AjisStreamWalkRunnerOptions runnerOptions = default)
+   {
+      ArgumentNullException.ThrowIfNull(settings);
+      AjisStreamWalkOptions options = AjisStreamWalkOptions.FromSettings(settings);
+      Run(inputUtf8, options, visitor, settings, runnerOptions);
+   }
    /// <summary>
    /// Runs StreamWalk over an in-memory UTF-8 payload.
    /// </summary>

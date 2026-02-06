@@ -50,7 +50,7 @@ Note: Value may be produced as:
 
 * `Null(frameId)`
 * `Bool(frameId, value)`
-* `Number(frameId, rawOrCanonical)`
+* `Number(frameId, rawOrCanonical, flags)`
 * `String(frameId, sliceOrDecoded)`
 
 ### 3.4 Array segments
@@ -112,6 +112,9 @@ Strings may be represented as:
 * raw UTF-8 slices (high-performance)
 
 Settings determine representation.
+
+String segments may include flags such as `HasEscapes` and `HasNonAscii`, and name segments may include `IsIdentifierStyle`.
+Number segments may include flags such as hex/binary/octal to preserve AJIS base prefixes.
 
 If slices are used:
 
@@ -230,6 +233,7 @@ Diagnostics segments:
 Recommended implementation order:
 
 1. `ParseSegments` producing structural + primitive segments
+   * prefer profile-based module selection (Universal/LowMemory/HighThroughput)
 2. Segment serializer that can reconstruct identical AJIS (round-trip)
 3. Simple transforms: rename keys, drop property
 4. Path evaluation

@@ -1,12 +1,20 @@
 #nullable enable
 
+using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
+using System.Text;
 using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
 public sealed class AjisParseTests
 {
+   private static AjisSliceUtf8 Slice(string text, AjisSliceFlags flags = AjisSliceFlags.None)
+      => new(Encoding.UTF8.GetBytes(text), flags);
+
+   private static bool SliceEquals(AjisSliceUtf8? slice, string text)
+      => slice is { } value && value.Bytes.Span.SequenceEqual(Encoding.UTF8.GetBytes(text));
+
    [Fact]
    public void ParseSegments_ParsesNull()
    {
@@ -18,7 +26,7 @@ public sealed class AjisParseTests
       var segments = AjisParse.ParseSegments("null"u8, settings).ToList();
 
       Assert.Single(segments);
-      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.Null, null), segments[0]);
+      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.Null), segments[0]);
    }
 
    [Fact]
@@ -27,7 +35,7 @@ public sealed class AjisParseTests
       var segments = AjisParse.ParseSegments("\"\\u0041\""u8).ToList();
 
       Assert.Single(segments);
-      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, "A"), segments[0]);
+      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, Slice("\\u0041", AjisSliceFlags.HasEscapes)), segments[0]);
    }
 
    [Fact]
@@ -41,7 +49,7 @@ public sealed class AjisParseTests
       var segments = AjisParse.ParseSegments("{\"a\":1,}"u8, settings).ToList();
 
       Assert.Contains(segments, s => s.Kind == AjisSegmentKind.PropertyName);
-      Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Value && s.Text == "1");
+      Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Value && SliceEquals(s.Slice, "1"));
    }
 
    [Fact]
@@ -92,8 +100,8 @@ public sealed class AjisParseTests
          segments.Add(segment);
       }
 
-      Assert.Contains(segments, s => s.Kind == AjisSegmentKind.PropertyName && s.Text == "a");
-      Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Value && s.Text == "1");
+      Assert.Contains(segments, s => s.Kind == AjisSegmentKind.PropertyName && SliceEquals(s.Slice, "a"));
+      Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Value && SliceEquals(s.Slice, "1"));
    }
 
    [Fact]
@@ -166,8 +174,8 @@ public sealed class AjisParseTests
 
       Assert.Equal(4, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
-      Assert.Equal(AjisSegment.Value(1, 1, AjisValueKind.Number, "1"), segments[1]);
-      Assert.Equal(AjisSegment.Value(3, 1, AjisValueKind.String, "x"), segments[2]);
+      Assert.Equal(AjisSegment.Value(1, 1, AjisValueKind.Number, Slice("1")), segments[1]);
+      Assert.Equal(AjisSegment.Value(3, 1, AjisValueKind.String, Slice("x")), segments[2]);
       Assert.Equal(AjisSegment.Exit(AjisContainerKind.Array, 6, 0), segments[3]);
    }
 
@@ -178,9 +186,23 @@ public sealed class AjisParseTests
 
       Assert.Equal(4, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
-      Assert.Equal(AjisSegment.Name(1, 1, "a"), segments[1]);
-      Assert.Equal(AjisSegment.Value(5, 1, AjisValueKind.Number, "1"), segments[2]);
+      Assert.Equal(AjisSegment.Name(1, 1, Slice("a")), segments[1]);
+      Assert.Equal(AjisSegment.Value(5, 1, AjisValueKind.Number, Slice("1")), segments[2]);
       Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 6, 0), segments[3]);
+   }
+
+   [Fact]
+   public void ParseSegments_RejectsPropertyNameOverMaxBytes()
+   {
+      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      {
+         Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
+         {
+            MaxPropertyNameBytes = 1
+         }
+      };
+
+      Assert.Throws<FormatException>(() => AjisParse.ParseSegments("{\"ab\":1}"u8, settings).ToList());
    }
 
    [Fact]
@@ -190,8 +212,8 @@ public sealed class AjisParseTests
 
       Assert.Equal(4, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
-      Assert.Equal(AjisSegment.Value(1, 1, AjisValueKind.Boolean, "true"), segments[1]);
-      Assert.Equal(AjisSegment.Value(6, 1, AjisValueKind.Boolean, "false"), segments[2]);
+      Assert.Equal(AjisSegment.Value(1, 1, AjisValueKind.Boolean, Slice("true")), segments[1]);
+      Assert.Equal(AjisSegment.Value(6, 1, AjisValueKind.Boolean, Slice("false")), segments[2]);
       Assert.Equal(AjisSegment.Exit(AjisContainerKind.Array, 11, 0), segments[3]);
    }
 
@@ -201,7 +223,16 @@ public sealed class AjisParseTests
       var segments = AjisParse.ParseSegments("\"a\\n\""u8).ToList();
 
       Assert.Single(segments);
-      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, "a\\n"), segments[0]);
+      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, Slice("a\\n", AjisSliceFlags.HasEscapes)), segments[0]);
+   }
+
+   [Fact]
+   public void ParseSegments_ParsesStringWithNonAsciiFlag()
+   {
+      var segments = AjisParse.ParseSegments("\"ž\""u8).ToList();
+
+      Assert.Single(segments);
+      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, Slice("Å¾", AjisSliceFlags.HasNonAscii)), segments[0]);
    }
 
    [Fact]
@@ -210,7 +241,7 @@ public sealed class AjisParseTests
       var segments = AjisParse.ParseSegments("3.14"u8).ToList();
 
       Assert.Single(segments);
-      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.Number, "3.14"), segments[0]);
+      Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.Number, Slice("3.14")), segments[0]);
    }
 
    [Fact]
@@ -220,10 +251,10 @@ public sealed class AjisParseTests
 
       Assert.Equal(7, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
-      Assert.Equal(AjisSegment.Name(1, 1, "a"), segments[1]);
+      Assert.Equal(AjisSegment.Name(1, 1, Slice("a")), segments[1]);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 5, 1), segments[2]);
-      Assert.Equal(AjisSegment.Value(6, 2, AjisValueKind.Boolean, "true"), segments[3]);
-      Assert.Equal(AjisSegment.Value(11, 2, AjisValueKind.Null, null), segments[4]);
+      Assert.Equal(AjisSegment.Value(6, 2, AjisValueKind.Boolean, Slice("true")), segments[3]);
+      Assert.Equal(AjisSegment.Value(11, 2, AjisValueKind.Null), segments[4]);
       Assert.Equal(AjisSegment.Exit(AjisContainerKind.Array, 15, 1), segments[5]);
       Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 16, 0), segments[6]);
    }
@@ -235,14 +266,14 @@ public sealed class AjisParseTests
 
       Assert.Equal(6, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
-      Assert.Equal(AjisSegment.Name(1, 1, "a"), segments[1]);
-      Assert.Equal(AjisSegment.Value(5, 1, AjisValueKind.Number, "1"), segments[2]);
-      Assert.Equal(AjisSegment.Name(7, 1, "b"), segments[3]);
-      Assert.Equal(AjisSegment.Value(11, 1, AjisValueKind.String, "x"), segments[4]);
+      Assert.Equal(AjisSegment.Name(1, 1, Slice("a")), segments[1]);
+      Assert.Equal(AjisSegment.Value(5, 1, AjisValueKind.Number, Slice("1")), segments[2]);
+      Assert.Equal(AjisSegment.Name(7, 1, Slice("b")), segments[3]);
+      Assert.Equal(AjisSegment.Value(11, 1, AjisValueKind.String, Slice("x")), segments[4]);
       Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 14, 0), segments[5]);
    }
 
-   [Fact(Skip = "AJIS extensions not implemented yet (comments/directives)")]
+   [Fact]
    public void ParseSegments_ParsesComments_WhenEnabled()
    {
       var settings = new global::Afrowave.AJIS.Core.AjisSettings();
@@ -251,13 +282,34 @@ public sealed class AjisParseTests
       Assert.NotEmpty(segments);
    }
 
-   [Fact(Skip = "AJIS extensions not implemented yet (hex/binary numbers)")]
+   [Fact]
+   public void ParseSegments_ParsesDirectives_WhenEnabled()
+   {
+      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      {
+         AllowDirectives = true
+      };
+
+      var segments = AjisParse.ParseSegments("#ajis mode=tryparse\ntrue"u8, settings).ToList();
+
+      Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Directive);
+   }
+
+   [Fact]
    public void ParseSegments_ParsesPrefixedNumbers()
    {
-      var segments = AjisParse.ParseSegments("[0xFF,0b1010]"u8).ToList();
+      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      {
+         Numbers = new global::Afrowave.AJIS.Core.AjisNumberOptions
+         {
+            EnableBasePrefixes = true
+         }
+      };
 
-      Assert.Equal(AjisSegment.Value(1, 1, AjisValueKind.Number, "0xFF"), segments[1]);
-      Assert.Equal(AjisSegment.Value(6, 1, AjisValueKind.Number, "0b1010"), segments[2]);
+      var segments = AjisParse.ParseSegments("[0xFF,0b1010]"u8, settings).ToList();
+
+      Assert.Equal(AjisSegment.Value(1, 1, AjisValueKind.Number, Slice("0xFF", AjisSliceFlags.IsNumberHex)), segments[1]);
+      Assert.Equal(AjisSegment.Value(6, 1, AjisValueKind.Number, Slice("0b1010", AjisSliceFlags.IsNumberBinary)), segments[2]);
    }
 
    private sealed class NonBufferStream(byte[] data) : Stream
