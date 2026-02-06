@@ -22,6 +22,7 @@
 "ajis.error.mode_not_supported":"Requested mode is not supported in this build."
 "ajis.error.invalid_utf8":"Invalid UTF-8 sequence in input."
 "ajis.error.engine_selected":"StreamWalk engine selected."
+"ajis.error.input_not_supported":"Input source is not supported in this build."
 
 # Strings / escapes
 

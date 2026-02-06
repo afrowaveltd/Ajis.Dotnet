@@ -1,0 +1,83 @@
+# AJIS Core (Czech) - LOC v1
+
+# Lines not starting with quotes are ignored.
+
+"ajis.meta.language":"Čeština"
+"ajis.meta.code":"cs"
+
+# Generic
+
+"ajis.error.unknown":"Neznámá chyba."
+"ajis.error.missing_key":"[chybí:{0}]"
+
+# Reader / structure
+
+"ajis.error.unexpected_eof":"Neočekávaný konec vstupu."
+"ajis.error.unexpected_char":"Neočekávaný znak '{0}'."
+"ajis.error.expected_char":"Očekávalo se '{0}', ale nalezeno '{1}'."
+"ajis.error.depth_limit":"Překročen limit zanoření (max {0})."
+"ajis.error.trailing_garbage":"Neočekávaná data za koncem dokumentu."
+"ajis.error.token_too_large":"Token překračuje maximální povolenou velikost (max {0} bajtů)."
+"ajis.error.visitor_abort":"Zpracování bylo přerušeno návštěvníkem."
+"ajis.error.mode_not_supported":"Požadovaný režim není v tomto sestavení podporován."
+"ajis.error.invalid_utf8":"Neplatná sekvence UTF-8 ve vstupu."
+"ajis.error.engine_selected":"Zvolen engine StreamWalk."
+"ajis.error.input_not_supported":"Zdroj vstupu není v tomto sestavení podporován."
+
+# Strings / escapes
+
+"ajis.error.string_unterminated":"Neukončený řetězcový literál."
+"ajis.error.string_invalid_escape":"Neplatná escape sekvence '\{0}'."
+"ajis.error.string_invalid_unicode_escape":"Neplatná unicode escape sekvence '\u{0}'."
+"ajis.error.string_control_char":"Řídicí znak není v řetězcovém literálu povolen (kód {0})."
+"ajis.error.string_unicode_escape_not_supported":"Unicode escape sekvence nejsou v tomto režimu podporovány."
+
+# Numbers
+
+"ajis.error.number_invalid":"Neplatný formát čísla."
+"ajis.error.number_base_invalid":"Neplatný prefix číselné soustavy '{0}'."
+"ajis.error.number_grouping_invalid":"Neplatné seskupování číslic v čísle."
+"ajis.error.number_grouping_in_fraction":"Seskupování číslic není ve zlomkové části povoleno."
+"ajis.error.number_overflow":"Hodnota čísla je mimo rozsah."
+
+# Backward-compat (older key used in early drafts)
+
+"ajis.error.number_fraction_grouping":"Seskupování číslic není ve zlomkové části povoleno."
+
+# Arrays/Objects
+
+"ajis.error.array_trailing_comma":"Koncová čárka není v poli povolena."
+"ajis.error.object_trailing_comma":"Koncová čárka není v objektu povolena."
+"ajis.error.object_expected_key":"Klíč objektu musí být řetězec."
+"ajis.error.object_duplicate_key":"Duplicitní klíč '{0}'."
+"ajis.error.object_expected_colon":"Očekáváno ':' za klíčem objektu."
+
+# AJIS extensions
+
+"ajis.error.comment_unterminated":"Neukončený komentář."
+"ajis.error.directive_invalid":"Neplatná syntaxe direktivy."
+"ajis.error.directive_unknown":"Neznámá direktiva '{0}'."
+"ajis.error.identifier_invalid":"Neplatný identifikátor."
+"ajis.error.identifier_duplicate":"Duplicitní identifikátor '{0}'."
+
+# Typed literals
+
+"ajis.error.timestamp_invalid":"Neplatný literál časové značky."
+"ajis.error.timestamp_unit_invalid":"Neplatná jednotka časové značky '{0}'."
+"ajis.error.timestamp_overflow":"Hodnota časové značky je mimo rozsah."
+
+# LAX recovery & tolerance
+
+"ajis.error.lax_recovered_unquoted_key":"Opraven neuzavřený klíč objektu (režim LAX)."
+"ajis.error.lax_recovered_single_quoted_string":"Opraven řetězec v jednoduchých uvozovkách (režim LAX)."
+"ajis.error.lax_recovered_trailing_comma":"Opravena koncová čárka (režim LAX)."
+"ajis.error.lax_recovered_missing_comma":"Opravena chybějící čárka (režim LAX)."
+"ajis.error.lax_recovered_missing_colon":"Opravena chybějící dvojtečka (režim LAX)."
+"ajis.error.lax_skipped_unknown_directive":"Přeskočena neznámá direktiva '{0}' (režim LAX)."
+
+# ATP / attachments (reserved)
+
+"ajis.error.attachment_table_invalid":"Tabulka příloh je neplatná."
+"ajis.error.attachment_out_of_range":"Odkaz na přílohu je mimo rozsah."
+"ajis.error.attachment_crc_mismatch":"Neshoda CRC přílohy."
+"ajis.error.attachment_not_found":"Příloha nebyla nalezena."

@@ -1,0 +1,16 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+-
+
+# EXPECTED
+
+ERROR invalid_number offset=0

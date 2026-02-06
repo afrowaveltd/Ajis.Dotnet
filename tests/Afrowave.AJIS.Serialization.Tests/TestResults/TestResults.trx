@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="cda6c590-86f2-4f45-852b-f20d122fc35e" name="lo505926@5CG9398XS5N 2026-02-06 13:24:16" runUser="AD\lo505926" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-02-06T13:24:16.6027788+01:00" queuing="2026-02-06T13:24:16.6027793+01:00" start="2026-02-06T13:24:14.8495931+01:00" finish="2026-02-06T13:24:16.6145100+01:00" />
+  <TestSettings name="default" id="337786c2-1117-41e5-8afa-e37382d3100b">
+    <Deployment runDeploymentRoot="lo505926_5CG9398XS5N_2026-02-06_13_24_16" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2bad089b-8aec-4dbe-b434-7ddc470bf146" testId="f99ec436-f34d-3510-203e-c254db7070d4" testName="Afrowave.AJIS.Serialization.Tests.AjisValueTests.FactoryMethods_CreateExpectedTypes" computerName="5CG9398XS5N" duration="00:00:00.0209913" startTime="2026-02-06T13:24:16.3262470+01:00" endTime="2026-02-06T13:24:16.3593130+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2bad089b-8aec-4dbe-b434-7ddc470bf146" />
+    <UnitTestResult executionId="40ebba2f-0aa2-4411-90e5-c34f4c00342d" testId="795af152-66ff-f8cf-404c-7be33dba3709" testName="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests.SerializeAsync_ThrowsNotImplemented" computerName="5CG9398XS5N" duration="00:00:00.0214485" startTime="2026-02-06T13:24:16.3262682+01:00" endTime="2026-02-06T13:24:16.3592915+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40ebba2f-0aa2-4411-90e5-c34f4c00342d" />
+    <UnitTestResult executionId="90f2dad2-3e31-47bf-b517-1d7c5cbd5067" testId="ae04c8e9-e975-b100-1bac-4d6280e812d9" testName="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests.SerializeToUtf8Bytes_ThrowsNotImplemented" computerName="5CG9398XS5N" duration="00:00:00.0005758" startTime="2026-02-06T13:24:16.3664272+01:00" endTime="2026-02-06T13:24:16.3670433+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="90f2dad2-3e31-47bf-b517-1d7c5cbd5067" />
+    <UnitTestResult executionId="8b7b2784-66da-40a3-849d-ae19e07c62fd" testId="4ce1c9a6-c825-b3e5-8212-db99e5bf7f5d" testName="Afrowave.AJIS.Serialization.Tests.AjisSerializeTests.ToStreamAsync_ThrowsNotImplemented" computerName="5CG9398XS5N" duration="00:00:00.0217131" startTime="2026-02-06T13:24:16.3262516+01:00" endTime="2026-02-06T13:24:16.3593014+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b7b2784-66da-40a3-849d-ae19e07c62fd" />
+    <UnitTestResult executionId="0ea504b5-333a-4329-b3e4-aaa80bad0c72" testId="32e97c7d-a937-15a0-ccb6-b17f5956855b" testName="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests.Serialize_ThrowsNotImplemented" computerName="5CG9398XS5N" duration="00:00:00.0014894" startTime="2026-02-06T13:24:16.3644613+01:00" endTime="2026-02-06T13:24:16.3660183+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0ea504b5-333a-4329-b3e4-aaa80bad0c72" />
+    <UnitTestResult executionId="2b24bef4-1479-4129-8bb1-0f5877d1d794" testId="7a222586-eff5-0f00-048a-e18b1c53f783" testName="Afrowave.AJIS.Serialization.Tests.AjisSerializeTests.ToText_ThrowsNotImplemented" computerName="5CG9398XS5N" duration="00:00:00.0017389" startTime="2026-02-06T13:24:16.3645073+01:00" endTime="2026-02-06T13:24:16.3662832+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b24bef4-1479-4129-8bb1-0f5877d1d794" />
+    <UnitTestResult executionId="3d512216-6caa-4d78-96b3-3dbdfd49f060" testId="f6b26ceb-d491-7d85-2695-0a8a7d0a351a" testName="Afrowave.AJIS.Serialization.Tests.AjisSerializationProfileSelectorTests.Select_DefaultsToUniversal" computerName="5CG9398XS5N" duration="00:00:00.0218446" startTime="2026-02-06T13:24:16.3262660+01:00" endTime="2026-02-06T13:24:16.3592820+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d512216-6caa-4d78-96b3-3dbdfd49f060" />
+    <UnitTestResult executionId="f11067e5-ca6f-4298-a214-73bf42ac1886" testId="a2a16900-ce29-5e0a-9fb1-595f246f46bf" testName="Afrowave.AJIS.Serialization.Tests.AjisSerializationProfileSelectorTests.Select_UsesSettingsProfile" computerName="5CG9398XS5N" duration="00:00:00.0010560" startTime="2026-02-06T13:24:16.3645443+01:00" endTime="2026-02-06T13:24:16.3656837+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f11067e5-ca6f-4298-a214-73bf42ac1886" />
+    <UnitTestResult executionId="792b8428-3dfe-4dad-aedc-b1ea61c77f25" testId="a9f85af6-eb3b-2a9c-ff70-5b2eb2c3e5c5" testName="Afrowave.AJIS.Serialization.Tests.AjisValueTests.ValueRecords_ExposeProvidedData" computerName="5CG9398XS5N" duration="00:00:00.0080437" startTime="2026-02-06T13:24:16.3644637+01:00" endTime="2026-02-06T13:24:16.3725990+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="792b8428-3dfe-4dad-aedc-b1ea61c77f25" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisSerializeTests.ToStreamAsync_ThrowsNotImplemented" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="4ce1c9a6-c825-b3e5-8212-db99e5bf7f5d">
+      <Execution id="8b7b2784-66da-40a3-849d-ae19e07c62fd" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisSerializeTests" name="ToStreamAsync_ThrowsNotImplemented" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisValueTests.ValueRecords_ExposeProvidedData" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="a9f85af6-eb3b-2a9c-ff70-5b2eb2c3e5c5">
+      <Execution id="792b8428-3dfe-4dad-aedc-b1ea61c77f25" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisValueTests" name="ValueRecords_ExposeProvidedData" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests.SerializeToUtf8Bytes_ThrowsNotImplemented" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="ae04c8e9-e975-b100-1bac-4d6280e812d9">
+      <Execution id="90f2dad2-3e31-47bf-b517-1d7c5cbd5067" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests" name="SerializeToUtf8Bytes_ThrowsNotImplemented" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests.SerializeAsync_ThrowsNotImplemented" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="795af152-66ff-f8cf-404c-7be33dba3709">
+      <Execution id="40ebba2f-0aa2-4411-90e5-c34f4c00342d" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests" name="SerializeAsync_ThrowsNotImplemented" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisSerializationProfileSelectorTests.Select_UsesSettingsProfile" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="a2a16900-ce29-5e0a-9fb1-595f246f46bf">
+      <Execution id="f11067e5-ca6f-4298-a214-73bf42ac1886" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisSerializationProfileSelectorTests" name="Select_UsesSettingsProfile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisSerializeTests.ToText_ThrowsNotImplemented" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="7a222586-eff5-0f00-048a-e18b1c53f783">
+      <Execution id="2b24bef4-1479-4129-8bb1-0f5877d1d794" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisSerializeTests" name="ToText_ThrowsNotImplemented" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisValueTests.FactoryMethods_CreateExpectedTypes" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="f99ec436-f34d-3510-203e-c254db7070d4">
+      <Execution id="2bad089b-8aec-4dbe-b434-7ddc470bf146" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisValueTests" name="FactoryMethods_CreateExpectedTypes" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests.Serialize_ThrowsNotImplemented" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="32e97c7d-a937-15a0-ccb6-b17f5956855b">
+      <Execution id="0ea504b5-333a-4329-b3e4-aaa80bad0c72" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisSerializerTests" name="Serialize_ThrowsNotImplemented" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Serialization.Tests.AjisSerializationProfileSelectorTests.Select_DefaultsToUniversal" storage="d:\ajis.dotnet\tests\afrowave.ajis.serialization.tests\bin\debug\net10.0\afrowave.ajis.serialization.tests.dll" id="f6b26ceb-d491-7d85-2695-0a8a7d0a351a">
+      <Execution id="3d512216-6caa-4d78-96b3-3dbdfd49f060" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Serialization.Tests.AjisSerializationProfileSelectorTests" name="Select_DefaultsToUniversal" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="f99ec436-f34d-3510-203e-c254db7070d4" executionId="2bad089b-8aec-4dbe-b434-7ddc470bf146" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="795af152-66ff-f8cf-404c-7be33dba3709" executionId="40ebba2f-0aa2-4411-90e5-c34f4c00342d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae04c8e9-e975-b100-1bac-4d6280e812d9" executionId="90f2dad2-3e31-47bf-b517-1d7c5cbd5067" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ce1c9a6-c825-b3e5-8212-db99e5bf7f5d" executionId="8b7b2784-66da-40a3-849d-ae19e07c62fd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="32e97c7d-a937-15a0-ccb6-b17f5956855b" executionId="0ea504b5-333a-4329-b3e4-aaa80bad0c72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7a222586-eff5-0f00-048a-e18b1c53f783" executionId="2b24bef4-1479-4129-8bb1-0f5877d1d794" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f6b26ceb-d491-7d85-2695-0a8a7d0a351a" executionId="3d512216-6caa-4d78-96b3-3dbdfd49f060" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a2a16900-ce29-5e0a-9fb1-595f246f46bf" executionId="f11067e5-ca6f-4298-a214-73bf42ac1886" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a9f85af6-eb3b-2a9c-ff70-5b2eb2c3e5c5" executionId="792b8428-3dfe-4dad-aedc-b1ea61c77f25" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Výsledky neuvedené v seznamu" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Všechny načtené výsledky" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="9" executed="9" passed="9" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.2)&#xD;
+[xUnit.net 00:00:00.23]   Discovering: Afrowave.AJIS.Serialization.Tests&#xD;
+[xUnit.net 00:00:00.51]   Discovered:  Afrowave.AJIS.Serialization.Tests&#xD;
+[xUnit.net 00:00:00.80]   Starting:    Afrowave.AJIS.Serialization.Tests&#xD;
+[xUnit.net 00:00:00.92]   Finished:    Afrowave.AJIS.Serialization.Tests (ID = '34b1b61c57be476d86a26f3a225b957527129ce370453ab9da09e0b8e2f5b09e')&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

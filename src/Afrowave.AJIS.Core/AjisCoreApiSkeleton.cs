@@ -62,6 +62,11 @@ public sealed class AjisSettings
    public bool AllowTrailingCommas { get; init; } = false;
 
    /// <summary>
+   /// Controls whether directives are allowed.
+   /// </summary>
+   public bool AllowDirectives { get; init; } = true;
+
+   /// <summary>
    /// Maximum allowed nesting depth.
    /// </summary>
    public int MaxDepth { get; init; } = 256;
@@ -88,6 +93,27 @@ public sealed class AjisSettings
    /// Parsing is culture-invariant.
    /// </remarks>
    public CultureInfo FormattingCulture { get; init; } = CultureInfo.InvariantCulture;
+
+   /// <summary>
+   /// Processing profile for parser selection.
+   /// </summary>
+   public AjisProcessingProfile ParserProfile { get; init; } = AjisProcessingProfile.Universal;
+
+   /// <summary>
+   /// Processing profile for serializer selection.
+   /// </summary>
+   public AjisProcessingProfile SerializerProfile { get; init; } = AjisProcessingProfile.Universal;
+
+   /// <summary>
+   /// Text parsing mode (Json, Ajis, Lex).
+   /// </summary>
+   public AjisTextMode TextMode { get; init; } = AjisTextMode.Ajis;
+
+   /// <summary>
+   /// Threshold for chunked memory-mapped reading (e.g. "2G", "512M", "1k").
+   /// If no suffix is provided, value is treated as megabytes.
+   /// </summary>
+   public string StreamChunkThreshold { get; init; } = "2G";
 }
 
 /// <summary>
@@ -120,6 +146,16 @@ public sealed class AjisStringOptions
    /// Enables multi-line strings (line breaks allowed inside quotes).
    /// </summary>
    public bool AllowMultiline { get; init; } = true;
+
+   /// <summary>
+   /// Enables strings delimited by single quotes.
+   /// </summary>
+   public bool AllowSingleQuotes { get; init; } = false;
+
+   /// <summary>
+   /// Enables identifier-style unquoted property names.
+   /// </summary>
+   public bool AllowUnquotedPropertyNames { get; init; } = true;
 
    /// <summary>
    /// Enables processing of escape sequences such as <c>\n</c>, <c>\t</c>, and <c>\uXXXX</c>.

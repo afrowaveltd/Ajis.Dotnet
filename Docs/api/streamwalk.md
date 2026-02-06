@@ -68,11 +68,13 @@ The visitor observes structure and values, but **does not own the data**.
 
 Every StreamWalk MUST follow this structure:
 
-1. `OnStartDocument`
-2. zero or more structural / value events
-3. `OnEndDocument`
+1. zero or more structural / value events
+2. `OnEndDocument`
 
-`OnEndDocument` MUST be called exactly once if and only if the document is syntactically valid.
+Notes:
+
+* `OnStartDocument` is optional in M1 and not emitted by the .NET reference implementation.
+* `OnEndDocument` MUST be called exactly once if and only if the document is syntactically valid.
 
 ---
 
@@ -141,12 +143,12 @@ Rules:
 
 ## Slice semantics (M1)
 
-In **M1**, all textual slices returned by StreamWalk **MUST** be byte-true views into the original UTF-8 input.
+In **M1**, all textual slices returned by StreamWalk are raw UTF-8 token slices.
 
-* **PropertyName**: slice includes the surrounding quotes, e.g. `"name"`.
-* **String values**: slice includes the surrounding quotes, e.g. `"hello"`.
+* **PropertyName**: slice contains the name bytes without surrounding quotes.
+* **String values**: slice contains the string bytes without surrounding quotes.
 * **Number values**: slice is the exact UTF-8 token text (no normalization), e.g. `-12.34e+5`.
-* **Literals** (`true`, `false`, `null`): slice is the exact literal text when provided.
+* **Literals** (`true`, `false`, `null`): slice is empty in the M1 reference implementation.
 
 Rationale: this keeps StreamWalk allocation-free and makes the test-suite a precise, deterministic oracle.
 
@@ -155,6 +157,9 @@ Rationale: this keeps StreamWalk allocation-free and makes the test-suite a prec
 
 * A slice is valid **only during the visitor callback**
 * The slice MUST NOT be stored or accessed after the callback returns
+
+Note: the .NET reference implementation currently copies slices into owned memory for test tracing,
+but callers MUST NOT rely on this behavior.
 
 Violating this rule results in undefined behavior.
 

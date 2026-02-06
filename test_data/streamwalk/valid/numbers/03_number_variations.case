@@ -1,0 +1,40 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "numbers": [-1, 0, 1],
+  "floats": [-3.14, 0.0, 2.71828],
+  "exponential": [1e10, 1.5e-5, -2.5e3]
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"numbers"
+BEGIN_ARRAY
+NUMBER b"-1"
+NUMBER b"0"
+NUMBER b"1"
+END_ARRAY
+NAME b"floats"
+BEGIN_ARRAY
+NUMBER b"-3.14"
+NUMBER b"0.0"
+NUMBER b"2.71828"
+END_ARRAY
+NAME b"exponential"
+BEGIN_ARRAY
+NUMBER b"1e10"
+NUMBER b"1.5e-5"
+NUMBER b"-2.5e3"
+END_ARRAY
+END_OBJECT
+END_DOCUMENT

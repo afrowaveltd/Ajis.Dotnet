@@ -1,0 +1,48 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+[
+  {
+    "type": "point",
+    "coordinates": [10, 20]
+  },
+  {
+    "type": "circle",
+    "center": [0, 0],
+    "radius": 5.5
+  }
+]
+
+# EXPECTED
+
+BEGIN_ARRAY
+BEGIN_OBJECT
+NAME b"type"
+STRING b"point"
+NAME b"coordinates"
+BEGIN_ARRAY
+NUMBER b"10"
+NUMBER b"20"
+END_ARRAY
+END_OBJECT
+BEGIN_OBJECT
+NAME b"type"
+STRING b"circle"
+NAME b"center"
+BEGIN_ARRAY
+NUMBER b"0"
+NUMBER b"0"
+END_ARRAY
+NAME b"radius"
+NUMBER b"5.5"
+END_OBJECT
+END_ARRAY
+END_DOCUMENT

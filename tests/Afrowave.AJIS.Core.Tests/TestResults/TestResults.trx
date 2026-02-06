@@ -1,0 +1,947 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="f42986d7-ee28-4b8c-91a2-d50239dde48d" name="lo505926@5CG9398XS5N 2026-02-06 13:24:16" runUser="AD\lo505926" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-02-06T13:24:16.5543153+01:00" queuing="2026-02-06T13:24:16.5543156+01:00" start="2026-02-06T13:24:14.8231741+01:00" finish="2026-02-06T13:24:16.8177905+01:00" />
+  <TestSettings name="default" id="dea16882-f886-444a-b0b4-98efc57503de">
+    <Deployment runDeploymentRoot="lo505926_5CG9398XS5N_2026-02-06_13_24_16" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="1bb04ae1-b95c-42a6-a9ef-3e41dfef7904" testId="d52cefa7-1a2b-75bc-0468-92d643a950e6" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_InputWithoutSpan_EmitsInputNotSupported" computerName="5CG9398XS5N" duration="00:00:00.0081517" startTime="2026-02-06T13:24:16.6721291+01:00" endTime="2026-02-06T13:24:16.6803475+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bb04ae1-b95c-42a6-a9ef-3e41dfef7904" />
+    <UnitTestResult executionId="206e4061-2b98-42ea-a4f2-453fd2732e5f" testId="c134272d-82ca-fcaa-4128-4f9bc92f6568" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_VisitorAbort_EmitsVisitorAbortError" computerName="5CG9398XS5N" duration="00:00:00.2739893" startTime="2026-02-06T13:24:16.3769782+01:00" endTime="2026-02-06T13:24:16.6607414+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="206e4061-2b98-42ea-a4f2-453fd2732e5f" />
+    <UnitTestResult executionId="83dd7454-0a09-4ffd-a44d-2b5326e6d7fe" testId="acb75938-fb59-06ec-8f9a-454a0a79d765" testName="Afrowave.AJIS.Core.Tests.Localization.AjisBuiltInLocalesTests.LoadEnglishAsync_LoadsEmbeddedLocale" computerName="5CG9398XS5N" duration="00:00:00.0260856" startTime="2026-02-06T13:24:16.3769449+01:00" endTime="2026-02-06T13:24:16.4182679+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="83dd7454-0a09-4ffd-a44d-2b5326e6d7fe" />
+    <UnitTestResult executionId="47fb2faf-188c-4468-9fff-4dff9d1a753e" testId="9cb04254-eec2-a9ab-80ca-9a9bf1b001a6" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesArrayValues" computerName="5CG9398XS5N" duration="00:00:00.0005258" startTime="2026-02-06T13:24:16.6115252+01:00" endTime="2026-02-06T13:24:16.6121148+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="47fb2faf-188c-4468-9fff-4dff9d1a753e" />
+    <UnitTestResult executionId="4abdab41-185a-4834-bd21-b4e5fbe99f68" testId="0b23f73d-9898-72f2-0101-d588b037fd5e" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesBooleanArray" computerName="5CG9398XS5N" duration="00:00:00.0004840" startTime="2026-02-06T13:24:16.6023122+01:00" endTime="2026-02-06T13:24:16.6028878+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4abdab41-185a-4834-bd21-b4e5fbe99f68" />
+    <UnitTestResult executionId="823cc22b-b25b-4c24-9cec-c62cd482346b" testId="da918c49-8894-ba38-d05c-48cb320d14b0" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesObjectValues" computerName="5CG9398XS5N" duration="00:00:00.0005247" startTime="2026-02-06T13:24:16.6054875+01:00" endTime="2026-02-06T13:24:16.6060682+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="823cc22b-b25b-4c24-9cec-c62cd482346b" />
+    <UnitTestResult executionId="440d94a3-b191-455a-aefc-b24e42a29e2e" testId="7ab4a9b2-98f1-5bff-8ce7-63c3a6946d3d" testName="Afrowave.AJIS.Core.Tests.TestData.AjisBenchmarkRunnerTests.RunAsync_ProducesResults" computerName="5CG9398XS5N" duration="00:00:00.0921449" startTime="2026-02-06T13:24:16.4404831+01:00" endTime="2026-02-06T13:24:16.5589941+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="440d94a3-b191-455a-aefc-b24e42a29e2e">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.&lt;&gt;c__DisplayClass2_0.&lt;&lt;RunAjisStreamAsync&gt;b__0&gt;d.MoveNext() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs:line 60&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.&lt;&gt;c__DisplayClass2_0.&lt;&lt;RunAjisStreamAsync&gt;b__0&gt;d.MoveNext() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs:line 60&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.&lt;&gt;c__DisplayClass2_0.&lt;&lt;RunAjisStreamAsync&gt;b__0&gt;d.MoveNext() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs:line 62&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.MeasureAsync(String name, Func`1 action) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs:line 103&#xD;
+   at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.RunAjisStreamAsync(String name, String path, CancellationToken ct) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs:line 56&#xD;
+   at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.RunAsync(String path, CancellationToken ct) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs:line 27&#xD;
+   at Afrowave.AJIS.Core.Tests.TestData.AjisBenchmarkRunnerTests.RunAsync_ProducesResults() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\TestData\AjisBenchmarkRunnerTests.cs:line 18&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dee14714-ce9b-406c-81ee-d2e202971cc2" testId="4f650c5b-b5a7-46b2-1ba2-f5d0d681a305" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisSpanInputTests.SpanInput_ExposesLengthAndSpan" computerName="5CG9398XS5N" duration="00:00:00.0026766" startTime="2026-02-06T13:24:16.4671903+01:00" endTime="2026-02-06T13:24:16.4699178+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dee14714-ce9b-406c-81ee-d2e202971cc2" />
+    <UnitTestResult executionId="ec32ecb6-84cd-484b-b6a1-60022409be60" testId="0c225b12-df6b-32c8-fa76-c508d8b72362" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_ValidInput_Completes" computerName="5CG9398XS5N" duration="00:00:00.0042164" startTime="2026-02-06T13:24:16.6809590+01:00" endTime="2026-02-06T13:24:16.6852739+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec32ecb6-84cd-484b-b6a1-60022409be60" />
+    <UnitTestResult executionId="1b1adc69-8b85-4cad-a8dd-c5c9197c0bc6" testId="3440eb3b-c0c6-c936-5fa7-39f59975076a" testName="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.Build_RespectsPriorityOrder" computerName="5CG9398XS5N" duration="00:00:00.0004377" startTime="2026-02-06T13:24:16.4693551+01:00" endTime="2026-02-06T13:24:16.4698554+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b1adc69-8b85-4cad-a8dd-c5c9197c0bc6" />
+    <UnitTestResult executionId="4bf95ea5-5c61-4758-8c6c-1599816d1295" testId="d9d26174-334a-0f5c-127d-98af5435ae13" testName="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.GetText_FormatsArgs_WhenProvided" computerName="5CG9398XS5N" duration="00:00:00.0005176" startTime="2026-02-06T13:24:16.4670108+01:00" endTime="2026-02-06T13:24:16.4675750+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4bf95ea5-5c61-4758-8c6c-1599816d1295" />
+    <UnitTestResult executionId="6d04596f-0737-4ac8-a405-fd59bd1ef639" testId="e1d38f33-0002-29bb-7847-79930514339d" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath" computerName="5CG9398XS5N" duration="00:00:00.0055607" startTime="2026-02-06T13:24:16.6122153+01:00" endTime="2026-02-06T13:24:16.6190144+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6d04596f-0737-4ac8-a405-fd59bd1ef639">
+      <Output>
+        <ErrorInfo>
+          <Message>System.Text.Json.JsonReaderException : '"' is an invalid end of a number. Expected a delimiter. LineNumber: 0 | BytePositionInLine: 1020.</Message>
+          <StackTrace>   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader&amp; json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)&#xD;
+   at System.Text.Json.Utf8JsonReader.TryGetNumber(ReadOnlySpan`1 data, Int32&amp; consumed)&#xD;
+   at System.Text.Json.Utf8JsonReader.ConsumeNumber()&#xD;
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)&#xD;
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()&#xD;
+   at System.Text.Json.Utf8JsonReader.Read()&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFileChunked(String path, AjisSettings settings, Int64 thresholdBytes) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 254&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 197&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 131&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 131&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 134&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="90ab6889-0694-4109-a498-dbd827f2ca21" testId="11f02c72-846b-92c9-1b67-a44984e4e042" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesStringWithEscapes" computerName="5CG9398XS5N" duration="00:00:00.0005185" startTime="2026-02-06T13:24:16.6082352+01:00" endTime="2026-02-06T13:24:16.6088901+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="90ab6889-0694-4109-a498-dbd827f2ca21" />
+    <UnitTestResult executionId="cfa75a44-b4cb-4f22-b294-f9bca6299648" testId="329e4244-50b6-0317-e8b3-6de3e4dc042f" testName="Afrowave.AJIS.Core.Tests.Localization.AjisLocDictionaryTests.Entries_ReturnsBackingDictionary" computerName="5CG9398XS5N" duration="00:00:00.0014175" startTime="2026-02-06T13:24:16.4631646+01:00" endTime="2026-02-06T13:24:16.4646426+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cfa75a44-b4cb-4f22-b294-f9bca6299648" />
+    <UnitTestResult executionId="4fd17755-0304-4087-94d2-e7d0fd72bb98" testId="5996ac70-91b3-2ce3-dc33-53531cca2e2a" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegments_LargePayload_UniversalProfile" computerName="5CG9398XS5N" duration="00:00:00.0069532" startTime="2026-02-06T13:24:16.6582126+01:00" endTime="2026-02-06T13:24:16.6652475+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4fd17755-0304-4087-94d2-e7d0fd72bb98" />
+    <UnitTestResult executionId="329ee212-960f-4dfb-8da9-b2f93c582dd8" testId="ffd763ad-38c8-9a9a-6302-b5ede2f88cec" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesMultipleProperties" computerName="5CG9398XS5N" duration="00:00:00.0011735" startTime="2026-02-06T13:24:16.6003137+01:00" endTime="2026-02-06T13:24:16.6015671+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="329ee212-960f-4dfb-8da9-b2f93c582dd8" />
+    <UnitTestResult executionId="9a61d1c3-eeb4-4794-a55b-d0258b45cbc5" testId="89022451-5b25-6f3d-64f5-ba9442a1e5eb" testName="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.Default_MatchesConstructorDefaults" computerName="5CG9398XS5N" duration="00:00:00.0065829" startTime="2026-02-06T13:24:16.4278146+01:00" endTime="2026-02-06T13:24:16.4344744+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a61d1c3-eeb4-4794-a55b-d0258b45cbc5" />
+    <UnitTestResult executionId="2a0bbd33-f6b3-4044-8f12-63010d0985e6" testId="45c81ece-faec-e06a-e135-d1054f8ab58d" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesFloatNumber" computerName="5CG9398XS5N" duration="00:00:00.0006604" startTime="2026-02-06T13:24:16.6096514+01:00" endTime="2026-02-06T13:24:16.6103861+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2a0bbd33-f6b3-4044-8f12-63010d0985e6" />
+    <UnitTestResult executionId="02970b85-d0ae-47fa-ae68-3a33f60546d5" testId="c1f97a8c-0d62-b23f-8604-8a082a5ca8d5" testName="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.Format_UsesCultureAndArgs" computerName="5CG9398XS5N" duration="00:00:00.0008950" startTime="2026-02-06T13:24:16.4679315+01:00" endTime="2026-02-06T13:24:16.4688749+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02970b85-d0ae-47fa-ae68-3a33f60546d5" />
+    <UnitTestResult executionId="5c549623-5584-4243-beea-07c48e444604" testId="51085d67-6103-21f5-f380-b8fcef254bc2" testName="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.WithProcessingProfile_MapsToEnginePreference" computerName="5CG9398XS5N" duration="00:00:00.0004817" startTime="2026-02-06T13:24:16.4249831+01:00" endTime="2026-02-06T13:24:16.4255355+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5c549623-5584-4243-beea-07c48e444604" />
+    <UnitTestResult executionId="46a6db33-8ff2-4a88-8a18-bb79db9a4bbb" testId="87bf7c5c-34fc-8979-6982-08085e208f75" testName="Afrowave.AJIS.Core.Tests.Configuration.AjisSettingsTests.Defaults_AreExpected" computerName="5CG9398XS5N" duration="00:00:00.0335042" startTime="2026-02-06T13:24:16.3769576+01:00" endTime="2026-02-06T13:24:16.4202828+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46a6db33-8ff2-4a88-8a18-bb79db9a4bbb" />
+    <UnitTestResult executionId="0454018e-a526-413c-8e83-2bdcc0701625" testId="4c585870-4fb5-a1a8-b969-f9b1e5c02ba0" testName="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticsTests.Create_WithKey_PreservesProvidedKey" computerName="5CG9398XS5N" duration="00:00:00.0008143" startTime="2026-02-06T13:24:16.4642798+01:00" endTime="2026-02-06T13:24:16.4651435+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0454018e-a526-413c-8e83-2bdcc0701625" />
+    <UnitTestResult executionId="4c189ecb-90af-4717-991c-4dab4aec8fed" testId="dab22103-ab88-a84a-c9fe-085afb7a502d" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject" computerName="5CG9398XS5N" duration="00:00:00.1327123" startTime="2026-02-06T13:24:16.3769624+01:00" endTime="2026-02-06T13:24:16.5590021+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c189ecb-90af-4717-991c-4dab4aec8fed">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 140&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 34&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 34&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 41&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d555726d-0f1c-466b-9407-23ff57c7e51e" testId="0763c99e-1b25-fce0-09b0-6c70a7144dd5" testName="Afrowave.AJIS.Core.Tests.Events.NullAjisEventSinkTests.EmitAsync_CompletesImmediately" computerName="5CG9398XS5N" duration="00:00:00.0007837" startTime="2026-02-06T13:24:16.4670204+01:00" endTime="2026-02-06T13:24:16.4678520+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d555726d-0f1c-466b-9407-23ff57c7e51e" />
+    <UnitTestResult executionId="4d79aee2-f5a4-4a29-a85d-7f12b173e534" testId="cfa6d4b6-420e-e2a6-b7db-793f0b8ca906" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile" computerName="5CG9398XS5N" duration="00:00:00.0061991" startTime="2026-02-06T13:24:16.5864442+01:00" endTime="2026-02-06T13:24:16.5935865+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4d79aee2-f5a4-4a29-a85d-7f12b173e534">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 140&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 76&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 76&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 83&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="df049209-e4ee-4c98-8470-bd76d9d50b0c" testId="577cbdbb-75cf-e82f-1a5a-1ff3f2ba5b96" testName="Afrowave.AJIS.Core.Tests.Localization.AjisLocalizationDefaultsTests.GetDefaultCulture_UsesCurrentUICulture" computerName="5CG9398XS5N" duration="00:00:00.0055172" startTime="2026-02-06T13:24:16.4254861+01:00" endTime="2026-02-06T13:24:16.4310608+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df049209-e4ee-4c98-8470-bd76d9d50b0c" />
+    <UnitTestResult executionId="bfc6ac95-d189-448b-badc-42729e2bf4f9" testId="49ba28e5-4ea3-9a0c-c91b-558154e28769" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_WithSettings_MapsParserProfileToEnginePreference" computerName="5CG9398XS5N" duration="00:00:00.0016812" startTime="2026-02-06T13:24:16.6697696+01:00" endTime="2026-02-06T13:24:16.6715278+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bfc6ac95-d189-448b-badc-42729e2bf4f9" />
+    <UnitTestResult executionId="0b66fa46-6b9c-4222-938d-1712ec92a00e" testId="f789fd9d-49e9-62b8-cb1f-b4db6b16c7ea" testName="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkOptionsTests.Defaults_AreExpected" computerName="5CG9398XS5N" duration="00:00:00.0274323" startTime="2026-02-06T13:24:16.3769275+01:00" endTime="2026-02-06T13:24:16.4182927+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0b66fa46-6b9c-4222-938d-1712ec92a00e" />
+    <UnitTestResult executionId="3959503f-32ae-41bf-9ba8-f2ba4ffca681" testId="50ec8782-e35d-e644-b78b-0f88ee2dd858" testName="Afrowave.AJIS.Core.Tests.Localization.AjisLocalizationDefaultsTests.BuildDefaultAsync_PrioritizesUserOverrides" computerName="5CG9398XS5N" duration="00:00:00.0268314" startTime="2026-02-06T13:24:16.3769397+01:00" endTime="2026-02-06T13:24:16.4182557+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3959503f-32ae-41bf-9ba8-f2ba4ffca681" />
+    <UnitTestResult executionId="3d9444ef-1bd2-42dc-a85e-a0589809ce35" testId="0f32d603-c557-d53f-5b5b-cdacc36b407b" testName="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticKeysTests.For_ReturnsExpectedKey" computerName="5CG9398XS5N" duration="00:00:00.0017869" startTime="2026-02-06T13:24:16.4373341+01:00" endTime="2026-02-06T13:24:16.4391854+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d9444ef-1bd2-42dc-a85e-a0589809ce35" />
+    <UnitTestResult executionId="63aee6d7-2925-4b55-9e0b-3594b8c5c94d" testId="41077c24-6b89-65dd-ca2a-9723104185ba" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;3g&quot;)" computerName="5CG9398XS5N" duration="00:00:00.0513271" startTime="2026-02-06T13:24:16.4690341+01:00" endTime="2026-02-06T13:24:16.5589982+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="63aee6d7-2925-4b55-9e0b-3594b8c5c94d">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 82&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b8627015-8961-4a39-bf2a-ed12a476de3f" testId="df5a2aca-98c3-5150-29d9-3cfdf2c81f36" testName="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticFactoryTests.Error_StoresArgsInData" computerName="5CG9398XS5N" duration="00:00:00.0223335" startTime="2026-02-06T13:24:16.4371069+01:00" endTime="2026-02-06T13:24:16.4595841+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8627015-8961-4a39-bf2a-ed12a476de3f" />
+    <UnitTestResult executionId="0e66f60d-9aab-44d5-8120-c2c5131db7b6" testId="fbea0ff6-9520-7667-537b-445e51f243fd" testName="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.GetText_UsesMissingKeyBehavior" computerName="5CG9398XS5N" duration="00:00:00.0006702" startTime="2026-02-06T13:24:16.4658329+01:00" endTime="2026-02-06T13:24:16.4665402+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0e66f60d-9aab-44d5-8120-c2c5131db7b6" />
+    <UnitTestResult executionId="7a153e7b-62b1-4433-b345-cd97043fa48a" testId="163830c1-6c8d-2c8f-7341-1815b35bc54a" testName="Afrowave.AJIS.Core.Tests.Events.AjisEventStreamTests.EmitAsync_ReturnsCanceled_WhenCancellationRequested" computerName="5CG9398XS5N" duration="00:00:00.0030665" startTime="2026-02-06T13:24:16.4547844+01:00" endTime="2026-02-06T13:24:16.4579107+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a153e7b-62b1-4433-b345-cd97043fa48a" />
+    <UnitTestResult executionId="f66b2f31-d645-4328-9ea5-77eadf6c94a4" testId="b2dc0a6c-80a7-f108-789a-c612accd79f2" testName="Afrowave.AJIS.Core.Tests.Events.NullAjisEventSinkTests.Instance_IsSingleton" computerName="5CG9398XS5N" duration="00:00:00.0010711" startTime="2026-02-06T13:24:16.4653560+01:00" endTime="2026-02-06T13:24:16.4664712+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f66b2f31-d645-4328-9ea5-77eadf6c94a4" />
+    <UnitTestResult executionId="3995534b-9297-4cb4-8491-0bd49f1a555f" testId="a9935656-d0a6-8cab-454e-6f090081208b" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_InvalidChunkThreshold_Throws" computerName="5CG9398XS5N" duration="00:00:00.0272683" startTime="2026-02-06T13:24:16.4390409+01:00" endTime="2026-02-06T13:24:16.4663588+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3995534b-9297-4cb4-8491-0bd49f1a555f" />
+    <UnitTestResult executionId="2e1449e7-78cd-4a48-b698-8f60443550d2" testId="930f0e38-b4d4-a691-decb-55b2d86e9a1a" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile" computerName="5CG9398XS5N" duration="00:00:00.0089390" startTime="2026-02-06T13:24:16.6407585+01:00" endTime="2026-02-06T13:24:16.6509164+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e1449e7-78cd-4a48-b698-8f60443550d2">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 198&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 198&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 201&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="76beab5d-63be-4284-84f9-98370339c8d8" testId="a64bc7d0-cd5f-071b-eea8-931228ad77aa" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_Over2Gb_NotSupportedYet" computerName="5CG9398XS5N" duration="00:00:00.0010000" startTime="2026-02-06T13:24:16.5945519+01:00" endTime="2026-02-06T13:24:16.5945724+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="76beab5d-63be-4284-84f9-98370339c8d8">
+      <Output>
+        <ErrorInfo>
+          <Message>&gt;2GB chunked mapping not implemented yet</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8cd706bb-c43c-47a5-9a67-0d7189376981" testId="47ae770f-14e3-bdda-29a6-edf6d53d3848" testName="Afrowave.AJIS.Core.Tests.Localization.EnLocaleDiagnosticsCoverageTests.EnLocale_ShouldContain_AllDiagnosticKeys" computerName="5CG9398XS5N" duration="00:00:00.0125421" startTime="2026-02-06T13:24:16.4498450+01:00" endTime="2026-02-06T13:24:16.4624735+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8cd706bb-c43c-47a5-9a67-0d7189376981" />
+    <UnitTestResult executionId="3ec5caf1-aad9-4b4f-b5c5-d7b986ed38fb" testId="b6216b64-dd8e-3e71-14e3-7112ecaddbf4" testName="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.WithProcessingProfileIfDefault_DoesNotOverrideExplicitPreference" computerName="5CG9398XS5N" duration="00:00:00.0002175" startTime="2026-02-06T13:24:16.4349770+01:00" endTime="2026-02-06T13:24:16.4352587+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3ec5caf1-aad9-4b4f-b5c5-d7b986ed38fb" />
+    <UnitTestResult executionId="49bb633e-2cdb-4235-a2ae-f4f0cfa88fd6" testId="6795a512-36d2-9ecb-30c8-39cd7a17e17a" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisEngineCostTests.Score_WeightsPassesHeavily" computerName="5CG9398XS5N" duration="00:00:00.0007431" startTime="2026-02-06T13:24:16.4602488+01:00" endTime="2026-02-06T13:24:16.4610718+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="49bb633e-2cdb-4235-a2ae-f4f0cfa88fd6" />
+    <UnitTestResult executionId="5664d9c5-0c69-4dba-a62a-54be8287c539" testId="8fb90144-9d9f-4077-4824-2dc498b15b3c" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_LaxMode_EmitsNotSupported" computerName="5CG9398XS5N" duration="00:00:00.0078786" startTime="2026-02-06T13:24:16.6613007+01:00" endTime="2026-02-06T13:24:16.6692770+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5664d9c5-0c69-4dba-a62a-54be8287c539" />
+    <UnitTestResult executionId="8e8d9d6a-426f-469e-9fa0-e4bb8ff944b5" testId="4a46e4e0-2d56-d3a0-2cf3-4e42d3a5b02c" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_ChunkedPath_DecodesEscapedString" computerName="5CG9398XS5N" duration="00:00:00.0165231" startTime="2026-02-06T13:24:16.5950121+01:00" endTime="2026-02-06T13:24:16.6115785+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8e8d9d6a-426f-469e-9fa0-e4bb8ff944b5" />
+    <UnitTestResult executionId="1464e178-2da9-478d-916d-ad88c1bfa3a8" testId="06bf45f2-1a62-f6af-56c6-7115e86d54aa" testName="Afrowave.AJIS.Core.Tests.Localization.AjisLocDictionaryTests.TryGet_ReturnsExpectedValues" computerName="5CG9398XS5N" duration="00:00:00.0003342" startTime="2026-02-06T13:24:16.4651896+01:00" endTime="2026-02-06T13:24:16.4655922+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1464e178-2da9-478d-916d-ad88c1bfa3a8" />
+    <UnitTestResult executionId="79039c53-5ce9-4e36-97ce-a3143dd60430" testId="32e74f07-1a1a-79e2-355d-ab74b3aa4725" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream" computerName="5CG9398XS5N" duration="00:00:00.0194202" startTime="2026-02-06T13:24:16.6197315+01:00" endTime="2026-02-06T13:24:16.6402577+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="79039c53-5ce9-4e36-97ce-a3143dd60430">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 158&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 158&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 161&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d80690df-f2b3-41e0-b0da-1049397ee40c" testId="ad2f52bb-a14f-c890-c1f6-01b10c3f7329" testName="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.Defaults_AreExpected" computerName="5CG9398XS5N" duration="00:00:00.0274020" startTime="2026-02-06T13:24:16.3769751+01:00" endTime="2026-02-06T13:24:16.4182961+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d80690df-f2b3-41e0-b0da-1049397ee40c" />
+    <UnitTestResult executionId="c40f2ba1-f916-4240-99de-de36d63a5a01" testId="74c8f8db-d1aa-5bfc-bab2-033b04f7dbb0" testName="Afrowave.AJIS.Core.Tests.Localization.AjisLocLoaderTests.LoadAsync_ParsesValidLines" computerName="5CG9398XS5N" duration="00:00:00.0264488" startTime="2026-02-06T13:24:16.3769226+01:00" endTime="2026-02-06T13:24:16.4182839+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c40f2ba1-f916-4240-99de-de36d63a5a01" />
+    <UnitTestResult executionId="35e58849-6551-49b0-a05a-2509977f4d99" testId="7ed96b42-d682-398b-d5c2-1932c22ae692" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;1k&quot;)" computerName="5CG9398XS5N" duration="00:00:00.0156824" startTime="2026-02-06T13:24:16.5769550+01:00" endTime="2026-02-06T13:24:16.5938164+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35e58849-6551-49b0-a05a-2509977f4d99">
+      <Output>
+        <ErrorInfo>
+          <Message>System.Text.Json.JsonReaderException : '"' is an invalid end of a number. Expected a delimiter. LineNumber: 0 | BytePositionInLine: 1020.</Message>
+          <StackTrace>   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader&amp; json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)&#xD;
+   at System.Text.Json.Utf8JsonReader.TryGetNumber(ReadOnlySpan`1 data, Int32&amp; consumed)&#xD;
+   at System.Text.Json.Utf8JsonReader.ConsumeNumber()&#xD;
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)&#xD;
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()&#xD;
+   at System.Text.Json.Utf8JsonReader.Read()&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFileChunked(String path, AjisSettings settings, Int64 thresholdBytes) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 254&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 197&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 82&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e892d45c-8ed7-4210-b0ee-20c446a399fe" testId="99a860c5-2f29-363c-9f7d-ef723b879cff" testName="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticsTests.Create_UsesStableKeyFromCode" computerName="5CG9398XS5N" duration="00:00:00.0051828" startTime="2026-02-06T13:24:16.4586901+01:00" endTime="2026-02-06T13:24:16.4639327+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e892d45c-8ed7-4210-b0ee-20c446a399fe" />
+    <UnitTestResult executionId="79f6e599-3a20-4485-8e93-319290f720fa" testId="ebe4de89-53b6-cc4b-82d8-8b05bbb7f2bf" testName="Afrowave.AJIS.Core.Tests.TestData.AjisLargePayloadGeneratorTests.WriteUsersJson_WritesExpectedShape" computerName="5CG9398XS5N" duration="00:00:00.0470762" startTime="2026-02-06T13:24:16.4487209+01:00" endTime="2026-02-06T13:24:16.4958565+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="79f6e599-3a20-4485-8e93-319290f720fa" />
+    <UnitTestResult executionId="4eaf0b30-848b-4524-bbb3-af642d1fed54" testId="4f5dcf71-e128-bda0-887e-1cd30911a533" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;4&quot;)" computerName="5CG9398XS5N" duration="00:00:00.0059445" startTime="2026-02-06T13:24:16.5604844+01:00" endTime="2026-02-06T13:24:16.5672512+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4eaf0b30-848b-4524-bbb3-af642d1fed54">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 82&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="31f89614-4062-4ed2-8c62-22f0fac89372" testId="70d347e5-4a2b-bcd8-8d36-ea9ae9aa4ba9" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;2M&quot;)" computerName="5CG9398XS5N" duration="00:00:00.0074467" startTime="2026-02-06T13:24:16.5680855+01:00" endTime="2026-02-06T13:24:16.5764894+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="31f89614-4062-4ed2-8c62-22f0fac89372">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 129&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 79&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold) in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs:line 82&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="32ceb6f4-aa84-453f-8b56-9e8727228301" testId="491d8bd1-983c-5d3f-6586-ea7fd743e635" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile" computerName="5CG9398XS5N" duration="00:00:00.0063903" startTime="2026-02-06T13:24:16.5712456+01:00" endTime="2026-02-06T13:24:16.5787237+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32ceb6f4-aa84-453f-8b56-9e8727228301">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 140&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 55&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 55&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 62&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4089757f-3462-45fb-9609-a491f507b123" testId="24220865-5ad8-9578-b82d-69711c768b9c" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisSpanInputTests.SpanInput_OpenStream_ReturnsNull" computerName="5CG9398XS5N" duration="00:00:00.0006531" startTime="2026-02-06T13:24:16.4660995+01:00" endTime="2026-02-06T13:24:16.4668113+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4089757f-3462-45fb-9609-a491f507b123" />
+    <UnitTestResult executionId="57e5ece0-e48f-4236-9f4c-852d9b41bdbc" testId="93a714e0-aea8-09ed-0033-8d9ba274b94d" testName="Afrowave.AJIS.Core.Tests.Events.AjisProgressReporterTests.ReportAsync_ClampsPercent_AndEmitsOncePerValue" computerName="5CG9398XS5N" duration="00:00:00.1916924" startTime="2026-02-06T13:24:16.4687433+01:00" endTime="2026-02-06T13:24:16.6605078+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57e5ece0-e48f-4236-9f4c-852d9b41bdbc" />
+    <UnitTestResult executionId="a9f8f69b-f95c-4ebf-bdb6-425622afa2ad" testId="50fdc641-87f2-ac27-3db0-00e09a7c58a6" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesNull" computerName="5CG9398XS5N" duration="00:00:00.0059870" startTime="2026-02-06T13:24:16.5795670+01:00" endTime="2026-02-06T13:24:16.5856436+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9f8f69b-f95c-4ebf-bdb6-425622afa2ad" />
+    <UnitTestResult executionId="3fe0090f-3d16-40de-83f3-9c01c8c167b4" testId="1d96155d-cc64-08c8-f75e-fe63724f6771" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesComments_WhenEnabled" computerName="5CG9398XS5N" duration="00:00:00.0010000" startTime="2026-02-06T13:24:16.6109952+01:00" endTime="2026-02-06T13:24:16.6110159+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3fe0090f-3d16-40de-83f3-9c01c8c167b4">
+      <Output>
+        <ErrorInfo>
+          <Message>AJIS extensions not implemented yet (comments/directives)</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2b159a4e-f1c4-4d3a-9b6d-af8d057b6c46" testId="785688ae-e0eb-1a03-2dbc-913938d3d398" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesPrefixedNumbers" computerName="5CG9398XS5N" duration="00:00:00.0010000" startTime="2026-02-06T13:24:16.5694008+01:00" endTime="2026-02-06T13:24:16.5704175+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b159a4e-f1c4-4d3a-9b6d-af8d057b6c46">
+      <Output>
+        <ErrorInfo>
+          <Message>AJIS extensions not implemented yet (hex/binary numbers)</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="816274e6-043a-4dcd-b998-99a0cfdc6f76" testId="475b4eb9-7ddb-0e86-a02c-3f9839e44e57" testName="Afrowave.AJIS.Core.Tests.Events.AjisEventStreamTests.EmitAsync_WritesToStream" computerName="5CG9398XS5N" duration="00:00:00.0158961" startTime="2026-02-06T13:24:16.4383282+01:00" endTime="2026-02-06T13:24:16.4542739+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="816274e6-043a-4dcd-b998-99a0cfdc6f76" />
+    <UnitTestResult executionId="f01071ca-bba5-449a-b501-5ab248689194" testId="3266431f-bd12-e7e8-1c44-9e8a00af40b4" testName="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticKeysTests.For_Unknown_ReturnsUnknownKey" computerName="5CG9398XS5N" duration="00:00:00.0001519" startTime="2026-02-06T13:24:16.4395325+01:00" endTime="2026-02-06T13:24:16.4397217+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f01071ca-bba5-449a-b501-5ab248689194" />
+    <UnitTestResult executionId="fd1998e5-9bc9-42d6-be47-e8da5b633fe8" testId="e644f91d-93a4-8308-bebe-1fabeed21ea2" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesNestedArrayInObject" computerName="5CG9398XS5N" duration="00:00:00.0007030" startTime="2026-02-06T13:24:16.6065775+01:00" endTime="2026-02-06T13:24:16.6073563+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fd1998e5-9bc9-42d6-be47-e8da5b633fe8" />
+    <UnitTestResult executionId="e8743fd8-1bc0-4c95-a94e-07f6fdce1b4e" testId="878b7d91-3b14-1453-be8d-e61fea58ebee" testName="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.FromSettings_AppliesParserProfile" computerName="5CG9398XS5N" duration="00:00:00.0012581" startTime="2026-02-06T13:24:16.4259759+01:00" endTime="2026-02-06T13:24:16.4272943+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e8743fd8-1bc0-4c95-a94e-07f6fdce1b4e" />
+    <UnitTestResult executionId="1076a359-ddb3-4d0e-bbf5-2c6c2c58026a" testId="a29712be-bba1-5b8a-6d90-443355cc63c2" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegments_LargePayload_HighThroughputProfile" computerName="5CG9398XS5N" duration="00:00:00.0059625" startTime="2026-02-06T13:24:16.6514117+01:00" endTime="2026-02-06T13:24:16.6574448+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1076a359-ddb3-4d0e-bbf5-2c6c2c58026a" />
+    <UnitTestResult executionId="ab943f6d-5732-4fcf-a48b-169f2f098031" testId="16394650-2baf-0c12-4fb1-604e8682fe7a" testName="Afrowave.AJIS.Core.Tests.TestData.AjisLargePayloadGeneratorTests.WriteUsersJsonFile_CreatesFile" computerName="5CG9398XS5N" duration="00:00:00.0076914" startTime="2026-02-06T13:24:16.4398194+01:00" endTime="2026-02-06T13:24:16.4481255+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ab943f6d-5732-4fcf-a48b-169f2f098031" />
+    <UnitTestResult executionId="47360b80-8335-4e2b-9b51-fef936dc6e42" testId="31459a72-6086-678e-446e-4c9906506022" testName="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkOptionsTests.DefaultForM1_MatchesConstructorDefaults" computerName="5CG9398XS5N" duration="00:00:00.0071731" startTime="2026-02-06T13:24:16.4249831+01:00" endTime="2026-02-06T13:24:16.4322357+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="47360b80-8335-4e2b-9b51-fef936dc6e42" />
+    <UnitTestResult executionId="e4a0bfd9-9512-4146-ad04-9c48139414c0" testId="94697f5e-5f94-a0c7-d6e8-5f914674ce47" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile" computerName="5CG9398XS5N" duration="00:00:00.0045546" startTime="2026-02-06T13:24:16.5942406+01:00" endTime="2026-02-06T13:24:16.5997427+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e4a0bfd9-9512-4146-ad04-9c48139414c0">
+      <Output>
+        <ErrorInfo>
+          <Message>Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage</Message>
+          <StackTrace>   at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 394&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 398&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs:line 34&#xD;
+   at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs:line 14&#xD;
+   at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs:line 92&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 179&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 161&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 211&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs:line 140&#xD;
+   at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 97&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 97&#xD;
+   at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile() in D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs:line 104&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d3453db3-71ce-461f-97ea-30b4458568b0" testId="4318c4b9-93cd-ad3e-3d26-6d9d61e8212a" testName="Afrowave.AJIS.Core.Tests.Streaming.AjisEngineCostTests.Score_PenalizesRandomAccess" computerName="5CG9398XS5N" duration="00:00:00.0029566" startTime="2026-02-06T13:24:16.4615887+01:00" endTime="2026-02-06T13:24:16.4646220+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d3453db3-71ce-461f-97ea-30b4458568b0" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="dab22103-ab88-a84a-c9fe-085afb7a502d">
+      <Execution id="4c189ecb-90af-4717-991c-4dab4aec8fed" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegmentsAsync_ParsesEmptyObject" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.FromSettings_AppliesParserProfile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="878b7d91-3b14-1453-be8d-e61fea58ebee">
+      <Execution id="e8743fd8-1bc0-4c95-a94e-07f6fdce1b4e" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests" name="FromSettings_AppliesParserProfile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisSpanInputTests.SpanInput_ExposesLengthAndSpan" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="4f650c5b-b5a7-46b2-1ba2-f5d0d681a305">
+      <Execution id="dee14714-ce9b-406c-81ee-d2e202971cc2" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisSpanInputTests" name="SpanInput_ExposesLengthAndSpan" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Events.NullAjisEventSinkTests.EmitAsync_CompletesImmediately" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="0763c99e-1b25-fce0-09b0-6c70a7144dd5">
+      <Execution id="d555726d-0f1c-466b-9407-23ff57c7e51e" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Events.NullAjisEventSinkTests" name="EmitAsync_CompletesImmediately" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;2M&quot;)" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="70d347e5-4a2b-bcd8-8d36-ea9ae9aa4ba9">
+      <Execution id="31f89614-4062-4ed2-8c62-22f0fac89372" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Events.AjisEventStreamTests.EmitAsync_WritesToStream" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="475b4eb9-7ddb-0e86-a02c-3f9839e44e57">
+      <Execution id="816274e6-043a-4dcd-b998-99a0cfdc6f76" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Events.AjisEventStreamTests" name="EmitAsync_WritesToStream" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticFactoryTests.Error_StoresArgsInData" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="df5a2aca-98c3-5150-29d9-3cfdf2c81f36">
+      <Execution id="b8627015-8961-4a39-bf2a-ed12a476de3f" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticFactoryTests" name="Error_StoresArgsInData" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesNestedArrayInObject" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="e644f91d-93a4-8308-bebe-1fabeed21ea2">
+      <Execution id="fd1998e5-9bc9-42d6-be47-e8da5b633fe8" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesNestedArrayInObject" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisSpanInputTests.SpanInput_OpenStream_ReturnsNull" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="24220865-5ad8-9578-b82d-69711c768b9c">
+      <Execution id="4089757f-3462-45fb-9609-a491f507b123" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisSpanInputTests" name="SpanInput_OpenStream_ReturnsNull" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.Default_MatchesConstructorDefaults" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="89022451-5b25-6f3d-64f5-ba9442a1e5eb">
+      <Execution id="9a61d1c3-eeb4-4794-a55b-d0258b45cbc5" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests" name="Default_MatchesConstructorDefaults" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_WithSettings_MapsParserProfileToEnginePreference" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="49ba28e5-4ea3-9a0c-c91b-558154e28769">
+      <Execution id="bfc6ac95-d189-448b-badc-42729e2bf4f9" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests" name="Run_WithSettings_MapsParserProfileToEnginePreference" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.GetText_FormatsArgs_WhenProvided" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="d9d26174-334a-0f5c-127d-98af5435ae13">
+      <Execution id="4bf95ea5-5c61-4758-8c6c-1599816d1295" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests" name="GetText_FormatsArgs_WhenProvided" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisBuiltInLocalesTests.LoadEnglishAsync_LoadsEmbeddedLocale" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="acb75938-fb59-06ec-8f9a-454a0a79d765">
+      <Execution id="83dd7454-0a09-4ffd-a44d-2b5326e6d7fe" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisBuiltInLocalesTests" name="LoadEnglishAsync_LoadsEmbeddedLocale" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticKeysTests.For_ReturnsExpectedKey" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="0f32d603-c557-d53f-5b5b-cdacc36b407b">
+      <Execution id="3d9444ef-1bd2-42dc-a85e-a0589809ce35" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticKeysTests" name="For_ReturnsExpectedKey" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.TestData.AjisLargePayloadGeneratorTests.WriteUsersJsonFile_CreatesFile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="16394650-2baf-0c12-4fb1-604e8682fe7a">
+      <Execution id="ab943f6d-5732-4fcf-a48b-169f2f098031" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.TestData.AjisLargePayloadGeneratorTests" name="WriteUsersJsonFile_CreatesFile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticKeysTests.For_Unknown_ReturnsUnknownKey" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="3266431f-bd12-e7e8-1c44-9e8a00af40b4">
+      <Execution id="f01071ca-bba5-449a-b501-5ab248689194" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticKeysTests" name="For_Unknown_ReturnsUnknownKey" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisLocalizationDefaultsTests.BuildDefaultAsync_PrioritizesUserOverrides" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="50ec8782-e35d-e644-b78b-0f88ee2dd858">
+      <Execution id="3959503f-32ae-41bf-9ba8-f2ba4ffca681" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisLocalizationDefaultsTests" name="BuildDefaultAsync_PrioritizesUserOverrides" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="32e74f07-1a1a-79e2-355d-ab74b3aa4725">
+      <Execution id="79039c53-5ce9-4e36-97ce-a3143dd60430" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesArrayValues" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="9cb04254-eec2-a9ab-80ca-9a9bf1b001a6">
+      <Execution id="47fb2faf-188c-4468-9fff-4dff9d1a753e" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesArrayValues" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_InputWithoutSpan_EmitsInputNotSupported" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="d52cefa7-1a2b-75bc-0468-92d643a950e6">
+      <Execution id="1bb04ae1-b95c-42a6-a9ef-3e41dfef7904" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests" name="Run_InputWithoutSpan_EmitsInputNotSupported" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkOptionsTests.Defaults_AreExpected" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="f789fd9d-49e9-62b8-cb1f-b4db6b16c7ea">
+      <Execution id="0b66fa46-6b9c-4222-938d-1712ec92a00e" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkOptionsTests" name="Defaults_AreExpected" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesObjectValues" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="da918c49-8894-ba38-d05c-48cb320d14b0">
+      <Execution id="823cc22b-b25b-4c24-9cec-c62cd482346b" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesObjectValues" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.Build_RespectsPriorityOrder" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="3440eb3b-c0c6-c936-5fa7-39f59975076a">
+      <Execution id="1b1adc69-8b85-4cad-a8dd-c5c9197c0bc6" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests" name="Build_RespectsPriorityOrder" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_LaxMode_EmitsNotSupported" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="8fb90144-9d9f-4077-4824-2dc498b15b3c">
+      <Execution id="5664d9c5-0c69-4dba-a62a-54be8287c539" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests" name="Run_LaxMode_EmitsNotSupported" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisLocalizationDefaultsTests.GetDefaultCulture_UsesCurrentUICulture" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="577cbdbb-75cf-e82f-1a5a-1ff3f2ba5b96">
+      <Execution id="df049209-e4ee-4c98-8470-bd76d9d50b0c" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisLocalizationDefaultsTests" name="GetDefaultCulture_UsesCurrentUICulture" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.WithProcessingProfile_MapsToEnginePreference" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="51085d67-6103-21f5-f380-b8fcef254bc2">
+      <Execution id="5c549623-5584-4243-beea-07c48e444604" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests" name="WithProcessingProfile_MapsToEnginePreference" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.TestData.AjisBenchmarkRunnerTests.RunAsync_ProducesResults" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="7ab4a9b2-98f1-5bff-8ce7-63c3a6946d3d">
+      <Execution id="440d94a3-b191-455a-aefc-b24e42a29e2e" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.TestData.AjisBenchmarkRunnerTests" name="RunAsync_ProducesResults" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesMultipleProperties" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="ffd763ad-38c8-9a9a-6302-b5ede2f88cec">
+      <Execution id="329ee212-960f-4dfb-8da9-b2f93c582dd8" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesMultipleProperties" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="930f0e38-b4d4-a691-decb-55b2d86e9a1a">
+      <Execution id="2e1449e7-78cd-4a48-b698-8f60443550d2" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_LowMemoryProfile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="94697f5e-5f94-a0c7-d6e8-5f914674ce47">
+      <Execution id="e4a0bfd9-9512-4146-ad04-9c48139414c0" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegments_LargePayload_UniversalProfile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="5996ac70-91b3-2ce3-dc33-53531cca2e2a">
+      <Execution id="4fd17755-0304-4087-94d2-e7d0fd72bb98" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegments_LargePayload_UniversalProfile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.EnLocaleDiagnosticsCoverageTests.EnLocale_ShouldContain_AllDiagnosticKeys" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="47ae770f-14e3-bdda-29a6-edf6d53d3848">
+      <Execution id="8cd706bb-c43c-47a5-9a67-0d7189376981" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.EnLocaleDiagnosticsCoverageTests" name="EnLocale_ShouldContain_AllDiagnosticKeys" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticsTests.Create_UsesStableKeyFromCode" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="99a860c5-2f29-363c-9f7d-ef723b879cff">
+      <Execution id="e892d45c-8ed7-4210-b0ee-20c446a399fe" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticsTests" name="Create_UsesStableKeyFromCode" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_VisitorAbort_EmitsVisitorAbortError" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="c134272d-82ca-fcaa-4128-4f9bc92f6568">
+      <Execution id="206e4061-2b98-42ea-a4f2-453fd2732e5f" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests" name="Run_VisitorAbort_EmitsVisitorAbortError" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisEngineCostTests.Score_PenalizesRandomAccess" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="4318c4b9-93cd-ad3e-3d26-6d9d61e8212a">
+      <Execution id="d3453db3-71ce-461f-97ea-30b4458568b0" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisEngineCostTests" name="Score_PenalizesRandomAccess" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;3g&quot;)" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="41077c24-6b89-65dd-ca2a-9723104185ba">
+      <Execution id="63aee6d7-2925-4b55-9e0b-3594b8c5c94d" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="491d8bd1-983c-5d3f-6586-ea7fd743e635">
+      <Execution id="32ceb6f4-aa84-453f-8b56-9e8727228301" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.WithProcessingProfileIfDefault_DoesNotOverrideExplicitPreference" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="b6216b64-dd8e-3e71-14e3-7112ecaddbf4">
+      <Execution id="3ec5caf1-aad9-4b4f-b5c5-d7b986ed38fb" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests" name="WithProcessingProfileIfDefault_DoesNotOverrideExplicitPreference" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_InvalidChunkThreshold_Throws" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="a9935656-d0a6-8cab-454e-6f090081208b">
+      <Execution id="3995534b-9297-4cb4-8491-0bd49f1a555f" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_InvalidChunkThreshold_Throws" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Events.AjisEventStreamTests.EmitAsync_ReturnsCanceled_WhenCancellationRequested" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="163830c1-6c8d-2c8f-7341-1815b35bc54a">
+      <Execution id="7a153e7b-62b1-4433-b345-cd97043fa48a" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Events.AjisEventStreamTests" name="EmitAsync_ReturnsCanceled_WhenCancellationRequested" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesNull" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="50fdc641-87f2-ac27-3db0-00e09a7c58a6">
+      <Execution id="a9f8f69b-f95c-4ebf-bdb6-425622afa2ad" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesNull" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="e1d38f33-0002-29bb-7847-79930514339d">
+      <Execution id="6d04596f-0737-4ac8-a405-fd59bd1ef639" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;1k&quot;)" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="7ed96b42-d682-398b-d5c2-1932c22ae692">
+      <Execution id="35e58849-6551-49b0-a05a-2509977f4d99" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesFloatNumber" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="45c81ece-faec-e06a-e135-d1054f8ab58d">
+      <Execution id="2a0bbd33-f6b3-4044-8f12-63010d0985e6" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesFloatNumber" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisLocDictionaryTests.Entries_ReturnsBackingDictionary" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="329e4244-50b6-0317-e8b3-6de3e4dc042f">
+      <Execution id="cfa75a44-b4cb-4f22-b294-f9bca6299648" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisLocDictionaryTests" name="Entries_ReturnsBackingDictionary" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Configuration.AjisSettingsTests.Defaults_AreExpected" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="87bf7c5c-34fc-8979-6982-08085e208f75">
+      <Execution id="46a6db33-8ff2-4a88-8a18-bb79db9a4bbb" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Configuration.AjisSettingsTests" name="Defaults_AreExpected" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegments_LargePayload_HighThroughputProfile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="a29712be-bba1-5b8a-6d90-443355cc63c2">
+      <Execution id="1076a359-ddb3-4d0e-bbf5-2c6c2c58026a" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegments_LargePayload_HighThroughputProfile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_ChunkedPath_DecodesEscapedString" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="4a46e4e0-2d56-d3a0-2cf3-4e42d3a5b02c">
+      <Execution id="8e8d9d6a-426f-469e-9fa0-e4bb8ff944b5" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_ChunkedPath_DecodesEscapedString" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: &quot;4&quot;)" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="4f5dcf71-e128-bda0-887e-1cd30911a533">
+      <Execution id="4eaf0b30-848b-4524-bbb3-af642d1fed54" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkOptionsTests.DefaultForM1_MatchesConstructorDefaults" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="31459a72-6086-678e-446e-4c9906506022">
+      <Execution id="47360b80-8335-4e2b-9b51-fef936dc6e42" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkOptionsTests" name="DefaultForM1_MatchesConstructorDefaults" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.GetText_UsesMissingKeyBehavior" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="fbea0ff6-9520-7667-537b-445e51f243fd">
+      <Execution id="0e66f60d-9aab-44d5-8120-c2c5131db7b6" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests" name="GetText_UsesMissingKeyBehavior" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticsTests.Create_WithKey_PreservesProvidedKey" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="4c585870-4fb5-a1a8-b969-f9b1e5c02ba0">
+      <Execution id="0454018e-a526-413c-8e83-2bdcc0701625" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Diagnostics.AjisDiagnosticsTests" name="Create_WithKey_PreservesProvidedKey" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.TestData.AjisLargePayloadGeneratorTests.WriteUsersJson_WritesExpectedShape" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="ebe4de89-53b6-cc4b-82d8-8b05bbb7f2bf">
+      <Execution id="79f6e599-3a20-4485-8e93-319290f720fa" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.TestData.AjisLargePayloadGeneratorTests" name="WriteUsersJson_WritesExpectedShape" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_Over2Gb_NotSupportedYet" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="a64bc7d0-cd5f-071b-eea8-931228ad77aa">
+      <Execution id="76beab5d-63be-4284-84f9-98370339c8d8" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests" name="ParseSegmentsAsync_Over2Gb_NotSupportedYet" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesStringWithEscapes" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="11f02c72-846b-92c9-1b67-a44984e4e042">
+      <Execution id="90ab6889-0694-4109-a498-dbd827f2ca21" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesStringWithEscapes" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisEngineCostTests.Score_WeightsPassesHeavily" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="6795a512-36d2-9ecb-30c8-39cd7a17e17a">
+      <Execution id="49bb633e-2cdb-4235-a2ae-f4f0cfa88fd6" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisEngineCostTests" name="Score_WeightsPassesHeavily" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesPrefixedNumbers" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="785688ae-e0eb-1a03-2dbc-913938d3d398">
+      <Execution id="2b159a4e-f1c4-4d3a-9b6d-af8d057b6c46" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesPrefixedNumbers" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="cfa6d4b6-420e-e2a6-b7db-793f0b8ca906">
+      <Execution id="4d79aee2-f5a4-4a29-a85d-7f12b173e534" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests.Defaults_AreExpected" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="ad2f52bb-a14f-c890-c1f6-01b10c3f7329">
+      <Execution id="d80690df-f2b3-41e0-b0da-1049397ee40c" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.StreamWalkRunnerOptionsTests" name="Defaults_AreExpected" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesBooleanArray" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="0b23f73d-9898-72f2-0101-d588b037fd5e">
+      <Execution id="4abdab41-185a-4834-bd21-b4e5fbe99f68" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesBooleanArray" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Events.AjisProgressReporterTests.ReportAsync_ClampsPercent_AndEmitsOncePerValue" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="93a714e0-aea8-09ed-0033-8d9ba274b94d">
+      <Execution id="57e5ece0-e48f-4236-9f4c-852d9b41bdbc" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Events.AjisProgressReporterTests" name="ReportAsync_ClampsPercent_AndEmitsOncePerValue" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Events.NullAjisEventSinkTests.Instance_IsSingleton" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="b2dc0a6c-80a7-f108-789a-c612accd79f2">
+      <Execution id="f66b2f31-d645-4328-9ea5-77eadf6c94a4" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Events.NullAjisEventSinkTests" name="Instance_IsSingleton" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesComments_WhenEnabled" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="1d96155d-cc64-08c8-f75e-fe63724f6771">
+      <Execution id="3fe0090f-3d16-40de-83f3-9c01c8c167b4" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests" name="ParseSegments_ParsesComments_WhenEnabled" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests.Format_UsesCultureAndArgs" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="c1f97a8c-0d62-b23f-8604-8a082a5ca8d5">
+      <Execution id="02970b85-d0ae-47fa-ae68-3a33f60546d5" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisTextProviderBuilderTests" name="Format_UsesCultureAndArgs" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisLocDictionaryTests.TryGet_ReturnsExpectedValues" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="06bf45f2-1a62-f6af-56c6-7115e86d54aa">
+      <Execution id="1464e178-2da9-478d-916d-ad88c1bfa3a8" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisLocDictionaryTests" name="TryGet_ReturnsExpectedValues" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests.Run_ValidInput_Completes" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="0c225b12-df6b-32c8-fa76-c508d8b72362">
+      <Execution id="ec32ecb6-84cd-484b-b6a1-60022409be60" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Streaming.AjisStreamWalkRunnerTests" name="Run_ValidInput_Completes" />
+    </UnitTest>
+    <UnitTest name="Afrowave.AJIS.Core.Tests.Localization.AjisLocLoaderTests.LoadAsync_ParsesValidLines" storage="d:\ajis.dotnet\tests\afrowave.ajis.core.tests\bin\debug\net10.0\afrowave.ajis.core.tests.dll" id="74c8f8db-d1aa-5bfc-bab2-033b04f7dbb0">
+      <Execution id="c40f2ba1-f916-4240-99de-de36d63a5a01" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Core.Tests.Localization.AjisLocLoaderTests" name="LoadAsync_ParsesValidLines" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d52cefa7-1a2b-75bc-0468-92d643a950e6" executionId="1bb04ae1-b95c-42a6-a9ef-3e41dfef7904" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c134272d-82ca-fcaa-4128-4f9bc92f6568" executionId="206e4061-2b98-42ea-a4f2-453fd2732e5f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="acb75938-fb59-06ec-8f9a-454a0a79d765" executionId="83dd7454-0a09-4ffd-a44d-2b5326e6d7fe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9cb04254-eec2-a9ab-80ca-9a9bf1b001a6" executionId="47fb2faf-188c-4468-9fff-4dff9d1a753e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0b23f73d-9898-72f2-0101-d588b037fd5e" executionId="4abdab41-185a-4834-bd21-b4e5fbe99f68" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da918c49-8894-ba38-d05c-48cb320d14b0" executionId="823cc22b-b25b-4c24-9cec-c62cd482346b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7ab4a9b2-98f1-5bff-8ce7-63c3a6946d3d" executionId="440d94a3-b191-455a-aefc-b24e42a29e2e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f650c5b-b5a7-46b2-1ba2-f5d0d681a305" executionId="dee14714-ce9b-406c-81ee-d2e202971cc2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0c225b12-df6b-32c8-fa76-c508d8b72362" executionId="ec32ecb6-84cd-484b-b6a1-60022409be60" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3440eb3b-c0c6-c936-5fa7-39f59975076a" executionId="1b1adc69-8b85-4cad-a8dd-c5c9197c0bc6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d9d26174-334a-0f5c-127d-98af5435ae13" executionId="4bf95ea5-5c61-4758-8c6c-1599816d1295" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1d38f33-0002-29bb-7847-79930514339d" executionId="6d04596f-0737-4ac8-a405-fd59bd1ef639" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="11f02c72-846b-92c9-1b67-a44984e4e042" executionId="90ab6889-0694-4109-a498-dbd827f2ca21" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="329e4244-50b6-0317-e8b3-6de3e4dc042f" executionId="cfa75a44-b4cb-4f22-b294-f9bca6299648" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5996ac70-91b3-2ce3-dc33-53531cca2e2a" executionId="4fd17755-0304-4087-94d2-e7d0fd72bb98" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ffd763ad-38c8-9a9a-6302-b5ede2f88cec" executionId="329ee212-960f-4dfb-8da9-b2f93c582dd8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="89022451-5b25-6f3d-64f5-ba9442a1e5eb" executionId="9a61d1c3-eeb4-4794-a55b-d0258b45cbc5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="45c81ece-faec-e06a-e135-d1054f8ab58d" executionId="2a0bbd33-f6b3-4044-8f12-63010d0985e6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c1f97a8c-0d62-b23f-8604-8a082a5ca8d5" executionId="02970b85-d0ae-47fa-ae68-3a33f60546d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="51085d67-6103-21f5-f380-b8fcef254bc2" executionId="5c549623-5584-4243-beea-07c48e444604" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="87bf7c5c-34fc-8979-6982-08085e208f75" executionId="46a6db33-8ff2-4a88-8a18-bb79db9a4bbb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4c585870-4fb5-a1a8-b969-f9b1e5c02ba0" executionId="0454018e-a526-413c-8e83-2bdcc0701625" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dab22103-ab88-a84a-c9fe-085afb7a502d" executionId="4c189ecb-90af-4717-991c-4dab4aec8fed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0763c99e-1b25-fce0-09b0-6c70a7144dd5" executionId="d555726d-0f1c-466b-9407-23ff57c7e51e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cfa6d4b6-420e-e2a6-b7db-793f0b8ca906" executionId="4d79aee2-f5a4-4a29-a85d-7f12b173e534" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="577cbdbb-75cf-e82f-1a5a-1ff3f2ba5b96" executionId="df049209-e4ee-4c98-8470-bd76d9d50b0c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="49ba28e5-4ea3-9a0c-c91b-558154e28769" executionId="bfc6ac95-d189-448b-badc-42729e2bf4f9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f789fd9d-49e9-62b8-cb1f-b4db6b16c7ea" executionId="0b66fa46-6b9c-4222-938d-1712ec92a00e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="50ec8782-e35d-e644-b78b-0f88ee2dd858" executionId="3959503f-32ae-41bf-9ba8-f2ba4ffca681" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f32d603-c557-d53f-5b5b-cdacc36b407b" executionId="3d9444ef-1bd2-42dc-a85e-a0589809ce35" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41077c24-6b89-65dd-ca2a-9723104185ba" executionId="63aee6d7-2925-4b55-9e0b-3594b8c5c94d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="df5a2aca-98c3-5150-29d9-3cfdf2c81f36" executionId="b8627015-8961-4a39-bf2a-ed12a476de3f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fbea0ff6-9520-7667-537b-445e51f243fd" executionId="0e66f60d-9aab-44d5-8120-c2c5131db7b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="163830c1-6c8d-2c8f-7341-1815b35bc54a" executionId="7a153e7b-62b1-4433-b345-cd97043fa48a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b2dc0a6c-80a7-f108-789a-c612accd79f2" executionId="f66b2f31-d645-4328-9ea5-77eadf6c94a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a9935656-d0a6-8cab-454e-6f090081208b" executionId="3995534b-9297-4cb4-8491-0bd49f1a555f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="930f0e38-b4d4-a691-decb-55b2d86e9a1a" executionId="2e1449e7-78cd-4a48-b698-8f60443550d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a64bc7d0-cd5f-071b-eea8-931228ad77aa" executionId="76beab5d-63be-4284-84f9-98370339c8d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="47ae770f-14e3-bdda-29a6-edf6d53d3848" executionId="8cd706bb-c43c-47a5-9a67-0d7189376981" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b6216b64-dd8e-3e71-14e3-7112ecaddbf4" executionId="3ec5caf1-aad9-4b4f-b5c5-d7b986ed38fb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6795a512-36d2-9ecb-30c8-39cd7a17e17a" executionId="49bb633e-2cdb-4235-a2ae-f4f0cfa88fd6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8fb90144-9d9f-4077-4824-2dc498b15b3c" executionId="5664d9c5-0c69-4dba-a62a-54be8287c539" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4a46e4e0-2d56-d3a0-2cf3-4e42d3a5b02c" executionId="8e8d9d6a-426f-469e-9fa0-e4bb8ff944b5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="06bf45f2-1a62-f6af-56c6-7115e86d54aa" executionId="1464e178-2da9-478d-916d-ad88c1bfa3a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="32e74f07-1a1a-79e2-355d-ab74b3aa4725" executionId="79039c53-5ce9-4e36-97ce-a3143dd60430" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad2f52bb-a14f-c890-c1f6-01b10c3f7329" executionId="d80690df-f2b3-41e0-b0da-1049397ee40c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74c8f8db-d1aa-5bfc-bab2-033b04f7dbb0" executionId="c40f2ba1-f916-4240-99de-de36d63a5a01" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7ed96b42-d682-398b-d5c2-1932c22ae692" executionId="35e58849-6551-49b0-a05a-2509977f4d99" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="99a860c5-2f29-363c-9f7d-ef723b879cff" executionId="e892d45c-8ed7-4210-b0ee-20c446a399fe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ebe4de89-53b6-cc4b-82d8-8b05bbb7f2bf" executionId="79f6e599-3a20-4485-8e93-319290f720fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f5dcf71-e128-bda0-887e-1cd30911a533" executionId="4eaf0b30-848b-4524-bbb3-af642d1fed54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="70d347e5-4a2b-bcd8-8d36-ea9ae9aa4ba9" executionId="31f89614-4062-4ed2-8c62-22f0fac89372" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="491d8bd1-983c-5d3f-6586-ea7fd743e635" executionId="32ceb6f4-aa84-453f-8b56-9e8727228301" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="24220865-5ad8-9578-b82d-69711c768b9c" executionId="4089757f-3462-45fb-9609-a491f507b123" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="93a714e0-aea8-09ed-0033-8d9ba274b94d" executionId="57e5ece0-e48f-4236-9f4c-852d9b41bdbc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="50fdc641-87f2-ac27-3db0-00e09a7c58a6" executionId="a9f8f69b-f95c-4ebf-bdb6-425622afa2ad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1d96155d-cc64-08c8-f75e-fe63724f6771" executionId="3fe0090f-3d16-40de-83f3-9c01c8c167b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="785688ae-e0eb-1a03-2dbc-913938d3d398" executionId="2b159a4e-f1c4-4d3a-9b6d-af8d057b6c46" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="475b4eb9-7ddb-0e86-a02c-3f9839e44e57" executionId="816274e6-043a-4dcd-b998-99a0cfdc6f76" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3266431f-bd12-e7e8-1c44-9e8a00af40b4" executionId="f01071ca-bba5-449a-b501-5ab248689194" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e644f91d-93a4-8308-bebe-1fabeed21ea2" executionId="fd1998e5-9bc9-42d6-be47-e8da5b633fe8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="878b7d91-3b14-1453-be8d-e61fea58ebee" executionId="e8743fd8-1bc0-4c95-a94e-07f6fdce1b4e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a29712be-bba1-5b8a-6d90-443355cc63c2" executionId="1076a359-ddb3-4d0e-bbf5-2c6c2c58026a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16394650-2baf-0c12-4fb1-604e8682fe7a" executionId="ab943f6d-5732-4fcf-a48b-169f2f098031" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31459a72-6086-678e-446e-4c9906506022" executionId="47360b80-8335-4e2b-9b51-fef936dc6e42" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="94697f5e-5f94-a0c7-d6e8-5f914674ce47" executionId="e4a0bfd9-9512-4146-ad04-9c48139414c0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4318c4b9-93cd-ad3e-3d26-6d9d61e8212a" executionId="d3453db3-71ce-461f-97ea-30b4458568b0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Výsledky neuvedené v seznamu" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Všechny načtené výsledky" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="67" executed="64" passed="52" failed="12" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.2)&#xD;
+[xUnit.net 00:00:00.25]   Discovering: Afrowave.AJIS.Core.Tests&#xD;
+[xUnit.net 00:00:00.58]   Discovered:  Afrowave.AJIS.Core.Tests&#xD;
+[xUnit.net 00:00:00.87]   Starting:    Afrowave.AJIS.Core.Tests&#xD;
+[xUnit.net 00:00:01.13]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.13]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.13]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.13]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(82,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.13]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.14]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.14]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(140,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.14]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(34,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject()&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(34,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject()&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(41,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject()&#xD;
+[xUnit.net 00:00:01.14]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.14]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.14]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.14]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs(60,0): at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.&lt;&gt;c__DisplayClass2_0.&lt;&lt;RunAjisStreamAsync&gt;b__0&gt;d.MoveNext()&#xD;
+[xUnit.net 00:00:01.14]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs(60,0): at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.&lt;&gt;c__DisplayClass2_0.&lt;&lt;RunAjisStreamAsync&gt;b__0&gt;d.MoveNext()&#xD;
+[xUnit.net 00:00:01.14]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs(62,0): at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.&lt;&gt;c__DisplayClass2_0.&lt;&lt;RunAjisStreamAsync&gt;b__0&gt;d.MoveNext()&#xD;
+[xUnit.net 00:00:01.14]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs(103,0): at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.MeasureAsync(String name, Func`1 action)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs(56,0): at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.RunAjisStreamAsync(String name, String path, CancellationToken ct)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\TestData\AjisBenchmarkRunner.cs(27,0): at Afrowave.AJIS.Testing.TestData.AjisBenchmarkRunner.RunAsync(String path, CancellationToken ct)&#xD;
+[xUnit.net 00:00:01.14]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\TestData\AjisBenchmarkRunnerTests.cs(18,0): at Afrowave.AJIS.Core.Tests.TestData.AjisBenchmarkRunnerTests.RunAsync_ProducesResults()&#xD;
+[xUnit.net 00:00:01.14]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.15]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.15]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.15]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.15]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(82,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.15]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.16]       AJIS extensions not implemented yet (hex/binary numbers)&#xD;
+[xUnit.net 00:00:01.16]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.16]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.16]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(82,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.16]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.16]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.16]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(140,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.16]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(55,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(55,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.16]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(62,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.16]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.17]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.17]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(140,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.17]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(76,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(76,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(83,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.17]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.17]       System.Text.Json.JsonReaderException : '"' is an invalid end of a number. Expected a delimiter. LineNumber: 0 | BytePositionInLine: 1020.&#xD;
+[xUnit.net 00:00:01.17]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.17]            at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader&amp; json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)&#xD;
+[xUnit.net 00:00:01.17]            at System.Text.Json.Utf8JsonReader.TryGetNumber(ReadOnlySpan`1 data, Int32&amp; consumed)&#xD;
+[xUnit.net 00:00:01.17]            at System.Text.Json.Utf8JsonReader.ConsumeNumber()&#xD;
+[xUnit.net 00:00:01.17]            at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)&#xD;
+[xUnit.net 00:00:01.17]            at System.Text.Json.Utf8JsonReader.ReadSingleSegment()&#xD;
+[xUnit.net 00:00:01.17]            at System.Text.Json.Utf8JsonReader.Read()&#xD;
+[xUnit.net 00:00:01.17]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(254,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFileChunked(String path, AjisSettings settings, Int64 thresholdBytes)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(197,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.18]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(79,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(82,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(String threshold)&#xD;
+[xUnit.net 00:00:01.18]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.18]       &gt;2GB chunked mapping not implemented yet&#xD;
+[xUnit.net 00:00:01.18]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.18]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.18]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(140,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.19]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.19]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(97,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.19]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(97,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.19]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseTests.cs(104,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile()&#xD;
+[xUnit.net 00:00:01.19]         --- End of stack trace from previous location ---&#xD;
+V testovacím běhu se přeskočil test Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesPrefixedNumbers.&#xD;
+V testovacím běhu se přeskočil test Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_Over2Gb_NotSupportedYet.&#xD;
+[xUnit.net 00:00:01.21]       AJIS extensions not implemented yet (comments/directives)&#xD;
+V testovacím běhu se přeskočil test Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesComments_WhenEnabled.&#xD;
+[xUnit.net 00:00:01.21]       System.Text.Json.JsonReaderException : '"' is an invalid end of a number. Expected a delimiter. LineNumber: 0 | BytePositionInLine: 1020.&#xD;
+[xUnit.net 00:00:01.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.22]            at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader&amp; json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)&#xD;
+[xUnit.net 00:00:01.22]            at System.Text.Json.Utf8JsonReader.TryGetNumber(ReadOnlySpan`1 data, Int32&amp; consumed)&#xD;
+[xUnit.net 00:00:01.22]            at System.Text.Json.Utf8JsonReader.ConsumeNumber()&#xD;
+[xUnit.net 00:00:01.22]            at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)&#xD;
+[xUnit.net 00:00:01.22]            at System.Text.Json.Utf8JsonReader.ReadSingleSegment()&#xD;
+[xUnit.net 00:00:01.22]            at System.Text.Json.Utf8JsonReader.Read()&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(254,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFileChunked(String path, AjisSettings settings, Int64 thresholdBytes)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(197,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.22]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(131,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath()&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(131,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath()&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(134,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath()&#xD;
+[xUnit.net 00:00:01.22]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.22]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineM1.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.22]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.23]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(158,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream()&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(158,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream()&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(161,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream()&#xD;
+[xUnit.net 00:00:01.23]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.23]       Afrowave.AJIS.Streaming.Walk.AjisStreamWalkException : trailing_garbage&#xD;
+[xUnit.net 00:00:01.23]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(394,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.SegmentVisitor.OnError(AjisStreamWalkError error)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(398,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.State.Fail(String code, Int64 offset)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.M1.cs(34,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunnerM1.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\Engines\AjisStreamWalkEngineLowMem.cs(14,0): at Afrowave.AJIS.Streaming.Walk.Engines.AjisStreamWalkEngineLowMem.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Walk\AjisStreamWalkRunner.cs(92,0): at Afrowave.AJIS.Streaming.Walk.AjisStreamWalkRunner.Run(ReadOnlySpan`1 inputUtf8, AjisStreamWalkOptions options, IAjisStreamWalkVisitor visitor, AjisStreamWalkRunnerOptions runnerOptions)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(179,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsInternal(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(161,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegments(ReadOnlySpan`1 utf8, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(211,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsMappedFile(String path, AjisSettings settings)&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Segments\AjisStreamingApiSkeleton.cs(129,0): at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+MoveNext()&#xD;
+[xUnit.net 00:00:01.23]            at Afrowave.AJIS.Streaming.Segments.AjisParse.ParseSegmentsAsync(Stream input, AjisSettings settings, CancellationToken ct)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(198,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile()&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(198,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile()&#xD;
+[xUnit.net 00:00:01.23]         D:\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Streaming\AjisParseLargeDataTests.cs(201,0): at Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile()&#xD;
+[xUnit.net 00:00:01.23]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.26]   Finished:    Afrowave.AJIS.Core.Tests (ID = '34d44476b4fa7e506365195c2cc492e5efd826fb9f60e5cb46d73d0dc5e82410')&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.5722064+01:00">
+        <Text>[xUnit.net 00:00:01.13]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: "3g") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.5774681+01:00">
+        <Text>[xUnit.net 00:00:01.14]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_ParsesEmptyObject [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.5827272+01:00">
+        <Text>[xUnit.net 00:00:01.14]     Afrowave.AJIS.Core.Tests.TestData.AjisBenchmarkRunnerTests.RunAsync_ProducesResults [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.5905210+01:00">
+        <Text>[xUnit.net 00:00:01.15]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: "4") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Warning" timestamp="2026-02-06T13:24:16.6293061+01:00">
+        <Text>[xUnit.net 00:00:01.15]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesPrefixedNumbers [SKIP]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6298499+01:00">
+        <Text>[xUnit.net 00:00:01.16]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: "2M") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6317143+01:00">
+        <Text>[xUnit.net 00:00:01.16]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6331726+01:00">
+        <Text>[xUnit.net 00:00:01.17]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6349072+01:00">
+        <Text>[xUnit.net 00:00:01.17]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_ParsesSuffixes(threshold: "1k") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Warning" timestamp="2026-02-06T13:24:16.6359961+01:00">
+        <Text>[xUnit.net 00:00:01.18]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_Over2Gb_NotSupportedYet [SKIP]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6361294+01:00">
+        <Text>[xUnit.net 00:00:01.18]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Warning" timestamp="2026-02-06T13:24:16.6499051+01:00">
+        <Text>[xUnit.net 00:00:01.21]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseTests.ParseSegments_ParsesComments_WhenEnabled [SKIP]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6577862+01:00">
+        <Text>[xUnit.net 00:00:01.21]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_ChunkThreshold_UsesChunkedPath [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6629189+01:00">
+        <Text>[xUnit.net 00:00:01.22]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="5CG9398XS5N" outcome="Error" timestamp="2026-02-06T13:24:16.6717410+01:00">
+        <Text>[xUnit.net 00:00:01.23]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_LargePayload_LowMemoryProfile [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

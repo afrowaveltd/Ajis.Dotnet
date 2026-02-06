@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Afrowave.AJIS.Testing\Afrowave.AJIS.Testing.csproj" />
+    <ProjectReference Include="..\..\src\Afrowave.AJIS.Records\Afrowave.AJIS.Records.csproj" />
   </ItemGroup>
 
 </Project>

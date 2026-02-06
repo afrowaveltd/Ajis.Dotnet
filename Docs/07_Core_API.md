@@ -116,6 +116,8 @@ AjisOptions control:
 * enabled format features,
 * diagnostic behavior,
 * event emission policies.
+* processing profile (Universal / LowMemory / HighThroughput)
+* stream chunk threshold for memory-mapped parsing (e.g. 2G, 512M, 1k)
 
 Options must be immutable once parsing or serialization begins.
 

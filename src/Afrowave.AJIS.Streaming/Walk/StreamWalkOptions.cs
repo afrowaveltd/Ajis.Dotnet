@@ -134,4 +134,39 @@ public readonly record struct AjisStreamWalkRunnerOptions
    /// Canonical default runner-only profile.
    /// </summary>
    public static AjisStreamWalkRunnerOptions Default => new();
+
+   /// <summary>
+   /// Creates runner options from core settings, applying the parser processing profile.
+   /// </summary>
+   public static AjisStreamWalkRunnerOptions FromSettings(global::Afrowave.AJIS.Core.Configuration.AjisSettings? settings)
+   {
+      AjisStreamWalkRunnerOptions options = Default;
+
+      if(settings is null)
+         return options;
+
+      return options.WithProcessingProfileIfDefault(settings.ParserProfile);
+   }
+
+   /// <summary>
+   /// Applies a processing profile to the engine preference.
+   /// </summary>
+   public AjisStreamWalkRunnerOptions WithProcessingProfile(global::Afrowave.AJIS.Core.AjisProcessingProfile profile)
+      => this with
+      {
+         EnginePreference = profile switch
+         {
+            global::Afrowave.AJIS.Core.AjisProcessingProfile.LowMemory => AjisStreamWalkEnginePreference.LowMemory,
+            global::Afrowave.AJIS.Core.AjisProcessingProfile.HighThroughput => AjisStreamWalkEnginePreference.Speed,
+            _ => AjisStreamWalkEnginePreference.Balanced
+         }
+      };
+
+   /// <summary>
+   /// Applies a processing profile when the engine preference is still at its default.
+   /// </summary>
+   public AjisStreamWalkRunnerOptions WithProcessingProfileIfDefault(global::Afrowave.AJIS.Core.AjisProcessingProfile profile)
+      => EnginePreference == AjisStreamWalkEnginePreference.Balanced
+         ? WithProcessingProfile(profile)
+         : this;
 }

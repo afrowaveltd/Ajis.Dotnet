@@ -1,0 +1,28 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "escaped": "Line 1\nLine 2\tTabbed\r\nWindows line",
+  "quotes": "He said \"Hello\"",
+  "backslash": "C:\\Path\\To\\File"
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"escaped"
+STRING b"Line 1\\nLine 2\\tTabbed\\r\\nWindows line"
+NAME b"quotes"
+STRING b"He said \\\"Hello\\\""
+NAME b"backslash"
+STRING b"C:\\Path\\To\\File"
+END_OBJECT
+END_DOCUMENT

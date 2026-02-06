@@ -1,0 +1,58 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice",
+      "roles": ["admin", "user"]
+    },
+    {
+      "id": 2,
+      "name": "Bob",
+      "roles": ["user"]
+    }
+  ],
+  "total": 2
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"users"
+BEGIN_ARRAY
+BEGIN_OBJECT
+NAME b"id"
+NUMBER b"1"
+NAME b"name"
+STRING b"Alice"
+NAME b"roles"
+BEGIN_ARRAY
+STRING b"admin"
+STRING b"user"
+END_ARRAY
+END_OBJECT
+BEGIN_OBJECT
+NAME b"id"
+NUMBER b"2"
+NAME b"name"
+STRING b"Bob"
+NAME b"roles"
+BEGIN_ARRAY
+STRING b"user"
+END_ARRAY
+END_OBJECT
+END_ARRAY
+NAME b"total"
+NUMBER b"2"
+END_OBJECT
+END_DOCUMENT

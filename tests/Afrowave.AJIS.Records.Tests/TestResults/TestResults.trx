@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="eb8f6902-d608-49f0-87f4-63f601090da6" name="lo505926@5CG9398XS5N 2026-02-06 13:24:19" runUser="AD\lo505926" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-02-06T13:24:19.0821890+01:00" queuing="2026-02-06T13:24:19.0821894+01:00" start="2026-02-06T13:24:17.1586579+01:00" finish="2026-02-06T13:24:19.0885729+01:00" />
+  <TestSettings name="default" id="07e65047-f54a-46d7-9176-431a5629f6e0">
+    <Deployment runDeploymentRoot="lo505926_5CG9398XS5N_2026-02-06_13_24_19" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="33f3c781-6a2d-4f84-b25b-00e8567251cf" testId="611075c8-6300-74c5-8610-6b3f5e634444" testName="Afrowave.AJIS.Records.Tests.Class1Tests.Constructor_CreatesInstance" computerName="5CG9398XS5N" duration="00:00:00.0168364" startTime="2026-02-06T13:24:18.8966764+01:00" endTime="2026-02-06T13:24:18.9246200+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="33f3c781-6a2d-4f84-b25b-00e8567251cf" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Afrowave.AJIS.Records.Tests.Class1Tests.Constructor_CreatesInstance" storage="d:\ajis.dotnet\tests\afrowave.ajis.records.tests\bin\debug\net10.0\afrowave.ajis.records.tests.dll" id="611075c8-6300-74c5-8610-6b3f5e634444">
+      <Execution id="33f3c781-6a2d-4f84-b25b-00e8567251cf" />
+      <TestMethod codeBase="D:\Ajis.Dotnet\tests\Afrowave.AJIS.Records.Tests\bin\Debug\net10.0\Afrowave.AJIS.Records.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Afrowave.AJIS.Records.Tests.Class1Tests" name="Constructor_CreatesInstance" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="611075c8-6300-74c5-8610-6b3f5e634444" executionId="33f3c781-6a2d-4f84-b25b-00e8567251cf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Výsledky neuvedené v seznamu" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Všechny načtené výsledky" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.2)&#xD;
+[xUnit.net 00:00:00.28]   Discovering: Afrowave.AJIS.Records.Tests&#xD;
+[xUnit.net 00:00:00.57]   Discovered:  Afrowave.AJIS.Records.Tests&#xD;
+[xUnit.net 00:00:00.86]   Starting:    Afrowave.AJIS.Records.Tests&#xD;
+[xUnit.net 00:00:00.97]   Finished:    Afrowave.AJIS.Records.Tests (ID = 'a921f83c69e274b167e9ed52c6d8cf62c4257124049d6d4a1d2e7eed4be981bc')&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

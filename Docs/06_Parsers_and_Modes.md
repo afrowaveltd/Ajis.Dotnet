@@ -45,6 +45,12 @@ Defined modes:
 * **ExtraFast**
 * **Auto**
 
+Processing profile hint:
+
+* **Universal** (default)
+* **LowMemory**
+* **HighThroughput**
+
 ---
 
 ## 4. SmallFiles mode
@@ -156,6 +162,14 @@ The selection process must be:
 * fast,
 * conservative (prefer safety over marginal gains),
 * observable via diagnostic or debug events.
+
+### 7.3 Processing profile mapping
+
+Implementations may use the processing profile hint to select parser/serializer strategies.
+
+* **Universal** → balanced selection (default)
+* **LowMemory** → prefer streaming/minimal allocation engines
+* **HighThroughput** → prefer speed-optimized engines
 
 ---
 

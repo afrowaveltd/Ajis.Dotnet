@@ -4,7 +4,7 @@ using Afrowave.AJIS.Streaming.Walk;
 using Afrowave.AJIS.Streaming.Walk.Engines;
 using Xunit;
 
-namespace Afrowave.AJIS.Core.Tests.StreamWalk;
+namespace Afrowave.AJIS.Testing.StreamWalk;
 
 public sealed class EngineRegistryContractTests
 {

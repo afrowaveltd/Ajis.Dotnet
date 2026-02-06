@@ -48,6 +48,16 @@ AJIS **podporuje oba modely**.
 
 ---
 
+## 9.2.1 Processing profile hint
+
+Streamovací parser může respektovat **processing profile** z nastavení:
+
+* **Universal** – vyvážený výchozí režim
+* **LowMemory** – preferuje nízkou paměťovou stopu
+* **HighThroughput** – preferuje vyšší propustnost
+
+---
+
 ## 9.3 Segmentace dat
 
 Parser nikdy neposílá „celý dokument“.
@@ -109,6 +119,45 @@ Parser může pracovat nad:
 * `Stream`
 * `PipeReader`
 * custom transportem (ATP)
+
+---
+
+## 9.6.1 Aktuální stav implementace (M3)
+
+* `AjisParse.ParseSegments` používá StreamWalk M1 a mapuje události na segmenty.
+* `ParseSegmentsAsync` používá zero-copy pro `MemoryStream`, memory‑mapped čtení pro `FileStream`, a pro ostatní streamy používá dočasný soubor s memory‑mapped čtením (bez plného bufferu).
+* Prah pro chunked čtení lze nastavit v `AjisSettings.StreamChunkThreshold` (např. `1k`, `512M`, `2G`). Bez suffixu je hodnota v MB.
+* Chunked cesta aktuálně používá `Utf8JsonReader`, takže stringy jsou vraceny dekódované (bez původních escape sekvencí).
+* Chunked memory‑mapped cesta podporuje i soubory >2GB, ale není zatím pokrytá testovacím fixture.
+
+## 9.6.2 Testování profilů na větších datech
+
+* V testech `AjisParseLargeDataTests` se ověřuje Universal/HighThroughput/LowMemory na generovaném JSON payloadu.
+* Testuje se i `StreamChunkThreshold` (suffixy `k/M/g` a default v MB) a chování při neplatné hodnotě.
+* Chunked cesta je pokrytá testem s větším payloadem a escape sekvencí (dekódovaný string).
+
+## 9.7 M2 Reader foundation
+
+* Implementován `IAjisReader` se span/stream implementacemi.
+* Základní testy parity a refill chování v `AjisReaderTests`.
+
+## 9.8 M2 Lexer foundation
+
+* `AjisLexer` tokenizuje JSON subset nad `IAjisReader`.
+* Testy tokenizace v `AjisLexerTests` (escapes, unicode, čísla, stream reader) + pozice.
+* `AjisParse` nyní používá lexer-based parser pro span vstupy.
+* Validace čísel odpovídá JSON (bez leading plus, povinné číslice po tečce/exponentu).
+* Lexer podporuje AJIS prefixy (`0b`, `0o`, `0x`) a volitelné separátory podle `AjisNumberOptions`.
+* Validace separátorů respektuje skupiny (decimal/octal 3, binary 4, hex 2/4 bez mixu).
+* Stringy respektují `AjisTextMode`: JSON striktní bez newline, AJIS dovoluje multiline, Lex je tolerantní k invalidním escapes.
+* AJIS režim může vypnout escapes (`EnableEscapes=false`), což zachová backslash jako literal.
+* AJIS může povolit single-quote stringy přes `AllowSingleQuotes` (JSON je stále odmítá).
+* Unquoted property names jsou povoleny v AJIS/Lex (`AllowUnquotedPropertyNames`), JSON je odmítá.
+* Lex režim vrací neuzavřené stringy/escape sekvence jako best-effort tokeny.
+* Komentáře (`//`, `/* */`) jsou v AJIS/Lex ignorovány jako whitespace, JSON je odmítá.
+* Trailing commas jsou povoleny při `AllowTrailingCommas=true` nebo v Lex režimu.
+* Direktivy jsou řádky začínající `#` na začátku řádku; v AJIS/Lex se přeskočí jako whitespace (binding na další prvek dle pravidel).
+* Stream varianta v profilu `Universal` používá lexer-based parser nad `AjisStreamReader`.
 
 ---
 

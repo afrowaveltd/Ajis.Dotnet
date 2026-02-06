@@ -1,0 +1,28 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "unicode": "Příliš žluťoučký kůň úpěl ďábelské ódy",
+  "emoji": "😀🎉🚀",
+  "symbols": "→←↑↓♠♣♥♦"
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"unicode"
+STRING b"Příliš žluťoučký kůň úpěl ďábelské ódy"
+NAME b"emoji"
+STRING b"😀🎉🚀"
+NAME b"symbols"
+STRING b"→←↑↓♠♣♥♦"
+END_OBJECT
+END_DOCUMENT

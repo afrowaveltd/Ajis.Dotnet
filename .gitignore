@@ -51,6 +51,10 @@ benchmarks/**/results/
 
 !**/test_data/samples/**
 
+# Large AJIS/JSON datasets (100MB+)
+
+/test_data_ajis/big/
+
 # --- Coverage & reports ---
 
 coverage/

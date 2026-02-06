@@ -196,6 +196,25 @@ A CLI tool should be provided:
 * `ajis select <file> --path <path>`
 * `ajis patch <file> --patch <patchFile> --out <outFile>`
 * `ajis merge <base> <overlay> --out <outFile>`
+---
+
+## Test data generator (benchmarks)
+
+The benchmark project includes a simple payload generator for stress testing.
+
+Usage:
+
+```
+Ajis.Benchmarks generate <outputPath> [userCount] [addressesPerUser]
+Ajis.Benchmarks benchmark <inputPath>
+```
+
+Examples:
+
+```
+Ajis.Benchmarks generate test_data_ajis/big/users_150k.json 150000 3
+Ajis.Benchmarks benchmark test_data_ajis/big/users_150k.json
+```
 
 ---
 

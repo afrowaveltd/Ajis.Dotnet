@@ -20,6 +20,7 @@ public enum AjisDiagnosticCode
    ModeNotSupported = 1008,
    InvalidUtf8 = 1009,
    EngineSelected = 1010,
+   InputNotSupported = 1011,
 
    // Strings (1100–1199)
    StringUnterminated = 1101,

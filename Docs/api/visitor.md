@@ -50,7 +50,7 @@ The conceptual visitor interface includes the following callbacks:
 
 ### 3.1 Document lifecycle
 
-* `OnStartDocument()`
+* `OnStartDocument()` (optional in M1)
 * `OnEndDocument()`
 
 ### 3.2 Structural events
@@ -84,11 +84,10 @@ Implementations MAY define these as optional / no-op depending on feature flags.
 
 ### 4.1 OnStartDocument / OnEndDocument
 
-* `OnStartDocument` MUST be emitted exactly once at the beginning of a successful traversal.
+* `OnStartDocument` is optional in M1 and is not emitted by the .NET reference implementation.
 * `OnEndDocument` MUST be emitted exactly once at the end of a successful traversal.
 * If a fatal error occurs, `OnEndDocument` MUST NOT be emitted.
 
-No other event may occur before `OnStartDocument`.
 No other event may occur after `OnEndDocument`.
 
 ---
@@ -175,10 +174,7 @@ Rules:
 
 Note:
 
-* The exact slice boundaries (with or without surrounding quotes) MUST be documented by the implementation.
-* For M1 compliance, an implementation MUST be consistent and MUST specify its chosen representation.
-
-  * Recommended: slice contains the **string contents without surrounding quotes**.
+* The .NET M1 reference implementation provides the string contents **without surrounding quotes**.
 
 ---
 

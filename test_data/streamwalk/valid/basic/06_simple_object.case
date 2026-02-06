@@ -1,0 +1,31 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "john@example.com",
+  "active": true
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"name"
+STRING b"John Doe"
+NAME b"age"
+NUMBER b"30"
+NAME b"email"
+STRING b"john@example.com"
+NAME b"active"
+TRUE
+END_OBJECT
+END_DOCUMENT

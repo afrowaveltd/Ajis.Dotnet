@@ -4,7 +4,7 @@ using Afrowave.AJIS.Streaming.Walk;
 using Afrowave.AJIS.Streaming.Walk.Engines;
 using Xunit;
 
-namespace Afrowave.AJIS.Core.Tests.StreamWalk;
+namespace Afrowave.AJIS.Testing.StreamWalk;
 
 public sealed class EngineCostContractTests
 {
@@ -21,7 +21,7 @@ public sealed class EngineCostContractTests
          LargePayloadThresholdBytes = 1024
       };
 
-      foreach(var d in AjisStreamWalkEngineRegistry.All)
+      foreach(IAjisStreamWalkEngineDescriptor d in AjisStreamWalkEngineRegistry.All)
       {
          AjisEngineCost costSmall = d.EstimateCost("{}"u8, options, runnerOptions);
          Assert.True(costSmall.EstimatedPasses >= 1);

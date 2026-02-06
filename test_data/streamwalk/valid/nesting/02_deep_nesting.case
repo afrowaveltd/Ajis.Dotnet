@@ -1,0 +1,42 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "level1": {
+    "level2": {
+      "level3": {
+        "level4": {
+          "value": "deeply nested"
+        }
+      }
+    }
+  }
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"level1"
+BEGIN_OBJECT
+NAME b"level2"
+BEGIN_OBJECT
+NAME b"level3"
+BEGIN_OBJECT
+NAME b"level4"
+BEGIN_OBJECT
+NAME b"value"
+STRING b"deeply nested"
+END_OBJECT
+END_OBJECT
+END_OBJECT
+END_OBJECT
+END_OBJECT
+END_DOCUMENT

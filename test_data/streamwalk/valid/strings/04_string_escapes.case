@@ -1,0 +1,34 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "a": "tab -> \\t",
+  "b": "newline -> \\n",
+  "c": "quote -> \\\"",
+  "d": "backslash -> \\\\",
+  "e": "slashes -> \/ \/"
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"a"
+STRING b"tab -> \\t"
+NAME b"b"
+STRING b"newline -> \\n"
+NAME b"c"
+STRING b"quote -> \\\""
+NAME b"d"
+STRING b"backslash -> \\\\"
+NAME b"e"
+STRING b"slashes -> \\/ \\/"
+END_OBJECT
+END_DOCUMENT

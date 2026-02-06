@@ -15,7 +15,7 @@ public static class AjisSerialize
       AjisSettings? settings = null)
    {
       _ = segments;
-      _ = settings;
+      _ = AjisSerializationProfileSelector.Select(settings);
       throw new NotImplementedException("Serializer not implemented yet. This is an API skeleton.");
    }
 
@@ -27,7 +27,7 @@ public static class AjisSerialize
    {
       _ = output;
       _ = segments;
-      _ = settings;
+      _ = AjisSerializationProfileSelector.Select(settings);
       _ = ct;
       await Task.CompletedTask;
       throw new NotImplementedException("Serializer not implemented yet. This is an API skeleton.");
@@ -58,7 +58,7 @@ public static class AjisSerializer
    {
       _ = output;
       _ = value;
-      _ = settings;
+      _ = AjisSerializationProfileSelector.Select(settings);
       throw new NotImplementedException("Value serializer not implemented yet. This is an API skeleton.");
    }
 
@@ -73,7 +73,7 @@ public static class AjisSerializer
    {
       _ = output;
       _ = value;
-      _ = settings;
+      _ = AjisSerializationProfileSelector.Select(settings);
       _ = ct;
       throw new NotImplementedException("Value serializer not implemented yet. This is an API skeleton.");
    }
@@ -84,7 +84,7 @@ public static class AjisSerializer
    public static byte[] SerializeToUtf8Bytes(AjisValue value, AjisSettings? settings = null)
    {
       _ = value;
-      _ = settings;
+      _ = AjisSerializationProfileSelector.Select(settings);
       throw new NotImplementedException("Value serializer not implemented yet. This is an API skeleton.");
    }
 }

@@ -1,0 +1,49 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{
+  "string": "hello",
+  "number": 42,
+  "float": 3.14,
+  "boolean": true,
+  "null": null,
+  "array": [1, "two", false],
+  "object": {
+    "nested": "value"
+  }
+}
+
+# EXPECTED
+
+BEGIN_OBJECT
+NAME b"string"
+STRING b"hello"
+NAME b"number"
+NUMBER b"42"
+NAME b"float"
+NUMBER b"3.14"
+NAME b"boolean"
+TRUE
+NAME b"null"
+NULL
+NAME b"array"
+BEGIN_ARRAY
+NUMBER b"1"
+STRING b"two"
+FALSE
+END_ARRAY
+NAME b"object"
+BEGIN_OBJECT
+NAME b"nested"
+STRING b"value"
+END_OBJECT
+END_OBJECT
+END_DOCUMENT

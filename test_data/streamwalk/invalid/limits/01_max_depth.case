@@ -1,0 +1,16 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 1
+MAX_TOKEN_BYTES: 1048576
+
+# INPUT
+
+{"a":{"b":{"c":1}}}
+
+# EXPECTED
+
+ERROR max_depth_exceeded offset=10

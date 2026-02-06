@@ -104,6 +104,16 @@ Canonical rules are defined in a separate specification section.
 
 ---
 
+## 6.3 Processing profile hint
+
+Serializers may honor the processing profile hint from settings:
+
+* **Universal** → balanced selection (default)
+* **LowMemory** → prefer streaming/minimal allocation strategies
+* **HighThroughput** → prefer speed-optimized strategies
+
+---
+
 ## 7. Events and progress reporting
 
 AJIS serializers integrate with the event system.

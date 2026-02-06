@@ -1,0 +1,16 @@
+# OPTIONS
+
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+MAX_DEPTH: 64
+MAX_TOKEN_BYTES: 3
+
+# INPUT
+
+"abcd"
+
+# EXPECTED
+
+ERROR max_token_bytes_exceeded offset=0

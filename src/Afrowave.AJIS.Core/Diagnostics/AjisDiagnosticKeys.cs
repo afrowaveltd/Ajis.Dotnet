@@ -20,6 +20,7 @@ public static class AjisDiagnosticKeys
    public const string ModeNotSupported = "mode_not_supported";
    public const string InvalidUtf8 = "invalid_utf8";
    public const string EngineSelected = "engine_selected";
+   public const string InputNotSupported = "input_not_supported";
 
 
    // Strings
@@ -84,6 +85,7 @@ public static class AjisDiagnosticKeys
       AjisDiagnosticCode.ModeNotSupported => ModeNotSupported,
       AjisDiagnosticCode.InvalidUtf8 => InvalidUtf8,
       AjisDiagnosticCode.EngineSelected => EngineSelected,
+      AjisDiagnosticCode.InputNotSupported => InputNotSupported,
 
 
       AjisDiagnosticCode.StringUnterminated => StringUnterminated,

@@ -1,0 +1,12 @@
+
+FullName                                                                            Length
+--------                                                                            ------
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\arrays\t_arrays_nested_01.ajis         112
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\numbers\t_number_formats.ajis          498
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\numbers\t_numbers_stress_01.ajis       331
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\objects\t_deeply_nested_object.ajis    397
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\objects\t_many_keys.ajis              1335
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\objects\t_objects_mixed_01.ajis        245
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\strings\t_escape_showcase.ajis         326
+D:\Ajis.Dotnet\test_data_legacy\common\thematic\strings\t_string_escapes_01.ajis       130
+

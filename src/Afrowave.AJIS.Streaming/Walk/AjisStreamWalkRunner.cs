@@ -2,6 +2,7 @@
 
 using Afrowave.AJIS.Core.Diagnostics;
 using Afrowave.AJIS.Streaming.Walk.Engines;
+using Afrowave.AJIS.Streaming.Walk.Input;
 
 namespace Afrowave.AJIS.Streaming.Walk;
 
@@ -10,6 +11,22 @@ namespace Afrowave.AJIS.Streaming.Walk;
 /// </summary>
 public static class AjisStreamWalkRunner
 {
+   /// <summary>
+   /// Runs StreamWalk over an in-memory UTF-8 payload with core settings applied.
+   /// </summary>
+   public static void Run(
+      ReadOnlySpan<byte> inputUtf8,
+      AjisStreamWalkOptions options,
+      IAjisStreamWalkVisitor visitor,
+      global::Afrowave.AJIS.Core.Configuration.AjisSettings? settings,
+      AjisStreamWalkRunnerOptions runnerOptions = default)
+   {
+      AjisStreamWalkRunnerOptions effective = settings is null
+         ? runnerOptions
+         : runnerOptions.WithProcessingProfileIfDefault(settings.ParserProfile);
+
+      Run(inputUtf8, options, visitor, effective);
+   }
    /// <summary>
    /// Runs StreamWalk over an in-memory UTF-8 payload.
    /// </summary>
@@ -73,6 +90,54 @@ public static class AjisStreamWalkRunner
    message: null);
 
       engine.Run(inputUtf8, options, v, runnerOptions);
+   }
+
+   public static void Run(
+   IAjisInput input,
+   AjisStreamWalkOptions options,
+   IAjisStreamWalkVisitor visitor,
+   AjisStreamWalkRunnerOptions runnerOptions = default)
+   {
+      ArgumentNullException.ThrowIfNull(input);
+
+      if(input.TryGetUtf8Span(out ReadOnlySpan<byte> span))
+      {
+         Run(span, options, visitor, runnerOptions);
+         return;
+      }
+
+      // M1.3 contract exists, but engines for stream/file are future milestones.
+      AjisDiagnostic diag = AjisDiagnostics.Create(
+         AjisDiagnosticCode.InputNotSupported,
+         offset: 0,
+         severity: AjisDiagnosticSeverity.Error,
+         message: "Input source does not provide contiguous UTF-8 span. Stream/file inputs are not supported yet.");
+
+      if(runnerOptions.OnDiagnostic is not null)
+         runnerOptions.OnDiagnostic(diag);
+
+      visitor.OnError(new AjisStreamWalkError(
+         Code: AjisDiagnosticKeys.InputNotSupported,
+         Offset: 0,
+         Line: null,
+         Column: null));
+   }
+
+   /// <summary>
+   /// Runs StreamWalk over an input source with core settings applied.
+   /// </summary>
+   public static void Run(
+      IAjisInput input,
+      AjisStreamWalkOptions options,
+      IAjisStreamWalkVisitor visitor,
+      global::Afrowave.AJIS.Core.Configuration.AjisSettings? settings,
+      AjisStreamWalkRunnerOptions runnerOptions = default)
+   {
+      AjisStreamWalkRunnerOptions effective = settings is null
+         ? runnerOptions
+         : runnerOptions.WithProcessingProfileIfDefault(settings.ParserProfile);
+
+      Run(input, options, visitor, effective);
    }
 
    private static void Emit(AjisStreamWalkRunnerOptions runnerOptions, AjisDiagnostic diag)

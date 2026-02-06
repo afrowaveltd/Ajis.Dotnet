@@ -14,6 +14,12 @@ public static class AjisStreamWalkTestRunner
    public static AjisStreamWalkTestRunResult Run(
        AjisStreamWalkTestCase testCase,
        AjisStreamWalkRunnerOptions runnerOptions)
+      => Run(testCase, settings: null, runnerOptions);
+
+   public static AjisStreamWalkTestRunResult Run(
+       AjisStreamWalkTestCase testCase,
+       global::Afrowave.AJIS.Core.Configuration.AjisSettings? settings,
+       AjisStreamWalkRunnerOptions runnerOptions)
    {
       ArgumentNullException.ThrowIfNull(testCase);
 
@@ -57,6 +63,10 @@ public static class AjisStreamWalkTestRunner
           onError: err => producedError = err,
           onCompleted: () => completed = true);
 
+      AjisStreamWalkRunnerOptions effectiveRunnerOptions = settings is null
+         ? runnerOptions
+         : runnerOptions.WithProcessingProfileIfDefault(settings.ParserProfile);
+
       try
       {
          // Production runner consumes ReadOnlySpan<byte> (not ReadOnlyMemory<byte>).
@@ -64,7 +74,7 @@ public static class AjisStreamWalkTestRunner
             inputUtf8: testCase.InputUtf8.Span,
             options: options,
             visitor: visitor,
-            runnerOptions: runnerOptions);
+            runnerOptions: effectiveRunnerOptions);
       }
       catch(Exception ex)
       {
