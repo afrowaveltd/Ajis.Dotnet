@@ -29,6 +29,10 @@ All AJIS parsers must adhere to the following principles:
 
 Materialization of the full document is optional and mode-dependent.
 
+Directive syntax:
+
+* `#<namespace> <command> [key=value]...`
+
 ---
 
 ## 3. Parser modes overview
@@ -186,6 +190,10 @@ Emission rules:
 * emitted values must be complete and immutable,
 * parent-child relationships must be preserved via context identifiers,
 * emission order must follow input order.
+
+Reference implementation notes:
+
+* `AjisParse.ParseSegmentsWithDirectives` returns segments plus settings updated by document directives.
 
 ---
 

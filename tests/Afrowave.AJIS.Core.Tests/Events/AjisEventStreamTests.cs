@@ -1,7 +1,6 @@
 #nullable enable
 
 using CoreEvents = global::Afrowave.AJIS.Core.Events;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Events;
 
@@ -13,7 +12,7 @@ public sealed class AjisEventStreamTests
       var stream = new CoreEvents.AjisEventStream();
       var evt = new CoreEvents.AjisProgressEvent(DateTimeOffset.UtcNow, "op", 10, null, null);
 
-      await stream.EmitAsync(evt);
+      await stream.EmitAsync(evt, TestContext.Current.CancellationToken);
       stream.Complete();
 
       var received = new List<CoreEvents.AjisEvent>();

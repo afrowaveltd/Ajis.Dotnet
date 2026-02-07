@@ -84,6 +84,12 @@ Normative rules:
 * only monotonic progress is allowed,
 * percentage-based progress is optional but recommended.
 
+Reference implementation notes:
+
+* `ParseSegmentsAsync` emits `AjisMilestoneEvent` with name `parse` at start/end
+* `AjisProgressEvent` is emitted with 0% and 100% when total size is known
+* `AjisSerialize.ToStreamAsync` and `AjisSerializer.SerializeAsync` emit `serialize` milestones and progress
+
 ---
 
 ### 5.2 Diagnostic events

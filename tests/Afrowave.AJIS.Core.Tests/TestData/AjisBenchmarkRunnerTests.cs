@@ -15,7 +15,7 @@ public sealed class AjisBenchmarkRunnerTests
 
       AjisLargePayloadGenerator.WriteUsersJsonFile(path, userCount: 2, addressesPerUser: 1);
 
-      var results = await AjisBenchmarkRunner.RunAsync(path);
+      var results = await AjisBenchmarkRunner.RunAsync(path, TestContext.Current.CancellationToken);
 
       Assert.True(results.Count >= 3);
       Assert.Contains(results, r => r.Name.StartsWith("AJIS.", StringComparison.Ordinal));

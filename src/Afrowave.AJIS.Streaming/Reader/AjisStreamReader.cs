@@ -16,7 +16,7 @@ public sealed class AjisStreamReader : IAjisReader, IDisposable
    public AjisStreamReader(Stream stream, int bufferSize = 4096)
    {
       _stream = stream ?? throw new ArgumentNullException(nameof(stream));
-      if(bufferSize <= 0) throw new ArgumentOutOfRangeException(nameof(bufferSize));
+      ArgumentOutOfRangeException.ThrowIfNegativeOrZero(bufferSize);
       _buffer = new byte[bufferSize];
    }
 
@@ -58,7 +58,7 @@ public sealed class AjisStreamReader : IAjisReader, IDisposable
 
    public ReadOnlySpan<byte> ReadSpan(int length)
    {
-      if(length < 0) throw new ArgumentOutOfRangeException(nameof(length));
+      ArgumentOutOfRangeException.ThrowIfNegative(length);
       EnsureAvailable(length);
 
       var span = new ReadOnlySpan<byte>(_buffer, _start, length);

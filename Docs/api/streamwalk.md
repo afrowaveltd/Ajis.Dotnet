@@ -72,6 +72,9 @@ StreamWalk defaults.
 The `AjisStreamWalkRunner.Run(ReadOnlySpan<byte>, IAjisStreamWalkVisitor, AjisSettings, ...)`
 overload uses this mapping internally to run StreamWalk without specifying options manually.
 
+The `AjisStreamWalkRunner.RunWithDirectives` overload parses document directives first
+and applies them to settings before running StreamWalk.
+
 ---
 
 ## 4. Event Sequence Rules
@@ -198,6 +201,21 @@ Flags may indicate:
 ## 6. Comments and Directives
 
 AJIS may support comments and directives as extended syntax.
+
+When enabled by options, the .NET reference implementation emits:
+
+* `COMMENT` events for comment tokens
+* `DIRECTIVE` events for directive tokens
+
+Lax mode notes:
+
+* Unterminated strings and block comments are tolerated in Lax mode
+* Trailing commas and missing end delimiters are tolerated in Lax mode
+* Leading plus, NaN, and Infinity number literals are tolerated in Lax mode
+* Identifier tokens are emitted as `IDENTIFIER` in Lax mode
+* Unquoted property names are allowed when identifiers are enabled in Lax mode
+* Identifier tokens and unquoted property names are allowed in AJIS mode when identifiers are enabled
+* Typed literals (e.g., `T1707489221`) are emitted as `NUMBER` with raw lexeme slices
 
 StreamWalk behavior:
 

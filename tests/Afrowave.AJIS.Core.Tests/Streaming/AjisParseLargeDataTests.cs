@@ -1,11 +1,9 @@
 #nullable enable
 
-using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
-using System.Text;
 using Afrowave.AJIS.Testing.TestData;
-using Xunit;
+using System.Text;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
@@ -39,7 +37,7 @@ public sealed class AjisParseLargeDataTests
       try
       {
          string payload = "{\"text\":\"" + new string('a', 1500) + "\\n\"}";
-         await File.WriteAllTextAsync(path, payload);
+         await File.WriteAllTextAsync(path, payload, TestContext.Current.CancellationToken);
 
          var settings = new AjisSettings
          {
@@ -50,7 +48,8 @@ public sealed class AjisParseLargeDataTests
          await using var stream = File.OpenRead(path);
          var segments = new List<AjisSegment>();
 
-         await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings))
+         await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+            .WithCancellation(TestContext.Current.CancellationToken))
             segments.Add(segment);
          Assert.Contains(segments, s => s.ValueKind == AjisValueKind.String
             && s.Slice is { } slice
@@ -65,7 +64,7 @@ public sealed class AjisParseLargeDataTests
    private static bool HasLargeEscapedPayload(AjisSliceUtf8 slice)
    {
       string text = Encoding.UTF8.GetString(slice.Bytes.Span);
-      return text.Length > 1000 && (text.Contains("\n") || text.Contains("\\n"));
+      return text.Length > 1000 && (text.Contains('\n') || text.Contains("\\n"));
    }
 
    [Theory]
@@ -86,7 +85,8 @@ public sealed class AjisParseLargeDataTests
 
          int count = 0;
          await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings))
+         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+            .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 
          Assert.True(count > 0);
@@ -112,11 +112,12 @@ public sealed class AjisParseLargeDataTests
          await using var stream = File.OpenRead(path);
 
          await Assert.ThrowsAsync<FormatException>(async () =>
-         {
-            await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings))
             {
-            }
-         });
+               await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+               .WithCancellation(TestContext.Current.CancellationToken))
+               {
+               }
+            });
       }
       finally
       {
@@ -138,7 +139,8 @@ public sealed class AjisParseLargeDataTests
 
          int count = 0;
          await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings))
+         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+            .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 
          Assert.True(count > 0);
@@ -149,7 +151,9 @@ public sealed class AjisParseLargeDataTests
       }
    }
 
+#pragma warning disable xUnit1004 // Test methods should not be skipped
    [Fact(Skip = ">2GB chunked mapping test requires large fixture")]
+#pragma warning restore xUnit1004 // Test methods should not be skipped
    public void ParseSegmentsAsync_Over2Gb_NotCovered()
    {
       Assert.True(true);
@@ -165,7 +169,8 @@ public sealed class AjisParseLargeDataTests
          int count = 0;
 
          await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings))
+         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+            .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 
          Assert.True(count > 0);
@@ -205,7 +210,8 @@ public sealed class AjisParseLargeDataTests
          int count = 0;
 
          await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings))
+         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+            .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 
          Assert.True(count > 0);

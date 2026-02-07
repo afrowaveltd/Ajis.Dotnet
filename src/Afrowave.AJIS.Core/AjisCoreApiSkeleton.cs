@@ -220,6 +220,16 @@ public sealed class AjisSerializationOptions
    public bool Compact { get; init; } = false;
 
    /// <summary>
+   /// If true, serializer emits pretty-printed output with newlines and indentation.
+   /// </summary>
+   public bool Pretty { get; init; } = false;
+
+   /// <summary>
+   /// Number of spaces per indentation level when pretty printing.
+   /// </summary>
+   public int IndentSize { get; init; } = 2;
+
+   /// <summary>
    /// If true, serializer emits deterministic canonical output.
    /// </summary>
    public bool Canonicalize { get; init; } = false;
@@ -229,10 +239,6 @@ public sealed class AjisSerializationOptions
    /// </summary>
    public bool JsonCompatible { get; init; } = false;
 
-   /// <summary>
-   /// Indentation size used when <see cref="Compact"/> is false.
-   /// </summary>
-   public int IndentSize { get; init; } = 2;
 }
 
 /// <summary>

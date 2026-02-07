@@ -16,7 +16,7 @@ public sealed class AjisLocalizationDefaultsTests
          ["ajis.error.unknown"] = "override"
       });
 
-      var provider = await AjisLocalizationDefaults.BuildDefaultAsync(overrides, MissingKeyBehavior.ReturnKey);
+      var provider = await AjisLocalizationDefaults.BuildDefaultAsync(overrides, MissingKeyBehavior.ReturnKey, TestContext.Current.CancellationToken);
 
       Assert.Equal("override", provider.GetText("ajis.error.unknown"));
    }

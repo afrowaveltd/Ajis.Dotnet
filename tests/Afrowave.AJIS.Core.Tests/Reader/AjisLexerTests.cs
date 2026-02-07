@@ -106,12 +106,12 @@ public sealed class AjisLexerTests
    [Fact]
    public void Lexer_AjisMode_ReadsDirectives()
    {
-      var reader = new AjisSpanReader("#ajis mode=tryparse\ntrue"u8.ToArray());
+      var reader = new AjisSpanReader("#ajis mode value=tryparse\ntrue"u8.ToArray());
       var lexer = new AjisLexer(reader, textMode: global::Afrowave.AJIS.Core.AjisTextMode.Ajis, allowDirectives: true);
 
       var directive = lexer.NextToken();
       Assert.Equal(AjisTokenKind.Directive, directive.Kind);
-      Assert.Equal("ajis mode=tryparse", directive.Text);
+      Assert.Equal("ajis mode value=tryparse", directive.Text);
 
       var token = lexer.NextToken();
       Assert.Equal(AjisTokenKind.True, token.Kind);
@@ -120,7 +120,7 @@ public sealed class AjisLexerTests
    [Fact]
    public void Lexer_JsonMode_RejectsDirectives()
    {
-      var reader = new AjisSpanReader("#ajis mode=tryparse\ntrue"u8.ToArray());
+      var reader = new AjisSpanReader("#ajis mode value=tryparse\ntrue"u8.ToArray());
       var lexer = new AjisLexer(reader, textMode: global::Afrowave.AJIS.Core.AjisTextMode.Json, allowDirectives: true);
 
       Assert.Throws<FormatException>(() => lexer.NextToken());

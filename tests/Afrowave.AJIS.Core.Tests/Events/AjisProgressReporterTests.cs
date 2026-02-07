@@ -1,8 +1,7 @@
 #nullable enable
 
-using CoreEvents = global::Afrowave.AJIS.Core.Events;
 using NSubstitute;
-using Xunit;
+using CoreEvents = global::Afrowave.AJIS.Core.Events;
 
 namespace Afrowave.AJIS.Core.Tests.Events;
 
@@ -12,14 +11,14 @@ public sealed class AjisProgressReporterTests
    public async Task ReportAsync_ClampsPercent_AndEmitsOncePerValue()
    {
       var sink = Substitute.For<CoreEvents.IAjisEventSink>();
-      sink.EmitAsync(Arg.Any<CoreEvents.AjisEvent>(), Arg.Any<CancellationToken>())
+      _ = sink.EmitAsync(Arg.Any<CoreEvents.AjisEvent>(), Arg.Any<CancellationToken>())
          .Returns(ValueTask.CompletedTask);
 
       var reporter = new CoreEvents.AjisProgressReporter(sink, "op");
 
-      await reporter.ReportAsync(-5);
-      await reporter.ReportAsync(0);
-      await reporter.ReportAsync(150);
+      await reporter.ReportAsync(-5, ct: TestContext.Current.CancellationToken);
+      await reporter.ReportAsync(0, ct: TestContext.Current.CancellationToken);
+      await reporter.ReportAsync(150, ct: TestContext.Current.CancellationToken);
 
       await sink.Received(1).EmitAsync(
          Arg.Is<CoreEvents.AjisProgressEvent>(e => e.Percent == 0 && e.Operation == "op"),

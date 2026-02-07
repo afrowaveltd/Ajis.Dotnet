@@ -4,7 +4,6 @@ using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
 using Afrowave.AJIS.Streaming.Segments.Transforms;
 using System.Text;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
@@ -24,9 +23,9 @@ public sealed class AjisSegmentSelectTests
          AjisSegment.Exit(AjisContainerKind.Object, 25, 0)
       };
 
-      List<AjisSegment> selected = AjisSegmentSelect.SelectRootPropertyValue(segments, "config").ToList();
+      List<AjisSegment> selected = [.. AjisSegmentSelect.SelectRootPropertyValue(segments, "config")];
 
-      string[] rendered = selected.Select(Render).ToArray();
+      string[] rendered = [.. selected.Select(Render)];
       string[] expected =
       [
          "EnterContainer:Object",
@@ -49,9 +48,9 @@ public sealed class AjisSegmentSelectTests
          AjisSegment.Exit(AjisContainerKind.Object, 10, 0)
       };
 
-      List<AjisSegment> selected = AjisSegmentSelect.SelectRootPropertyWrapped(segments, "config").ToList();
+      List<AjisSegment> selected = [.. AjisSegmentSelect.SelectRootPropertyWrapped(segments, "config")];
 
-      string[] rendered = selected.Select(Render).ToArray();
+      string[] rendered = [.. selected.Select(Render)];
       string[] expected =
       [
          "EnterContainer:Object",

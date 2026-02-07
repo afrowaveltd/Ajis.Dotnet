@@ -4,12 +4,13 @@ using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
 using Afrowave.AJIS.Streaming.Segments.Transforms;
 using System.Text;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
 public sealed class AjisSegmentMapTests
 {
+   private static readonly string[] expected = ["FIRSTNAME", "LASTNAME"];
+
    [Fact]
    public void RenameProperties_RewritesPropertyNames()
    {
@@ -23,14 +24,13 @@ public sealed class AjisSegmentMapTests
          AjisSegment.Exit(AjisContainerKind.Object, 32, 0)
       };
 
-      List<AjisSegment> mapped = AjisSegmentMap.RenameProperties(segments, ToUpper).ToList();
+      List<AjisSegment> mapped = [.. AjisSegmentMap.RenameProperties(segments, ToUpper)];
 
-      string[] names = mapped
+      string[] names = [.. mapped
          .Where(s => s.Kind == AjisSegmentKind.PropertyName)
-         .Select(s => Encoding.UTF8.GetString(s.Slice!.Value.Bytes.Span))
-         .ToArray();
+         .Select(s => Encoding.UTF8.GetString(s.Slice!.Value.Bytes.Span))];
 
-      Assert.Equal(new[] { "FIRSTNAME", "LASTNAME" }, names);
+      Assert.Equal(expected, names);
    }
 
    private static string ToUpper(string value)

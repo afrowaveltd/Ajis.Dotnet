@@ -4,7 +4,6 @@ using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
 using Afrowave.AJIS.Streaming.Segments.Transforms;
 using System.Text;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
@@ -24,9 +23,9 @@ public sealed class AjisSegmentPatchTests
       };
 
       AjisSegment replacement = AjisSegment.Value(5, 1, AjisValueKind.Number, Slice("9"));
-      List<AjisSegment> patched = AjisSegmentPatch.ReplacePropertyValue(segments, "a", replacement).ToList();
+      List<AjisSegment> patched = [.. AjisSegmentPatch.ReplacePropertyValue(segments, "a", replacement)];
 
-      string[] rendered = patched.Select(Render).ToArray();
+      string[] rendered = [.. patched.Select(Render)];
       string[] expected =
       [
          "EnterContainer:Object",
@@ -56,9 +55,9 @@ public sealed class AjisSegmentPatchTests
       };
 
       AjisSegment replacement = AjisSegment.Value(5, 1, AjisValueKind.Number, Slice("9"));
-      List<AjisSegment> patched = AjisSegmentPatch.ReplacePropertyValue(segments, "a", replacement).ToList();
+      List<AjisSegment> patched = [.. AjisSegmentPatch.ReplacePropertyValue(segments, "a", replacement)];
 
-      string[] rendered = patched.Select(Render).ToArray();
+      string[] rendered = [.. patched.Select(Render)];
       string[] expected =
       [
          "EnterContainer:Object",

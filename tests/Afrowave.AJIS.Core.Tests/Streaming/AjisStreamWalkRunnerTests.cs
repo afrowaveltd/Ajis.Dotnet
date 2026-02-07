@@ -3,29 +3,23 @@
 using Afrowave.AJIS.Streaming.Walk;
 using Afrowave.AJIS.Streaming.Walk.Input;
 using NSubstitute;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
 public sealed class AjisStreamWalkRunnerTests
 {
    [Fact]
-   public void Run_LaxMode_EmitsNotSupported()
+   public void Run_LaxMode_Completes()
    {
       var visitor = Substitute.For<IAjisStreamWalkVisitor>();
       visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
 
-      var diagnostics = new List<global::Afrowave.AJIS.Core.Diagnostics.AjisDiagnostic>();
       var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
-      var runnerOptions = new AjisStreamWalkRunnerOptions { OnDiagnostic = d => diagnostics.Add(d) };
 
-      AjisStreamWalkRunner.Run("{}"u8, options, visitor, runnerOptions);
+      AjisStreamWalkRunner.Run("{}"u8, options, visitor, default);
 
-      Assert.Equal(2, diagnostics.Count);
-      Assert.Contains(diagnostics, d => d.Code == global::Afrowave.AJIS.Core.Diagnostics.AjisDiagnosticCode.ModeNotSupported);
-      Assert.Contains(diagnostics, d => d.Code == global::Afrowave.AJIS.Core.Diagnostics.AjisDiagnosticCode.Unknown);
-
-      visitor.Received(1).OnError(Arg.Is<AjisStreamWalkError>(e => e.Code == global::Afrowave.AJIS.Core.Diagnostics.AjisDiagnosticKeys.ModeNotSupported));
+      visitor.Received(1).OnCompleted();
+      visitor.DidNotReceive().OnError(Arg.Any<AjisStreamWalkError>());
    }
 
    [Fact]
@@ -88,6 +82,191 @@ public sealed class AjisStreamWalkRunnerTests
    }
 
    [Fact]
+   public void Run_WithComments_EmitsCommentEvent()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Comments = true };
+
+      AjisStreamWalkRunner.Run("// note\ntrue"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "COMMENT"));
+   }
+
+   [Fact]
+   public void Run_WithDirectives_EmitsDirectiveEvent()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Directives = true };
+
+      AjisStreamWalkRunner.Run("#tool hint=fast\ntrue"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "DIRECTIVE"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_AllowsUnterminatedString()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
+
+      AjisStreamWalkRunner.Run("\"abc"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "STRING"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_AllowsUnterminatedBlockComment()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax, Comments = true };
+
+      AjisStreamWalkRunner.Run("/* comment"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "COMMENT"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_AllowsTrailingCommaInObject()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
+
+      AjisStreamWalkRunner.Run("{\"a\":1,}"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "END_OBJECT"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_AllowsMissingEndBracket()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
+
+      AjisStreamWalkRunner.Run("[1"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "END_ARRAY"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_AllowsLeadingPlusNumber()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
+
+      AjisStreamWalkRunner.Run("+1"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "NUMBER"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_AllowsNaNLiteral()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
+
+      AjisStreamWalkRunner.Run("NaN"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "NUMBER"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_EmitsIdentifier()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
+
+      AjisStreamWalkRunner.Run("identifier"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "IDENTIFIER"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_AllowsUnquotedPropertyName()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax, Identifiers = true };
+
+      AjisStreamWalkRunner.Run("{name:1}"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "NAME"));
+   }
+
+   [Fact]
+   public void Run_AjisMode_EmitsTypedLiteralAsNumber()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Ajis };
+
+      AjisStreamWalkRunner.Run("{\"RegisteredAt\":T1707489221}"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "NUMBER"));
+   }
+
+   [Fact]
+   public void Run_AjisMode_EmitsIdentifier()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Ajis, Identifiers = true };
+
+      AjisStreamWalkRunner.Run("identifier"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "IDENTIFIER"));
+   }
+
+   [Fact]
+   public void Run_AjisMode_AllowsUnquotedPropertyName()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Ajis, Identifiers = true };
+
+      AjisStreamWalkRunner.Run("{name:1}"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "NAME"));
+   }
+
+   [Fact]
+   public void RunWithDirectives_AppliesModeDirective()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
+      {
+         AllowDirectives = true
+      };
+
+      AjisStreamWalkRunner.RunWithDirectives("#ajis mode value=lex\ntrue"u8, visitor, settings, default);
+
+      visitor.Received(1).OnCompleted();
+   }
+
+   [Fact]
    public void Run_WithSettings_MapsParserProfileToEnginePreference()
    {
       var visitor = Substitute.For<IAjisStreamWalkVisitor>();
@@ -128,7 +307,8 @@ public sealed class AjisStreamWalkRunnerTests
 
       AjisStreamWalkRunner.Run("null"u8, visitor, settings, default);
 
-      visitor.Received(1).OnError(Arg.Is<AjisStreamWalkError>(e => e.Code == global::Afrowave.AJIS.Core.Diagnostics.AjisDiagnosticKeys.ModeNotSupported));
+      visitor.Received(1).OnCompleted();
+      visitor.DidNotReceive().OnError(Arg.Any<AjisStreamWalkError>());
    }
 
    private sealed class NoSpanInput : IAjisInput
@@ -137,7 +317,7 @@ public sealed class AjisStreamWalkRunnerTests
 
       public bool TryGetUtf8Span(out ReadOnlySpan<byte> utf8)
       {
-         utf8 = ReadOnlySpan<byte>.Empty;
+         utf8 = [];
          return false;
       }
 

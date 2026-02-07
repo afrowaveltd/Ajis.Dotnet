@@ -2,18 +2,12 @@
 
 namespace Afrowave.AJIS.Streaming.Reader;
 
-public sealed class AjisSpanReader : IAjisReader
+public sealed class AjisSpanReader(ReadOnlyMemory<byte> memory) : IAjisReader
 {
-   private readonly ReadOnlyMemory<byte> _memory;
-   private int _offset;
+   private readonly ReadOnlyMemory<byte> _memory = memory;
+   private int _offset = 0;
    private int _line = 1;
    private int _column = 1;
-
-   public AjisSpanReader(ReadOnlyMemory<byte> memory)
-   {
-      _memory = memory;
-      _offset = 0;
-   }
 
    public long Offset => _offset;
    public int Line => _line;
@@ -36,7 +30,7 @@ public sealed class AjisSpanReader : IAjisReader
 
    public ReadOnlySpan<byte> ReadSpan(int length)
    {
-      if(length < 0) throw new ArgumentOutOfRangeException(nameof(length));
+      ArgumentOutOfRangeException.ThrowIfNegative(length);
       if(_offset + length > _memory.Length)
          throw new InvalidOperationException("Not enough data in input.");
 

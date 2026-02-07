@@ -198,6 +198,15 @@ If disabled:
 
 * The implementation MUST skip them entirely.
 
+Directive syntax:
+
+* `#<namespace> <command> [key=value]...`
+
+Reference helper:
+
+* `AjisDirectiveParser` parses directive payloads into namespace/command/arguments
+* `AjisDirectiveApplier.TryApply` applies supported directives to settings (returns updated settings)
+
 ---
 
 ## 6. Visitor Responsibilities

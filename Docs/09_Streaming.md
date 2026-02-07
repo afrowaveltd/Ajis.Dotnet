@@ -46,6 +46,12 @@ Input → Reader → Parser → (Events) → Consumer / Writer
 
 AJIS **podporuje oba modely**.
 
+Poznámka: Lax (Lex) režim v současném StreamWalk používá stejný engine jako AJIS a zatím
+nemění validační pravidla.
+
+Poznámka: Pro ne-univerzální profily se lexer-based parsing použije vždy, když jsou
+vyžadované AJIS rozšíření (direktivy, komentáře, identifikátory, base prefixy, trailing commas).
+
 ---
 
 ## 9.2.1 Processing profile hint

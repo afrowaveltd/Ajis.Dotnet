@@ -3,8 +3,6 @@
 using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Streaming.Reader;
 using Afrowave.AJIS.Streaming.Segments.Engines;
-using Afrowave.AJIS.Streaming.Walk;
-using Afrowave.AJIS.Streaming;
 using System.Buffers;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.CompilerServices;
@@ -118,6 +116,11 @@ public sealed record AjisSegment(
 public static class AjisParse
 {
    /// <summary>
+   /// Represents a parsing result with applied settings.
+   /// </summary>
+   public readonly record struct AjisParseResult(IReadOnlyList<AjisSegment> Segments, AjisSettings Settings);
+
+   /// <summary>
    /// Parses AJIS text from a <see cref="Stream"/> and emits segments.
    /// </summary>
    /// <remarks>
@@ -143,6 +146,16 @@ public static class AjisParse
       _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
       _ = ct;
 
+      var eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
+      long? totalBytes = input.CanSeek ? input.Length : null;
+      await eventSink.EmitAsync(
+         new global::Afrowave.AJIS.Core.Events.AjisMilestoneEvent(DateTimeOffset.UtcNow, "parse", "start"),
+         ct).ConfigureAwait(false);
+
+      await eventSink.EmitAsync(
+         new global::Afrowave.AJIS.Core.Events.AjisProgressEvent(DateTimeOffset.UtcNow, "parse", 0, 0, totalBytes),
+         ct).ConfigureAwait(false);
+
       if(settings is not null)
          _ = ResolveChunkThresholdBytes(settings);
 
@@ -160,6 +173,27 @@ public static class AjisParse
             emitDirectiveSegments: settings?.AllowDirectives ?? true,
             emitCommentSegments: true))
             yield return segment;
+
+         await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
+         yield break;
+      }
+
+      if(RequiresLexerParsing(settings))
+      {
+         foreach(var segment in AjisLexerParserStream.Parse(
+            input,
+            numberOptions: settings?.Numbers,
+            stringOptions: settings?.Strings,
+            commentOptions: settings?.Comments,
+            textMode: settings?.TextMode ?? global::Afrowave.AJIS.Core.AjisTextMode.Ajis,
+            allowTrailingCommas: settings?.AllowTrailingCommas ?? false,
+            allowDirectives: settings?.AllowDirectives ?? true,
+            preserveStringEscapes: true,
+            emitDirectiveSegments: settings?.AllowDirectives ?? true,
+            emitCommentSegments: true))
+            yield return segment;
+
+         await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
          yield break;
       }
 
@@ -168,6 +202,8 @@ public static class AjisParse
          _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Span);
          foreach(var segment in ParseSegments(buffer.AsSpan(), settings))
             yield return segment;
+
+         await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
          yield break;
       }
 
@@ -176,6 +212,8 @@ public static class AjisParse
          _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
          foreach(var segment in ParseSegmentsMappedFile(fileStream.Name, settings))
             yield return segment;
+
+         await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
          yield break;
       }
 
@@ -188,12 +226,76 @@ public static class AjisParse
          _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
          foreach(var segment in ParseSegmentsMappedFile(tempPath, settings))
             yield return segment;
+
+         await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
       }
       finally
       {
          if(File.Exists(tempPath))
             File.Delete(tempPath);
       }
+   }
+
+   /// <summary>
+   /// Parses AJIS text from a <see cref="Stream"/>, applies document directives, and returns segments with updated settings.
+   /// </summary>
+   public static async ValueTask<AjisParseResult> ParseSegmentsWithDirectivesAsync(
+      Stream input,
+      AjisSettings settings,
+      CancellationToken ct = default)
+   {
+      ArgumentNullException.ThrowIfNull(input);
+      ArgumentNullException.ThrowIfNull(settings);
+
+      var segments = new List<AjisSegment>();
+      await foreach(AjisSegment segment in ParseSegmentsAsync(input, settings, ct).ConfigureAwait(false))
+         segments.Add(segment);
+
+      AjisSettings applied = global::Afrowave.AJIS.Streaming.Segments.Transforms.AjisDirectiveSettingsApplier
+         .ApplyDocumentDirectives(segments, settings);
+
+      return new AjisParseResult(segments, applied);
+   }
+
+   private static bool RequiresLexerParsing(AjisSettings? settings)
+   {
+      if(settings is null)
+         return false;
+
+      if(settings.TextMode != global::Afrowave.AJIS.Core.AjisTextMode.Json)
+         return true;
+
+      if(settings.AllowDirectives || settings.AllowTrailingCommas)
+         return true;
+
+      if(settings.Comments.AllowBlockComments || settings.Comments.AllowLineComments)
+         return true;
+
+      if(settings.Strings.AllowUnquotedPropertyNames || settings.Strings.AllowMultiline || settings.Strings.AllowSingleQuotes)
+         return true;
+
+      if(settings.Numbers.EnableBasePrefixes || settings.Numbers.EnableDigitSeparators
+         || settings.Numbers.AllowNaNAndInfinity || settings.Numbers.AllowLeadingPlusOnNumbers)
+         return true;
+
+      return false;
+   }
+
+   private static async ValueTask EmitParseCompletionAsync(
+      global::Afrowave.AJIS.Core.Events.IAjisEventSink eventSink,
+      long? totalBytes,
+      CancellationToken ct)
+   {
+      long processed = totalBytes ?? 0;
+      int percent = totalBytes is null ? 0 : 100;
+
+      await eventSink.EmitAsync(
+         new global::Afrowave.AJIS.Core.Events.AjisProgressEvent(DateTimeOffset.UtcNow, "parse", percent, processed, totalBytes),
+         ct).ConfigureAwait(false);
+
+      await eventSink.EmitAsync(
+         new global::Afrowave.AJIS.Core.Events.AjisMilestoneEvent(DateTimeOffset.UtcNow, "parse", "end"),
+         ct).ConfigureAwait(false);
    }
 
    /// <summary>
@@ -209,6 +311,22 @@ public static class AjisParse
       AjisProcessingProfile profile = settings?.ParserProfile ?? AjisProcessingProfile.Universal;
       _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Span);
       return ParseSegmentsInternal(utf8, settings);
+   }
+
+   /// <summary>
+   /// Parses AJIS text from a <see cref="ReadOnlySpan{T}"/> and applies document directives.
+   /// </summary>
+   public static AjisParseResult ParseSegmentsWithDirectives(
+      ReadOnlySpan<byte> utf8,
+      AjisSettings settings)
+   {
+      ArgumentNullException.ThrowIfNull(settings);
+
+      List<AjisSegment> segments = [.. ParseSegments(utf8, settings)];
+      AjisSettings applied = global::Afrowave.AJIS.Streaming.Segments.Transforms.AjisDirectiveSettingsApplier
+         .ApplyDocumentDirectives(segments, settings);
+
+      return new AjisParseResult(segments, applied);
    }
 
    private static IEnumerable<AjisSegment> ParseSegmentsInternal(ReadOnlySpan<byte> utf8, AjisSettings? settings)
@@ -275,7 +393,7 @@ public static class AjisParse
       using var mmf = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
 
       if(length == 0)
-         return Array.Empty<AjisSegment>();
+         return [];
       long thresholdBytes = ResolveChunkThresholdBytes(settings);
 
       if(length > thresholdBytes)
@@ -295,7 +413,7 @@ public static class AjisParse
             ptr += accessor.PointerOffset;
             var span = new ReadOnlySpan<byte>(ptr, (int)length);
 
-            return ParseSegments(span, settings).ToList();
+            return [.. ParseSegments(span, settings)];
          }
          finally
          {
@@ -303,7 +421,6 @@ public static class AjisParse
          }
       }
 
-      return Array.Empty<AjisSegment>();
    }
 
    private static IEnumerable<AjisSegment> ParseSegmentsMappedFileChunked(
@@ -316,7 +433,7 @@ public static class AjisParse
 
       long length = new FileInfo(path).Length;
       if(length <= 0)
-         return Array.Empty<AjisSegment>();
+         return [];
 
       using var mmf = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
       int chunkSize = (int)Math.Min(int.MaxValue, Math.Max(1, thresholdBytes));
@@ -359,23 +476,23 @@ public static class AjisParse
                      segments.Add(AjisSegment.Exit(AjisContainerKind.Array, tokenOffset, depth));
                      break;
                   case JsonTokenType.PropertyName:
-                  {
-                     string nameText = reader.GetString() ?? string.Empty;
-                     segments.Add(AjisSegment.Name(tokenOffset, depth, CreateSlice(nameText, GetStringFlags(nameText))));
-                     break;
-                  }
+                     {
+                        string nameText = reader.GetString() ?? string.Empty;
+                        segments.Add(AjisSegment.Name(tokenOffset, depth, CreateSlice(nameText, GetStringFlags(nameText))));
+                        break;
+                     }
                   case JsonTokenType.String:
-                  {
-                     string stringText = reader.GetString() ?? string.Empty;
-                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.String, CreateSlice(stringText, GetStringFlags(stringText))));
-                     break;
-                  }
+                     {
+                        string stringText = reader.GetString() ?? string.Empty;
+                        segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.String, CreateSlice(stringText, GetStringFlags(stringText))));
+                        break;
+                     }
                   case JsonTokenType.Number:
-                  {
-                     string numberText = GetNumberText(reader);
-                     segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Number, CreateSlice(numberText, GetNumberFlags(numberText))));
-                     break;
-                  }
+                     {
+                        string numberText = GetNumberText(reader);
+                        segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Number, CreateSlice(numberText, GetNumberFlags(numberText))));
+                        break;
+                     }
                   case JsonTokenType.True:
                      segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Boolean, CreateSlice("true", AjisSliceFlags.None)));
                      break;
@@ -392,7 +509,7 @@ public static class AjisParse
             int consumed = (int)reader.BytesConsumed;
             carry = span.Length - consumed;
             if(carry > 0)
-               span.Slice(consumed).CopyTo(buffer);
+               span[consumed..].CopyTo(buffer);
             offset += take;
          }
       }

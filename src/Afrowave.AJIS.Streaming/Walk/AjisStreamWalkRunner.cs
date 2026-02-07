@@ -3,6 +3,7 @@
 using Afrowave.AJIS.Core.Diagnostics;
 using Afrowave.AJIS.Streaming.Walk.Engines;
 using Afrowave.AJIS.Streaming.Walk.Input;
+using System.Globalization;
 
 namespace Afrowave.AJIS.Streaming.Walk;
 
@@ -41,6 +42,91 @@ public static class AjisStreamWalkRunner
       AjisStreamWalkOptions options = AjisStreamWalkOptions.FromSettings(settings);
       Run(inputUtf8, options, visitor, settings, runnerOptions);
    }
+
+   /// <summary>
+   /// Runs StreamWalk over an in-memory UTF-8 payload with document directives applied.
+   /// </summary>
+   public static void RunWithDirectives(
+      ReadOnlySpan<byte> inputUtf8,
+      IAjisStreamWalkVisitor visitor,
+      global::Afrowave.AJIS.Core.Configuration.AjisSettings settings,
+      AjisStreamWalkRunnerOptions runnerOptions = default)
+   {
+      ArgumentNullException.ThrowIfNull(settings);
+
+      global::Afrowave.AJIS.Core.AjisSettings coreSettings = ToCoreSettings(settings);
+      var segments = global::Afrowave.AJIS.Streaming.Segments.AjisParse
+         .ParseSegmentsWithDirectives(inputUtf8, coreSettings);
+
+      global::Afrowave.AJIS.Core.Configuration.AjisSettings applied = ToConfigurationSettings(segments.Settings, settings);
+      var options = AjisStreamWalkOptions.FromSettings(applied);
+      Run(inputUtf8, options, visitor, applied, runnerOptions);
+   }
+
+   private static global::Afrowave.AJIS.Core.AjisSettings ToCoreSettings(
+      global::Afrowave.AJIS.Core.Configuration.AjisSettings settings)
+      => new()
+      {
+         Numbers = new global::Afrowave.AJIS.Core.AjisNumberOptions
+         {
+            EnableBasePrefixes = settings.Numbers.EnableBasePrefixes,
+            EnableDigitSeparators = settings.Numbers.EnableDigitSeparators,
+            AllowLeadingPlusOnNumbers = settings.Numbers.AllowLeadingPlusOnNumbers,
+            AllowNaNAndInfinity = settings.Numbers.AllowNaNAndInfinity,
+            MaxTokenBytes = settings.MaxTokenBytes,
+            EnforceSeparatorGroupingRules = settings.Numbers.EnforceSeparatorGroupingRules
+         },
+         Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
+         {
+            AllowMultiline = settings.Strings.AllowMultiline,
+            AllowSingleQuotes = settings.Strings.AllowSingleQuotes,
+            AllowUnquotedPropertyNames = settings.Strings.AllowUnquotedPropertyNames,
+            EnableEscapes = settings.Strings.EnableEscapes,
+            MaxStringBytes = settings.Strings.MaxStringBytes,
+            MaxPropertyNameBytes = settings.Strings.MaxPropertyNameBytes
+         },
+         Comments = new global::Afrowave.AJIS.Core.AjisCommentOptions
+         {
+            AllowLineComments = settings.Comments.AllowLineComments,
+            AllowBlockComments = settings.Comments.AllowBlockComments,
+            RejectNestedBlockComments = settings.Comments.RejectNestedBlockComments
+         },
+         Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions(),
+         AllowDuplicateObjectKeys = false,
+         AllowTrailingCommas = settings.AllowTrailingCommas,
+         AllowDirectives = settings.AllowDirectives,
+         MaxDepth = settings.MaxDepth,
+         TextProvider = settings.TextProvider,
+         Logger = null,
+         EventSink = settings.EventSink,
+         FormattingCulture = settings.Culture ?? CultureInfo.InvariantCulture,
+         ParserProfile = settings.ParserProfile,
+         SerializerProfile = settings.SerializerProfile,
+         TextMode = settings.TextMode,
+         StreamChunkThreshold = settings.StreamChunkThreshold
+      };
+
+   private static global::Afrowave.AJIS.Core.Configuration.AjisSettings ToConfigurationSettings(
+      global::Afrowave.AJIS.Core.AjisSettings settings,
+      global::Afrowave.AJIS.Core.Configuration.AjisSettings baseSettings)
+      => new()
+      {
+         Culture = baseSettings.Culture ?? settings.FormattingCulture,
+         TextProvider = settings.TextProvider,
+         EventSink = settings.EventSink ?? baseSettings.EventSink,
+         MaxDepth = settings.MaxDepth,
+         MaxTokenBytes = settings.Numbers.MaxTokenBytes,
+         Naming = baseSettings.Naming,
+         StreamChunkThreshold = settings.StreamChunkThreshold,
+         ParserProfile = settings.ParserProfile,
+         SerializerProfile = settings.SerializerProfile,
+         TextMode = settings.TextMode,
+         AllowDirectives = settings.AllowDirectives,
+         AllowTrailingCommas = settings.AllowTrailingCommas,
+         Strings = settings.Strings,
+         Numbers = settings.Numbers,
+         Comments = settings.Comments
+      };
    /// <summary>
    /// Runs StreamWalk over an in-memory UTF-8 payload.
    /// </summary>
@@ -68,25 +154,7 @@ public static class AjisStreamWalkRunner
          ? visitor
          : new DiagnosticForwardingVisitor(visitor, runnerOptions);
 
-      // Fast fail: LAX is not supported in M1.
-      if(options.Mode == AjisStreamWalkMode.Lax)
-      {
-         AjisDiagnostic diag = AjisDiagnostics.Create(
-            AjisDiagnosticCode.ModeNotSupported,
-            offset: 0,
-            severity: AjisDiagnosticSeverity.Error,
-            message: "LAX mode is not supported in milestone M1.");
-
-         Emit(runnerOptions, diag);
-
-         v.OnError(new AjisStreamWalkError(
-            Code: AjisDiagnosticKeys.ModeNotSupported,
-            Offset: 0,
-            Line: null,
-            Column: null));
-
-         return;
-      }
+      // LAX mode currently routes to the same engine as AJIS.
 
       // M1.1: select engine (pluggable implementations).
       // M1 = JSON-core subset used by current .case tests.

@@ -4,36 +4,24 @@ using System.Text;
 
 namespace Afrowave.AJIS.Streaming.Reader;
 
-public sealed class AjisLexer
+public sealed class AjisLexer(
+   IAjisReader reader,
+   global::Afrowave.AJIS.Core.AjisNumberOptions? numberOptions = null,
+   global::Afrowave.AJIS.Core.AjisStringOptions? stringOptions = null,
+   global::Afrowave.AJIS.Core.AjisCommentOptions? commentOptions = null,
+   global::Afrowave.AJIS.Core.AjisTextMode textMode = global::Afrowave.AJIS.Core.AjisTextMode.Ajis,
+   bool allowDirectives = true,
+   bool preserveStringEscapes = false,
+   bool emitCommentTokens = false)
 {
-   private readonly IAjisReader _reader;
-   private readonly global::Afrowave.AJIS.Core.AjisNumberOptions _numberOptions;
-   private readonly global::Afrowave.AJIS.Core.AjisStringOptions _stringOptions;
-   private readonly global::Afrowave.AJIS.Core.AjisTextMode _textMode;
-   private readonly global::Afrowave.AJIS.Core.AjisCommentOptions _commentOptions;
-   private readonly bool _allowDirectives;
-   private readonly bool _preserveStringEscapes;
-   private readonly bool _emitCommentTokens;
-
-   public AjisLexer(
-      IAjisReader reader,
-      global::Afrowave.AJIS.Core.AjisNumberOptions? numberOptions = null,
-      global::Afrowave.AJIS.Core.AjisStringOptions? stringOptions = null,
-      global::Afrowave.AJIS.Core.AjisCommentOptions? commentOptions = null,
-      global::Afrowave.AJIS.Core.AjisTextMode textMode = global::Afrowave.AJIS.Core.AjisTextMode.Ajis,
-      bool allowDirectives = true,
-      bool preserveStringEscapes = false,
-      bool emitCommentTokens = false)
-   {
-      _reader = reader ?? throw new ArgumentNullException(nameof(reader));
-      _numberOptions = numberOptions ?? new global::Afrowave.AJIS.Core.AjisNumberOptions();
-      _stringOptions = stringOptions ?? new global::Afrowave.AJIS.Core.AjisStringOptions();
-      _commentOptions = commentOptions ?? new global::Afrowave.AJIS.Core.AjisCommentOptions();
-      _textMode = textMode;
-      _allowDirectives = allowDirectives && textMode != global::Afrowave.AJIS.Core.AjisTextMode.Json;
-      _preserveStringEscapes = preserveStringEscapes;
-      _emitCommentTokens = emitCommentTokens;
-   }
+   private readonly IAjisReader _reader = reader ?? throw new ArgumentNullException(nameof(reader));
+   private readonly global::Afrowave.AJIS.Core.AjisNumberOptions _numberOptions = numberOptions ?? new global::Afrowave.AJIS.Core.AjisNumberOptions();
+   private readonly global::Afrowave.AJIS.Core.AjisStringOptions _stringOptions = stringOptions ?? new global::Afrowave.AJIS.Core.AjisStringOptions();
+   private readonly global::Afrowave.AJIS.Core.AjisTextMode _textMode = textMode;
+   private readonly global::Afrowave.AJIS.Core.AjisCommentOptions _commentOptions = commentOptions ?? new global::Afrowave.AJIS.Core.AjisCommentOptions();
+   private readonly bool _allowDirectives = allowDirectives && textMode != global::Afrowave.AJIS.Core.AjisTextMode.Json;
+   private readonly bool _preserveStringEscapes = preserveStringEscapes;
+   private readonly bool _emitCommentTokens = emitCommentTokens;
 
    public AjisToken NextToken()
    {
@@ -128,7 +116,7 @@ public sealed class AjisLexer
 
       EnsureTokenLimit(buffer.Count, offset);
 
-      string text = Encoding.UTF8.GetString(buffer.ToArray());
+      string text = Encoding.UTF8.GetString([.. buffer]);
       return text switch
       {
          "true" => new AjisToken(AjisTokenKind.True, offset, line, column, text),
@@ -365,7 +353,7 @@ public sealed class AjisLexer
       _ = hasDot;
       _ = hasExp;
       EnsureTokenLimit(buffer.Count, offset);
-      return new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString(buffer.ToArray()));
+      return new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString([.. buffer]));
    }
 
    private bool TryReadPrefixedNumber(long offset, int line, int column, List<byte> signedPrefix, out AjisToken token)
@@ -427,7 +415,7 @@ public sealed class AjisLexer
 
       if(_numberOptions.EnableDigitSeparators && _numberOptions.EnforceSeparatorGroupingRules)
       {
-         string rawDigits = Encoding.UTF8.GetString(buffer.ToArray());
+         string rawDigits = Encoding.UTF8.GetString([.. buffer]);
          int start = signedPrefix.Count + 2;
          string digitsOnly = rawDigits[start..];
          if(!ValidateGrouping(digitsOnly, BaseGroupSize(numberBase), allowHexGrouping: numberBase == 16))
@@ -435,7 +423,7 @@ public sealed class AjisLexer
       }
 
       EnsureTokenLimit(buffer.Count, offset);
-      token = new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString(buffer.ToArray()));
+      token = new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString([.. buffer]));
       return true;
    }
 
@@ -462,14 +450,14 @@ public sealed class AjisLexer
             }
          }
 
-         return Encoding.UTF8.GetString(buffer.ToArray());
+         return Encoding.UTF8.GetString([.. buffer]);
       }
 
       if(!IsDigit(first))
          return string.Empty;
 
       ReadDigitsWithSeparators(buffer, 10, offset);
-      return Encoding.UTF8.GetString(buffer.ToArray());
+      return Encoding.UTF8.GetString([.. buffer]);
    }
 
    private void ReadDigitsWithSeparators(List<byte> buffer, int numberBase, long offset)
@@ -615,7 +603,7 @@ public sealed class AjisLexer
       }
 
       EnsureTokenLimit(buffer.Count, offset);
-      string text = Encoding.UTF8.GetString(buffer.ToArray()).Trim();
+      string text = Encoding.UTF8.GetString([.. buffer]).Trim();
       return new AjisToken(AjisTokenKind.Directive, offset, line, column, text);
    }
 
@@ -703,7 +691,7 @@ public sealed class AjisLexer
          }
 
          EnsureTokenLimit(buffer.Count, offset);
-         string text = Encoding.UTF8.GetString(buffer.ToArray()).TrimEnd();
+         string text = Encoding.UTF8.GetString([.. buffer]).TrimEnd();
          return new AjisToken(AjisTokenKind.Comment, offset, line, column, text);
       }
 
@@ -726,7 +714,7 @@ public sealed class AjisLexer
                if(buffer.Count > 0)
                   buffer.RemoveAt(buffer.Count - 1);
                EnsureTokenLimit(buffer.Count, offset);
-               string text = Encoding.UTF8.GetString(buffer.ToArray()).TrimEnd();
+               string text = Encoding.UTF8.GetString([.. buffer]).TrimEnd();
                return new AjisToken(AjisTokenKind.Comment, offset, line, column, text);
             }
 
@@ -737,7 +725,7 @@ public sealed class AjisLexer
          if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Lex)
          {
             EnsureTokenLimit(buffer.Count, offset);
-            string text = Encoding.UTF8.GetString(buffer.ToArray()).TrimEnd();
+            string text = Encoding.UTF8.GetString([.. buffer]).TrimEnd();
             return new AjisToken(AjisTokenKind.Comment, offset, line, column, text);
          }
 
@@ -798,7 +786,7 @@ public sealed class AjisLexer
          buffer.AddRange(signedPrefix);
       buffer.AddRange(Encoding.UTF8.GetBytes(literal));
       EnsureTokenLimit(buffer.Count, offset);
-      return new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString(buffer.ToArray()));
+      return new AjisToken(AjisTokenKind.Number, offset, line, column, Encoding.UTF8.GetString([.. buffer]));
    }
 
    private bool AllowUnquotedPropertyNames()

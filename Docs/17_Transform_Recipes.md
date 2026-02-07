@@ -30,6 +30,13 @@ Maintain a runtime state:
 
 This state is required for path evaluation and for skipping subtrees.
 
+Reference helper:
+
+* `AjisDirectiveBinder.BindDirectives`
+* `AjisDirectiveBinder.BindAndParseDirectives`
+* `AjisDirectiveSettingsApplier.ApplyDocumentDirectives`
+* `AjisDirectiveSettingsApplier.ApplyDocumentDirectives(IEnumerable<AjisSegment>, ...)`
+
 ### 1.2 Subtree skipping
 
 To remove a subtree:
@@ -68,6 +75,10 @@ Implementation notes:
   * if `ContainerStart`: skip subtree
 
 Output remains valid because serializer controls commas.
+
+Reference helper:
+
+* `AjisSegmentFilter.DropPropertyByPath`
 
 ---
 
@@ -142,6 +153,10 @@ Goal: in `$.users[*]`, keep only items where `isActive == true`.
   * evaluate predicate while buffering
   * if predicate true: flush buffered segments
   * else: discard buffered segments
+
+Reference helper:
+
+* `AjisSegmentFilter.FilterArrayItems`
 
 This keeps memory bounded by **max single item size**, not the full array.
 

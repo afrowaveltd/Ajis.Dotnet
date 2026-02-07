@@ -7,20 +7,18 @@ namespace Afrowave.AJIS.Serialization;
 /// <summary>
 /// Serializes AjisValue instances into AJIS text.
 /// </summary>
-internal sealed class AjisValueTextWriter
+internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions options)
 {
    private readonly StringBuilder _builder = new();
-   private readonly bool _compact;
-
-   public AjisValueTextWriter(bool compact)
-   {
-      _compact = compact;
-   }
+   private readonly bool _compact = options.Compact;
+   private readonly bool _pretty = options.Pretty;
+   private readonly int _indentSize = options.IndentSize;
+   private readonly bool _canonicalize = options.Canonicalize;
 
    public string Write(AjisValue value)
    {
       ArgumentNullException.ThrowIfNull(value);
-      AppendValue(value);
+      AppendValue(value, depth: 0);
       return _builder.ToString();
    }
 
@@ -29,12 +27,12 @@ internal sealed class AjisValueTextWriter
       ArgumentNullException.ThrowIfNull(output);
       ArgumentNullException.ThrowIfNull(value);
 
-      AppendValue(value);
+      AppendValue(value, depth: 0);
       byte[] bytes = Encoding.UTF8.GetBytes(_builder.ToString());
       await output.WriteAsync(bytes, ct).ConfigureAwait(false);
    }
 
-   private void AppendValue(AjisValue value)
+   private void AppendValue(AjisValue value, int depth)
    {
       switch(value)
       {
@@ -51,48 +49,74 @@ internal sealed class AjisValueTextWriter
             AppendQuoted(s.Value);
             break;
          case AjisValue.ArrayValue a:
-            AppendArray(a.Items);
+            AppendArray(a.Items, depth);
             break;
          case AjisValue.ObjectValue o:
-            AppendObject(o.Properties);
+            AppendObject(o.Properties, depth);
             break;
          default:
             throw new InvalidOperationException("Unsupported AjisValue type.");
       }
    }
 
-   private void AppendArray(IReadOnlyList<AjisValue> items)
+   private void AppendArray(IReadOnlyList<AjisValue> items, int depth)
    {
       _builder.Append('[');
       for(int i = 0; i < items.Count; i++)
       {
-         if(i > 0)
+         if(_pretty)
+         {
+            if(i > 0)
+               _builder.Append(',');
+
+            AppendNewLineAndIndent(depth + 1);
+         }
+         else if(i > 0)
          {
             _builder.Append(',');
             AppendSeparatorSpace();
          }
 
-         AppendValue(items[i]);
+         AppendValue(items[i], depth + 1);
       }
+
+      if(_pretty && items.Count > 0)
+         AppendNewLineAndIndent(depth);
       _builder.Append(']');
    }
 
-   private void AppendObject(IReadOnlyList<KeyValuePair<string, AjisValue>> properties)
+   private void AppendObject(IReadOnlyList<KeyValuePair<string, AjisValue>> properties, int depth)
    {
+      IEnumerable<KeyValuePair<string, AjisValue>> ordered = properties;
+      if(_canonicalize)
+         ordered = properties.OrderBy(p => p.Key, StringComparer.Ordinal);
+
       _builder.Append('{');
-      for(int i = 0; i < properties.Count; i++)
+      int i = 0;
+      foreach(var property in ordered)
       {
-         if(i > 0)
+         if(_pretty)
+         {
+            if(i > 0)
+               _builder.Append(',');
+
+            AppendNewLineAndIndent(depth + 1);
+         }
+         else if(i > 0)
          {
             _builder.Append(',');
             AppendSeparatorSpace();
          }
 
-         AppendQuoted(properties[i].Key);
+         AppendQuoted(property.Key);
          _builder.Append(':');
-         AppendSeparatorSpace();
-         AppendValue(properties[i].Value);
+         AppendNameSeparatorSpace();
+         AppendValue(property.Value, depth + 1);
+         i++;
       }
+
+      if(_pretty && i > 0)
+         AppendNewLineAndIndent(depth);
       _builder.Append('}');
    }
 
@@ -105,7 +129,22 @@ internal sealed class AjisValueTextWriter
 
    private void AppendSeparatorSpace()
    {
+      if(_pretty)
+         return;
+
       if(!_compact)
          _builder.Append(' ');
+   }
+
+   private void AppendNameSeparatorSpace()
+   {
+      if(_pretty || !_compact)
+         _builder.Append(' ');
+   }
+
+   private void AppendNewLineAndIndent(int depth)
+   {
+      _builder.AppendLine();
+      _builder.Append(' ', depth * _indentSize);
    }
 }

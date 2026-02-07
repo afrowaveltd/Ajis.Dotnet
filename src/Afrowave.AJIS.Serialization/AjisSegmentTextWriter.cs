@@ -9,16 +9,13 @@ namespace Afrowave.AJIS.Serialization;
 /// <summary>
 /// Serializes segment streams into AJIS text.
 /// </summary>
-internal sealed class AjisSegmentTextWriter
+internal sealed class AjisSegmentTextWriter(AjisSerializationFormattingOptions options)
 {
    private readonly StringBuilder _builder = new();
    private readonly Stack<ContainerContext> _stack = new();
-   private readonly bool _compact;
-
-   public AjisSegmentTextWriter(bool compact)
-   {
-      _compact = compact;
-   }
+   private readonly bool _compact = options.Compact;
+   private readonly bool _pretty = options.Pretty;
+   private readonly int _indentSize = options.IndentSize;
 
    public string Write(IEnumerable<AjisSegment> segments)
    {
@@ -88,6 +85,10 @@ internal sealed class AjisSegmentTextWriter
          throw new InvalidOperationException("Container end does not match current stack.");
 
       char token = segment.ContainerKind == AjisContainerKind.Object ? '}' : ']';
+      ContainerContext context = _stack.Peek();
+      if(_pretty && context.HasValue)
+         AppendNewLineAndIndent(_stack.Count - 1);
+
       _builder.Append(token);
       _stack.Pop();
 
@@ -110,12 +111,19 @@ internal sealed class AjisSegmentTextWriter
       if(context.HasValue)
       {
          _builder.Append(',');
-         AppendSeparatorSpace();
+         AppendValueSeparatorSpace();
       }
+      else if(_pretty)
+      {
+         AppendNewLineAndIndent(_stack.Count);
+      }
+
+      if(_pretty && context.HasValue)
+         AppendNewLineAndIndent(_stack.Count);
 
       WriteQuotedUtf8(segment.Slice.Value.Bytes.Span);
       _builder.Append(':');
-      AppendSeparatorSpace();
+      AppendNameSeparatorSpace();
 
       context.HasValue = true;
       _stack.Push(context);
@@ -159,8 +167,15 @@ internal sealed class AjisSegmentTextWriter
       if(context.Kind == AjisContainerKind.Array && context.HasValue)
       {
          _builder.Append(',');
-         AppendSeparatorSpace();
+         AppendValueSeparatorSpace();
       }
+      else if(context.Kind == AjisContainerKind.Array && _pretty)
+      {
+         AppendNewLineAndIndent(_stack.Count);
+      }
+
+      if(context.Kind == AjisContainerKind.Array && context.HasValue && _pretty)
+         AppendNewLineAndIndent(_stack.Count);
    }
 
    private void WriteBoolean(AjisSliceUtf8? slice)
@@ -200,10 +215,25 @@ internal sealed class AjisSegmentTextWriter
          throw new InvalidOperationException("Property name encountered outside object context.");
    }
 
-   private void AppendSeparatorSpace()
+   private void AppendValueSeparatorSpace()
    {
+      if(_pretty)
+         return;
+
       if(!_compact)
          _builder.Append(' ');
+   }
+
+   private void AppendNameSeparatorSpace()
+   {
+      if(_pretty || !_compact)
+         _builder.Append(' ');
+   }
+
+   private void AppendNewLineAndIndent(int depth)
+   {
+      _builder.AppendLine();
+      _builder.Append(' ', depth * _indentSize);
    }
 
    private struct ContainerContext(AjisContainerKind kind)

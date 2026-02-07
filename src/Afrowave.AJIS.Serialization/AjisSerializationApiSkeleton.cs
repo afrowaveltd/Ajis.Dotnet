@@ -19,8 +19,11 @@ public static class AjisSerialize
       ArgumentNullException.ThrowIfNull(segments);
       _ = AjisSerializationProfileSelector.Select(settings);
       _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
-      bool compact = AjisSerializationFormatting.UseCompact(settings);
-      return new AjisSegmentTextWriter(compact).Write(segments);
+      AjisSerializationFormattingOptions format = AjisSerializationFormatting.GetOptions(settings);
+      if(format.Canonicalize)
+         segments = global::Afrowave.AJIS.Streaming.Segments.Transforms.AjisSegmentCanonicalizer.Canonicalize(segments);
+
+      return new AjisSegmentTextWriter(format).Write(segments);
    }
 
    public static async Task ToStreamAsync(
@@ -33,8 +36,34 @@ public static class AjisSerialize
       ArgumentNullException.ThrowIfNull(segments);
       _ = AjisSerializationProfileSelector.Select(settings);
       _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
-      bool compact = AjisSerializationFormatting.UseCompact(settings);
-      await new AjisSegmentTextWriter(compact).WriteAsync(output, segments, ct).ConfigureAwait(false);
+      AjisSerializationFormattingOptions format = AjisSerializationFormatting.GetOptions(settings);
+      var eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
+      await AjisSerializationEventEmitter.EmitPhaseAsync(eventSink, "serialize", "start", ct).ConfigureAwait(false);
+      await AjisSerializationEventEmitter.EmitProgressAsync(eventSink, "serialize", 0, ct).ConfigureAwait(false);
+
+      if(format.Canonicalize)
+      {
+         var materialized = new List<AjisSegment>();
+         await foreach(var segment in segments.WithCancellation(ct).ConfigureAwait(false))
+            materialized.Add(segment);
+
+         IEnumerable<AjisSegment> canonical = global::Afrowave.AJIS.Streaming.Segments.Transforms.AjisSegmentCanonicalizer.Canonicalize(materialized);
+         await new AjisSegmentTextWriter(format).WriteAsync(output, ToAsyncEnumerable(canonical), ct).ConfigureAwait(false);
+      }
+      else
+      {
+         await new AjisSegmentTextWriter(format).WriteAsync(output, segments, ct).ConfigureAwait(false);
+      }
+
+      await AjisSerializationEventEmitter.EmitProgressAsync(eventSink, "serialize", 100, ct).ConfigureAwait(false);
+      await AjisSerializationEventEmitter.EmitPhaseAsync(eventSink, "serialize", "end", ct).ConfigureAwait(false);
+   }
+
+   private static async IAsyncEnumerable<AjisSegment> ToAsyncEnumerable(IEnumerable<AjisSegment> segments)
+   {
+      foreach(AjisSegment segment in segments)
+         yield return segment;
+      await Task.CompletedTask;
    }
 }
 
@@ -64,8 +93,8 @@ public static class AjisSerializer
       ArgumentNullException.ThrowIfNull(value);
       _ = AjisSerializationProfileSelector.Select(settings);
       _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
-      bool compact = AjisSerializationFormatting.UseCompact(settings);
-      string text = new AjisValueTextWriter(compact).Write(value);
+      AjisSerializationFormattingOptions format = AjisSerializationFormatting.GetOptions(settings);
+      string text = new AjisValueTextWriter(format).Write(value);
       byte[] bytes = Encoding.UTF8.GetBytes(text);
       output.Write(bytes, 0, bytes.Length);
    }
@@ -83,8 +112,25 @@ public static class AjisSerializer
       ArgumentNullException.ThrowIfNull(value);
       _ = AjisSerializationProfileSelector.Select(settings);
       _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
-      bool compact = AjisSerializationFormatting.UseCompact(settings);
-      return new ValueTask(new AjisValueTextWriter(compact).WriteAsync(output, value, ct));
+      AjisSerializationFormattingOptions format = AjisSerializationFormatting.GetOptions(settings);
+      return SerializeValueAsync(output, value, format, settings, ct);
+   }
+
+   private static async ValueTask SerializeValueAsync(
+      Stream output,
+      AjisValue value,
+      AjisSerializationFormattingOptions format,
+      AjisSettings? settings,
+      CancellationToken ct)
+   {
+      var eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
+      await AjisSerializationEventEmitter.EmitPhaseAsync(eventSink, "serialize", "start", ct).ConfigureAwait(false);
+      await AjisSerializationEventEmitter.EmitProgressAsync(eventSink, "serialize", 0, ct).ConfigureAwait(false);
+
+      await new AjisValueTextWriter(format).WriteAsync(output, value, ct).ConfigureAwait(false);
+
+      await AjisSerializationEventEmitter.EmitProgressAsync(eventSink, "serialize", 100, ct).ConfigureAwait(false);
+      await AjisSerializationEventEmitter.EmitPhaseAsync(eventSink, "serialize", "end", ct).ConfigureAwait(false);
    }
 
    /// <summary>
@@ -95,8 +141,8 @@ public static class AjisSerializer
       ArgumentNullException.ThrowIfNull(value);
       _ = AjisSerializationProfileSelector.Select(settings);
       _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
-      bool compact = AjisSerializationFormatting.UseCompact(settings);
-      string text = new AjisValueTextWriter(compact).Write(value);
+      AjisSerializationFormattingOptions format = AjisSerializationFormatting.GetOptions(settings);
+      string text = new AjisValueTextWriter(format).Write(value);
       return Encoding.UTF8.GetBytes(text);
    }
 

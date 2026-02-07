@@ -22,7 +22,7 @@ public static class AjisStreamWalkEngineRegistry
       public AjisEngineCapabilities Capabilities => AjisEngineCapabilities.Streaming | AjisEngineCapabilities.HighThroughput;
 
       public bool Supports(AjisStreamWalkOptions options)
-         => options.Mode != AjisStreamWalkMode.Lax; // M1 rejects LAX.
+         => true;
 
       public AjisEngineCost EstimateCost(
    ReadOnlySpan<byte> inputUtf8,
@@ -55,7 +55,7 @@ public static class AjisStreamWalkEngineRegistry
       public AjisEngineCapabilities Capabilities => AjisEngineCapabilities.Streaming | AjisEngineCapabilities.LowMemory;
 
       public bool Supports(AjisStreamWalkOptions options)
-         => options.Mode != AjisStreamWalkMode.Lax;
+         => true;
 
       public AjisEngineCost EstimateCost(
    ReadOnlySpan<byte> inputUtf8,
