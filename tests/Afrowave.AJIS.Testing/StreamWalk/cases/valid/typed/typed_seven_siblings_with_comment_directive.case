@@ -1,0 +1,62 @@
+# OPTIONS
+MODE: AJIS
+COMMENTS: on
+DIRECTIVES: on
+IDENTIFIERS: on
+
+# INPUT
+[{ts:T170},// note
+#tool hint=fast
+[TS123],// more
+#tool hint=slow
+{kind:"identifier"},// last
+#tool hint=final
+{"name":"value"},// end
+#tool hint=wrap
+[TA7],// tail
+#tool hint=done
+{tail:"ok"},// done
+#tool hint=extra
+[TZ5]]
+
+# EXPECTED
+BEGIN_ARRAY
+BEGIN_OBJECT
+NAME b"ts"
+NUMBER b"T170"
+END_OBJECT
+COMMENT b" note"
+DIRECTIVE b"tool hint=fast"
+BEGIN_ARRAY
+NUMBER b"TS123"
+END_ARRAY
+COMMENT b" more"
+DIRECTIVE b"tool hint=slow"
+BEGIN_OBJECT
+NAME b"kind"
+STRING b"identifier"
+END_OBJECT
+COMMENT b" last"
+DIRECTIVE b"tool hint=final"
+BEGIN_OBJECT
+NAME b"name"
+STRING b"value"
+END_OBJECT
+COMMENT b" end"
+DIRECTIVE b"tool hint=wrap"
+BEGIN_ARRAY
+NUMBER b"TA7"
+END_ARRAY
+COMMENT b" tail"
+DIRECTIVE b"tool hint=done"
+BEGIN_OBJECT
+NAME b"tail"
+STRING b"ok"
+END_OBJECT
+COMMENT b" done"
+DIRECTIVE b"tool hint=extra"
+BEGIN_ARRAY
+NUMBER b"TZ5"
+END_ARRAY
+END_ARRAY
+END_DOCUMENT

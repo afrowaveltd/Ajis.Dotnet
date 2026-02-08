@@ -2,6 +2,7 @@
 
 using Afrowave.AJIS.Streaming.Walk;
 using Afrowave.AJIS.Streaming.Walk.Input;
+using Afrowave.AJIS.Streaming;
 using NSubstitute;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
@@ -220,6 +221,63 @@ public sealed class AjisStreamWalkRunnerTests
       var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Ajis };
 
       AjisStreamWalkRunner.Run("{\"RegisteredAt\":T1707489221}"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "NUMBER"));
+   }
+
+   [Fact]
+   public void Run_AjisMode_EmitsTypedLiteralFlag()
+   {
+      AjisStreamWalkEvent? captured = null;
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Do<AjisStreamWalkEvent>(e =>
+      {
+         if(e.Kind == "NUMBER")
+            captured = e;
+      })).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Ajis };
+
+      AjisStreamWalkRunner.Run("T170"u8, options, visitor, default);
+
+      Assert.Equal(AjisSliceFlags.IsNumberTyped, captured?.Slice.Flags);
+   }
+
+   [Fact]
+   public void Run_AjisMode_InvalidTypedLiteral_WithIdentifiers_EmitsIdentifier()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Ajis, Identifiers = true };
+
+      AjisStreamWalkRunner.Run("T170A"u8, options, visitor, default);
+
+      visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "IDENTIFIER"));
+   }
+
+   [Fact]
+   public void Run_AjisMode_InvalidTypedLiteral_WhenIdentifiersDisabled_EmitsError()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Ajis, Identifiers = false };
+
+      AjisStreamWalkRunner.Run("T170A"u8, options, visitor, default);
+
+      visitor.Received(1).OnError(Arg.Is<AjisStreamWalkError>(e => e.Code == "typed_literal_invalid"));
+   }
+
+   [Fact]
+   public void Run_LaxMode_EmitsTypedLiteralAsNumber()
+   {
+      var visitor = Substitute.For<IAjisStreamWalkVisitor>();
+      visitor.OnEvent(Arg.Any<AjisStreamWalkEvent>()).Returns(true);
+
+      var options = AjisStreamWalkOptions.DefaultForM1 with { Mode = AjisStreamWalkMode.Lax };
+
+      AjisStreamWalkRunner.Run("T1707489221"u8, options, visitor, default);
 
       visitor.Received(1).OnEvent(Arg.Is<AjisStreamWalkEvent>(e => e.Kind == "NUMBER"));
    }

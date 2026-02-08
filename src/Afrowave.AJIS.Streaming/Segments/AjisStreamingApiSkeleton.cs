@@ -359,6 +359,9 @@ public static class AjisParse
       if(string.IsNullOrEmpty(text) || text.Length < 2)
          return AjisSliceFlags.None;
 
+      if(IsTypedLiteral(text))
+         return AjisSliceFlags.IsNumberTyped;
+
       return text[0] == '0' && (text[1] == 'x' || text[1] == 'X')
          ? AjisSliceFlags.IsNumberHex
          : text[0] == '0' && (text[1] == 'b' || text[1] == 'B')
@@ -366,6 +369,25 @@ public static class AjisParse
             : text[0] == '0' && (text[1] == 'o' || text[1] == 'O')
                ? AjisSliceFlags.IsNumberOctal
                : AjisSliceFlags.None;
+   }
+
+   private static bool IsTypedLiteral(string text)
+   {
+      int i = 0;
+      while(i < text.Length && text[i] is >= 'A' and <= 'Z')
+         i++;
+
+      int prefixEnd = i;
+      if(prefixEnd == 0 || prefixEnd == text.Length)
+         return false;
+
+      while(i < text.Length && text[i] is >= '0' and <= '9')
+         i++;
+
+      if(i == prefixEnd)
+         return false;
+
+      return i == text.Length;
    }
 
    private static AjisSliceFlags GetStringFlags(string? text)

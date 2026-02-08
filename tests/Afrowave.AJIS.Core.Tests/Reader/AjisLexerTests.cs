@@ -70,6 +70,17 @@ public sealed class AjisLexerTests
    }
 
    [Fact]
+   public void Lexer_AjisMode_ReadsTypedLiteralAsNumber()
+   {
+      var reader = new AjisSpanReader("T1707489221"u8.ToArray());
+      var lexer = new AjisLexer(reader, textMode: global::Afrowave.AJIS.Core.AjisTextMode.Ajis);
+
+      var token = lexer.NextToken();
+
+      Assert.Equal(AjisTokenKind.Number, token.Kind);
+   }
+
+   [Fact]
    public void Lexer_AjisMode_SkipsBlockComments()
    {
       var commentOptions = new global::Afrowave.AJIS.Core.AjisCommentOptions

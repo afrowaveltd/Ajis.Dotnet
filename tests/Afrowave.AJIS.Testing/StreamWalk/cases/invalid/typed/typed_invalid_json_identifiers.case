@@ -1,0 +1,11 @@
+# OPTIONS
+MODE: JSON
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: on
+
+# INPUT
+T170A
+
+# EXPECTED
+ERROR invalid_value offset=0

@@ -1,0 +1,16 @@
+# OPTIONS
+MODE: AJIS
+COMMENTS: on
+DIRECTIVES: on
+IDENTIFIERS: off
+
+# INPUT
+// note
+#tool hint=fast
+T170
+
+# EXPECTED
+COMMENT b" note"
+DIRECTIVE b"tool hint=fast"
+NUMBER b"T170"
+END_DOCUMENT

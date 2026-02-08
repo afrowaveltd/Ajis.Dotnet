@@ -208,6 +208,49 @@ M1 requires at least these families:
 
   * number variations and bases allowed by AJIS options
 
+* `valid/typed`
+
+  * typed literals preserved as raw lexemes
+  * invalid typed literals fall back to identifiers when identifiers are enabled
+  * multiple uppercase prefixes are supported
+  * typed literals can coexist with identifier values in AJIS mode
+  * LAX mode falls back to identifiers when identifiers are enabled
+  * nested arrays containing typed literals are supported
+  * unquoted property names can pair with typed literal values when identifiers are enabled
+  * typed literals can coexist with standard decimal numbers
+  * typed literals can appear alongside comment/directive tokens
+  * directives can appear inside typed literal arrays
+  * comments can appear inside typed literal arrays
+  * comments and directives can appear together inside typed literal arrays
+  * directives can appear between object members containing typed literals
+  * comments can appear between object members containing typed literals
+  * comments and directives can appear together between object members
+  * directives can appear between quoted object members
+  * comments can appear between quoted object members
+  * comments and directives can appear together between quoted object members
+  * nested objects can include comment/directive tokens between members
+  * nested arrays can include comment/directive tokens between elements
+  * nested arrays can include multiple typed literals after comment/directive tokens
+  * comments and directives can appear between nested arrays
+  * comments and directives can appear between nested object/array siblings
+  * comments and directives can appear between nested object siblings
+  * comments and directives can appear between quoted object siblings
+  * comments and directives can appear between mixed quoted/unquoted object siblings
+  * deeper mixed quoted/unquoted nesting can include comment/directive separators
+  * mixed nested arrays/objects can include comment/directive separators between siblings
+  * mixed depth sibling containers can include comment/directive separators
+  * comment/directive separators can appear between three sibling containers
+  * three sibling containers can mix quoted and unquoted member names
+  * three sibling containers can mix quoted/unquoted names with a nested array sibling
+  * directives/comments can separate four sibling containers
+  * four sibling containers can mix quoted/unquoted names with a nested array sibling
+  * directives/comments can separate five sibling containers
+  * five sibling containers can mix quoted/unquoted names with nested arrays
+  * directives/comments can separate six sibling containers
+  * directives/comments can separate seven sibling containers
+  * seven sibling containers can mix quoted/unquoted names with nested arrays
+  * six sibling containers can mix quoted/unquoted names with nested arrays
+
 * `invalid/syntax`
 
   * missing commas/brackets, bad tokens
@@ -219,6 +262,12 @@ M1 requires at least these families:
 * `invalid/numbers`
 
   * invalid number forms
+
+* `invalid/typed`
+
+  * invalid typed literal forms
+  * JSON/LAX reject typed literal tokens as invalid values
+  * JSON rejects typed literals even when identifiers are enabled
 
 * `invalid/limits`
 

@@ -14,7 +14,8 @@ public enum AjisSliceFlags
    IsIdentifierStyle = 1 << 2,
    IsNumberHex = 1 << 3,
    IsNumberBinary = 1 << 4,
-   IsNumberOctal = 1 << 5
+   IsNumberOctal = 1 << 5,
+   IsNumberTyped = 1 << 6
 }
 
 /// <summary>

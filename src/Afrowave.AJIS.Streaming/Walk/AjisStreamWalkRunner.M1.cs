@@ -211,8 +211,14 @@ internal static class AjisStreamWalkRunnerM1
 
          if((_opt.Mode == AjisStreamWalkMode.Lax || _opt.Mode == AjisStreamWalkMode.Ajis) && IsTypedLiteralStart())
          {
-            ParseTypedLiteral();
-            return;
+            if(TryParseTypedLiteral())
+               return;
+
+            if(_opt.Mode == AjisStreamWalkMode.Ajis && !_opt.Identifiers)
+            {
+               Fail("typed_literal_invalid", Offset);
+               return;
+            }
          }
 
          if((_opt.Mode == AjisStreamWalkMode.Lax || _opt.Mode == AjisStreamWalkMode.Ajis) && _opt.Identifiers && IsIdentifierStart(b))
@@ -713,27 +719,38 @@ internal static class AjisStreamWalkRunnerM1
          return false;
       }
 
-      private void ParseTypedLiteral()
+      private bool TryParseTypedLiteral()
       {
          int start = _i;
-         while(_i < _src.Length && IsIdentifierPart(_src[_i]))
-            _i++;
+         int i = _i;
 
-         int len = _i - start;
-         if(len <= 0)
-         {
-            Fail("invalid_value", start);
-            return;
-         }
+         while(i < _src.Length && _src[i] is >= (byte)'A' and <= (byte)'Z')
+            i++;
 
+         int prefixEnd = i;
+         if(prefixEnd == start)
+            return false;
+
+         while(i < _src.Length && _src[i] is >= (byte)'0' and <= (byte)'9')
+            i++;
+
+         if(i == prefixEnd)
+            return false;
+
+         if(i < _src.Length && IsIdentifierPart(_src[i]))
+            return false;
+
+         int len = i - start;
          if(len > _opt.MaxTokenBytes)
          {
             Fail("max_token_bytes_exceeded", start);
-            return;
+            return true;
          }
 
-         var slice = new AjisSliceUtf8(_src.Slice(start, len).ToArray(), AjisSliceFlags.None);
+         _i = i;
+         var slice = new AjisSliceUtf8(_src.Slice(start, len).ToArray(), AjisSliceFlags.IsNumberTyped);
          Emit("NUMBER", slice, start);
+         return true;
       }
 
       private void ParseLiteral(string ascii, string kind)
@@ -808,13 +825,17 @@ internal static class AjisStreamWalkRunnerM1
 
       private readonly bool IsTypedLiteralStart()
       {
-         if(_i + 1 >= _src.Length)
+         int i = _i;
+         if(i >= _src.Length)
             return false;
 
-         byte current = _src[_i];
-         byte next = _src[_i + 1];
-         return current is >= (byte)'A' and <= (byte)'Z'
-            && next is >= (byte)'0' and <= (byte)'9';
+         if(_src[i] is < (byte)'A' or > (byte)'Z')
+            return false;
+
+         while(i < _src.Length && _src[i] is >= (byte)'A' and <= (byte)'Z')
+            i++;
+
+         return i < _src.Length && _src[i] is >= (byte)'0' and <= (byte)'9';
       }
 
       private bool TryConsumeAscii(string ascii)

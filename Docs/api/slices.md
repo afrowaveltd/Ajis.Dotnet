@@ -202,6 +202,10 @@ If AJIS supports base prefixes:
 * the slice includes the full token spelling, including any prefix
 * the corresponding base flag MUST be set
 
+If AJIS supports typed literals:
+
+* the typed literal flag MUST be set
+
 The .NET M1 reference implementation preserves prefixed number spellings in segment text when base prefixes are enabled.
 When using segments, these flags are surfaced as `AjisSegmentFlags` on number segments.
 
@@ -211,6 +215,7 @@ Examples (conceptual):
 * `0xFF` → flags: `IsNumberHex`
 * `0b1010` → flags: `IsNumberBinary`
 * `0o755` → flags: `IsNumberOctal`
+* `T170` → flags: `IsNumberTyped`
 
 ---
 

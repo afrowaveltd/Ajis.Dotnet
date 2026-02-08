@@ -1,0 +1,11 @@
+# OPTIONS
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: off
+IDENTIFIERS: off
+
+# INPUT
+T170A
+
+# EXPECTED
+ERROR typed_literal_invalid offset=0

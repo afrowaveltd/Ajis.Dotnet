@@ -1,0 +1,20 @@
+# OPTIONS
+MODE: AJIS
+COMMENTS: off
+DIRECTIVES: on
+IDENTIFIERS: off
+
+# INPUT
+{"ts":T170,
+#tool hint=fast
+"kind":"identifier"}
+
+# EXPECTED
+BEGIN_OBJECT
+NAME b"ts"
+NUMBER b"T170"
+DIRECTIVE b"tool hint=fast"
+NAME b"kind"
+STRING b"identifier"
+END_OBJECT
+END_DOCUMENT

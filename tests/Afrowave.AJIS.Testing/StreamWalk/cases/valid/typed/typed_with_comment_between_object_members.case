@@ -1,0 +1,19 @@
+# OPTIONS
+MODE: AJIS
+COMMENTS: on
+DIRECTIVES: off
+IDENTIFIERS: on
+
+# INPUT
+{ts:T170,// note
+kind:"identifier"}
+
+# EXPECTED
+BEGIN_OBJECT
+NAME b"ts"
+NUMBER b"T170"
+COMMENT b" note"
+NAME b"kind"
+STRING b"identifier"
+END_OBJECT
+END_DOCUMENT

@@ -117,6 +117,9 @@ public sealed class AjisLexer(
       EnsureTokenLimit(buffer.Count, offset);
 
       string text = Encoding.UTF8.GetString([.. buffer]);
+      if(_textMode != global::Afrowave.AJIS.Core.AjisTextMode.Json && IsTypedLiteralText(text))
+         return new AjisToken(AjisTokenKind.Number, offset, line, column, text);
+
       return text switch
       {
          "true" => new AjisToken(AjisTokenKind.True, offset, line, column, text),
@@ -126,6 +129,28 @@ public sealed class AjisLexer(
          "Infinity" when _numberOptions.AllowNaNAndInfinity => new AjisToken(AjisTokenKind.Number, offset, line, column, text),
          _ => new AjisToken(AjisTokenKind.Identifier, offset, line, column, text)
       };
+   }
+
+   private static bool IsTypedLiteralText(string text)
+   {
+      if(text.Length < 2)
+         return false;
+
+      int i = 0;
+      while(i < text.Length && text[i] is >= 'A' and <= 'Z')
+         i++;
+
+      int prefixEnd = i;
+      if(prefixEnd == 0 || prefixEnd == text.Length)
+         return false;
+
+      while(i < text.Length && text[i] is >= '0' and <= '9')
+         i++;
+
+      if(i == prefixEnd)
+         return false;
+
+      return i == text.Length;
    }
 
    private AjisToken ReadStringToken(long offset, int line, int column, char delimiter)

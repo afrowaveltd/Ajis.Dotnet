@@ -202,6 +202,20 @@ M1 StreamWalk is a **structural + lexical** walker.
 
 Typed AJIS values (prefix-based, such as timestamps) MUST be preserved as raw lexemes.
 
+Validation rule (M1):
+
+* typed literal is `A-Z+` followed by `0-9+` with no trailing identifier characters
+* reference lexer treats typed literals as number tokens in AJIS/Lex modes
+* typed literal slices set `IsNumberTyped`
+
+Fallback rule:
+
+* in AJIS mode with identifiers enabled, invalid typed literals are treated as identifiers
+
+Diagnostic rule:
+
+* in AJIS mode with identifiers disabled, invalid typed literals fail with `typed_literal_invalid`
+
 Example:
 
 Input:
