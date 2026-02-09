@@ -1,0 +1,572 @@
+[
+    {
+        "borders": [
+            "ALB",
+            "MKD",
+            "MNE",
+            "SRB"
+        ],
+        "code": "UNK",
+        "flags": {
+            "png": "https://flagcdn.com/w320/xk.png",
+            "svg": "https://flagcdn.com/xk.svg"
+        },
+        "name": "Kosovo"
+    },
+    {
+        "borders": [
+            "AND",
+            "BEL",
+            "DEU",
+            "ITA",
+            "LUX",
+            "MCO",
+            "ESP",
+            "CHE"
+        ],
+        "code": "FRA",
+        "flags": {
+            "alt": "The flag of France is composed of three equal vertical bands of blue, white and red.",
+            "png": "https://flagcdn.com/w320/fr.png",
+            "svg": "https://flagcdn.com/fr.svg"
+        },
+        "name": "France"
+    },
+    {
+        "borders": [
+            "BIH",
+            "BGR",
+            "HRV",
+            "HUN",
+            "UNK",
+            "MKD",
+            "MNE",
+            "ROU"
+        ],
+        "code": "SRB",
+        "flags": {
+            "alt": "The flag of Serbia is composed of three equal horizontal bands of red, blue and white. The coat of arms of Serbia is superimposed at the center of the field slightly towards the hoist side.",
+            "png": "https://flagcdn.com/w320/rs.png",
+            "svg": "https://flagcdn.com/rs.svg"
+        },
+        "name": "Serbia"
+    },
+    {
+        "borders": [
+            "AUT",
+            "CZE",
+            "HUN",
+            "POL",
+            "UKR"
+        ],
+        "code": "SVK",
+        "flags": {
+            "alt": "The flag of Slovakia is composed of three equal horizontal bands of white, blue and red. The coat of arms of Slovakia is superimposed at the center of the field slightly towards the hoist side.",
+            "png": "https://flagcdn.com/w320/sk.png",
+            "svg": "https://flagcdn.com/sk.svg"
+        },
+        "name": "Slovakia"
+    },
+    {
+        "borders": [
+            "ALB",
+            "BGR",
+            "GRC",
+            "UNK",
+            "SRB"
+        ],
+        "code": "MKD",
+        "flags": {
+            "alt": "The flag of North Macedonia has a red field, at the center of which is a golden-yellow sun with eight broadening rays that extend to the edges of the field.",
+            "png": "https://flagcdn.com/w320/mk.png",
+            "svg": "https://flagcdn.com/mk.svg"
+        },
+        "name": "North Macedonia"
+    },
+    {
+        "borders": [
+            "BLR",
+            "LVA",
+            "POL",
+            "RUS"
+        ],
+        "code": "LTU",
+        "flags": {
+            "alt": "The flag of Lithuania is composed of three equal horizontal bands of yellow, green and red.",
+            "png": "https://flagcdn.com/w320/lt.png",
+            "svg": "https://flagcdn.com/lt.svg"
+        },
+        "name": "Lithuania"
+    },
+    {
+        "borders": [
+            "ALB",
+            "BIH",
+            "HRV",
+            "UNK",
+            "SRB"
+        ],
+        "code": "MNE",
+        "flags": {
+            "alt": "The flag of Montenegro features a large red central rectangular area surrounded by a golden-yellow border. The coat of arms of Montenegro is centered in the red rectangle.",
+            "png": "https://flagcdn.com/w320/me.png",
+            "svg": "https://flagcdn.com/me.svg"
+        },
+        "name": "Montenegro"
+    },
+    {
+        "borders": [
+            "FIN",
+            "NOR"
+        ],
+        "code": "SWE",
+        "flags": {
+            "alt": "The flag of Sweden has a blue field with a large golden-yellow cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side.",
+            "png": "https://flagcdn.com/w320/se.png",
+            "svg": "https://flagcdn.com/se.svg"
+        },
+        "name": "Sweden"
+    },
+    {
+        "borders": [
+            "GRC",
+            "MKD",
+            "ROU",
+            "SRB",
+            "TUR"
+        ],
+        "code": "BGR",
+        "flags": {
+            "alt": "The flag of Bulgaria is composed of three equal horizontal bands of white, green and red.",
+            "png": "https://flagcdn.com/w320/bg.png",
+            "svg": "https://flagcdn.com/bg.svg"
+        },
+        "name": "Bulgaria"
+    },
+    {
+        "borders": [
+            "MNE",
+            "GRC",
+            "MKD",
+            "UNK"
+        ],
+        "code": "ALB",
+        "flags": {
+            "alt": "The flag of Albania features a silhouetted double-headed black eagle at the center of a red field.",
+            "png": "https://flagcdn.com/w320/al.png",
+            "svg": "https://flagcdn.com/al.svg"
+        },
+        "name": "Albania"
+    },
+    {
+        "borders": [
+            "NOR",
+            "SWE",
+            "RUS"
+        ],
+        "code": "FIN",
+        "flags": {
+            "alt": "The flag of Finland has a white field with a large blue cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side.",
+            "png": "https://flagcdn.com/w320/fi.png",
+            "svg": "https://flagcdn.com/fi.svg"
+        },
+        "name": "Finland"
+    },
+    {
+        "borders": [
+            "AND",
+            "FRA",
+            "GIB",
+            "PRT",
+            "MAR"
+        ],
+        "code": "ESP",
+        "flags": {
+            "alt": "The flag of Spain is composed of three horizontal bands of red, yellow and red, with the yellow band twice the height of the red bands. In the yellow band is the national coat of arms offset slightly towards the hoist side of center.",
+            "png": "https://flagcdn.com/w320/es.png",
+            "svg": "https://flagcdn.com/es.svg"
+        },
+        "name": "Spain"
+    },
+    {
+        "borders": [
+            "BLR",
+            "EST",
+            "LTU",
+            "RUS"
+        ],
+        "code": "LVA",
+        "flags": {
+            "alt": "The flag of Latvia has a carmine-red field with a thin white horizontal band across the middle of the field.",
+            "png": "https://flagcdn.com/w320/lv.png",
+            "svg": "https://flagcdn.com/lv.svg"
+        },
+        "name": "Latvia"
+    },
+    {
+        "borders": [
+            "BLR",
+            "CZE",
+            "DEU",
+            "LTU",
+            "RUS",
+            "SVK",
+            "UKR"
+        ],
+        "code": "POL",
+        "flags": {
+            "alt": "The flag of Poland is composed of two equal horizontal bands of white and red.",
+            "png": "https://flagcdn.com/w320/pl.png",
+            "svg": "https://flagcdn.com/pl.svg"
+        },
+        "name": "Poland"
+    },
+    {
+        "borders": [
+            "BLR",
+            "HUN",
+            "MDA",
+            "POL",
+            "ROU",
+            "RUS",
+            "SVK"
+        ],
+        "code": "UKR",
+        "flags": {
+            "alt": "The flag of Ukraine is composed of two equal horizontal bands of blue and yellow.",
+            "png": "https://flagcdn.com/w320/ua.png",
+            "svg": "https://flagcdn.com/ua.svg"
+        },
+        "name": "Ukraine"
+    },
+    {
+        "borders": [
+            "AUT",
+            "HRV",
+            "ITA",
+            "HUN"
+        ],
+        "code": "SVN",
+        "flags": {
+            "alt": "The flag of Slovenia is composed of three equal horizontal bands of white, blue and red. The national coat of arms is situated in the upper hoist side of the field centered on the boundary between the white and blue bands.",
+            "png": "https://flagcdn.com/w320/si.png",
+            "svg": "https://flagcdn.com/si.svg"
+        },
+        "name": "Slovenia"
+    },
+    {
+        "borders": [
+            "LVA",
+            "RUS"
+        ],
+        "code": "EST",
+        "flags": {
+            "alt": "The flag of Estonia is composed of three equal horizontal bands of blue, black and white.",
+            "png": "https://flagcdn.com/w320/ee.png",
+            "svg": "https://flagcdn.com/ee.svg"
+        },
+        "name": "Estonia"
+    },
+    {
+        "borders": [
+            "BEL",
+            "DEU"
+        ],
+        "code": "NLD",
+        "flags": {
+            "alt": "The flag of the Netherlands is composed of three equal horizontal bands of red, white and blue.",
+            "png": "https://flagcdn.com/w320/nl.png",
+            "svg": "https://flagcdn.com/nl.svg"
+        },
+        "name": "Netherlands"
+    },
+    {
+        "borders": [
+            "LVA",
+            "LTU",
+            "POL",
+            "RUS",
+            "UKR"
+        ],
+        "code": "BLR",
+        "flags": {
+            "alt": "The flag of Belarus features a vertical band, with a white and red ornamental pattern, spanning about one-fifth the width of the field on the hoist side. Adjoining the vertical band are two horizontal bands of red and green, with the red band twice the height of the green band.",
+            "png": "https://flagcdn.com/w320/by.png",
+            "svg": "https://flagcdn.com/by.svg"
+        },
+        "name": "Belarus"
+    },
+    {
+        "borders": [
+            "AUT",
+            "DEU",
+            "POL",
+            "SVK"
+        ],
+        "code": "CZE",
+        "flags": {
+            "alt": "The flag of Czechia is composed of two equal horizontal bands of white and red, with a blue isosceles triangle superimposed on the hoist side of the field. The triangle has its base on the hoist end and spans about two-fifth the width of the field.",
+            "png": "https://flagcdn.com/w320/cz.png",
+            "svg": "https://flagcdn.com/cz.svg"
+        },
+        "name": "Czechia"
+    },
+    {
+        "borders": [
+            "FRA",
+            "DEU",
+            "LUX",
+            "NLD"
+        ],
+        "code": "BEL",
+        "flags": {
+            "alt": "The flag of Belgium is composed of three equal vertical bands of black, yellow and red.",
+            "png": "https://flagcdn.com/w320/be.png",
+            "svg": "https://flagcdn.com/be.svg"
+        },
+        "name": "Belgium"
+    },
+    {
+        "borders": [
+            "FRA",
+            "ESP"
+        ],
+        "code": "AND",
+        "flags": {
+            "alt": "The flag of Andorra features three equal vertical bands of blue, yellow and red, with the coat of arms of Andorra centered in the yellow band.",
+            "png": "https://flagcdn.com/w320/ad.png",
+            "svg": "https://flagcdn.com/ad.svg"
+        },
+        "name": "Andorra"
+    },
+    {
+        "borders": [
+            "AUT",
+            "CHE"
+        ],
+        "code": "LIE",
+        "flags": {
+            "alt": "The flag of Liechtenstein is composed of two equal horizontal bands of blue and red, with a golden-yellow crown on the hoist side of the blue band.",
+            "png": "https://flagcdn.com/w320/li.png",
+            "svg": "https://flagcdn.com/li.svg"
+        },
+        "name": "Liechtenstein"
+    },
+    {
+        "borders": [
+            "FIN",
+            "SWE",
+            "RUS"
+        ],
+        "code": "NOR",
+        "flags": {
+            "alt": "The flag of Norway has a red field with a large white-edged navy blue cross that extends to the edges of the field. The vertical part of this cross is offset towards the hoist side.",
+            "png": "https://flagcdn.com/w320/no.png",
+            "svg": "https://flagcdn.com/no.svg"
+        },
+        "name": "Norway"
+    },
+    {
+        "borders": [
+            "AUT",
+            "HRV",
+            "ROU",
+            "SRB",
+            "SVK",
+            "SVN",
+            "UKR"
+        ],
+        "code": "HUN",
+        "flags": {
+            "alt": "The flag of Hungary is composed of three equal horizontal bands of red, white and green.",
+            "png": "https://flagcdn.com/w320/hu.png",
+            "svg": "https://flagcdn.com/hu.svg"
+        },
+        "name": "Hungary"
+    },
+    {
+        "borders": [
+            "AZE",
+            "BLR",
+            "CHN",
+            "EST",
+            "FIN",
+            "GEO",
+            "KAZ",
+            "PRK",
+            "LVA",
+            "LTU",
+            "MNG",
+            "NOR",
+            "POL",
+            "UKR"
+        ],
+        "code": "RUS",
+        "flags": {
+            "alt": "The flag of Russia is composed of three equal horizontal bands of white, blue and red.",
+            "png": "https://flagcdn.com/w320/ru.png",
+            "svg": "https://flagcdn.com/ru.svg"
+        },
+        "name": "Russia"
+    },
+    {
+        "borders": [
+            "CZE",
+            "DEU",
+            "HUN",
+            "ITA",
+            "LIE",
+            "SVK",
+            "SVN",
+            "CHE"
+        ],
+        "code": "AUT",
+        "flags": {
+            "alt": "The flag of Austria is composed of three equal horizontal bands of red, white and red.",
+            "png": "https://flagcdn.com/w320/at.png",
+            "svg": "https://flagcdn.com/at.svg"
+        },
+        "name": "Austria"
+    },
+    {
+        "borders": [
+            "HRV",
+            "MNE",
+            "SRB"
+        ],
+        "code": "BIH",
+        "flags": {
+            "alt": "The flag of Bosnia and Herzegovina has a blue field, at the center of which is a large yellow hoist-side facing right-angled triangle that is based on the top edge and spans the height of the field. Adjacent to the hypotenuse of this triangle are nine adjoining five-pointed white stars with the top and bottom stars cut in half by the edges of the field.",
+            "png": "https://flagcdn.com/w320/ba.png",
+            "svg": "https://flagcdn.com/ba.svg"
+        },
+        "name": "Bosnia and Herzegovina"
+    },
+    {
+        "borders": [
+            "AUT",
+            "FRA",
+            "SMR",
+            "SVN",
+            "CHE",
+            "VAT"
+        ],
+        "code": "ITA",
+        "flags": {
+            "alt": "The flag of Italy is composed of three equal vertical bands of green, white and red.",
+            "png": "https://flagcdn.com/w320/it.png",
+            "svg": "https://flagcdn.com/it.svg"
+        },
+        "name": "Italy"
+    },
+    {
+        "borders": [
+            "BGR",
+            "HUN",
+            "MDA",
+            "SRB",
+            "UKR"
+        ],
+        "code": "ROU",
+        "flags": {
+            "alt": "The flag of Romania is composed of three equal vertical bands of navy blue, yellow and red.",
+            "png": "https://flagcdn.com/w320/ro.png",
+            "svg": "https://flagcdn.com/ro.svg"
+        },
+        "name": "Romania"
+    },
+    {
+        "borders": [
+            "BIH",
+            "HUN",
+            "MNE",
+            "SRB",
+            "SVN"
+        ],
+        "code": "HRV",
+        "flags": {
+            "alt": "The flag of Croatia is composed of three equal horizontal bands of red, white and blue, with coat of arms of Croatia superimposed in the center.",
+            "png": "https://flagcdn.com/w320/hr.png",
+            "svg": "https://flagcdn.com/hr.svg"
+        },
+        "name": "Croatia"
+    },
+    {
+        "borders": [
+            "AUT",
+            "BEL",
+            "CZE",
+            "DNK",
+            "FRA",
+            "LUX",
+            "NLD",
+            "POL",
+            "CHE"
+        ],
+        "code": "DEU",
+        "flags": {
+            "alt": "The flag of Germany is composed of three equal horizontal bands of black, red and gold.",
+            "png": "https://flagcdn.com/w320/de.png",
+            "svg": "https://flagcdn.com/de.svg"
+        },
+        "name": "Germany"
+    },
+    {
+        "borders": [
+            "AUT",
+            "FRA",
+            "ITA",
+            "LIE",
+            "DEU"
+        ],
+        "code": "CHE",
+        "flags": {
+            "alt": "The flag of Switzerland is square shaped. It features a white Swiss cross centered on a red field.",
+            "png": "https://flagcdn.com/w320/ch.png",
+            "svg": "https://flagcdn.com/ch.svg"
+        },
+        "name": "Switzerland"
+    },
+    {
+        "borders": [
+            "BEL",
+            "FRA",
+            "DEU"
+        ],
+        "code": "LUX",
+        "flags": {
+            "alt": "The flag of Luxembourg is composed of three equal horizontal bands of red, white and light blue.",
+            "png": "https://flagcdn.com/w320/lu.png",
+            "svg": "https://flagcdn.com/lu.svg"
+        },
+        "name": "Luxembourg"
+    },
+    {
+        "borders": [
+            "ROU",
+            "UKR"
+        ],
+        "code": "MDA",
+        "flags": {
+            "alt": "The flag of Moldova is composed of three equal vertical bands of blue, yellow and red, with the national coat of arms centered in the yellow band.",
+            "png": "https://flagcdn.com/w320/md.png",
+            "svg": "https://flagcdn.com/md.svg"
+        },
+        "name": "Moldova"
+    },
+    {
+        "borders": [
+            "ALB",
+            "BGR",
+            "TUR",
+            "MKD"
+        ],
+        "code": "GRC",
+        "flags": {
+            "alt": "The flag of Greece is composed of nine equal horizontal bands of blue alternating with white. A blue square bearing a white cross is superimposed in the canton.",
+            "png": "https://flagcdn.com/w320/gr.png",
+            "svg": "https://flagcdn.com/gr.svg"
+        },
+        "name": "Greece"
+    }
+]

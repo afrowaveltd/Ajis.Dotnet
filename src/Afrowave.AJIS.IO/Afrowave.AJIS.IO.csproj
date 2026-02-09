@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../Afrowave.AJIS.Core/Afrowave.AJIS.Core.csproj" />
+    <ProjectReference Include="../Afrowave.AJIS.Streaming/Afrowave.AJIS.Streaming.csproj" />
+    <ProjectReference Include="../Afrowave.AJIS.Serialization/Afrowave.AJIS.Serialization.csproj" />
+  </ItemGroup>
+
 </Project>
