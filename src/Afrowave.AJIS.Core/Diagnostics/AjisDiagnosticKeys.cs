@@ -73,6 +73,8 @@ public static class AjisDiagnosticKeys
    /// <summary>
    /// Converts a diagnostic code to its stable string key.
    /// </summary>
+   /// <param name="code">Diagnostic code to convert.</param>
+   /// <returns>Stable string key for the diagnostic.</returns>
    public static string For(AjisDiagnosticCode code) => code switch
    {
       AjisDiagnosticCode.UnexpectedEof => UnexpectedEof,

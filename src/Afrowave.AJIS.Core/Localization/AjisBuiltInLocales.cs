@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace Afrowave.AJIS.Core.Localization;
 
+/// <summary>
+/// Built-in locale helpers.
+/// </summary>
 public static class AjisBuiltInLocales
 {
+   /// <summary>
+   /// Default language code for built-in locales.
+   /// </summary>
    public const string DefaultLanguageCode = "en";
 
+   /// <summary>
+   /// Loads the built-in English locale dictionary.
+   /// </summary>
+   /// <param name="ct">Cancellation token.</param>
+   /// <returns>The loaded localization dictionary.</returns>
    public static async ValueTask<AjisLocDictionary> LoadEnglishAsync(CancellationToken ct = default)
    {
       var asm = typeof(AjisBuiltInLocales).Assembly;

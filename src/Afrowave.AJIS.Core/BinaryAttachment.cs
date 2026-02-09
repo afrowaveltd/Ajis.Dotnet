@@ -201,6 +201,12 @@ public class AttachmentValidator
     private readonly string[]? _allowedMimeTypes;
     private readonly bool _verifyChecksum;
 
+    /// <summary>
+    /// Initializes a validator with optional size, MIME type, and checksum rules.
+    /// </summary>
+    /// <param name="maxFileSize">Maximum allowed size in bytes, or 0 for no limit.</param>
+    /// <param name="allowedMimeTypes">Allowed MIME types, or null to allow any.</param>
+    /// <param name="verifyChecksum">Whether to verify attachment checksums.</param>
     public AttachmentValidator(
         long maxFileSize = 0,
         string[]? allowedMimeTypes = null,
@@ -214,6 +220,8 @@ public class AttachmentValidator
     /// <summary>
     /// Validates an attachment.
     /// </summary>
+    /// <param name="attachment">The attachment to validate.</param>
+    /// <returns>Validation result and error message when invalid.</returns>
     public (bool IsValid, string Error) Validate(BinaryAttachment attachment)
     {
         if (attachment == null)
@@ -278,6 +286,8 @@ public static class AjisAttachmentHelper
     /// <summary>
     /// Creates a binary attachment from a file path.
     /// </summary>
+    /// <param name="filePath">Path to the file to read.</param>
+    /// <returns>The populated attachment.</returns>
     public static BinaryAttachment CreateFromFile(string filePath)
     {
         if (!File.Exists(filePath))
@@ -302,6 +312,8 @@ public static class AjisAttachmentHelper
     /// <summary>
     /// Saves attachment to disk.
     /// </summary>
+    /// <param name="attachment">The attachment to write.</param>
+    /// <param name="outputPath">Destination path for the file.</param>
     public static void SaveToFile(BinaryAttachment attachment, string outputPath)
     {
         if (attachment?.Data == null)
@@ -313,6 +325,8 @@ public static class AjisAttachmentHelper
     /// <summary>
     /// Gets MIME type from file extension.
     /// </summary>
+    /// <param name="extension">File extension, including leading dot.</param>
+    /// <returns>Resolved MIME type.</returns>
     public static string GetMimeType(string extension)
     {
         return extension?.ToLower() switch
@@ -340,6 +354,8 @@ public static class AjisAttachmentHelper
     /// <summary>
     /// Estimates compression ratio for a file type.
     /// </summary>
+    /// <param name="mimeType">MIME type of the content.</param>
+    /// <returns>Estimated compression ratio between 0 and 1.</returns>
     public static double EstimateCompressionRatio(string mimeType)
     {
         // Already compressed formats

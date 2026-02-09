@@ -10,6 +10,13 @@ public static class AjisDiagnosticFactory
    /// <summary>
    /// Creates an <see cref="AjisDiagnosticSeverity.Error"/> diagnostic.
    /// </summary>
+   /// <param name="code">Diagnostic code.</param>
+   /// <param name="offset">Byte offset in the source.</param>
+   /// <param name="line">Optional line number.</param>
+   /// <param name="column">Optional column number.</param>
+   /// <param name="path">Optional source identifier.</param>
+   /// <param name="args">Optional arguments stored in the diagnostic payload.</param>
+   /// <returns>The created diagnostic.</returns>
    /// <remarks>
    /// <para>
    /// If <paramref name="args"/> are provided, they are stored under <c>Data["args"]</c>.

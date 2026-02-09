@@ -18,6 +18,7 @@ public sealed class AjisEventStream : IAjisEventSink, IAsyncEnumerable<AjisEvent
    /// <summary>
    /// Creates an unbounded event stream.
    /// </summary>
+   /// <param name="capacity">Optional bounded capacity; when set, oldest events are dropped on overflow.</param>
    public AjisEventStream(int? capacity = null)
    {
       _channel = capacity is null
@@ -36,6 +37,7 @@ public sealed class AjisEventStream : IAjisEventSink, IAsyncEnumerable<AjisEvent
    /// <summary>
    /// Completes the stream, stopping all readers.
    /// </summary>
+   /// <param name="error">Optional error to propagate to readers.</param>
    public void Complete(Exception? error = null) => _writer.TryComplete(error);
 
    /// <inheritdoc />
@@ -52,5 +54,8 @@ public sealed class AjisEventStream : IAjisEventSink, IAsyncEnumerable<AjisEvent
    public IAsyncEnumerator<AjisEvent> GetAsyncEnumerator(CancellationToken cancellationToken = default)
        => _reader.ReadAllAsync(cancellationToken).GetAsyncEnumerator(cancellationToken);
 
+   /// <summary>
+   /// Completes the stream and releases resources.
+   /// </summary>
    public void Dispose() => Complete();
 }

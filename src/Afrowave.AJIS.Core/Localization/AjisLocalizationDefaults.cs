@@ -14,6 +14,10 @@ public static class AjisLocalizationDefaults
    /// <summary>
    /// Builds default provider using current UI culture and built-in English fallback.
    /// </summary>
+   /// <param name="userOverrides">Optional user-provided overrides.</param>
+   /// <param name="missingKeyBehavior">Behavior for missing localization keys.</param>
+   /// <param name="ct">Cancellation token.</param>
+   /// <returns>The constructed text provider.</returns>
    public static async ValueTask<IAjisTextProvider> BuildDefaultAsync(
        AjisLocDictionary? userOverrides = null,
        MissingKeyBehavior missingKeyBehavior = MissingKeyBehavior.Bracketed,
@@ -39,6 +43,7 @@ public static class AjisLocalizationDefaults
    /// <summary>
    /// Picks the most relevant culture for messages. Defaults to CurrentUICulture.
    /// </summary>
+   /// <returns>The default culture for localization.</returns>
    public static CultureInfo GetDefaultCulture()
        => CultureInfo.CurrentUICulture;
 }
