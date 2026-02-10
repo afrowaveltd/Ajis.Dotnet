@@ -44,7 +44,7 @@ public class OptimizationBenchmark
         return System.Text.Json.JsonSerializer.Serialize(_testData);
     }
 
-    private static List<TestObject> GenerateTestData(int count)
+    public static List<TestObject> GenerateTestData(int count)
     {
         var random = new Random(42);
         var result = new List<TestObject>(count);

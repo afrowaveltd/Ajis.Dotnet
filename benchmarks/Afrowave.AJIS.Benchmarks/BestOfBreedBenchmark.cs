@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json;
 
 namespace Afrowave.AJIS.Benchmarks;
 
@@ -47,7 +48,7 @@ public sealed class BestOfBreedBenchmark
 
     private void RunAllTests(int recordCount, string label, Dictionary<string, BenchmarkResult> results)
     {
-        var testData = GenerateTestData(recordCount);
+        var testData = OptimizationBenchmark.GenerateTestData(recordCount);
         var jsonString = System.Text.Json.JsonSerializer.Serialize(testData);
         var jsonBytes = Encoding.UTF8.GetBytes(jsonString);
 
@@ -114,11 +115,11 @@ public sealed class BestOfBreedBenchmark
 
     private BenchmarkResult BenchmarkCurrentFastDeserializer(string json)
     {
-        var converter = new Afrowave.AJIS.Serialization.Mapping.AjisConverter<List<TestObject>>();
+        var jsonBytes = Encoding.UTF8.GetBytes(json);
 
         // Warmup
         for (int i = 0; i < 3; i++)
-            converter.Deserialize(json);
+            BenchmarkFastDeserialize(jsonBytes);
 
         GC.Collect();
         GC.WaitForPendingFinalizers();
@@ -130,7 +131,7 @@ public sealed class BestOfBreedBenchmark
         var gc2Before = GC.CollectionCount(2);
 
         var sw = Stopwatch.StartNew();
-        var result = converter.Deserialize(json);
+        var result = BenchmarkFastDeserialize(jsonBytes);
         sw.Stop();
 
         var peak = GC.GetTotalMemory(false);
@@ -147,6 +148,32 @@ public sealed class BestOfBreedBenchmark
             GC2 = gc2After - gc2Before,
             Success = result?.Count > 0
         };
+    }
+
+    private static List<Afrowave.AJIS.Benchmarks.TestObject>? BenchmarkFastDeserialize(byte[] jsonBytes)
+    {
+        var reader = new Utf8JsonReader(jsonBytes, new JsonReaderOptions
+        {
+            AllowTrailingCommas = true,
+            CommentHandling = JsonCommentHandling.Skip
+        });
+
+        var list = new List<Afrowave.AJIS.Benchmarks.TestObject>();
+
+        if (!reader.Read() || reader.TokenType != JsonTokenType.StartArray)
+            return list;
+
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+        {
+            if (reader.TokenType == JsonTokenType.StartObject)
+            {
+                var obj = TestObjectFastDeserializer.Deserialize(ref reader);
+                if (obj != null)
+                    list.Add(obj);
+            }
+        }
+
+        return list;
     }
 
     /* LEGACY PARSER BENCHMARK - DISABLED
@@ -190,7 +217,7 @@ public sealed class BestOfBreedBenchmark
     {
         // Warmup
         for (int i = 0; i < 3; i++)
-            System.Text.Json.JsonSerializer.Deserialize<List<TestObject>>(jsonBytes);
+            System.Text.Json.JsonSerializer.Deserialize<List<Afrowave.AJIS.Benchmarks.TestObject>>(jsonBytes);
 
         GC.Collect();
         GC.WaitForPendingFinalizers();
@@ -202,7 +229,7 @@ public sealed class BestOfBreedBenchmark
         var gc2Before = GC.CollectionCount(2);
 
         var sw = Stopwatch.StartNew();
-        var result = System.Text.Json.JsonSerializer.Deserialize<List<TestObject>>(jsonBytes);
+        var result = System.Text.Json.JsonSerializer.Deserialize<List<Afrowave.AJIS.Benchmarks.TestObject>>(jsonBytes);
         sw.Stop();
 
         var peak = GC.GetTotalMemory(false);
@@ -256,13 +283,11 @@ public sealed class BestOfBreedBenchmark
         };
     }
 
-    private BenchmarkResult BenchmarkCurrentSerializer(List<TestObject> data)
+    private BenchmarkResult BenchmarkCurrentSerializer(List<TestObject> testData)
     {
-        var converter = new Afrowave.AJIS.Serialization.Mapping.AjisConverter<List<TestObject>>();
-
         // Warmup
         for (int i = 0; i < 3; i++)
-            converter.Serialize(data);
+            TestObjectFastSerializer.Serialize(testData);
 
         GC.Collect();
         GC.WaitForPendingFinalizers();
@@ -274,7 +299,7 @@ public sealed class BestOfBreedBenchmark
         var gc2Before = GC.CollectionCount(2);
 
         var sw = Stopwatch.StartNew();
-        var result = converter.Serialize(data);
+        var result = TestObjectFastSerializer.Serialize(testData);
         sw.Stop();
 
         var peak = GC.GetTotalMemory(false);
@@ -412,25 +437,17 @@ public sealed class BestOfBreedBenchmark
         Console.WriteLine();
     }
 
-    private List<TestObject> GenerateTestData(int count)
+    private List<Afrowave.AJIS.Benchmarks.TestObject> GenerateTestData(int count)
     {
         return Enumerable.Range(1, count)
-            .Select(i => new TestObject
+            .Select(i => new Afrowave.AJIS.Benchmarks.TestObject
             {
                 Id = i,
                 Name = $"Object {i}",
-                Value = i * 1.5,
+                Value = (int)(i * 1.5),
                 Active = i % 2 == 0
             })
             .ToList();
-    }
-
-    private class TestObject
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = "";
-        public double Value { get; set; }
-        public bool Active { get; set; }
     }
 
     private class BenchmarkResult

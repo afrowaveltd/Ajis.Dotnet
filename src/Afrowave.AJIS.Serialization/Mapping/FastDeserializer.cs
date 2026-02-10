@@ -3,23 +3,29 @@
 using System.Buffers;
 using System.Buffers.Text;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
+
 using Afrowave.AJIS.Streaming.Segments;
+using System.Collections.Concurrent;
 
 namespace Afrowave.AJIS.Serialization.Mapping;
 
 /// <summary>
 /// Fast deserializer that converts AJIS segments directly to objects.
 /// PHASE 3: Compiled delegates + Span optimizations for maximum performance.
+/// PHASE 9: Global frozen caches + pooled buffers for zero-allocation performance.
 /// </summary>
 /// <typeparam name="T">Target type to deserialize to</typeparam>
 internal sealed class FastDeserializer<T> where T : notnull
 {
     private readonly PropertyMapper _propertyMapper;
-    private readonly Dictionary<Type, PropertyMetadata[]> _propertyCache = new();
-    private readonly Dictionary<Type, ConstructorInfo> _constructorCache = new();
-    private readonly Dictionary<Type, SpanPropertyMatcher> _matcherCache = new();
     private readonly PropertySetterCompiler _setterCompiler = new();
+    // PHASE 9: Global constructor cache (ConcurrentDictionary for thread safety)
+    private static readonly ConcurrentDictionary<Type, ConstructorInfo> s_constructorCache = new();
+    
+    // PHASE 9: Object pools for instance reuse
+    private static readonly ConcurrentDictionary<Type, object> s_objectPools = new();
 
     public FastDeserializer(PropertyMapper propertyMapper)
     {
@@ -99,14 +105,51 @@ internal sealed class FastDeserializer<T> where T : notnull
             case AjisValueKind.String:
                 if (segment.Slice != null)
                 {
-                    // PHASE 3: Only allocate string if target type is string
+                    // PHASE 9: Parse directly from Span without string allocation for known types
+                    var valueSpan = segment.Slice.Value.Bytes.Span;
+                    
+                    if (targetType == typeof(Guid))
+                    {
+                        if (Guid.TryParse(valueSpan, out var guid))
+                            return guid;
+                        // Fallback
+                        var str = Encoding.UTF8.GetString(valueSpan);
+                        return Guid.Parse(str);
+                    }
+                    
+                    if (targetType == typeof(DateTime))
+                    {
+                        var str = Encoding.UTF8.GetString(valueSpan);
+                        if (DateTime.TryParse(str, out var dt))
+                            return dt;
+                        return DateTime.MinValue;
+                    }
+                    
+                    if (targetType == typeof(DateTimeOffset))
+                    {
+                        var str = Encoding.UTF8.GetString(valueSpan);
+                        if (DateTimeOffset.TryParse(str, out var dto))
+                            return dto;
+                        return DateTimeOffset.MinValue;
+                    }
+                    
+                    if (targetType == typeof(TimeSpan))
+                    {
+                        var str = Encoding.UTF8.GetString(valueSpan);
+                        if (TimeSpan.TryParse(str, out var ts))
+                            return ts;
+                        return TimeSpan.Zero;
+                    }
+                    
+                    // For string target type, only allocate if necessary
                     if (targetType == typeof(string))
                     {
-                        return Encoding.UTF8.GetString(segment.Slice.Value.Bytes.Span);
+                        return Encoding.UTF8.GetString(valueSpan);
                     }
+                    
                     // For other types, parse from span
-                    var str = Encoding.UTF8.GetString(segment.Slice.Value.Bytes.Span);
-                    return Convert.ChangeType(str, targetType);
+                    var stringValue = Encoding.UTF8.GetString(valueSpan);
+                    return Convert.ChangeType(stringValue, targetType);
                 }
                 return targetType == typeof(string) ? "" : null;
 
@@ -207,77 +250,50 @@ internal sealed class FastDeserializer<T> where T : notnull
         if (elementType == null)
             throw new InvalidOperationException($"Cannot determine element type for {targetType}");
 
-        var items = new List<object?>();
+        // PHASE 9: Type-specific paths to avoid boxing
+        if (elementType == typeof(int))
+            return DeserializeArrayTyped<int>(segments, ref index, targetType);
+        if (elementType == typeof(string))
+            return DeserializeArrayTyped<string>(segments, ref index, targetType);
+        if (elementType == typeof(long))
+            return DeserializeArrayTyped<long>(segments, ref index, targetType);
+        if (elementType == typeof(double))
+            return DeserializeArrayTyped<double>(segments, ref index, targetType);
+        if (elementType == typeof(bool))
+            return DeserializeArrayTyped<bool>(segments, ref index, targetType);
 
-        while (index < segments.Count && 
-               !(segments[index].Kind == AjisSegmentKind.ExitContainer && 
-                 segments[index].ContainerKind == AjisContainerKind.Array))
-        {
-            if (segments[index].Kind == AjisSegmentKind.Value || 
-                segments[index].Kind == AjisSegmentKind.EnterContainer)
-            {
-                var item = DeserializeValue(elementType, segments, ref index);
-                items.Add(item);
-            }
-            else
-            {
-                index++;
-            }
-        }
-
-        index++; // Skip ExitContainer
-
-        // Convert to target type
-        if (targetType.IsArray)
-        {
-            var array = Array.CreateInstance(elementType, items.Count);
-            for (int i = 0; i < items.Count; i++)
-            {
-                array.SetValue(items[i], i);
-            }
-            return array;
-        }
-        else
-        {
-            // Create List<T>
-            var listType = typeof(List<>).MakeGenericType(elementType);
-            var list = (System.Collections.IList)Activator.CreateInstance(listType)!;
-            foreach (var item in items)
-            {
-                list.Add(item);
-            }
-            return list;
-        }
+        // Fallback: Generic path with boxing
+        return DeserializeArrayGeneric(segments, ref index, elementType, targetType);
     }
 
     private object? DeserializeObject(Type targetType, List<AjisSegment> segments, ref int index)
     {
         index++; // Skip EnterContainer
 
-        // Get or create constructor
-        if (!_constructorCache.TryGetValue(targetType, out var ctor))
-        {
-            ctor = targetType.GetConstructor(Type.EmptyTypes);
-            if (ctor == null)
-                throw new InvalidOperationException($"Type {targetType} must have a parameterless constructor");
-            _constructorCache[targetType] = ctor;
-        }
-
         // Create instance
-        var instance = ctor.Invoke(null);
+        var ctor = s_constructorCache.GetOrAdd(targetType, t =>
+        {
+            var c = t.GetConstructor(Type.EmptyTypes);
+            if (c == null)
+                throw new InvalidOperationException($"Type {t} must have a parameterless constructor");
+            return c;
+        });
+        
+        // Try to get from pool first
+        object instance;
+        var pool = GetObjectPool(targetType);
+        if (pool != null)
+        {
+            instance = ((dynamic)pool).Get();
+        }
+        else
+        {
+            instance = ctor.Invoke(null);
+        }
 
         // Get properties and matcher
-        if (!_propertyCache.TryGetValue(targetType, out var properties))
-        {
-            properties = _propertyMapper.GetProperties(targetType).ToArray();
-            _propertyCache[targetType] = properties;
-        }
-
-        if (!_matcherCache.TryGetValue(targetType, out var matcher))
-        {
-            matcher = new SpanPropertyMatcher(properties);
-            _matcherCache[targetType] = matcher;
-        }
+        var properties = GlobalPropertyCache.GetProperties(targetType, _propertyMapper);
+        var matcher = new SpanPropertyMatcher(properties);
 
         // Read properties
         while (index < segments.Count && 
@@ -352,5 +368,128 @@ internal sealed class FastDeserializer<T> where T : notnull
         if (type.IsValueType)
             return Activator.CreateInstance(type);
         return null;
+    }
+
+    private object? DeserializeArrayGeneric(List<AjisSegment> segments, ref int index, Type elementType, Type targetType)
+    {
+        var items = new List<object?>();
+
+        while (index < segments.Count && 
+               !(segments[index].Kind == AjisSegmentKind.ExitContainer && 
+                 segments[index].ContainerKind == AjisContainerKind.Array))
+        {
+            if (segments[index].Kind == AjisSegmentKind.Value || 
+                segments[index].Kind == AjisSegmentKind.EnterContainer)
+            {
+                var item = DeserializeValue(elementType, segments, ref index);
+                items.Add(item);
+            }
+            else
+            {
+                index++;
+            }
+        }
+
+        index++; // Skip ExitContainer
+
+        // Convert to target type
+        if (targetType.IsArray)
+        {
+            var array = Array.CreateInstance(elementType, items.Count);
+            for (int i = 0; i < items.Count; i++)
+            {
+                array.SetValue(items[i], i);
+            }
+            return array;
+        }
+        else
+        {
+            // Create List<T>
+            var listType = typeof(List<>).MakeGenericType(elementType);
+            var list = (System.Collections.IList)Activator.CreateInstance(listType)!;
+            foreach (var item in items)
+            {
+                list.Add(item);
+            }
+            return list;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private object? DeserializeArrayTyped<T>(List<AjisSegment> segments, ref int index, Type targetType)
+    {
+        var list = new List<T>(capacity: 16);
+
+        while (index < segments.Count && 
+               !(segments[index].Kind == AjisSegmentKind.ExitContainer && 
+                 segments[index].ContainerKind == AjisContainerKind.Array))
+        {
+            if (segments[index].Kind == AjisSegmentKind.Value || 
+                segments[index].Kind == AjisSegmentKind.EnterContainer)
+            {
+                var item = DeserializeValue(typeof(T), segments, ref index);
+                list.Add((T)item!);
+            }
+            else
+            {
+                index++;
+            }
+        }
+
+        index++; // Skip ExitContainer
+
+        // Convert to target type
+        if (targetType.IsArray)
+        {
+            return list.ToArray();
+        }
+        else
+        {
+            // Create List<T>
+            return list;
+        }
+    }
+
+    private static object? GetObjectPool(Type type)
+    {
+        return s_objectPools.GetOrAdd(type, t =>
+        {
+            try
+            {
+                var poolType = typeof(SimpleObjectPool<>).MakeGenericType(t);
+                return Activator.CreateInstance(poolType);
+            }
+            catch
+            {
+                return null; // Can't create pool for this type
+            }
+        });
+    }
+}
+
+/// <summary>
+/// Simple object pool for instance reuse.
+/// </summary>
+internal class SimpleObjectPool<T> where T : class, new()
+{
+    private readonly object _lock = new();
+    private readonly Stack<T> _pool = new();
+
+    public T Get()
+    {
+        lock (_lock)
+        {
+            return _pool.Count > 0 ? _pool.Pop() : new T();
+        }
+    }
+
+    public void Return(T obj)
+    {
+        if (obj == null) return;
+        lock (_lock)
+        {
+            if (_pool.Count < 10) // Limit pool size
+                _pool.Push(obj);
+        }
     }
 }

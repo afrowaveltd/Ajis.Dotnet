@@ -36,7 +36,11 @@ public static class Program
         }
         else if (args[0].ToLower() == "perf")
         {
-            RunPerformanceTests();
+            SimplePerfTest.Run();
+        }
+        else if (args[0].ToLower() == "stress")
+        {
+            RoundTripStressTest.Run();
         }
         else if (args[0].ToLower() == "parsers")
         {
@@ -156,7 +160,7 @@ public static class Program
 AJIS.Dotnet Benchmarking Suite
 
 Usage:
-  dotnet run                 - Run baseline benchmark (default)
+  dotnen run                 - Run baseline benchmark (default)
   dotnet run baseline        - Run baseline benchmark
   dotnet run stress          - Run stress testing (100K/500K/1M records)
   dotnet run legacy          - Run legacy JSON to AJIS migration

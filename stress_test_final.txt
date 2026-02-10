@@ -1,0 +1,18 @@
+Pou┼żit├ş nastaven├ş spu┼ít─Ťn├ş z benchmarks\Afrowave.AJIS.Benchmarks\Properties\launchSettings.json...
+­čöą AJIS ROUND-TRIP STRESS TEST - 10 MILLION COMPLEX RECORDS
+==========================================================
+
+­čôŁ Phase 1: Generating 100┬á000 complex user records...
+   Generated 100┬á000 users
+   Saved to complex_users_10m.json in 1┬á258 ms
+
+­čôľ Phase 2: Loading and parsing complex_users_10m.json...
+   Loaded 100┬á000 users
+
+­čöä Phase 3: Round-trip processing (JSON Ôćĺ AJIS Ôćĺ JSON)...
+
+ÔŁî STRESS TEST FAILED: Maximum depth (1000) exceeded
+   Stack trace:    at Afrowave.AJIS.Serialization.Mapping.AjisConverter`1.Serialize(T value) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\Mapping\AjisConverter.cs:line 98
+   at Afrowave.AJIS.Benchmarks.RoundTripStressTest.<>c.<Run>b__3_1() in D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\RoundTripStressTest.cs:line 53
+   at Afrowave.AJIS.Benchmarks.RoundTripStressTest.MeasureTime(Action action) in D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\RoundTripStressTest.cs:line 308
+   at Afrowave.AJIS.Benchmarks.RoundTripStressTest.Run() in D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\RoundTripStressTest.cs:line 47

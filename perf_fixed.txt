@@ -1,0 +1,14 @@
+Pou┼żit├ş nastaven├ş spu┼ít─Ťn├ş z benchmarks\Afrowave.AJIS.Benchmarks\Properties\launchSettings.json...
+­čÜÇ AJIS Performance Test - Optimized Version
+============================================
+Test data: 10000 objects
+JSON size: 2083,3 KB
+
+­čôŐ RESULTS:
+AJIS Deserialize:      37 ms
+STJ Deserialize:       41 ms
+Ratio:               0,90x
+
+AJIS Serialize:        23 ms
+STJ Serialize:         26 ms
+Ratio:               0,88x

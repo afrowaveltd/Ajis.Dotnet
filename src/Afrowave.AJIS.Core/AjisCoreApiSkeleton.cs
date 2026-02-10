@@ -274,6 +274,10 @@ public enum AjisDiagnosticSeverity
    /// Error that indicates invalid input or unrecoverable issue.
    /// </summary>
    Error = 2,
+
+   /// <summary>
+   /// Debug level message, typically not emitted in production environments. 
+   /// </summary>
    Debug = 3,
 }
 
@@ -383,7 +387,7 @@ internal sealed class DefaultAjisTextProvider : IAjisTextProvider
 
    public string Format(CultureInfo? culture, string key, params object?[] args)
    {
-      var fmt = GetText(key, culture ?? CultureInfo.CurrentUICulture, data: null);
+      string fmt = GetText(key, culture ?? CultureInfo.CurrentUICulture, data: null);
       return string.Format(culture ?? CultureInfo.CurrentCulture, fmt, args);
    }
 }
