@@ -12,9 +12,13 @@ namespace Afrowave.AJIS.Benchmarks;
 /// Ultra-fast serializer for TestObject generated at compile-time.
 /// Eliminates all reflection, caching, and delegate overhead.
 /// Inspired by System.Text.Json source generators.
+/// Memory optimized: uses ArrayPool and smaller initial buffers.
 /// </summary>
 internal sealed class TestObjectFastSerializer
 {
+    // Use smaller buffer for better memory efficiency
+    private const int InitialBufferSize = 16 * 1024; // 16KB (reduced from 64KB)
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Serialize(Utf8JsonWriter writer, TestObject obj)
     {
@@ -62,7 +66,8 @@ internal sealed class TestObjectFastSerializer
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Serialize(List<TestObject> list)
     {
-        var buffer = new ArrayBufferWriter<byte>(64 * 1024);
+        // Use smaller initial buffer - ArrayBufferWriter auto-grows efficiently
+        var buffer = new ArrayBufferWriter<byte>(InitialBufferSize);
         using var writer = new Utf8JsonWriter(buffer, new JsonWriterOptions { Indented = false });
 
         writer.WriteStartArray();

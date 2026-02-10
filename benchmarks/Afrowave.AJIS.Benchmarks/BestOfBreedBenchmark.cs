@@ -78,6 +78,9 @@ public sealed class BestOfBreedBenchmark
         TestSerializer($"Current-AjisConverter-{label}", () =>
             BenchmarkCurrentSerializer(testData), results);
 
+        TestSerializer($"MemoryEfficient-{label}", () =>
+            BenchmarkMemoryEfficientSerializer(testData), results);
+
         TestSerializer($"SystemTextJson-Serializer-{label}", () =>
             BenchmarkSystemTextJsonSerializer(testData), results);
 
@@ -300,6 +303,41 @@ public sealed class BestOfBreedBenchmark
 
         var sw = Stopwatch.StartNew();
         var result = TestObjectFastSerializer.Serialize(testData);
+        sw.Stop();
+
+        var peak = GC.GetTotalMemory(false);
+        var gc0After = GC.CollectionCount(0);
+        var gc1After = GC.CollectionCount(1);
+        var gc2After = GC.CollectionCount(2);
+
+        return new BenchmarkResult
+        {
+            TimeMs = sw.ElapsedMilliseconds,
+            MemoryMB = (peak - baseline) / 1024 / 1024,
+            GC0 = gc0After - gc0Before,
+            GC1 = gc1After - gc1Before,
+            GC2 = gc2After - gc2Before,
+            Success = !string.IsNullOrEmpty(result)
+        };
+    }
+
+    private BenchmarkResult BenchmarkMemoryEfficientSerializer(List<TestObject> data)
+    {
+        // Warmup
+        for (int i = 0; i < 3; i++)
+            MemoryEfficientSerializer.Serialize(data);
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+        var baseline = GC.GetTotalMemory(false);
+        var gc0Before = GC.CollectionCount(0);
+        var gc1Before = GC.CollectionCount(1);
+        var gc2Before = GC.CollectionCount(2);
+
+        var sw = Stopwatch.StartNew();
+        var result = MemoryEfficientSerializer.Serialize(data);
         sw.Stop();
 
         var peak = GC.GetTotalMemory(false);

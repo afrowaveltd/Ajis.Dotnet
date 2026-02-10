@@ -90,31 +90,31 @@ internal class AjisQueryProvider<T> : IQueryProvider where T : notnull
 
     public TResult Execute<TResult>(Expression expression)
     {
-        // Parse the expression tree and execute query
-        var queryVisitor = new AjisQueryVisitor<T>();
-        queryVisitor.Visit(expression);
+        // Use enhanced visitor with full LINQ support
+        var visitor = new EnhancedAjisQueryVisitor<T>();
+        visitor.Visit(expression);
 
-        // Execute query based on parsed conditions
-        IEnumerable<T> result;
-        
-        if(queryVisitor.WherePredicate != null)
-        {
-            result = AjisFile.FindByPredicate<T>(_filePath, queryVisitor.WherePredicate).ToList();
-        }
-        else if(queryVisitor.KeyLookup != null && _indexProperty != null)
-        {
-            var item = AjisFile.FindByKey<T>(_filePath, _indexProperty, queryVisitor.KeyLookup);
-            result = item != null ? new[] { item }.ToList() : new List<T>();
-        }
-        else
-        {
-            result = AjisFile.Enumerate<T>(_filePath).ToList();
-        }
+        // Execute complete query pipeline
+        var result = visitor.ExecuteQuery<T>(_filePath);
 
         // Handle different result types
         if (typeof(TResult) == typeof(T))
         {
             return (TResult)(object)(result.FirstOrDefault() ?? throw new InvalidOperationException("No matching element found"));
+        }
+
+        if (typeof(TResult).IsAssignableFrom(typeof(IEnumerable<T>)))
+        {
+            return (TResult)(object)result;
+        }
+
+        if (typeof(TResult).IsGenericType)
+        {
+            var genericType = typeof(TResult).GetGenericTypeDefinition();
+            if (genericType == typeof(IEnumerable<>) || genericType == typeof(List<>))
+            {
+                return visitor.ExecuteQuery<TResult>(_filePath).First();
+            }
         }
         
         return (TResult)(object)result;

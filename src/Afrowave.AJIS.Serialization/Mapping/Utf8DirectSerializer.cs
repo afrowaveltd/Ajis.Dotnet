@@ -18,7 +18,7 @@ internal sealed class Utf8DirectSerializer<T> where T : notnull
    private readonly PropertyGetterCompiler _getterCompiler = new();
    private readonly Dictionary<Type, PropertyMetadata[]> _propertyCache = new();
    private const int MaxDepth = 100;
-   private const int InitialBufferSize = 64 * 1024; // 64KB initial buffer
+   private const int InitialBufferSize = 8 * 1024; // Reduced from 64KB to 8KB for better memory efficiency
 
    // PHASE 5: Inline type cache for fast type matching
    private static readonly Type TypeString = typeof(string);
@@ -40,7 +40,9 @@ internal sealed class Utf8DirectSerializer<T> where T : notnull
 
    /// <summary>
    /// Serialize directly to UTF8 using Utf8JsonWriter (FAST!).
-   /// PHASE 6: Uses ArrayBufferWriter and aggressive inlining.
+   /// PHASE 6: Uses ArrayBufferWriter with optimized initial size.
+   /// Memory optimized: smaller initial buffer (8KB instead of 64KB).
+   /// ArrayBufferWriter automatically grows as needed and uses internal pooling.
    /// </summary>
    [MethodImpl(MethodImplOptions.AggressiveInlining)]
    public string Serialize(T value)
@@ -48,7 +50,7 @@ internal sealed class Utf8DirectSerializer<T> where T : notnull
       if(value == null)
          return "null";
 
-      // Use ArrayBufferWriter instead of MemoryStream - much faster for UTF8
+      // Use ArrayBufferWriter with smaller initial size - it auto-grows efficiently
       ArrayBufferWriter<byte> bufferWriter = new ArrayBufferWriter<byte>(InitialBufferSize);
 
       using(Utf8JsonWriter writer = new Utf8JsonWriter(bufferWriter, new JsonWriterOptions

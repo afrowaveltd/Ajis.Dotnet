@@ -407,6 +407,10 @@ public static class RoundTripStressTest
       var companies = new[] { "TechCorp", "DataSys", "InfoTech", "GlobalSoft", "NetWorks", "CloudTech", "WebSolutions", "DataFlow", "SysTech", "InfoNet" };
       var industries = new[] { "Technology", "Finance", "Healthcare", "Manufacturing", "Retail", "Education", "Government", "Media", "Transportation", "Energy" };
 
+      // CRITICAL: Flush much more frequently to prevent buffer overflow (2GB limit)
+      // Each record ~1-2KB, flush every 100 records = ~100-200KB chunks
+      const int FlushInterval = 100; // Reduced from 1000 to 100 for safety
+
       for(int i = 0; i < RecordCount; i++)
       {
          writer.WriteStartObject();
@@ -511,6 +515,17 @@ public static class RoundTripStressTest
          if((i + 1) % 100000 == 0)
          {
             Console.WriteLine($"   📊 Generated {i + 1:N0} records...");
+         }
+
+         // Flush buffer to file periodically to prevent 2GB buffer overflow
+         if((i + 1) % FlushInterval == 0)
+         {
+            writer.Flush();
+            // Less frequent logging to avoid spam
+            if((i + 1) % 10000 == 0)
+            {
+               Console.WriteLine($"   🔄 Flushed {i + 1:N0} records to disk...");
+            }
          }
       }
 

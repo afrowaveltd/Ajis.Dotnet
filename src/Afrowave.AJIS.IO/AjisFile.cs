@@ -189,6 +189,76 @@ public static class AjisFile
       await File.WriteAllTextAsync(filePath, newContent);
    }
 
+   /// <summary>
+   /// Appends multiple objects to an AJIS file efficiently.
+   /// Creates file if it doesn't exist.
+   /// </summary>
+   public static void AppendMany<T>(string filePath, IEnumerable<T> items) where T : notnull
+   {
+      if(string.IsNullOrWhiteSpace(filePath))
+         throw new ArgumentNullException(nameof(filePath));
+      if(items == null)
+         throw new ArgumentNullException(nameof(items));
+
+      var itemsList = items.ToList();
+      if(itemsList.Count == 0)
+         return;
+
+      var converter = GetConverter<T>();
+
+      if(!File.Exists(filePath))
+      {
+         // Create new file with items
+         Create(filePath, itemsList);
+         return;
+      }
+
+      // Read existing content
+      string content = File.ReadAllText(filePath);
+      if(!content.TrimEnd().EndsWith("]"))
+         throw new FormatException($"Invalid AJIS array format in {filePath}");
+
+      // Serialize all new items
+      var serializedItems = itemsList.Select(item => SerializeObject(converter, item));
+
+      // Insert before closing bracket
+      string itemsToAdd = string.Join(",", serializedItems);
+      string newContent = content.TrimEnd()[..^1] + "," + itemsToAdd + "]";
+      File.WriteAllText(filePath, newContent);
+   }
+
+   /// <summary>
+   /// Appends multiple objects asynchronously.
+   /// </summary>
+   public static async Task AppendManyAsync<T>(string filePath, IEnumerable<T> items) where T : notnull
+   {
+      if(string.IsNullOrWhiteSpace(filePath))
+         throw new ArgumentNullException(nameof(filePath));
+      if(items == null)
+         throw new ArgumentNullException(nameof(items));
+
+      var itemsList = items.ToList();
+      if(itemsList.Count == 0)
+         return;
+
+      var converter = GetConverter<T>();
+
+      if(!File.Exists(filePath))
+      {
+         await CreateAsync(filePath, itemsList.ToAsyncEnumerable());
+         return;
+      }
+
+      string content = await File.ReadAllTextAsync(filePath);
+      if(!content.TrimEnd().EndsWith("]"))
+         throw new FormatException($"Invalid AJIS array format in {filePath}");
+
+      var serializedItems = itemsList.Select(item => SerializeObject(converter, item));
+      string itemsToAdd = string.Join(",", serializedItems);
+      string newContent = content.TrimEnd()[..^1] + "," + itemsToAdd + "]";
+      await File.WriteAllTextAsync(filePath, newContent);
+   }
+
    // ===== READ OPERATIONS =====
 
    /// <summary>

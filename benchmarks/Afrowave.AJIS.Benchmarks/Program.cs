@@ -58,11 +58,73 @@ public static class Program
         }
         else if (args[0].ToLower() == "all")
         {
-            await RunInteractiveDemo();
-        }
-        else if (args[0].ToLower() == "countries")
-        {
-            await CountriesBenchmark.RunAsync();
+            // Run ALL benchmarks one by one
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║              RUNNING ALL BENCHMARKS                            ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine();
+
+            try
+            {
+                // 1. Baseline Benchmark
+                RunBaselineBenchmark();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 2. Best-of-Breed
+                RunBestOfBreed();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 3. Simple Performance Test
+                Console.WriteLine("════════════════════════════════════════════════════════");
+                Console.WriteLine("            SIMPLE PERFORMANCE TEST");
+                Console.WriteLine("════════════════════════════════════════════════════════");
+                SimplePerfTest.Run();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 4. Parser Comparison
+                RunParserComparison();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 5. Round Trip Stress Test
+                Console.WriteLine("════════════════════════════════════════════════════════");
+                Console.WriteLine("            ROUND TRIP STRESS TEST");
+                Console.WriteLine("════════════════════════════════════════════════════════");
+                RoundTripStressTest.Run();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 6. Stress Testing
+                RunStressTesting();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 7. Countries Interactive Demo
+                Console.WriteLine("════════════════════════════════════════════════════════");
+                Console.WriteLine("         COUNTRIES INTERACTIVE DEMO");
+                Console.WriteLine("════════════════════════════════════════════════════════");
+                await CountriesBenchmark.RunAsync();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 8. Performance Test Suite
+                RunPerformanceTests();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 9. JSON to ATP Conversion
+                RunJsonToAtpConversion();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // 10. Legacy Migration
+                RunLegacyMigration();
+                Console.WriteLine("\n" + new string('═', 60) + "\n");
+                
+                // Summary
+                Console.WriteLine();
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║              ALL BENCHMARKS COMPLETED                          ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════╝");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\n❌ Error during benchmark execution: {ex.Message}");
+            }
         }
         else
         {
@@ -156,17 +218,19 @@ public static class Program
 AJIS.Dotnet Benchmarking Suite
 
 Usage:
-  dotnen run                 - Run baseline benchmark (default)
+  dotnet run                 - Run baseline benchmark (default)
   dotnet run baseline        - Run baseline benchmark
   dotnet run stress          - Run stress testing (100K/500K/1M records)
   dotnet run legacy          - Run legacy JSON to AJIS migration
   dotnet run images          - Reconstruct images from base64 in countries4.json
   dotnet run convert         - Convert JSON to .atp (AJIS with ATP)
   dotnet run perf            - Run isolated performance tests (lexer/parser/serializer)
+  dotnet run roundtrip       - Round-trip stress test (serialize → deserialize)
   dotnet run parsers         - Parser competition (Old AjisUtf8Parser vs New vs STJ vs NSJ)
   dotnet run best            - Best-of-Breed selection (ALL variants, find winners)
+  dotnet run countries       - Interactive AJIS demo with countries database search
   dotnet run both            - Run both baseline and stress testing
-  dotnet run all             - Interactive AJIS demo with countries database search
+  dotnet run all             - **RUN ALL BENCHMARKS** (comprehensive test suite)
 
 Examples:
   dotnet run                      # Runs baseline benchmark
@@ -175,16 +239,21 @@ Examples:
   dotnet run convert              # Converts JSON files to .atp format
   dotnet run perf                 # Isolated performance tests for optimization
   dotnet run parsers              # Compare old vs new parsers
-  dotnet run all                  # Interactive demo: performance + live country search
+  dotnet run countries            # Interactive demo: performance + live country search
+  dotnet run all                  # **RUNS EVERYTHING: All benchmarks one by one**
 
 The benchmark suite includes:
   - Baseline:    Small object (1KB) to Large array (100KB) testing
-  - Stress:      100K to 1M record processing with fair competition
-  - Legacy:      Real JSON migration demo with ATP
-  - Images:      Base64 image extraction and reconstruction to binary attachments
-  - Convert:     JSON → AJIS → .atp automatic conversion with binary detection
+  - Best:        Best-of-Breed selection - find fastest parser/serializer
+  - Perf:        Simple performance test - AJIS vs STJ comparison
   - Parsers:     Competition between old AjisUtf8Parser vs new FastDeserializer
-  - All:         Interactive demo showcasing AJIS file database capabilities
+  - RoundTrip:   Serialize → Deserialize stress test
+  - Stress:      100K to 1M record processing with fair competition
+  - Countries:   Interactive demo showcasing AJIS file database capabilities
+  - PerformanceTests: Comprehensive performance test suite (isolated)
+  - Convert:     JSON → AJIS → .atp automatic conversion with binary detection
+  - Legacy:      Real JSON migration demo with ATP
+  - ALL:         **Runs ALL of the above sequentially**
 """);
     }
 
@@ -254,7 +323,7 @@ The benchmark suite includes:
             var input = Console.ReadLine()?.Trim();
             
             if (string.IsNullOrEmpty(input))
-                continue;
+                break;
                 
             if (input.ToLower() is "quit" or "exit" or "q")
                 break;
