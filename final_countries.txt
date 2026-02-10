@@ -1,0 +1,29 @@
+Pou┼żit├ş nastaven├ş spu┼ít─Ťn├ş z benchmarks\Afrowave.AJIS.Benchmarks\Properties\launchSettings.json...
+D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\RoundTripStressTest.cs(573,9): warning CA2022: Vyhn─Ťte se nep┼Öesn├ęmu ─Źten├ş pomoc├ş System.IO.FileStream.Read(byte[], int, int). (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2022) [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
+D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\RoundTripStressTest.cs(574,9): warning CA2022: Vyhn─Ťte se nep┼Öesn├ęmu ─Źten├ş pomoc├ş System.IO.FileStream.Read(byte[], int, int). (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2022) [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
+D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\RoundTripStressTest.cs(588,9): warning CA2022: Vyhn─Ťte se nep┼Öesn├ęmu ─Źten├ş pomoc├ş System.IO.FileStream.Read(byte[], int, int). (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2022) [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
+D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\RoundTripStressTest.cs(589,9): warning CA2022: Vyhn─Ťte se nep┼Öesn├ęmu ─Źten├ş pomoc├ş System.IO.FileStream.Read(byte[], int, int). (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2022) [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
+­čîŹ COUNTRIES BENCHMARK - Real-World Data Access
+===============================================
+­čôŐ Generated 195 countries
+­čĺż Saving countries to file...
+   Ôťů Saved in 0,05s
+
+­čÄ▓ RANDOM COUNTRY LOOKUP DEMO
+================================
+
+­čöŹ Looking up: Country71
+Unhandled exception. System.FormatException: Failed to deserialize AJIS: Unable to cast object of type 'System.String[]' to type 'System.Collections.Generic.List`1[System.String]'.
+ ---> System.InvalidCastException: Unable to cast object of type 'System.String[]' to type 'System.Collections.Generic.List`1[System.String]'.
+   at lambda_method19(Closure, Object, Object)
+   at Afrowave.AJIS.Serialization.Mapping.Utf8DirectDeserializer`1.ReadObject(Utf8JsonReader& reader, Type targetType) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\Mapping\Utf8DirectDeserializer.cs:line 335
+   at Afrowave.AJIS.Serialization.Mapping.AjisConverter`1.DeserializeFromUtf8(ReadOnlySpan`1 utf8Json) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\Mapping\AjisConverter.cs:line 133
+   --- End of inner exception stack trace ---
+   at Afrowave.AJIS.Serialization.Mapping.AjisConverter`1.DeserializeFromUtf8(ReadOnlySpan`1 utf8Json) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\Mapping\AjisConverter.cs:line 137
+   at Afrowave.AJIS.Serialization.Mapping.AjisConverter`1.Deserialize(String ajisText) in D:\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\Mapping\AjisConverter.cs:line 116
+   at Afrowave.AJIS.IO.AjisFile.Enumerate[T](String filePath)+MoveNext() in D:\Ajis.Dotnet\src\Afrowave.AJIS.IO\AjisFile.cs:line 293
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Func`2 predicate, Boolean& found)
+   at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source, Func`2 predicate)
+   at Afrowave.AJIS.Benchmarks.CountriesBenchmark.RunAsync() in D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\CountriesBenchmark.cs:line 61
+   at Afrowave.AJIS.Benchmarks.Program.Main(String[] args) in D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Program.cs:line 73
+   at Afrowave.AJIS.Benchmarks.Program.<Main>(String[] args)

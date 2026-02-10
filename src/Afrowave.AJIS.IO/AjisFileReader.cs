@@ -16,7 +16,7 @@ namespace Afrowave.AJIS.IO;
 /// This class is optimized for sequential reading from AJIS array-based files.
 /// </para>
 /// </remarks>
-public sealed class AjisFileReader : IAsyncDisposable
+public sealed class AjisFileReader : IAsyncDisposable, IDisposable
 {
     private readonly string _filePath;
     private FileStream? _fileStream;
@@ -145,6 +145,25 @@ public sealed class AjisFileReader : IAsyncDisposable
         if (_fileStream != null)
         {
             await _fileStream.DisposeAsync();
+            _fileStream = null;
+        }
+
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Disposes the reader and releases all resources synchronously.
+    /// </summary>
+    public void Dispose()
+    {
+        if (_disposed)
+            return;
+
+        _disposed = true;
+
+        if (_fileStream != null)
+        {
+            _fileStream.Close();
             _fileStream = null;
         }
 

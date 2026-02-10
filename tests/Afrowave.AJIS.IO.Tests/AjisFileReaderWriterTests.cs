@@ -68,7 +68,7 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
         using (var reader = new AjisFileReader(filePath))
         {
             Assert.Equal(filePath, reader.FilePath);
-            Assert.Greater(reader.FileSize, 0);
+            Assert.True(reader.FileSize > 0);
             Assert.False(reader.IsAtEnd);
         }
     }

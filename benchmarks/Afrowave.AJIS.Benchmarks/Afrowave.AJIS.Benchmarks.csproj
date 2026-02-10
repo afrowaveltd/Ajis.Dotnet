@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\src\Afrowave.AJIS.Core\Afrowave.AJIS.Core.csproj" />
     <ProjectReference Include="..\..\src\Afrowave.AJIS.Streaming\Afrowave.AJIS.Streaming.csproj" />
     <ProjectReference Include="..\..\src\Afrowave.AJIS.Serialization\Afrowave.AJIS.Serialization.csproj" />
+    <ProjectReference Include="..\..\src\Afrowave.AJIS.IO\Afrowave.AJIS.IO.csproj" />
   </ItemGroup>
 
 </Project>

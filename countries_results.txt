@@ -1,0 +1,5 @@
+Pou┼żit├ş nastaven├ş spu┼ít─Ťn├ş z benchmarks\Afrowave.AJIS.Benchmarks\Properties\launchSettings.json...
+D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Program.cs(73,37): error CS1003: Chyba syntaxe; o─Źek├ív├ína hodnota: , [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
+D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Program.cs(73,38): error CS1002: O─Źek├íval se st┼Öedn├şk (;). [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
+
+Sestaven├ş se nepovedlo. Opravte v sestaven├ş chyby a spus┼ąte ho znovu.

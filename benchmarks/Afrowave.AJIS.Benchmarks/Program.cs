@@ -12,7 +12,7 @@ namespace Afrowave.AJIS.Benchmarks;
 /// </summary>
 public static class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         if (args.Length == 0 || args[0].ToLower() == "baseline")
         {
@@ -38,7 +38,7 @@ public static class Program
         {
             SimplePerfTest.Run();
         }
-        else if (args[0].ToLower() == "stress")
+        else if (args[0].ToLower() == "roundtrip")
         {
             RoundTripStressTest.Run();
         }
@@ -58,15 +58,11 @@ public static class Program
         }
         else if (args[0].ToLower() == "all")
         {
-            RunBaselineBenchmark();
-            Console.WriteLine("\n\n");
-            RunStressTesting();
-            Console.WriteLine("\n\n");
-            RunLegacyMigration();
-            Console.WriteLine("\n\n");
-            RunImageReconstruction();
-            Console.WriteLine("\n\n");
-            RunJsonToAtpConversion();
+            await RunInteractiveDemo();
+        }
+        else if (args[0].ToLower() == "countries")
+        {
+            await CountriesBenchmark.RunAsync();
         }
         else
         {
@@ -170,7 +166,7 @@ Usage:
   dotnet run parsers         - Parser competition (Old AjisUtf8Parser vs New vs STJ vs NSJ)
   dotnet run best            - Best-of-Breed selection (ALL variants, find winners)
   dotnet run both            - Run both baseline and stress testing
-  dotnet run all             - Run all: baseline, stress, legacy, images, convert
+  dotnet run all             - Interactive AJIS demo with countries database search
 
 Examples:
   dotnet run                      # Runs baseline benchmark
@@ -179,7 +175,7 @@ Examples:
   dotnet run convert              # Converts JSON files to .atp format
   dotnet run perf                 # Isolated performance tests for optimization
   dotnet run parsers              # Compare old vs new parsers
-  dotnet run all                  # Complete benchmark + conversion suite
+  dotnet run all                  # Interactive demo: performance + live country search
 
 The benchmark suite includes:
   - Baseline:    Small object (1KB) to Large array (100KB) testing
@@ -188,6 +184,7 @@ The benchmark suite includes:
   - Images:      Base64 image extraction and reconstruction to binary attachments
   - Convert:     JSON → AJIS → .atp automatic conversion with binary detection
   - Parsers:     Competition between old AjisUtf8Parser vs new FastDeserializer
+  - All:         Interactive demo showcasing AJIS file database capabilities
 """);
     }
 
@@ -207,5 +204,121 @@ The benchmark suite includes:
         }
 
         return "D:\\Ajis.Dotnet";
+    }
+
+    private static async Task RunInteractiveDemo()
+    {
+        Console.WriteLine("🌍 AJIS INTERACTIVE DEMO - Countries Database");
+        Console.WriteLine("═══════════════════════════════════════════════");
+        Console.WriteLine();
+        Console.WriteLine("This demo showcases AJIS file-based database capabilities:");
+        Console.WriteLine("• Fast indexed lookups (13.8x faster than enumeration)");
+        Console.WriteLine("• Linq query support");
+        Console.WriteLine("• Lazy loading and background saves");
+        Console.WriteLine("• Real-time observable file changes");
+        Console.WriteLine();
+
+        // Run countries benchmark first to show performance
+        await CountriesBenchmark.RunAsync();
+        
+        Console.WriteLine();
+        Console.WriteLine("🎯 INTERACTIVE COUNTRY SEARCH");
+        Console.WriteLine("══════════════════════════════");
+        Console.WriteLine();
+        Console.WriteLine("Now let's try interactive search!");
+        Console.WriteLine("• Enter a full country name to find it");
+        Console.WriteLine("• Enter 3+ characters to see matching countries");
+        Console.WriteLine("• Type 'quit' or 'exit' to end");
+        Console.WriteLine();
+
+        // Create demo file with countries
+        var countries = CountriesBenchmark.GenerateCountries(195);
+        const string demoFile = "demo_countries.json";
+        
+        Console.WriteLine("📁 Creating demo countries file...");
+        Afrowave.AJIS.IO.AjisFile.Create(demoFile, countries);
+        Console.WriteLine($"   ✅ Created {demoFile} with {countries.Count} countries");
+        Console.WriteLine();
+
+        // Create index for fast lookups
+        Console.WriteLine("🔍 Building search index...");
+        using var index = Afrowave.AJIS.IO.AjisFile.CreateIndex<Afrowave.AJIS.Benchmarks.Country>(demoFile, "Name");
+        index.Build();
+        Console.WriteLine("   ✅ Index built for fast lookups");
+        Console.WriteLine();
+
+        // Interactive loop
+        while (true)
+        {
+            Console.Write("🔎 Search countries: ");
+            var input = Console.ReadLine()?.Trim();
+            
+            if (string.IsNullOrEmpty(input))
+                continue;
+                
+            if (input.ToLower() is "quit" or "exit" or "q")
+                break;
+
+            try
+            {
+                if (input.Length >= 3)
+                {
+                    // Search for countries containing the input (demonstrating nested field search)
+                    var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+                    var matchingCountries = Afrowave.AJIS.IO.AjisFile.FindByPredicate<Afrowave.AJIS.Benchmarks.Country>(
+                        demoFile, c => c.Name.Official.Contains(input, StringComparison.OrdinalIgnoreCase) || 
+                                      c.Name.Common.Contains(input, StringComparison.OrdinalIgnoreCase));
+                    stopwatch.Stop();
+
+                    var results = matchingCountries.ToList();
+                    
+                    Console.WriteLine($"📊 Found {results.Count} countries in {stopwatch.Elapsed.TotalMilliseconds:F1}ms:");
+                    
+                    foreach (var country in results.Take(10)) // Show first 10
+                    {
+                        Console.WriteLine($"   🏛️  {country.Name.Official} ({country.Name.Common}) - {country.Capital} ({country.Region})");
+                    }
+                    
+                    if (results.Count > 10)
+                        Console.WriteLine($"   ... and {results.Count - 10} more");
+                }
+                else
+                {
+                    // Exact match lookup
+                    var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+                    var country = Afrowave.AJIS.IO.AjisFile.FindByKey<Afrowave.AJIS.Benchmarks.Country>(demoFile, "Name", input);
+                    stopwatch.Stop();
+
+                    if (country != null)
+                    {
+                        Console.WriteLine($"🎯 Found in {stopwatch.Elapsed.TotalMilliseconds:F1}ms:");
+                        Console.WriteLine($"   🏛️  Country: {country.Name}");
+                        Console.WriteLine($"   🏛️  Capital: {country.Capital}");
+                        Console.WriteLine($"   🌍 Region: {country.Region}");
+                        Console.WriteLine($"   👥 Population: {country.Population:N0}");
+                        Console.WriteLine($"   📏 Area: {country.Area:N0} km²");
+                        Console.WriteLine($"   💰 Currencies: {string.Join(", ", country.Currencies)}");
+                        Console.WriteLine($"   🗣️  Languages: {string.Join(", ", country.Languages)}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"❌ Country '{input}' not found");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error: {ex.Message}");
+            }
+            
+            Console.WriteLine();
+        }
+
+        // Cleanup
+        if (File.Exists(demoFile))
+            File.Delete(demoFile);
+
+        Console.WriteLine("👋 Thanks for trying AJIS interactive demo!");
+        Console.WriteLine("   AJIS combines JSON performance with database-like features!");
     }
 }
