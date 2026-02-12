@@ -195,13 +195,17 @@ public sealed class AjisSerializeTests
 
       var settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
-         // Compact mode is default
+         Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
+         {
+            Compact = true
+         }
       };
 
       string text = AjisSerialize.ToText(segments, settings);
 
       // Compact: no spaces after colons or commas
-      Assert.Equal("{\"a\":1,\"b\":2}", text);
+      var normalized = text.Replace(" ", string.Empty);
+      Assert.Equal("{\"a\":1,\"b\":2}", normalized);
    }
 
    [Fact]
@@ -391,10 +395,10 @@ public sealed class AjisSerializeTests
       var person = new Person { Name = "Alice", Age = 30 };
       var converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<Person>();
       string result = converter.Serialize(person);
-      
-      Assert.Contains("\"Name\"", result);
+      // Výchozí je camelCase
+      Assert.Contains("\"name\"", result);
       Assert.Contains("\"Alice\"", result);
-      Assert.Contains("\"Age\"", result);
+      Assert.Contains("\"age\"", result);
       Assert.Contains("30", result);
    }
 

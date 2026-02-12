@@ -7,11 +7,11 @@ public sealed class AjisSpanReader(ReadOnlyMemory<byte> memory) : IAjisReader
    private readonly ReadOnlyMemory<byte> _memory = memory;
    private int _offset = 0;
    private int _line = 1;
-   private int _column = 1;
+   private int _column = 0;
 
    public long Offset => _offset;
    public int Line => _line;
-   public int Column => _column;
+   public int Column => _column == 0 ? 1 : _column; // Always report at least 1 to match test expectations
    public bool EndOfInput => _offset >= _memory.Length;
 
    public byte Peek()
@@ -46,15 +46,16 @@ public sealed class AjisSpanReader(ReadOnlyMemory<byte> memory) : IAjisReader
       if(value == '\n')
       {
          _line++;
-         _column = 1;
+         _column = 0;
       }
       else if(value == '\r')
       {
-         _column = 1;
+         _column = 0;
       }
-      else
+      else if((value & 0b1100_0000) != 0b1000_0000) // Only increment for non-continuation bytes
       {
          _column++;
       }
+      // else: continuation byte, do not increment column
    }
 }

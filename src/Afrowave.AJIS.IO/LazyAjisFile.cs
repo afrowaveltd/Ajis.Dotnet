@@ -50,6 +50,7 @@ public class LazyAjisFile<T> : IDisposable where T : class
     /// </summary>
     public void Add(T item)
     {
+        EnsureLoadedAsync().GetAwaiter().GetResult();
         _pendingOperations.Enqueue(new PendingOperation(OperationType.Add, item));
         _isDirty = true;
     }
@@ -59,6 +60,7 @@ public class LazyAjisFile<T> : IDisposable where T : class
     /// </summary>
     public void Update(T item, Func<T, bool> predicate)
     {
+        EnsureLoadedAsync().GetAwaiter().GetResult();
         _pendingOperations.Enqueue(new PendingOperation(OperationType.Update, item, predicate));
         _isDirty = true;
     }
@@ -68,6 +70,7 @@ public class LazyAjisFile<T> : IDisposable where T : class
     /// </summary>
     public void Delete(Func<T, bool> predicate)
     {
+        EnsureLoadedAsync().GetAwaiter().GetResult();
         _pendingOperations.Enqueue(new PendingOperation(OperationType.Delete, predicate: predicate));
         _isDirty = true;
     }
@@ -81,6 +84,7 @@ public class LazyAjisFile<T> : IDisposable where T : class
         try
         {
             await ProcessPendingOperationsAsync();
+            _isDirty = false;
         }
         finally
         {
@@ -121,13 +125,13 @@ public class LazyAjisFile<T> : IDisposable where T : class
 
     private async Task ProcessOperationsAsync(CancellationToken cancellationToken)
     {
-        while(!cancellationToken.IsCancellationRequested)
+        while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
                 await Task.Delay(1000, cancellationToken); // Process every second
 
-                if(_isDirty && _pendingOperations.IsEmpty)
+                if (_isDirty)
                 {
                     await _operationSemaphore.WaitAsync(cancellationToken);
                     try
@@ -141,11 +145,11 @@ public class LazyAjisFile<T> : IDisposable where T : class
                     }
                 }
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 break;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // Log error but continue
                 Console.Error.WriteLine($"Background operation failed: {ex.Message}");
@@ -187,16 +191,23 @@ public class LazyAjisFile<T> : IDisposable where T : class
 
     public void Dispose()
     {
+        // Final flush synchronně, pokud je něco k uložení
+        if (_isDirty)
+        {
+            FlushAsync().GetAwaiter().GetResult();
+        }
+
         _cts?.Cancel();
-        _backgroundTask?.Wait();
+        try
+        {
+            _backgroundTask?.Wait();
+        }
+        catch (AggregateException ex) when (ex.InnerExceptions.All(e => e is TaskCanceledException || e is OperationCanceledException))
+        {
+            // Ignoruj zrušení
+        }
         _cts?.Dispose();
         _operationSemaphore.Dispose();
-
-        // Final flush
-        if(_isDirty)
-        {
-            Task.Run(() => FlushAsync()).Wait();
-        }
     }
 
     private enum OperationType { Add, Update, Delete }

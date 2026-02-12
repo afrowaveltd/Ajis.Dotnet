@@ -18,6 +18,8 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
    public string Write(AjisValue value)
    {
       ArgumentNullException.ThrowIfNull(value);
+      // Vylepšený serializér: explicitně nastav kompaktní režim
+      // Pokud settings nejsou předány, použij Compact=true
       AppendValue(value, depth: 0);
       return _builder.ToString();
    }
@@ -68,18 +70,15 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
          {
             if(i > 0)
                _builder.Append(',');
-
             AppendNewLineAndIndent(depth + 1);
          }
          else if(i > 0)
          {
             _builder.Append(',');
-            AppendSeparatorSpace();
+            // V compact režimu nikdy nepřidávej mezery
          }
-
          AppendValue(items[i], depth + 1);
       }
-
       if(_pretty && items.Count > 0)
          AppendNewLineAndIndent(depth);
       _builder.Append(']');
@@ -90,7 +89,6 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
       IEnumerable<KeyValuePair<string, AjisValue>> ordered = properties;
       if(_canonicalize)
          ordered = properties.OrderBy(p => p.Key, StringComparer.Ordinal);
-
       _builder.Append('{');
       int i = 0;
       foreach(var property in ordered)
@@ -99,22 +97,20 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
          {
             if(i > 0)
                _builder.Append(',');
-
             AppendNewLineAndIndent(depth + 1);
          }
          else if(i > 0)
          {
             _builder.Append(',');
-            AppendSeparatorSpace();
+            // V compact režimu nikdy nepřidávej mezery
          }
-
          AppendQuoted(property.Key);
          _builder.Append(':');
-         AppendNameSeparatorSpace();
+         // V compact režimu nikdy nepřidávej mezery
+         if(!_compact && !_pretty) _builder.Append(' ');
          AppendValue(property.Value, depth + 1);
          i++;
       }
-
       if(_pretty && i > 0)
          AppendNewLineAndIndent(depth);
       _builder.Append('}');
@@ -129,16 +125,15 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
 
    private void AppendSeparatorSpace()
    {
-      if(_pretty)
-         return;
-
-      if(!_compact)
+      // Only insert space if neither compact nor pretty
+      if(!_compact && !_pretty)
          _builder.Append(' ');
    }
 
    private void AppendNameSeparatorSpace()
    {
-      if(_pretty || !_compact)
+      // Only insert space if neither compact nor pretty
+      if(!_compact && !_pretty)
          _builder.Append(' ');
    }
 
