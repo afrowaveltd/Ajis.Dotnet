@@ -2,6 +2,7 @@
 
 using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Serialization.Conversion;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 namespace Afrowave.AJIS.Benchmarks;
@@ -18,7 +19,7 @@ public sealed class AtpRoundTripTester
 
 ╔════════════════════════════════════════════════════════════════════════╗
 ║              ATP ROUND-TRIP TESTING & VALIDATION                       ║
-║   Generate .atp → Parse → Verify Offsets → Check Checksums            ║
+║   Generate .atp → Parse → Verify Offsets → Check Checksums             ║
 ╚════════════════════════════════════════════════════════════════════════╝
 """);
 
@@ -35,7 +36,7 @@ public sealed class AtpRoundTripTester
       Console.WriteLine("\n📝 STEP 1: CONVERT JSON → ATP");
       Console.WriteLine("═════════════════════════════════════════════════════════════════════════════");
 
-      var converter = new JsonToAjisConverter();
+      JsonToAjisConverter converter = new JsonToAjisConverter();
       var conversionResult = converter.ConvertJsonToAjis(countries4Path, detectBinary: true);
 
       if(!conversionResult.Success)
@@ -63,7 +64,7 @@ public sealed class AtpRoundTripTester
       Console.WriteLine("═════════════════════════════════════════════════════════════════════════════");
 
       string atpContent = File.ReadAllText(atpPath);
-      var atpDocument = JsonDocument.Parse(atpContent);
+      JsonDocument atpDocument = JsonDocument.Parse(atpContent);
       var atpRoot = atpDocument.RootElement;
 
       Console.WriteLine($"✅ ATP parsed successfully!");
@@ -124,7 +125,7 @@ public sealed class AtpRoundTripTester
       foreach(var attachment in attachments)
       {
          // Recompute checksum
-         using(var sha256 = System.Security.Cryptography.SHA256.Create())
+         using(SHA256 sha256 = System.Security.Cryptography.SHA256.Create())
          {
             byte[] hash = sha256.ComputeHash(attachment.Data);
             string computed = BitConverter.ToString(hash).Replace("-", "").ToLower();
@@ -193,7 +194,7 @@ public sealed class AtpRoundTripTester
        string atpPath,
        JsonElement atpRoot)
    {
-      var attachments = new List<BinaryAttachment>();
+      List<BinaryAttachment> attachments = new List<BinaryAttachment>();
 
       if(atpRoot.TryGetProperty("attachments", out var attachmentsArray))
       {
@@ -217,7 +218,7 @@ public sealed class AtpRoundTripTester
    {
       try
       {
-         var attachment = new BinaryAttachment();
+         BinaryAttachment attachment = new BinaryAttachment();
 
          if(element.TryGetProperty("attachmentId", out var idElem))
             attachment.AttachmentId = Guid.Parse(idElem.GetString() ?? "");
@@ -266,7 +267,7 @@ public sealed class AtpRoundTripTester
 
    private static string FindSolutionRoot()
    {
-      var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
+      DirectoryInfo? currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
 
       while(currentDirectory != null)
       {
@@ -292,7 +293,7 @@ internal static class AtpRoundTripProgram
    {
       try
       {
-         var tester = new AtpRoundTripTester();
+         AtpRoundTripTester tester = new AtpRoundTripTester();
          tester.RunAtpRoundTrip();
       }
       catch(Exception ex)

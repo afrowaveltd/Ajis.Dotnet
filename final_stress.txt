@@ -1,4 +1,0 @@
-Pou┼żit├ş nastaven├ş spu┼ít─Ťn├ş z benchmarks\Afrowave.AJIS.Benchmarks\Properties\launchSettings.json...
-D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\ComplexUser.cs(52,2): error CS1022: O─Źek├ívala se definice typu nebo oboru n├ízv┼», nebo konec souboru. [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
-
-Sestaven├ş se nepovedlo. Opravte v sestaven├ş chyby a spus┼ąte ho znovu.

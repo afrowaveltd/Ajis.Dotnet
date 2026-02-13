@@ -1,3 +1,0 @@
-Použití nastavení spuštění z benchmarks\Afrowave.AJIS.Benchmarks\Properties\launchSettings.json...
-D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\CountriesBenchmark.cs(168,32): error CS1525: Neplatný výraz } [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
-D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\CountriesBenchmark.cs(168,32): error CS1026: Očekává se ). [D:\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
