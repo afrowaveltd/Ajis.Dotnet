@@ -132,6 +132,11 @@ public static class AjisNumberParser
         // Construct the decimal
         try
         {
+            if (decimalPlaces < 0)
+            {
+                integerPart *= (long)Math.Pow(10, -decimalPlaces);
+                decimalPlaces = 0;
+            }
             value = new decimal((int)(integerPart & 0xFFFFFFFF),
                                (int)((integerPart >> 32) & 0xFFFFFFFF),
                                0,
