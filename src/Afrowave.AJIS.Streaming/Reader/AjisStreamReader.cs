@@ -11,6 +11,7 @@ public sealed class AjisStreamReader : IAjisReader, IDisposable
    private long _offset;
    private int _line = 1;
    private int _column = 1;
+   private bool _previousWasCR = false;
    private bool _eof;
 
    public AjisStreamReader(Stream stream, int bufferSize = 4096)
@@ -98,16 +99,23 @@ public sealed class AjisStreamReader : IAjisReader, IDisposable
    {
       if(value == '\n')
       {
-         _line++;
+         if(!_previousWasCR)
+         {
+            _line++;
+         }
          _column = 1;
+         _previousWasCR = false;
       }
       else if(value == '\r')
       {
+         _line++;
          _column = 1;
+         _previousWasCR = true;
       }
-      else
+      else if((value & 0b1100_0000) != 0b1000_0000)
       {
          _column++;
+         _previousWasCR = false;
       }
    }
 

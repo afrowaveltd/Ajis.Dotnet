@@ -69,13 +69,17 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
          if(_pretty)
          {
             if(i > 0)
+            {
                _builder.Append(',');
+               _builder.Append(' ');
+            }
             AppendNewLineAndIndent(depth + 1);
          }
          else if(i > 0)
          {
             _builder.Append(',');
             // V compact režimu nikdy nepřidávej mezery
+            if(!_compact) _builder.Append(' ');
          }
          AppendValue(items[i], depth + 1);
       }
@@ -103,11 +107,12 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
          {
             _builder.Append(',');
             // V compact režimu nikdy nepřidávej mezery
+            if(!_compact) _builder.Append(' ');
          }
          AppendQuoted(property.Key);
          _builder.Append(':');
          // V compact režimu nikdy nepřidávej mezery
-         if(!_compact && !_pretty) _builder.Append(' ');
+         if(!_compact) _builder.Append(' ');
          AppendValue(property.Value, depth + 1);
          i++;
       }

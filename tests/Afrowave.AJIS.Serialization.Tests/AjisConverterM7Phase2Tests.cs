@@ -28,7 +28,7 @@ public sealed class AjisConverterM7Phase2Tests
     public void Serialize_WithAjisIgnoreAttribute()
     {
         var user = new UserWithPassword { Name = "Bob", Password = "secret123" };
-        var converter = new AjisConverter<UserWithPassword>();
+        var converter = new AjisConverter<UserWithPassword>(PascalCaseNamingPolicy.Instance);
         string result = converter.Serialize(user);
 
         Assert.Contains("\"Name\"", result);
@@ -65,7 +65,7 @@ public sealed class AjisConverterM7Phase2Tests
         var address = new Address { City = "Prague", Country = "Czech Republic" };
         var company = new Company { Name = "ACME Corp", Address = address };
         
-        var converter = new AjisConverter<Company>();
+        var converter = new AjisConverter<Company>(PascalCaseNamingPolicy.Instance);
         string result = converter.Serialize(company);
 
         Assert.Contains("\"Name\"", result);
@@ -84,7 +84,7 @@ public sealed class AjisConverterM7Phase2Tests
         var company = new Company { Name = "Tech Inc", Address = address };
         var person = new PersonWithCompany { Name = "Diana", Company = company };
 
-        var converter = new AjisConverter<PersonWithCompany>();
+        var converter = new AjisConverter<PersonWithCompany>(PascalCaseNamingPolicy.Instance);
         string result = converter.Serialize(person);
 
         Assert.Contains("\"Name\"", result);
@@ -101,7 +101,7 @@ public sealed class AjisConverterM7Phase2Tests
     public void Serialize_ArrayOfPrimitives()
     {
         var data = new CollectionHolder { Numbers = new[] { 1, 2, 3, 4, 5 } };
-        var converter = new AjisConverter<CollectionHolder>();
+        var converter = new AjisConverter<CollectionHolder>(PascalCaseNamingPolicy.Instance);
         string result = converter.Serialize(data);
 
         Assert.Contains("\"Numbers\"", result);
@@ -121,7 +121,7 @@ public sealed class AjisConverterM7Phase2Tests
         };
         var holder = new AddressListHolder { Addresses = addresses };
 
-        var converter = new AjisConverter<AddressListHolder>();
+        var converter = new AjisConverter<AddressListHolder>(PascalCaseNamingPolicy.Instance);
         string result = converter.Serialize(holder);
 
         Assert.Contains("\"Addresses\"", result);
@@ -137,7 +137,7 @@ public sealed class AjisConverterM7Phase2Tests
     public void Serialize_NullableProperty()
     {
         var data = new DataWithNullable { Value = 42, OptionalValue = null };
-        var converter = new AjisConverter<DataWithNullable>();
+        var converter = new AjisConverter<DataWithNullable>(PascalCaseNamingPolicy.Instance);
         string result = converter.Serialize(data);
 
         Assert.Contains("\"Value\"", result);
@@ -150,7 +150,7 @@ public sealed class AjisConverterM7Phase2Tests
     public void Serialize_NullablePropertyWithValue()
     {
         var data = new DataWithNullable { Value = 10, OptionalValue = 99 };
-        var converter = new AjisConverter<DataWithNullable>();
+        var converter = new AjisConverter<DataWithNullable>(PascalCaseNamingPolicy.Instance);
         string result = converter.Serialize(data);
 
         Assert.Contains("\"OptionalValue\"", result);

@@ -1,8 +1,9 @@
 #nullable enable
 
+using Afrowave.AJIS.Core.Events;
 using Afrowave.AJIS.Streaming;
-using Afrowave.AJIS.Streaming.Segments;
 using Afrowave.AJIS.Streaming.Reader;
+using Afrowave.AJIS.Streaming.Segments;
 using System.Text;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
@@ -18,12 +19,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesNull()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.HighThroughput
       };
 
-      var segments = AjisParse.ParseSegments("null"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("null"u8, settings).ToList();
 
       Assert.Single(segments);
       Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.Null), segments[0]);
@@ -32,7 +33,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesStringWithUnicodeEscape()
    {
-      var segments = AjisParse.ParseSegments("\"\\u0041\""u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("\"\\u0041\""u8).ToList();
 
       Assert.Single(segments);
       Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, Slice("\\u0041", AjisSliceFlags.HasEscapes)), segments[0]);
@@ -41,12 +42,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_AllowsTrailingCommas_WhenEnabled()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowTrailingCommas = true
       };
 
-      var segments = AjisParse.ParseSegments("{\"a\":1,}"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"a\":1,}"u8, settings).ToList();
 
       Assert.Contains(segments, s => s.Kind == AjisSegmentKind.PropertyName);
       Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Value && SliceEquals(s.Slice, "1"));
@@ -55,7 +56,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_RejectsTrailingCommas_WhenDisabled()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowTrailingCommas = false,
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Ajis
@@ -67,12 +68,12 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_ParsesEmptyObject()
    {
-      await using var stream = new MemoryStream("{}"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      await using MemoryStream stream = new MemoryStream("{}"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.LowMemory
       };
-      var segments = new List<AjisSegment>();
+      List<AjisSegment> segments = new List<AjisSegment>();
 
       await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken))
       {
@@ -92,13 +93,13 @@ public sealed class AjisParseTests
 
       try
       {
-         await using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-         var settings = new global::Afrowave.AJIS.Core.AjisSettings
+         await using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+         AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
          {
             ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.HighThroughput
          };
 
-         var segments = new List<AjisSegment>();
+         List<AjisSegment> segments = new List<AjisSegment>();
          await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken))
             segments.Add(segment);
 
@@ -114,14 +115,14 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_LowMemoryWithDirectives_UsesLexerParser()
    {
-      await using var stream = new MemoryStream("#ajis mode value=tryparse\ntrue"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      await using MemoryStream stream = new MemoryStream("#ajis mode value=tryparse\ntrue"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.LowMemory,
          AllowDirectives = true
       };
 
-      var segments = new List<AjisSegment>();
+      List<AjisSegment> segments = new List<AjisSegment>();
 
       await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken))
       {
@@ -134,7 +135,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegmentsWithDirectives_AppliesSettings()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
@@ -147,8 +148,8 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsWithDirectivesAsync_AppliesSettings()
    {
-      await using var stream = new MemoryStream("#ajis mode value=lex\ntrue"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      await using MemoryStream stream = new MemoryStream("#ajis mode value=lex\ntrue"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
@@ -161,13 +162,13 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_UniversalProfile_UsesLexerParser()
    {
-      await using var stream = new MemoryStream("{\"a\":1}"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      await using MemoryStream stream = new MemoryStream("{\"a\":1}"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.Universal
       };
 
-      var segments = new List<AjisSegment>();
+      List<AjisSegment> segments = new List<AjisSegment>();
 
       await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken))
       {
@@ -181,9 +182,9 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_EmitsProgressEvents()
    {
-      var eventStream = new global::Afrowave.AJIS.Core.Events.AjisEventStream();
-      await using var stream = new MemoryStream("{}"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisEventStream eventStream = new global::Afrowave.AJIS.Core.Events.AjisEventStream();
+      await using MemoryStream stream = new MemoryStream("{}"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.Universal,
          EventSink = eventStream
@@ -196,7 +197,7 @@ public sealed class AjisParseTests
 
       eventStream.Complete();
 
-      var events = new List<global::Afrowave.AJIS.Core.Events.AjisEvent>();
+      List<Core.Events.AjisEvent> events = new List<global::Afrowave.AJIS.Core.Events.AjisEvent>();
       await foreach(var evt in eventStream.WithCancellation(TestContext.Current.CancellationToken))
          events.Add(evt);
 
@@ -207,13 +208,13 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_UniversalWithoutBuffer_UsesMappedFile()
    {
-      await using var stream = new NonBufferStream("{}"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      await using NonBufferStream stream = new NonBufferStream("{}"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.Universal
       };
 
-      var segments = new List<AjisSegment>();
+      List<AjisSegment> segments = new List<AjisSegment>();
 
       await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken))
       {
@@ -228,13 +229,13 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_HighThroughputWithoutBuffer_UsesMappedFile()
    {
-      await using var stream = new NonBufferStream("{}"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      await using NonBufferStream stream = new NonBufferStream("{}"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.HighThroughput
       };
 
-      var segments = new List<AjisSegment>();
+      List<AjisSegment> segments = new List<AjisSegment>();
 
       await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken))
       {
@@ -249,13 +250,13 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_LowMemoryWithoutBuffer_UsesMappedFile()
    {
-      await using var stream = new NonBufferStream("{}"u8.ToArray());
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      await using NonBufferStream stream = new NonBufferStream("{}"u8.ToArray());
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.LowMemory
       };
 
-      var segments = new List<AjisSegment>();
+      List<AjisSegment> segments = new List<AjisSegment>();
 
       await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken))
       {
@@ -270,7 +271,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesArrayValues()
    {
-      var segments = AjisParse.ParseSegments("[1,\"x\"]"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[1,\"x\"]"u8).ToList();
 
       Assert.Equal(4, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -282,7 +283,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesObjectValues()
    {
-      var segments = AjisParse.ParseSegments("{\"a\":1}"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"a\":1}"u8).ToList();
 
       Assert.Equal(4, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -294,7 +295,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_RejectsPropertyNameOverMaxBytes()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
          {
@@ -308,7 +309,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesBooleanArray()
    {
-      var segments = AjisParse.ParseSegments("[true,false]"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[true,false]"u8).ToList();
 
       Assert.Equal(4, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -320,7 +321,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesStringWithEscapes()
    {
-      var segments = AjisParse.ParseSegments("\"a\\n\""u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("\"a\\n\""u8).ToList();
 
       Assert.Single(segments);
       Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, Slice("a\\n", AjisSliceFlags.HasEscapes)), segments[0]);
@@ -329,7 +330,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesStringWithNonAsciiFlag()
    {
-      var segments = AjisParse.ParseSegments("\"ž\""u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("\"ž\""u8).ToList();
 
       Assert.Single(segments);
       Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.String, Slice("Å¾", AjisSliceFlags.HasNonAscii)), segments[0]);
@@ -338,7 +339,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesFloatNumber()
    {
-      var segments = AjisParse.ParseSegments("3.14"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("3.14"u8).ToList();
 
       Assert.Single(segments);
       Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.Number, Slice("3.14")), segments[0]);
@@ -347,7 +348,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesNestedArrayInObject()
    {
-      var segments = AjisParse.ParseSegments("{\"a\":[true,null]}"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"a\":[true,null]}"u8).ToList();
 
       Assert.Equal(7, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -362,7 +363,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesMultipleProperties()
    {
-      var segments = AjisParse.ParseSegments("{\"a\":1,\"b\":\"x\"}"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"a\":1,\"b\":\"x\"}"u8).ToList();
 
       Assert.Equal(6, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -376,8 +377,8 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesComments_WhenEnabled()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings();
-      var segments = AjisParse.ParseSegments("// c\n{}"u8, settings).ToList();
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings();
+      List<AjisSegment> segments = AjisParse.ParseSegments("// c\n{}"u8, settings).ToList();
 
       Assert.NotEmpty(segments);
    }
@@ -385,12 +386,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesDirectives_WhenEnabled()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("#ajis mode value=tryparse\ntrue"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("#ajis mode value=tryparse\ntrue"u8, settings).ToList();
 
       Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Directive);
    }
@@ -398,12 +399,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesTypedLiteralWithCommentAndDirective()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("// note\n#tool hint=fast\nT170"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("// note\n#tool hint=fast\nT170"u8, settings).ToList();
 
       Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Comment);
       Assert.Contains(segments, s => s.Kind == AjisSegmentKind.Directive);
@@ -414,12 +415,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesTypedLiteralArrayWithCommentAndDirective()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("[// note\n#tool hint=fast\nT170]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[// note\n#tool hint=fast\nT170]"u8, settings).ToList();
 
       Assert.Equal(5, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -432,7 +433,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesDirectiveBetweenObjectMembers()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -441,7 +442,7 @@ public sealed class AjisParseTests
          }
       };
 
-      var segments = AjisParse.ParseSegments("{ts:T170,\n#tool hint=fast\nkind:\"identifier\"}"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{ts:T170,\n#tool hint=fast\nkind:\"identifier\"}"u8, settings).ToList();
 
       Assert.Equal(7, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -456,7 +457,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesCommentBetweenObjectMembers()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
          {
@@ -464,7 +465,7 @@ public sealed class AjisParseTests
          }
       };
 
-      var segments = AjisParse.ParseSegments("{ts:T170,// note\nkind:\"identifier\"}"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{ts:T170,// note\nkind:\"identifier\"}"u8, settings).ToList();
 
       Assert.Equal(7, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -479,7 +480,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesCommentAndDirectiveBetweenObjectMembers()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -488,7 +489,7 @@ public sealed class AjisParseTests
          }
       };
 
-      var segments = AjisParse.ParseSegments("{ts:T170,// note\n#tool hint=fast\nkind:\"identifier\"}"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{ts:T170,// note\n#tool hint=fast\nkind:\"identifier\"}"u8, settings).ToList();
 
       Assert.Equal(8, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -504,12 +505,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesDirectiveBetweenQuotedObjectMembers()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("{\"ts\":T170,\n#tool hint=fast\n\"kind\":\"identifier\"}"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"ts\":T170,\n#tool hint=fast\n\"kind\":\"identifier\"}"u8, settings).ToList();
 
       Assert.Equal(7, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -524,7 +525,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesCommentBetweenQuotedObjectMembers()
    {
-      var segments = AjisParse.ParseSegments("{\"ts\":T170,// note\n\"kind\":\"identifier\"}"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"ts\":T170,// note\n\"kind\":\"identifier\"}"u8).ToList();
 
       Assert.Equal(7, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -539,12 +540,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesCommentAndDirectiveBetweenQuotedObjectMembers()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("{\"ts\":T170,// note\n#tool hint=fast\n\"kind\":\"identifier\"}"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"ts\":T170,// note\n#tool hint=fast\n\"kind\":\"identifier\"}"u8, settings).ToList();
 
       Assert.Equal(8, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -560,7 +561,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesNestedObjectWithCommentAndDirective()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -569,7 +570,7 @@ public sealed class AjisParseTests
          }
       };
 
-      var segments = AjisParse.ParseSegments("{\"outer\":{ts:T170,// note\n#tool hint=fast\nkind:\"identifier\"}}"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"outer\":{ts:T170,// note\n#tool hint=fast\nkind:\"identifier\"}}"u8, settings).ToList();
 
       Assert.Equal(11, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
@@ -588,12 +589,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesNestedArrayWithCommentAndDirective()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("[[T170,// note\n#tool hint=fast\nTS123]]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[[T170,// note\n#tool hint=fast\nTS123]]"u8, settings).ToList();
 
       Assert.Equal(8, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -609,12 +610,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesNestedArrayWithMultipleTypedLiteralsAfterDirective()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("[[T170,// note\n#tool hint=fast\nTS123,TA7]]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[[T170,// note\n#tool hint=fast\nTS123,TA7]]"u8, settings).ToList();
 
       Assert.Equal(9, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -631,12 +632,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesNestedArraysWithCommentAndDirectiveBetweenArrays()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("[[T170],// note\n#tool hint=fast\n[TS123]]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[[T170],// note\n#tool hint=fast\n[TS123]]"u8, settings).ToList();
 
       Assert.Equal(10, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -654,7 +655,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesObjectAndArrayWithCommentAndDirectiveBetween()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -663,7 +664,7 @@ public sealed class AjisParseTests
          }
       };
 
-      var segments = AjisParse.ParseSegments("[{ts:T170},// note\n#tool hint=fast\n[TS123]]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[{ts:T170},// note\n#tool hint=fast\n[TS123]]"u8, settings).ToList();
 
       Assert.Equal(11, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -682,7 +683,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesObjectSiblingsWithCommentAndDirectiveBetween()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -691,7 +692,7 @@ public sealed class AjisParseTests
          }
       };
 
-      var segments = AjisParse.ParseSegments("[{ts:T170},// note\n#tool hint=fast\n{kind:\"identifier\"}]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[{ts:T170},// note\n#tool hint=fast\n{kind:\"identifier\"}]"u8, settings).ToList();
 
       Assert.Equal(12, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -711,12 +712,12 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesQuotedObjectSiblingsWithCommentAndDirectiveBetween()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true
       };
 
-      var segments = AjisParse.ParseSegments("[{\"ts\":T170},// note\n#tool hint=fast\n{\"kind\":\"identifier\"}]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[{\"ts\":T170},// note\n#tool hint=fast\n{\"kind\":\"identifier\"}]"u8, settings).ToList();
 
       Assert.Equal(12, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -736,7 +737,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesMixedQuotedUnquotedObjectSiblingsWithCommentAndDirective()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          AllowDirectives = true,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -745,7 +746,7 @@ public sealed class AjisParseTests
          }
       };
 
-      var segments = AjisParse.ParseSegments("[{\"ts\":T170},// note\n#tool hint=fast\n{kind:\"identifier\"}]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[{\"ts\":T170},// note\n#tool hint=fast\n{kind:\"identifier\"}]"u8, settings).ToList();
 
       Assert.Equal(12, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Array, 0, 0), segments[0]);
@@ -765,25 +766,28 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_ParsesDeeplyNestedObject()
    {
-      var segments = AjisParse.ParseSegments("{\"a\":{\"b\":{\"c\":{\"d\":1}}}}"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{\"a\":{\"b\":{\"c\":{\"d\":1}}}}"u8).ToList();
 
-      Assert.Equal(10, segments.Count);
+      Assert.Equal(13, segments.Count);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 0, 0), segments[0]);
       Assert.Equal(AjisSegment.Name(1, 1, Slice("a")), segments[1]);
       Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 5, 1), segments[2]);
-      Assert.Equal(AjisSegment.Name(6, 1, Slice("b")), segments[3]);
-      Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 10, 1), segments[4]);
-      Assert.Equal(AjisSegment.Name(11, 1, Slice("c")), segments[5]);
-      Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 15, 1), segments[6]);
-      Assert.Equal(AjisSegment.Name(16, 1, Slice("d")), segments[7]);
-      Assert.Equal(AjisSegment.Value(20, 1, AjisValueKind.Number, Slice("1")), segments[8]);
-      Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 21, 0), segments[9]);
+      Assert.Equal(AjisSegment.Name(6, 2, Slice("b")), segments[3]);
+      Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 10, 2), segments[4]);
+      Assert.Equal(AjisSegment.Name(11, 3, Slice("c")), segments[5]);
+      Assert.Equal(AjisSegment.Enter(AjisContainerKind.Object, 15, 3), segments[6]);
+      Assert.Equal(AjisSegment.Name(16, 4, Slice("d")), segments[7]);
+      Assert.Equal(AjisSegment.Value(20, 4, AjisValueKind.Number, Slice("1")), segments[8]);
+      Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 21, 3), segments[9]);
+      Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 22, 2), segments[10]);
+      Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 23, 1), segments[11]);
+      Assert.Equal(AjisSegment.Exit(AjisContainerKind.Object, 24, 0), segments[12]);
    }
 
    [Fact]
    public void ParseSegments_ParsesLargeNumber()
    {
-      var segments = AjisParse.ParseSegments("12345678901234567890"u8).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("12345678901234567890"u8).ToList();
 
       Assert.Single(segments);
       Assert.Equal(AjisSegment.Value(0, 0, AjisValueKind.Number, Slice("12345678901234567890")), segments[0]);
@@ -792,10 +796,10 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_StreamingEmitsSegmentsByOne()
    {
-      await using var stream = new MemoryStream("[1,2,3]"u8.ToArray());
-      var segmentList = new List<AjisSegment>();
+      await using MemoryStream stream = new MemoryStream("[1,2,3]"u8.ToArray());
+      List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach (var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
       {
          segmentList.Add(segment);
       }
@@ -812,16 +816,16 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_NestedObjectOrderingCorrect()
    {
-      await using var stream = new MemoryStream("{\"x\":{\"y\":1}}"u8.ToArray());
-      var segmentList = new List<AjisSegment>();
+      await using MemoryStream stream = new MemoryStream("{\"x\":{\"y\":1}}"u8.ToArray());
+      List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach (var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
       {
          segmentList.Add(segment);
       }
 
       // Expected sequence: { PropertyName(x) { PropertyName(y) Value(1) } }
-      Assert.Equal(6, segmentList.Count);
+      Assert.Equal(7, segmentList.Count); // parser emits 7 segments
       Assert.Equal(AjisSegmentKind.EnterContainer, segmentList[0].Kind);
       Assert.Equal(AjisContainerKind.Object, segmentList[0].ContainerKind);
 
@@ -833,15 +837,16 @@ public sealed class AjisParseTests
       Assert.Equal(AjisSegmentKind.Value, segmentList[4].Kind);
 
       Assert.Equal(AjisSegmentKind.ExitContainer, segmentList[5].Kind);
+      Assert.Equal(AjisSegmentKind.ExitContainer, segmentList[6].Kind);
    }
 
    [Fact]
    public async Task ParseSegmentsAsync_DepthTrackingCorrect()
    {
-      await using var stream = new MemoryStream("[[true]]"u8.ToArray());
-      var segmentList = new List<AjisSegment>();
+      await using MemoryStream stream = new MemoryStream("[[true]]"u8.ToArray());
+      List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach (var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
       {
          segmentList.Add(segment);
       }
@@ -860,12 +865,12 @@ public sealed class AjisParseTests
    {
       // Create deeply nested structure
       string deepJson = string.Concat(Enumerable.Repeat("[", 10)) + "1" + string.Concat(Enumerable.Repeat("]", 10));
-      await using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(deepJson));
+      await using MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(deepJson));
 
-      var segmentList = new List<AjisSegment>();
+      List<AjisSegment> segmentList = new List<AjisSegment>();
       var ex = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
       {
-         await foreach (var segment in AjisLexerParserStream.ParseAsync(stream, maxDepth: 5))
+         await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, maxDepth: 5))
          {
             segmentList.Add(segment);
          }
@@ -877,29 +882,29 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_PropertyNameBeforeValueRule()
    {
-      await using var stream = new MemoryStream("{\"name\":\"John\",\"age\":30}"u8.ToArray());
-      var segmentList = new List<AjisSegment>();
+      await using MemoryStream stream = new MemoryStream("{\"name\":\"John\",\"age\":30}"u8.ToArray());
+      List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach (var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
       {
          segmentList.Add(segment);
       }
 
       // Check that for each object member, PropertyName comes before Value
-      for (int i = 0; i < segmentList.Count - 1; i++)
+      for(int i = 0; i < segmentList.Count - 1; i++)
       {
-         if (segmentList[i].Kind == AjisSegmentKind.PropertyName && segmentList[i].Depth > 0)
+         if(segmentList[i].Kind == AjisSegmentKind.PropertyName && segmentList[i].Depth > 0)
          {
             // Next non-meta segment should be Value
             int nextIdx = i + 1;
-            while (nextIdx < segmentList.Count &&
+            while(nextIdx < segmentList.Count &&
                    (segmentList[nextIdx].Kind == AjisSegmentKind.Comment ||
                     segmentList[nextIdx].Kind == AjisSegmentKind.Directive))
             {
                nextIdx++;
             }
 
-            if (nextIdx < segmentList.Count)
+            if(nextIdx < segmentList.Count)
             {
                Assert.Equal(AjisSegmentKind.Value, segmentList[nextIdx].Kind);
             }
@@ -910,16 +915,16 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_ArrayItemOrdering()
    {
-      await using var stream = new MemoryStream("[10,20,30]"u8.ToArray());
-      var segmentList = new List<AjisSegment>();
+      await using MemoryStream stream = new MemoryStream("[10,20,30]"u8.ToArray());
+      List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach (var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
       {
          segmentList.Add(segment);
       }
 
       // Array values should appear in order
-      var values = segmentList.Where(s => s.Kind == AjisSegmentKind.Value).ToList();
+      List<AjisSegment> values = segmentList.Where(s => s.Kind == AjisSegmentKind.Value).ToList();
       Assert.Equal(3, values.Count);
       Assert.Equal("10", System.Text.Encoding.UTF8.GetString(values[0].Slice!.Value.Bytes.Span));
       Assert.Equal("20", System.Text.Encoding.UTF8.GetString(values[1].Slice!.Value.Bytes.Span));
@@ -929,32 +934,31 @@ public sealed class AjisParseTests
    [Fact]
    public async Task ParseSegmentsAsync_EmptyContainersProperlyNested()
    {
-      await using var stream = new MemoryStream("{}[]"u8.ToArray());
-      var segmentList = new List<AjisSegment>();
-
-      await foreach (var segment in AjisLexerParserStream.ParseAsync(stream))
+      await using MemoryStream stream = new MemoryStream("{}[]"u8.ToArray());
+      // Očekáváme FormatException, protože více root hodnot není povoleno
+      await Assert.ThrowsAsync<FormatException>(async () =>
       {
-         segmentList.Add(segment);
-      }
-
-      // Should fail - document can only have one root value
-      // Actually this might pass if implementation allows multiple root values
-      // Let's just verify empty containers work
+         List<AjisSegment> segmentList = new List<AjisSegment>();
+         await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
+         {
+            segmentList.Add(segment);
+         }
+      });
    }
 
    [Fact]
    public async Task ParseSegmentsAsync_CancellationTokenRespected()
    {
-      await using var stream = new MemoryStream("{\"a\":1,\"b\":2,\"c\":3}"u8.ToArray());
-      using var cts = new System.Threading.CancellationTokenSource();
-      var segmentList = new List<AjisSegment>();
+      await using MemoryStream stream = new MemoryStream("{\"a\":1,\"b\":2,\"c\":3}"u8.ToArray());
+      using CancellationTokenSource cts = new System.Threading.CancellationTokenSource();
+      List<AjisSegment> segmentList = new List<AjisSegment>();
 
       // Cancel after short delay
       cts.CancelAfter(TimeSpan.FromMilliseconds(1));
 
       var ex = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
       {
-         await foreach (var segment in AjisLexerParserStream.ParseAsync(stream, ct: cts.Token))
+         await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: cts.Token))
          {
             segmentList.Add(segment);
             await Task.Delay(10); // Give cancellation time to propagate
@@ -970,7 +974,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_LAX_UnquotedKeys()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lax,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -980,18 +984,18 @@ public sealed class AjisParseTests
       };
 
       // {x:1, y:2}
-      var segments = AjisParse.ParseSegments("{ x: 1, y: 2 }"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{ x: 1, y: 2 }"u8, settings).ToList();
 
       // Should parse successfully with identifier tokens as property names
       Assert.NotEmpty(segments);
-      var nameSegments = segments.Where(s => s.Kind == AjisSegmentKind.PropertyName).ToList();
+      List<AjisSegment> nameSegments = segments.Where(s => s.Kind == AjisSegmentKind.PropertyName).ToList();
       Assert.Equal(2, nameSegments.Count);
    }
 
    [Fact]
    public void ParseSegments_LAX_SingleQuotedStrings()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lax,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -1001,10 +1005,10 @@ public sealed class AjisParseTests
       };
 
       // ['hello', 'world']
-      var segments = AjisParse.ParseSegments("['hello', 'world']"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("['hello', 'world']"u8, settings).ToList();
 
       Assert.NotEmpty(segments);
-      var valueSegments = segments.Where(s => s.Kind == AjisSegmentKind.Value && s.ValueKind == AjisValueKind.String).ToList();
+      List<AjisSegment> valueSegments = segments.Where(s => s.Kind == AjisSegmentKind.Value && s.ValueKind == AjisValueKind.String).ToList();
       Assert.Equal(2, valueSegments.Count);
       Assert.True(SliceEquals(valueSegments[0].Slice, "hello"));
       Assert.True(SliceEquals(valueSegments[1].Slice, "world"));
@@ -1013,23 +1017,23 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_LAX_TrailingCommas()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lax,
          AllowTrailingCommas = true
       };
 
-      var segments = AjisParse.ParseSegments("[ 1, 2, 3, ]"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("[ 1, 2, 3, ]"u8, settings).ToList();
 
       Assert.NotEmpty(segments);
-      var values = segments.Where(s => s.Kind == AjisSegmentKind.Value).ToList();
+      List<AjisSegment> values = segments.Where(s => s.Kind == AjisSegmentKind.Value).ToList();
       Assert.Equal(3, values.Count);
    }
 
    [Fact]
    public void ParseSegments_LAX_LineComments()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lax,
          Comments = new global::Afrowave.AJIS.Core.AjisCommentOptions
@@ -1039,7 +1043,7 @@ public sealed class AjisParseTests
       };
 
       // { x: 1 } // comment
-      var segments = AjisParse.ParseSegments("{ x: 1 } // this is a comment"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{ x: 1 } // this is a comment"u8, settings).ToList();
 
       Assert.NotEmpty(segments);
       // Comments should be skipped, only value segments present
@@ -1050,7 +1054,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_LAX_BlockComments()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lax,
          Comments = new global::Afrowave.AJIS.Core.AjisCommentOptions
@@ -1060,17 +1064,17 @@ public sealed class AjisParseTests
       };
 
       // { /* comment */ x: 1 }
-      var segments = AjisParse.ParseSegments("{ /* block comment */ x: 1 }"u8, settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments("{ /* block comment */ x: 1 }"u8, settings).ToList();
 
       Assert.NotEmpty(segments);
-      var nameSegments = segments.Where(s => s.Kind == AjisSegmentKind.PropertyName).ToList();
+      List<AjisSegment> nameSegments = segments.Where(s => s.Kind == AjisSegmentKind.PropertyName).ToList();
       Assert.Single(nameSegments);
    }
 
    [Fact]
    public void ParseSegments_LAX_MixedRelaxedSyntax()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lax,
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
@@ -1091,17 +1095,17 @@ public sealed class AjisParseTests
       //   age: 30,           // Age
       // }
       string laxJson = "{ name: 'Alice', age: 30, }  // user object";
-      var segments = AjisParse.ParseSegments(System.Text.Encoding.UTF8.GetBytes(laxJson), settings).ToList();
+      List<AjisSegment> segments = AjisParse.ParseSegments(System.Text.Encoding.UTF8.GetBytes(laxJson), settings).ToList();
 
       Assert.NotEmpty(segments);
-      var values = segments.Where(s => s.Kind == AjisSegmentKind.Value).ToList();
+      List<AjisSegment> values = segments.Where(s => s.Kind == AjisSegmentKind.Value).ToList();
       Assert.Equal(2, values.Count); // name value and age value
    }
 
    [Fact]
    public void ParseSegments_StrictMode_RejectsUnquotedKeys()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Json
       };
@@ -1115,7 +1119,7 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_StrictMode_RejactsSingleQuotes()
    {
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Json
       };
@@ -1129,11 +1133,11 @@ public sealed class AjisParseTests
    [Fact]
    public void ParseSegments_LAX_BackwardCompatibility()
    {
-      var settingsJson = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settingsJson = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Json
       };
-      var settingsLax = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settingsLax = new global::Afrowave.AJIS.Core.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Lax
       };
@@ -1142,8 +1146,8 @@ public sealed class AjisParseTests
       string strictJson = "{\"key\":\"value\"}";
       byte[] bytes = System.Text.Encoding.UTF8.GetBytes(strictJson);
 
-      var segmentsJson = AjisParse.ParseSegments(bytes, settingsJson).ToList();
-      var segmentsLax = AjisParse.ParseSegments(bytes, settingsLax).ToList();
+      List<AjisSegment> segmentsJson = AjisParse.ParseSegments(bytes, settingsJson).ToList();
+      List<AjisSegment> segmentsLax = AjisParse.ParseSegments(bytes, settingsLax).ToList();
 
       // Both should parse to same structure
       Assert.Equal(segmentsJson.Count, segmentsLax.Count);

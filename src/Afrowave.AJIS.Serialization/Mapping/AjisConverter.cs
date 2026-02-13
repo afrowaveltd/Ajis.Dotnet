@@ -32,7 +32,7 @@ public class AjisConverter<T> where T : notnull
    /// <summary>
    /// Initializes a new instance of the <see cref="AjisConverter{T}"/> class with default settings.
    /// </summary>
-   public AjisConverter() : this(PascalCaseNamingPolicy.Instance)
+   public AjisConverter() : this(CamelCaseNamingPolicy.Instance)
    {
    }
 

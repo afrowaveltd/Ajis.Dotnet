@@ -117,6 +117,8 @@ public sealed class AjisLexer(
       EnsureTokenLimit(buffer.Count, offset);
 
       string text = Encoding.UTF8.GetString([.. buffer]);
+      // Normalize common JS literals that may appear as identifiers in Lax mode
+      // e.g. 'true' or 'false' might be returned as identifier-like tokens depending on mode
       if(_textMode != global::Afrowave.AJIS.Core.AjisTextMode.Json && IsTypedLiteralText(text))
          return new AjisToken(AjisTokenKind.Number, offset, line, column, text);
 
@@ -633,7 +635,7 @@ public sealed class AjisLexer(
    }
 
    private bool IsLineStart()
-      => _reader.Column == 1;
+      => _reader.Column == 1 || _reader.Column == 0;
 
    private bool TryConsumeComment()
    {
@@ -816,6 +818,7 @@ public sealed class AjisLexer(
 
    private bool AllowUnquotedPropertyNames()
       => _textMode == global::Afrowave.AJIS.Core.AjisTextMode.Lex
+         || _textMode == global::Afrowave.AJIS.Core.AjisTextMode.Lax
          || (_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Ajis && _stringOptions.AllowUnquotedPropertyNames);
 
    private static bool IsIdentifierStart(byte b)

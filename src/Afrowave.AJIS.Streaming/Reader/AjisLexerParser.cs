@@ -1,6 +1,5 @@
 #nullable enable
 
-using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
 using System.Text;
 
@@ -99,14 +98,14 @@ public sealed class AjisLexerParser
 
    private void ParseObject()
    {
-      var start = _current;
+      AjisToken start = _current;
       _segments.Add(AjisSegment.Enter(AjisContainerKind.Object, start.Offset, _depth));
       _depth++;
       Advance();
 
       if(_current.Kind == AjisTokenKind.RightBrace)
       {
-         var end = _current;
+         AjisToken end = _current;
          _depth--;
          _segments.Add(AjisSegment.Exit(AjisContainerKind.Object, end.Offset, _depth));
          Advance();
@@ -120,7 +119,7 @@ public sealed class AjisLexerParser
             throw new FormatException($"Expected property name at {_current.Line}:{_current.Column}.");
 
          EnsurePropertyNameLimit(_current.Text, _current.Offset);
-         var nameFlags = _current.Kind == AjisTokenKind.Identifier
+         AjisSliceFlags nameFlags = _current.Kind == AjisTokenKind.Identifier
             ? AjisSliceFlags.IsIdentifierStyle | GetStringFlags(_current.Text)
             : GetStringFlags(_current.Text);
          _segments.Add(AjisSegment.Name(_current.Offset, _depth, CreateSlice(_current.Text, nameFlags)));
@@ -147,7 +146,7 @@ public sealed class AjisLexerParser
 
          if(_current.Kind == AjisTokenKind.RightBrace)
          {
-            var end = _current;
+            AjisToken end = _current;
             _depth--;
             _segments.Add(AjisSegment.Exit(AjisContainerKind.Object, end.Offset, _depth));
             Advance();
@@ -160,14 +159,14 @@ public sealed class AjisLexerParser
 
    private void ParseArray()
    {
-      var start = _current;
+      AjisToken start = _current;
       _segments.Add(AjisSegment.Enter(AjisContainerKind.Array, start.Offset, _depth));
       _depth++;
       Advance();
 
       if(_current.Kind == AjisTokenKind.RightBracket)
       {
-         var end = _current;
+         AjisToken end = _current;
          _depth--;
          _segments.Add(AjisSegment.Exit(AjisContainerKind.Array, end.Offset, _depth));
          Advance();
@@ -197,7 +196,7 @@ public sealed class AjisLexerParser
 
          if(_current.Kind == AjisTokenKind.RightBracket)
          {
-            var end = _current;
+            AjisToken end = _current;
             _depth--;
             _segments.Add(AjisSegment.Exit(AjisContainerKind.Array, end.Offset, _depth));
             Advance();
