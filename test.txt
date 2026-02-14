@@ -1,0 +1,84 @@
+  Zjišťují se projekty, které se mají obnovit...
+  Všechny projekty jsou v aktuálním stavu pro obnovení.
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.IO.Tests\Afrowave.AJIS.IO.Tests.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Afrowave.AJIS.Core.Tests.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\Afrowave.AJIS.Serialization.Tests.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Core\Afrowave.AJIS.Core.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.IO\Afrowave.AJIS.IO.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Afrowave.AJIS.Streaming.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\Afrowave.AJIS.Serialization.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\Afrowave.AJIS.Testing.csproj]
+  Afrowave.AJIS.Core -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Core\bin\Debug\net10.0\Afrowave.AJIS.Core.dll
+  Afrowave.AJIS.Streaming -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\bin\Debug\net10.0\Afrowave.AJIS.Streaming.dll
+  Afrowave.AJIS.Serialization -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\bin\Debug\net10.0\Afrowave.AJIS.Serialization.dll
+  Afrowave.AJIS.Testing -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\bin\Debug\net10.0\Afrowave.AJIS.Testing.dll
+  Afrowave.AJIS.IO -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.IO\bin\Debug\net10.0\Afrowave.AJIS.IO.dll
+  Afrowave.AJIS.Serialization.Tests -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll
+  Afrowave.AJIS.Core.Tests -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll
+Testovací běh pro E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll (.NETCoreApp,Version=v10.0)
+Testovací běh pro E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll (.NETCoreApp,Version=v10.0)
+  Afrowave.AJIS.IO.Tests -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.IO.Tests\bin\Debug\net10.0\Afrowave.AJIS.IO.Tests.dll
+Testovací běh pro E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.IO.Tests\bin\Debug\net10.0\Afrowave.AJIS.IO.Tests.dll (.NETCoreApp,Version=v10.0)
+Celkový počet testovacích souborů, které odpovídají zadanému vzoru: 1
+Celkový počet testovacích souborů, které odpovídají zadanému vzoru: 1
+Celkový počet testovacích souborů, které odpovídají zadanému vzoru: 1
+[xUnit.net 00:00:00.41]     Afrowave.AJIS.IO.Tests.AjisGroupingTests.SalesReport_GroupBySeller [SKIP]
+  Přeskočeno Afrowave.AJIS.IO.Tests.AjisGroupingTests.SalesReport_GroupBySeller [1 ms]
+
+Úspěšné!    - Neúspěšné:     0, Úspěšné:    52, Přeskočeno:     0, Celkem:    52, Doba trvání: 73 ms - Afrowave.AJIS.Serialization.Tests.dll (net10.0)
+[xUnit.net 00:00:00.91]     Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_FourByteCharacter_TrackingCorrect [FAIL]
+  Neúspěšné Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_FourByteCharacter_TrackingCorrect [4 ms]
+  Chybová zpráva:
+   Assert.Equal() Failure: Values differ
+Expected: 1
+Actual:   2
+  Trasování zásobníku:
+     at Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_FourByteCharacter_TrackingCorrect() in E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Reader\AjisReaderTests.cs:line 112
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.92]     Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_ThreeByteCharacter_TrackingCorrect [FAIL]
+[xUnit.net 00:00:00.92]     Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_MixedASCIIandMultiByte [FAIL]
+  Neúspěšné Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_ThreeByteCharacter_TrackingCorrect [< 1 ms]
+  Chybová zpráva:
+   Assert.Equal() Failure: Values differ
+Expected: 1
+Actual:   2
+  Trasování zásobníku:
+     at Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_ThreeByteCharacter_TrackingCorrect() in E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Reader\AjisReaderTests.cs:line 95
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Neúspěšné Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_MixedASCIIandMultiByte [< 1 ms]
+  Chybová zpráva:
+   Assert.Equal() Failure: Values differ
+Expected: 5
+Actual:   6
+  Trasování zásobníku:
+     at Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_MixedASCIIandMultiByte() in E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Reader\AjisReaderTests.cs:line 153
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.92]     Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_MultipleMultiByteCharacters [FAIL]
+[xUnit.net 00:00:00.92]     Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_OffsetCorrectAfterMultibyteAndNewline [FAIL]
+  Neúspěšné Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_MultipleMultiByteCharacters [< 1 ms]
+  Chybová zpráva:
+   Assert.Equal() Failure: Values differ
+Expected: 1
+Actual:   2
+  Trasování zásobníku:
+     at Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_MultipleMultiByteCharacters() in E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Reader\AjisReaderTests.cs:line 125
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Neúspěšné Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_OffsetCorrectAfterMultibyteAndNewline [< 1 ms]
+  Chybová zpráva:
+   Assert.Equal() Failure: Values differ
+Expected: 1
+Actual:   2
+  Trasování zásobníku:
+     at Afrowave.AJIS.Core.Tests.Reader.AjisReaderTests.Reader_OffsetCorrectAfterMultibyteAndNewline() in E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Reader\AjisReaderTests.cs:line 239
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.95]     Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_Over2Gb_NotCovered [SKIP]
+  Přeskočeno Afrowave.AJIS.Core.Tests.Streaming.AjisParseLargeDataTests.ParseSegmentsAsync_Over2Gb_NotCovered [1 ms]
+
+Neúspěšné!  - Neúspěšné:     5, Úspěšné:   305, Přeskočeno:     1, Celkem:   311, Doba trvání: 263 ms - Afrowave.AJIS.Core.Tests.dll (net10.0)
+
+Úspěšné!    - Neúspěšné:     0, Úspěšné:    75, Přeskočeno:     1, Celkem:    76, Doba trvání: 10 s - Afrowave.AJIS.IO.Tests.dll (net10.0)

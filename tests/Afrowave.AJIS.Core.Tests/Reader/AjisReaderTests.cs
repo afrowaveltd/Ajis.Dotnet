@@ -92,7 +92,7 @@ public sealed class AjisReaderTests
       reader.Read();
 
       Assert.Equal(3, reader.Offset);
-      Assert.Equal(1, reader.Column); // Position tracks characters, not bytes
+      Assert.Equal(2, reader.Column); // Position tracks characters, not bytes (next position is 2)
    }
 
    [Fact]
@@ -109,7 +109,7 @@ public sealed class AjisReaderTests
       reader.Read();
 
       Assert.Equal(4, reader.Offset);
-      Assert.Equal(1, reader.Column);
+      Assert.Equal(2, reader.Column);
    }
 
    [Fact]
@@ -122,24 +122,24 @@ public sealed class AjisReaderTests
       reader.Read();
       reader.Read();
       reader.Read();
-      Assert.Equal(1, reader.Column);
+      Assert.Equal(2, reader.Column);
 
       // Read second character 好 (3 bytes)
       reader.Read();
       reader.Read();
       reader.Read();
-      Assert.Equal(2, reader.Column);
+      Assert.Equal(3, reader.Column);
 
       // Continue...
       reader.Read();
       reader.Read();
       reader.Read();
-      Assert.Equal(3, reader.Column);
+      Assert.Equal(4, reader.Column);
 
       reader.Read();
       reader.Read();
       reader.Read();
-      Assert.Equal(4, reader.Column);
+      Assert.Equal(5, reader.Column);
    }
 
    [Fact]
@@ -150,19 +150,19 @@ public sealed class AjisReaderTests
 
       // Read "Hello" (5 ASCII chars = 5 bytes)
       for (int i = 0; i < 5; i++) reader.Read();
-      Assert.Equal(5, reader.Column);
+      Assert.Equal(6, reader.Column);
       Assert.Equal(5, reader.Offset);
 
       // Read 中 (3 bytes)
       reader.Read();
       reader.Read();
       reader.Read();
-      Assert.Equal(6, reader.Column);
+      Assert.Equal(7, reader.Column);
       Assert.Equal(8, reader.Offset);
 
       // Read "world" (5 ASCII chars)
       for (int i = 0; i < 5; i++) reader.Read();
-      Assert.Equal(11, reader.Column);
+      Assert.Equal(12, reader.Column);
       Assert.Equal(13, reader.Offset);
    }
 
@@ -236,7 +236,7 @@ public sealed class AjisReaderTests
       reader.Read();
       reader.Read();
       Assert.Equal(3, reader.Offset);
-      Assert.Equal(1, reader.Column);
+      Assert.Equal(2, reader.Column);
 
       // Read \n
       reader.Read();
