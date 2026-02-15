@@ -52,7 +52,7 @@ public static class RoundTripStressTest
          {
             // Streaming mode was triggered
             Console.WriteLine("   ℹ️  Using streaming mode for large file processing");
-            deserializedUsers = new List<ExtendedUser>(); // Empty list for validation
+            deserializedUsers = []; // Empty list for validation
          }
          else
          {
@@ -115,8 +115,8 @@ public static class RoundTripStressTest
 
    private static List<ExtendedUser> GenerateUsers(int count)
    {
-      Random random = new Random(42);
-      List<ExtendedUser> users = new List<ExtendedUser>(count);
+      Random random = new(42);
+      List<ExtendedUser> users = new(count);
 
       var firstNames = new[] { "John", "Jane", "Michael", "Sarah", "David", "Lisa", "Robert", "Emily", "James", "Maria" };
       var lastNames = new[] { "Smith", "Johnson", "Brown", "Williams", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez" };
@@ -129,7 +129,7 @@ public static class RoundTripStressTest
 
       for(int i = 0; i < count; i++)
       {
-         ExtendedUser user = new ExtendedUser
+         ExtendedUser user = new()
          {
             Id = i + 1,
             FirstName = firstNames[random.Next(firstNames.Length)],
@@ -158,7 +158,7 @@ public static class RoundTripStressTest
 
    private static string[] GenerateEmails(Random random, int userId)
    {
-      List<string> emails = new List<string>();
+      List<string> emails = [];
       var domains = new[] { "gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "company.com", "tech.com" };
 
       // Primary email
@@ -168,15 +168,15 @@ public static class RoundTripStressTest
       var additionalCount = random.Next(4);
       for(int i = 0; i < additionalCount; i++)
       {
-         emails.Add($"{Guid.NewGuid().ToString().Substring(0, 8)}@{domains[random.Next(domains.Length)]}");
+         emails.Add($"{Guid.NewGuid().ToString()[..8]}@{domains[random.Next(domains.Length)]}");
       }
 
-      return emails.ToArray();
+      return [.. emails];
    }
 
    private static Address[] GenerateAddresses(Random random)
    {
-      List<Address> addresses = new List<Address>();
+      List<Address> addresses = [];
       var cities = new[] { "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose" };
       var states = new[] { "NY", "CA", "IL", "TX", "AZ", "PA", "FL", "OH", "GA", "NC" };
 
@@ -205,15 +205,16 @@ public static class RoundTripStressTest
          });
       }
 
-      return addresses.ToArray();
+      return [.. addresses];
    }
 
    private static string[] GeneratePhoneNumbers(Random random)
    {
-      List<string> phones = new List<string>();
-
-      // Primary phone
-      phones.Add($"({random.Next(200, 999)})-{random.Next(100, 999)}-{random.Next(1000, 9999)}");
+      List<string> phones =
+      [
+         // Primary phone
+         $"({random.Next(200, 999)})-{random.Next(100, 999)}-{random.Next(1000, 9999)}",
+      ];
 
       // Additional phones (0-2)
       var additionalCount = random.Next(3);
@@ -222,12 +223,12 @@ public static class RoundTripStressTest
          phones.Add($"({random.Next(200, 999)})-{random.Next(100, 999)}-{random.Next(1000, 9999)}");
       }
 
-      return phones.ToArray();
+      return [.. phones];
    }
 
    private static Dictionary<string, string> GenerateMetadata(Random random)
    {
-      Dictionary<string, string> metadata = new Dictionary<string, string>();
+      Dictionary<string, string> metadata = [];
       var keys = new[] { "timezone", "locale", "theme", "notifications", "security_level" };
       var values = new[] { "EST", "en-US", "dark", "enabled", "high", "UTC", "cs-CZ", "light", "disabled", "medium" };
 
@@ -242,7 +243,7 @@ public static class RoundTripStressTest
 
    private static List<Project> GenerateProjects(Random random)
    {
-      List<Project> projects = new List<Project>();
+      List<Project> projects = [];
       var statuses = new[] { "active", "completed", "on-hold", "cancelled", "planning" };
 
       var count = random.Next(0, 6); // 0-5 projects
@@ -254,7 +255,7 @@ public static class RoundTripStressTest
          projects.Add(new Project
          {
             ProjectId = random.Next(1000, 9999),
-            Name = $"Project {Guid.NewGuid().ToString().Substring(0, 8)}",
+            Name = $"Project {Guid.NewGuid().ToString()[..8]}",
             Description = $"Description for project {i + 1}",
             StartDate = startDate,
             EndDate = endDate,
@@ -291,7 +292,7 @@ public static class RoundTripStressTest
       if(users == null) return;
 
       using var fileStream = File.Create(fileName);
-      using Utf8JsonWriter writer = new Utf8JsonWriter(fileStream, new JsonWriterOptions { Indented = false });
+      using Utf8JsonWriter writer = new(fileStream, new JsonWriterOptions { Indented = false });
       JsonSerializer.Serialize(writer, users);
    }
 
@@ -343,7 +344,7 @@ public static class RoundTripStressTest
 
       try
       {
-         Stopwatch stopwatch = new Stopwatch();
+         Stopwatch stopwatch = new();
 
          // Phase 1: Generate and stream to file
          Console.WriteLine($"📝 Phase 1: Streaming generation to {InputFile}...");
@@ -393,11 +394,11 @@ public static class RoundTripStressTest
    private static void StreamGenerateToFile(string fileName)
    {
       using var fileStream = File.Create(fileName);
-      using Utf8JsonWriter writer = new Utf8JsonWriter(fileStream, new JsonWriterOptions { Indented = false });
+      using Utf8JsonWriter writer = new(fileStream, new JsonWriterOptions { Indented = false });
 
       writer.WriteStartArray();
 
-      Random random = new Random(42);
+      Random random = new(42);
       var firstNames = new[] { "John", "Jane", "Michael", "Sarah", "David", "Lisa", "Robert", "Emily", "James", "Maria" };
       var lastNames = new[] { "Smith", "Johnson", "Brown", "Williams", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez" };
       var cities = new[] { "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose" };
@@ -485,7 +486,7 @@ public static class RoundTripStressTest
          {
             writer.WriteStartObject();
             writer.WriteNumber("ProjectId", random.Next(1000, 9999));
-            writer.WriteString("Name", $"Project {Guid.NewGuid().ToString().Substring(0, 8)}");
+            writer.WriteString("Name", $"Project {Guid.NewGuid().ToString()[..8]}");
             writer.WriteString("Description", $"Description for project {j + 1}");
             writer.WriteString("Status", "active");
             writer.WriteNumber("Budget", random.Next(10000, 500000));

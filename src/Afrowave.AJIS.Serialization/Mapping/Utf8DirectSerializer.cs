@@ -12,11 +12,11 @@ namespace Afrowave.AJIS.Serialization.Mapping;
 /// PHASE 6: JIT inlining hints, compiled getters, type specialization.
 /// </summary>
 /// <typeparam name="T">Source type to serialize</typeparam>
-internal sealed class Utf8DirectSerializer<T> where T : notnull
+internal sealed class Utf8DirectSerializer<T>(PropertyMapper propertyMapper) where T : notnull
 {
-   private readonly PropertyMapper _propertyMapper;
+   private readonly PropertyMapper _propertyMapper = propertyMapper ?? throw new ArgumentNullException(nameof(propertyMapper));
    private readonly PropertyGetterCompiler _getterCompiler = new();
-   private readonly Dictionary<Type, PropertyMetadata[]> _propertyCache = new();
+   private readonly Dictionary<Type, PropertyMetadata[]> _propertyCache = [];
    private const int MaxDepth = 100;
    private const int InitialBufferSize = 8 * 1024; // Reduced from 64KB to 8KB for better memory efficiency
 
@@ -33,11 +33,6 @@ internal sealed class Utf8DirectSerializer<T> where T : notnull
    private static readonly Type TypeUInt = typeof(uint);
    private static readonly Type TypeULong = typeof(ulong);
 
-   public Utf8DirectSerializer(PropertyMapper propertyMapper)
-   {
-      _propertyMapper = propertyMapper ?? throw new ArgumentNullException(nameof(propertyMapper));
-   }
-
    /// <summary>
    /// Serialize directly to UTF8 using Utf8JsonWriter (FAST!).
    /// PHASE 6: Uses ArrayBufferWriter with optimized initial size.
@@ -51,9 +46,9 @@ internal sealed class Utf8DirectSerializer<T> where T : notnull
          return "null";
 
       // Use ArrayBufferWriter with smaller initial size - it auto-grows efficiently
-      ArrayBufferWriter<byte> bufferWriter = new ArrayBufferWriter<byte>(InitialBufferSize);
+      ArrayBufferWriter<byte> bufferWriter = new(InitialBufferSize);
 
-      using(Utf8JsonWriter writer = new Utf8JsonWriter(bufferWriter, new JsonWriterOptions
+      using(Utf8JsonWriter writer = new(bufferWriter, new JsonWriterOptions
       {
          Indented = false,
          SkipValidation = false
@@ -150,7 +145,7 @@ internal sealed class Utf8DirectSerializer<T> where T : notnull
       }
 
       // Collections (NOT string!)
-      if(value is System.Collections.IEnumerable enumerable && !(value is string))
+      if(value is System.Collections.IEnumerable enumerable && value is not string)
       {
          writer.WriteStartArray();
          foreach(var item in enumerable)
@@ -166,7 +161,7 @@ internal sealed class Utf8DirectSerializer<T> where T : notnull
 
       if(!_propertyCache.TryGetValue(actualType, out var properties))
       {
-         properties = _propertyMapper.GetProperties(actualType).ToArray();
+         properties = [.. _propertyMapper.GetProperties(actualType)];
          _propertyCache[actualType] = properties;
       }
 

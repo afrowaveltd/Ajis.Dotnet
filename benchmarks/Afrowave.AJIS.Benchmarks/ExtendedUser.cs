@@ -1,7 +1,5 @@
 #nullable enable
 
-using System.Text.Json.Serialization;
-
 namespace Afrowave.AJIS.Benchmarks;
 
 /// <summary>
@@ -9,22 +7,22 @@ namespace Afrowave.AJIS.Benchmarks;
 /// </summary>
 public class ExtendedUser
 {
-    public int Id { get; set; }
-    public string FirstName { get; set; } = "";
-    public string LastName { get; set; } = "";
-    public string Username { get; set; } = "";
-    public DateTime DateOfBirth { get; set; }
-    public bool IsActive { get; set; }
-    public decimal Salary { get; set; }
-    public string Department { get; set; } = "";
-    public string JobTitle { get; set; } = "";
-    public DateTime HireDate { get; set; }
-    public string[] Emails { get; set; } = [];
-    public Address[] Addresses { get; set; } = [];
-    public string[] PhoneNumbers { get; set; } = [];
-    public Dictionary<string, string> Metadata { get; set; } = new();
-    public List<Project> Projects { get; set; } = new();
-    public Company Company { get; set; } = new();
+   public int Id { get; set; }
+   public string FirstName { get; set; } = "";
+   public string LastName { get; set; } = "";
+   public string Username { get; set; } = "";
+   public DateTime DateOfBirth { get; set; }
+   public bool IsActive { get; set; }
+   public decimal Salary { get; set; }
+   public string Department { get; set; } = "";
+   public string JobTitle { get; set; } = "";
+   public DateTime HireDate { get; set; }
+   public string[] Emails { get; set; } = [];
+   public Address[] Addresses { get; set; } = [];
+   public string[] PhoneNumbers { get; set; } = [];
+   public Dictionary<string, string> Metadata { get; set; } = [];
+   public List<Project> Projects { get; set; } = [];
+   public Company Company { get; set; } = new();
 }
 
 /// <summary>
@@ -32,12 +30,12 @@ public class ExtendedUser
 /// </summary>
 public class Address
 {
-    public string Type { get; set; } = ""; // "home", "work", "billing", etc.
-    public string Street { get; set; } = "";
-    public string City { get; set; } = "";
-    public string State { get; set; } = "";
-    public string ZipCode { get; set; } = "";
-    public string Country { get; set; } = "";
+   public string Type { get; set; } = ""; // "home", "work", "billing", etc.
+   public string Street { get; set; } = "";
+   public string City { get; set; } = "";
+   public string State { get; set; } = "";
+   public string ZipCode { get; set; } = "";
+   public string Country { get; set; } = "";
 }
 
 /// <summary>
@@ -45,13 +43,13 @@ public class Address
 /// </summary>
 public class Project
 {
-    public int ProjectId { get; set; }
-    public string Name { get; set; } = "";
-    public string Description { get; set; } = "";
-    public DateTime StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
-    public string Status { get; set; } = "";
-    public decimal Budget { get; set; }
+   public int ProjectId { get; set; }
+   public string Name { get; set; } = "";
+   public string Description { get; set; } = "";
+   public DateTime StartDate { get; set; }
+   public DateTime? EndDate { get; set; }
+   public string Status { get; set; } = "";
+   public decimal Budget { get; set; }
 }
 
 /// <summary>
@@ -59,9 +57,9 @@ public class Project
 /// </summary>
 public class Company
 {
-    public int CompanyId { get; set; }
-    public string Name { get; set; } = "";
-    public string Industry { get; set; } = "";
-    public Address Headquarters { get; set; } = new();
-    public int EmployeeCount { get; set; }
+   public int CompanyId { get; set; }
+   public string Name { get; set; } = "";
+   public string Industry { get; set; } = "";
+   public Address Headquarters { get; set; } = new();
+   public int EmployeeCount { get; set; }
 }

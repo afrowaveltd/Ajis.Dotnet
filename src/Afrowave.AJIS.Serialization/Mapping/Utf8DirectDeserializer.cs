@@ -13,14 +13,14 @@ namespace Afrowave.AJIS.Serialization.Mapping;
 /// PHASE 6: JIT inlining hints, frozen collections, type specialization.
 /// </summary>
 /// <typeparam name="T">Target type to deserialize to</typeparam>
-internal sealed class Utf8DirectDeserializer<T> where T : notnull
+internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) where T : notnull
 {
-   private readonly PropertyMapper _propertyMapper;
+   private readonly PropertyMapper _propertyMapper = propertyMapper ?? throw new ArgumentNullException(nameof(propertyMapper));
 
    // Three-tier cache: Type → PropertyMetadata, Type → Properties, Type → Lookup dictionary
-   private readonly Dictionary<Type, PropertyMetadata[]> _propertyCache = new();
-   private readonly Dictionary<Type, ConstructorInfo> _constructorCache = new();
-   private readonly Dictionary<Type, Dictionary<string, PropertyMetadata>> _propertyLookupCache = new();
+   private readonly Dictionary<Type, PropertyMetadata[]> _propertyCache = [];
+   private readonly Dictionary<Type, ConstructorInfo> _constructorCache = [];
+   private readonly Dictionary<Type, Dictionary<string, PropertyMetadata>> _propertyLookupCache = [];
 
    // PHASE 4: Compiled setters cache
    private readonly PropertySetterCompiler _setterCompiler = new();
@@ -37,10 +37,6 @@ internal sealed class Utf8DirectDeserializer<T> where T : notnull
    private static readonly Type TypeDateTimeOffset = typeof(DateTimeOffset);
    private static readonly Type TypeTimeSpan = typeof(TimeSpan);
 
-   public Utf8DirectDeserializer(PropertyMapper propertyMapper)
-   {
-      _propertyMapper = propertyMapper ?? throw new ArgumentNullException(nameof(propertyMapper));
-   }
 
    /// <summary>
    /// Deserialize directly from UTF8 bytes using Utf8JsonReader (FAST!).
@@ -48,7 +44,7 @@ internal sealed class Utf8DirectDeserializer<T> where T : notnull
    [MethodImpl(MethodImplOptions.AggressiveInlining)]
    public T? Deserialize(ReadOnlySpan<byte> utf8Json)
    {
-      Utf8JsonReader reader = new Utf8JsonReader(utf8Json, new JsonReaderOptions
+      Utf8JsonReader reader = new(utf8Json, new JsonReaderOptions
       {
          AllowTrailingCommas = true,
          CommentHandling = JsonCommentHandling.Skip,
@@ -64,32 +60,17 @@ internal sealed class Utf8DirectDeserializer<T> where T : notnull
    [MethodImpl(MethodImplOptions.AggressiveInlining)]
    private object? ReadValue(ref Utf8JsonReader reader, Type targetType)
    {
-      switch(reader.TokenType)
+      return reader.TokenType switch
       {
-         case JsonTokenType.Null:
-            return null;
-
-         case JsonTokenType.True:
-            return ConvertBoolean(true, targetType);
-
-         case JsonTokenType.False:
-            return ConvertBoolean(false, targetType);
-
-         case JsonTokenType.Number:
-            return ReadNumber(ref reader, targetType);
-
-         case JsonTokenType.String:
-            return ReadString(ref reader, targetType);
-
-         case JsonTokenType.StartArray:
-            return ReadArray(ref reader, targetType);
-
-         case JsonTokenType.StartObject:
-            return ReadObject(ref reader, targetType);
-
-         default:
-            throw new JsonException($"Unexpected token: {reader.TokenType}");
-      }
+         JsonTokenType.Null => null,
+         JsonTokenType.True => ConvertBoolean(true, targetType),
+         JsonTokenType.False => ConvertBoolean(false, targetType),
+         JsonTokenType.Number => ReadNumber(ref reader, targetType),
+         JsonTokenType.String => ReadString(ref reader, targetType),
+         JsonTokenType.StartArray => ReadArray(ref reader, targetType),
+         JsonTokenType.StartObject => ReadObject(ref reader, targetType),
+         _ => throw new JsonException($"Unexpected token: {reader.TokenType}"),
+      };
    }
 
    [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -231,25 +212,25 @@ internal sealed class Utf8DirectDeserializer<T> where T : notnull
       return ReadArrayGeneric(ref reader, elementType, targetType);
    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TElement[] ReadArrayTyped<TElement>(ref Utf8JsonReader reader)
-        where TElement : notnull
-    {
-        List<TElement> list = new List<TElement>(capacity: 16);
+   [MethodImpl(MethodImplOptions.AggressiveInlining)]
+   private TElement[] ReadArrayTyped<TElement>(ref Utf8JsonReader reader)
+       where TElement : notnull
+   {
+      List<TElement> list = [.. new List<TElement>(capacity: 16)];
 
-        while(reader.Read() && reader.TokenType != JsonTokenType.EndArray)
-        {
-            var item = ReadValue(ref reader, typeof(TElement));
-            list.Add((TElement?)item!);
-        }
+      while(reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+      {
+         var item = ReadValue(ref reader, typeof(TElement));
+         list.Add((TElement?)item!);
+      }
 
-        return list.ToArray();
-    }
+      return [.. list];
+   }
 
    private object? ReadArrayGeneric(ref Utf8JsonReader reader, Type elementType, Type targetType)
    {
       // Original implementation for uncommon types
-      List<object?> itemsList = new List<object?>(capacity: 16);
+      List<object?> itemsList = [.. new List<object?>(capacity: 16)];
 
       while(reader.Read() && reader.TokenType != JsonTokenType.EndArray)
       {
@@ -296,9 +277,7 @@ internal sealed class Utf8DirectDeserializer<T> where T : notnull
       // Get or create constructor
       if(!_constructorCache.TryGetValue(targetType, out var ctor))
       {
-         ctor = targetType.GetConstructor(Type.EmptyTypes);
-         if(ctor == null)
-            throw new InvalidOperationException($"Type {targetType} must have a parameterless constructor");
+         ctor = targetType.GetConstructor(Type.EmptyTypes) ?? throw new InvalidOperationException($"Type {targetType} must have a parameterless constructor");
          _constructorCache[targetType] = ctor;
       }
 

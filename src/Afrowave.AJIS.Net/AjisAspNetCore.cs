@@ -1,8 +1,11 @@
 #nullable enable
 
+using Afrowave.AJIS.Core.Configuration;
 using Afrowave.AJIS.Serialization.Mapping;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 using System.Text.Json;
 
 namespace Afrowave.AJIS.Net;
@@ -99,7 +102,8 @@ public class AjisOutputFormatter : Microsoft.AspNetCore.Mvc.Formatters.TextOutpu
         catch(Exception ex)
         {
             // Fallback to JSON
-            await httpContext.Response.WriteAsJsonAsync(context.Object);
+            var json = System.Text.Json.JsonSerializer.Serialize(context.Object);
+            await httpContext.Response.WriteAsync(json, encoding);
         }
     }
 }
@@ -129,13 +133,9 @@ public static class AjisAspNetCoreExtensions
     /// Registers an AJIS converter for dependency injection.
     /// </summary>
     public static IServiceCollection AddAjisConverter<T>(
-        this IServiceCollection services, AjisSettings? settings = null) where T : notnull
+        this IServiceCollection services)
     {
-        if(settings != null)
-            services.AddSingleton(new AjisConverter<T>(settings));
-        else
-            services.AddSingleton<AjisConverter<T>>();
-
+        services.AddSingleton<AjisConverter<T>>();
         return services;
     }
 }

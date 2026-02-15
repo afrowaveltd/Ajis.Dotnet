@@ -117,23 +117,22 @@ public class AjisHttpClient : IDisposable
         response.EnsureSuccessStatusCode();
 
         using var stream = await response.Content.ReadAsStreamAsync();
-        using var reader = new System.Text.Json.Utf8JsonReader(stream);
-
+        using var reader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
+        var json = await reader.ReadToEndAsync();
+        
         var converter = _converterFactory.GetConverter<T>();
-
-        // Assume response is an array
-        if(!reader.Read() || reader.TokenType != System.Text.Json.JsonTokenType.StartArray)
-            yield break;
-
-        while(reader.Read() && reader.TokenType != System.Text.Json.JsonTokenType.EndArray)
+        var items = converter.Deserialize(json);
+        
+        if(items is IEnumerable<T> enumerable)
         {
-            if(reader.TokenType == System.Text.Json.JsonTokenType.StartObject)
+            foreach(var item in enumerable)
             {
-                // Deserialize object from current position
-                var obj = converter.DeserializeFromUtf8(reader.ValueSpan);
-                if(obj != null)
-                    yield return obj;
+                yield return item;
             }
+        }
+        else if(items != null)
+        {
+            yield return (T)items;
         }
     }
 

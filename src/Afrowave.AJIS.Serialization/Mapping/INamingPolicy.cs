@@ -16,18 +16,18 @@ namespace Afrowave.AJIS.Serialization.Mapping;
 /// </remarks>
 public interface INamingPolicy
 {
-    /// <summary>
-    /// Converts a .NET property name to an AJIS key name.
-    /// </summary>
-    /// <param name="propertyName">The .NET property name (typically PascalCase).</param>
-    /// <returns>The converted AJIS key name according to this policy.</returns>
-    /// <remarks>
-    /// Examples:
-    /// - PascalCase policy: "FirstName" → "FirstName"
-    /// - CamelCase policy: "FirstName" → "firstName"
-    /// - snake_case policy: "FirstName" → "first_name"
-    /// </remarks>
-    string ConvertName(string propertyName);
+   /// <summary>
+   /// Converts a .NET property name to an AJIS key name.
+   /// </summary>
+   /// <param name="propertyName">The .NET property name (typically PascalCase).</param>
+   /// <returns>The converted AJIS key name according to this policy.</returns>
+   /// <remarks>
+   /// Examples:
+   /// - PascalCase policy: "FirstName" → "FirstName"
+   /// - CamelCase policy: "FirstName" → "firstName"
+   /// - snake_case policy: "FirstName" → "first_name"
+   /// </remarks>
+   string ConvertName(string propertyName);
 }
 
 /// <summary>
@@ -38,22 +38,22 @@ public interface INamingPolicy
 /// </remarks>
 public sealed class PascalCaseNamingPolicy : INamingPolicy
 {
-    /// <summary>
-    /// Gets the singleton instance of the PascalCase naming policy.
-    /// </summary>
-    public static readonly PascalCaseNamingPolicy Instance = new();
+   /// <summary>
+   /// Gets the singleton instance of the PascalCase naming policy.
+   /// </summary>
+   public static readonly PascalCaseNamingPolicy Instance = new();
 
-    /// <summary>
-    /// Returns the property name unchanged (identity policy).
-    /// </summary>
-    /// <param name="propertyName">The property name to convert.</param>
-    /// <returns>The same property name unchanged.</returns>
-    public string ConvertName(string propertyName) => propertyName;
+   /// <summary>
+   /// Returns the property name unchanged (identity policy).
+   /// </summary>
+   /// <param name="propertyName">The property name to convert.</param>
+   /// <returns>The same property name unchanged.</returns>
+   public string ConvertName(string propertyName) => propertyName;
 
-    /// <summary>
-    /// Returns a user-friendly name for this policy.
-    /// </summary>
-    public override string ToString() => "PascalCase";
+   /// <summary>
+   /// Returns a user-friendly name for this policy.
+   /// </summary>
+   public override string ToString() => "PascalCase";
 }
 
 /// <summary>
@@ -73,31 +73,31 @@ public sealed class PascalCaseNamingPolicy : INamingPolicy
 /// </remarks>
 public sealed class CamelCaseNamingPolicy : INamingPolicy
 {
-    /// <summary>
-    /// Gets the singleton instance of the CamelCase naming policy.
-    /// </summary>
-    public static readonly CamelCaseNamingPolicy Instance = new();
+   /// <summary>
+   /// Gets the singleton instance of the CamelCase naming policy.
+   /// </summary>
+   public static readonly CamelCaseNamingPolicy Instance = new();
 
-    /// <summary>
-    /// Converts a property name from PascalCase to camelCase.
-    /// </summary>
-    /// <param name="propertyName">The property name to convert.</param>
-    /// <returns>The name with the first letter converted to lowercase.</returns>
-    public string ConvertName(string propertyName)
-    {
-        if (string.IsNullOrEmpty(propertyName))
-            return propertyName;
+   /// <summary>
+   /// Converts a property name from PascalCase to camelCase.
+   /// </summary>
+   /// <param name="propertyName">The property name to convert.</param>
+   /// <returns>The name with the first letter converted to lowercase.</returns>
+   public string ConvertName(string propertyName)
+   {
+      if(string.IsNullOrEmpty(propertyName))
+         return propertyName;
 
-        if (propertyName.Length == 1)
-            return char.ToLowerInvariant(propertyName[0]).ToString();
+      if(propertyName.Length == 1)
+         return char.ToLowerInvariant(propertyName[0]).ToString();
 
-        return char.ToLowerInvariant(propertyName[0]) + propertyName.Substring(1);
-    }
+      return char.ToLowerInvariant(propertyName[0]) + propertyName[1..];
+   }
 
-    /// <summary>
-    /// Returns a user-friendly name for this policy.
-    /// </summary>
-    public override string ToString() => "camelCase";
+   /// <summary>
+   /// Returns a user-friendly name for this policy.
+   /// </summary>
+   public override string ToString() => "camelCase";
 }
 
 /// <summary>
@@ -117,46 +117,46 @@ public sealed class CamelCaseNamingPolicy : INamingPolicy
 /// </remarks>
 public sealed class SnakeCaseNamingPolicy : INamingPolicy
 {
-    /// <summary>
-    /// Gets the singleton instance of the snake_case naming policy.
-    /// </summary>
-    public static readonly SnakeCaseNamingPolicy Instance = new();
+   /// <summary>
+   /// Gets the singleton instance of the snake_case naming policy.
+   /// </summary>
+   public static readonly SnakeCaseNamingPolicy Instance = new();
 
-    /// <summary>
-    /// Converts a property name from PascalCase to snake_case.
-    /// </summary>
-    /// <param name="propertyName">The property name to convert.</param>
-    /// <returns>The name converted to snake_case with underscores and lowercase letters.</returns>
-    public string ConvertName(string propertyName)
-    {
-        if (string.IsNullOrEmpty(propertyName))
-            return propertyName;
+   /// <summary>
+   /// Converts a property name from PascalCase to snake_case.
+   /// </summary>
+   /// <param name="propertyName">The property name to convert.</param>
+   /// <returns>The name converted to snake_case with underscores and lowercase letters.</returns>
+   public string ConvertName(string propertyName)
+   {
+      if(string.IsNullOrEmpty(propertyName))
+         return propertyName;
 
-        var result = new System.Text.StringBuilder();
+      var result = new System.Text.StringBuilder();
 
-        for (int i = 0; i < propertyName.Length; i++)
-        {
-            char c = propertyName[i];
+      for(int i = 0; i < propertyName.Length; i++)
+      {
+         char c = propertyName[i];
 
-            if (char.IsUpper(c))
-            {
-                if (i > 0)
-                    result.Append('_');
-                result.Append(char.ToLowerInvariant(c));
-            }
-            else
-            {
-                result.Append(c);
-            }
-        }
+         if(char.IsUpper(c))
+         {
+            if(i > 0)
+               result.Append('_');
+            result.Append(char.ToLowerInvariant(c));
+         }
+         else
+         {
+            result.Append(c);
+         }
+      }
 
-        return result.ToString();
-    }
+      return result.ToString();
+   }
 
-    /// <summary>
-    /// Returns a user-friendly name for this policy.
-    /// </summary>
-    public override string ToString() => "snake_case";
+   /// <summary>
+   /// Returns a user-friendly name for this policy.
+   /// </summary>
+   public override string ToString() => "snake_case";
 }
 
 /// <summary>
@@ -176,44 +176,44 @@ public sealed class SnakeCaseNamingPolicy : INamingPolicy
 /// </remarks>
 public sealed class KebabCaseNamingPolicy : INamingPolicy
 {
-    /// <summary>
-    /// Gets the singleton instance of the kebab-case naming policy.
-    /// </summary>
-    public static readonly KebabCaseNamingPolicy Instance = new();
+   /// <summary>
+   /// Gets the singleton instance of the kebab-case naming policy.
+   /// </summary>
+   public static readonly KebabCaseNamingPolicy Instance = new();
 
-    /// <summary>
-    /// Converts a property name from PascalCase to kebab-case.
-    /// </summary>
-    /// <param name="propertyName">The property name to convert.</param>
-    /// <returns>The name converted to kebab-case with hyphens and lowercase letters.</returns>
-    public string ConvertName(string propertyName)
-    {
-        if (string.IsNullOrEmpty(propertyName))
-            return propertyName;
+   /// <summary>
+   /// Converts a property name from PascalCase to kebab-case.
+   /// </summary>
+   /// <param name="propertyName">The property name to convert.</param>
+   /// <returns>The name converted to kebab-case with hyphens and lowercase letters.</returns>
+   public string ConvertName(string propertyName)
+   {
+      if(string.IsNullOrEmpty(propertyName))
+         return propertyName;
 
-        var result = new System.Text.StringBuilder();
+      var result = new System.Text.StringBuilder();
 
-        for (int i = 0; i < propertyName.Length; i++)
-        {
-            char c = propertyName[i];
+      for(int i = 0; i < propertyName.Length; i++)
+      {
+         char c = propertyName[i];
 
-            if (char.IsUpper(c))
-            {
-                if (i > 0)
-                    result.Append('-');
-                result.Append(char.ToLowerInvariant(c));
-            }
-            else
-            {
-                result.Append(c);
-            }
-        }
+         if(char.IsUpper(c))
+         {
+            if(i > 0)
+               result.Append('-');
+            result.Append(char.ToLowerInvariant(c));
+         }
+         else
+         {
+            result.Append(c);
+         }
+      }
 
-        return result.ToString();
-    }
+      return result.ToString();
+   }
 
-    /// <summary>
-    /// Returns a user-friendly name for this policy.
-    /// </summary>
-    public override string ToString() => "kebab-case";
+   /// <summary>
+   /// Returns a user-friendly name for this policy.
+   /// </summary>
+   public override string ToString() => "kebab-case";
 }

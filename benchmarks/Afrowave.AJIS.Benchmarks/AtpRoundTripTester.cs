@@ -36,7 +36,7 @@ public sealed class AtpRoundTripTester
       Console.WriteLine("\n📝 STEP 1: CONVERT JSON → ATP");
       Console.WriteLine("═════════════════════════════════════════════════════════════════════════════");
 
-      JsonToAjisConverter converter = new JsonToAjisConverter();
+      JsonToAjisConverter converter = new();
       var conversionResult = converter.ConvertJsonToAjis(countries4Path, detectBinary: true);
 
       if(!conversionResult.Success)
@@ -128,13 +128,13 @@ public sealed class AtpRoundTripTester
          using(SHA256 sha256 = System.Security.Cryptography.SHA256.Create())
          {
             byte[] hash = sha256.ComputeHash(attachment.Data);
-            string computed = BitConverter.ToString(hash).Replace("-", "").ToLower();
+            string computed = Convert.ToHexStringLower(hash);
 
             string storedChecksum = attachment.Checksum?.ToLower() ?? "";
             bool isValid = computed == storedChecksum;
 
             string status = isValid ? "✅ VALID" : "❌ FAILED";
-            string hashDisplay = computed.Substring(0, Math.Min(16, computed.Length));
+            string hashDisplay = computed[..Math.Min(16, computed.Length)];
 
             Console.WriteLine(
                 $"{index,-5} {attachment.FileName,-30} {status,-20} {hashDisplay,-20}");
@@ -194,7 +194,7 @@ public sealed class AtpRoundTripTester
        string atpPath,
        JsonElement atpRoot)
    {
-      List<BinaryAttachment> attachments = new List<BinaryAttachment>();
+      List<BinaryAttachment> attachments = [];
 
       if(atpRoot.TryGetProperty("attachments", out var attachmentsArray))
       {
@@ -218,7 +218,7 @@ public sealed class AtpRoundTripTester
    {
       try
       {
-         BinaryAttachment attachment = new BinaryAttachment();
+         BinaryAttachment attachment = new();
 
          if(element.TryGetProperty("attachmentId", out var idElem))
             attachment.AttachmentId = Guid.Parse(idElem.GetString() ?? "");
@@ -252,14 +252,14 @@ public sealed class AtpRoundTripTester
 
    private string FormatBytes(long bytes)
    {
-      string[] sizes = { "B", "KB", "MB", "GB" };
+      string[] sizes = ["B", "KB", "MB", "GB"];
       double len = bytes;
       int order = 0;
 
       while(len >= 1024 && order < sizes.Length - 1)
       {
          order++;
-         len = len / 1024;
+         len /= 1024;
       }
 
       return $"{len:0.##} {sizes[order]}";
@@ -267,7 +267,7 @@ public sealed class AtpRoundTripTester
 
    private static string FindSolutionRoot()
    {
-      DirectoryInfo? currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
+      DirectoryInfo? currentDirectory = new(Directory.GetCurrentDirectory());
 
       while(currentDirectory != null)
       {
@@ -293,7 +293,7 @@ internal static class AtpRoundTripProgram
    {
       try
       {
-         AtpRoundTripTester tester = new AtpRoundTripTester();
+         AtpRoundTripTester tester = new();
          tester.RunAtpRoundTrip();
       }
       catch(Exception ex)

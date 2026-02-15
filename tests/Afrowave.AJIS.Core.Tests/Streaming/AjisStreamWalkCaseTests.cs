@@ -1,8 +1,7 @@
 #nullable enable
 
-using Afrowave.AJIS.Testing.StreamWalk;
 using Afrowave.AJIS.Streaming.Walk;
-using Xunit;
+using Afrowave.AJIS.Testing.StreamWalk;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
@@ -11,7 +10,9 @@ public sealed class AjisStreamWalkCaseTests
    public static IEnumerable<object[]> Cases => LoadCases();
 
    [Theory]
+#pragma warning disable xUnit1042 // The member referenced by the MemberData attribute returns untyped data rows
    [MemberData(nameof(Cases))]
+#pragma warning restore xUnit1042 // The member referenced by the MemberData attribute returns untyped data rows
    public void RunCase_ProducesExpectedResult(AjisStreamWalkTestCase testCase)
    {
       AjisStreamWalkTestRunResult result = AjisStreamWalkTestRunner.Run(testCase, new AjisStreamWalkRunnerOptions());

@@ -22,7 +22,7 @@ internal static class GlobalPropertyCache
     /// </summary>
     public static PropertyMetadata[] GetProperties(Type type, PropertyMapper mapper)
     {
-        return s_properties.GetOrAdd(type, t => mapper.GetProperties(t).ToArray());
+        return s_properties.GetOrAdd(type, t => [.. mapper.GetProperties(t)]);
     }
 
     /// <summary>

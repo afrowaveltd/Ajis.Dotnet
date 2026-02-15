@@ -1,14 +1,31 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <ItemGroup>
-    <ProjectReference Include="..\Afrowave.AJIS.Core\Afrowave.AJIS.Core.csproj" />
-  </ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Afrowave.AJIS.Streaming</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Ajis</Authors>
+    <Description>Streaming library for Ajis framework</Description>
+
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ajis/dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ajis/dotnet</RepositoryUrl>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Afrowave.AJIS.Core\Afrowave.AJIS.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>

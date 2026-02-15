@@ -36,10 +36,7 @@ public static class AjisFile
    /// </summary>
    public static void SetConverterFactory<T>(Func<AjisConverter<T>> factory) where T : notnull
    {
-      if(factory == null)
-         throw new ArgumentNullException(nameof(factory));
-
-      _converterFactories[typeof(T)] = factory;
+      _converterFactories[typeof(T)] = factory ?? throw new ArgumentNullException(nameof(factory));
    }
 
    /// <summary>
@@ -146,13 +143,13 @@ public static class AjisFile
       if(!File.Exists(filePath))
       {
          // Create new file with single item
-         Create(filePath, new[] { item });
+         Create(filePath, [item]);
          return;
       }
 
       // Read existing content, append, and write back
       string content = File.ReadAllText(filePath);
-      if(!content.TrimEnd().EndsWith("]"))
+      if(!content.TrimEnd().EndsWith(']'))
          throw new FormatException($"Invalid AJIS array format in {filePath}");
 
       string serialized = SerializeObject(converter, item);
@@ -181,7 +178,7 @@ public static class AjisFile
       }
 
       string content = await File.ReadAllTextAsync(filePath);
-      if(!content.TrimEnd().EndsWith("]"))
+      if(!content.TrimEnd().EndsWith(']'))
          throw new FormatException($"Invalid AJIS array format in {filePath}");
 
       string serialized = SerializeObject(converter, item);
@@ -215,7 +212,7 @@ public static class AjisFile
 
       // Read existing content
       string content = File.ReadAllText(filePath);
-      if(!content.TrimEnd().EndsWith("]"))
+      if(!content.TrimEnd().EndsWith(']'))
          throw new FormatException($"Invalid AJIS array format in {filePath}");
 
       // Serialize all new items
@@ -250,7 +247,7 @@ public static class AjisFile
       }
 
       string content = await File.ReadAllTextAsync(filePath);
-      if(!content.TrimEnd().EndsWith("]"))
+      if(!content.TrimEnd().EndsWith(']'))
          throw new FormatException($"Invalid AJIS array format in {filePath}");
 
       var serializedItems = itemsList.Select(item => SerializeObject(converter, item));
@@ -343,7 +340,7 @@ public static class AjisFile
       // Simple implementation: split by }, { and deserialize each
       // TODO: Better implementation using streaming parser
       content = content.Trim();
-      if(!content.StartsWith("[") || !content.EndsWith("]"))
+      if(!content.StartsWith('[') || !content.EndsWith(']'))
          throw new FormatException("AJIS file must contain an array");
 
       // Remove brackets
@@ -381,7 +378,7 @@ public static class AjisFile
       string content = await File.ReadAllTextAsync(filePath);
 
       content = content.Trim();
-      if(!content.StartsWith("[") || !content.EndsWith("]"))
+      if(!content.StartsWith('[') || !content.EndsWith(']'))
          throw new FormatException("AJIS file must contain an array");
 
       content = content[1..^1].Trim();
@@ -449,7 +446,7 @@ public static class AjisFile
    {
       var items = ReadAll<T>(filePath);
       var item = items.FirstOrDefault(x => GetPropertyValue(x, keyProperty)?.Equals(keyValue) == true);
-      
+
       if(item != null)
       {
          updateAction(item);

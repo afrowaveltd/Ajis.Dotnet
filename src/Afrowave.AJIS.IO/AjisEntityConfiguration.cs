@@ -24,12 +24,12 @@ public class AjisEntityConfiguration<T> where T : class
     /// <summary>
     /// Properties that are required.
     /// </summary>
-    protected readonly HashSet<string> _requiredProperties = new();
+    protected readonly HashSet<string> _requiredProperties = [];
 
     /// <summary>
     /// Binary attachment properties.
     /// </summary>
-    protected readonly Dictionary<string, BinaryAttachmentConfiguration> _binaryAttachments = new();
+    protected readonly Dictionary<string, BinaryAttachmentConfiguration> _binaryAttachments =   [];
 
     /// <summary>
     /// Gets the primary key property name.

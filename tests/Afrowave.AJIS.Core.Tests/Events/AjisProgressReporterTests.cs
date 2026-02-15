@@ -11,8 +11,10 @@ public sealed class AjisProgressReporterTests
    public async Task ReportAsync_ClampsPercent_AndEmitsOncePerValue()
    {
       var sink = Substitute.For<CoreEvents.IAjisEventSink>();
+#pragma warning disable CA2012 // Správně použít hodnot ValueTask
       _ = sink.EmitAsync(Arg.Any<CoreEvents.AjisEvent>(), Arg.Any<CancellationToken>())
          .Returns(ValueTask.CompletedTask);
+#pragma warning restore CA2012 // Správně použít hodnot ValueTask
 
       var reporter = new CoreEvents.AjisProgressReporter(sink, "op");
 
