@@ -13,7 +13,9 @@ namespace Afrowave.AJIS.IO;
 public class AjisSet<T> : IAjisDataSource<T> where T : class
 {
     private readonly IAjisDataSource<T> _dataSource;
+    #pragma warning disable CS0414 // Field is assigned but its value is never used
     private bool _isDisposed;
+    #pragma warning restore CS0414
 
     /// <summary>
     /// Gets the file path of the data source.

@@ -101,7 +101,7 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
 
                 using var stream = new FileStream(_filePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 using var writer = new StreamWriter(stream, System.Text.Encoding.UTF8);
-                var json = _converter.Serialize(_cachedData);
+                var json = _converter.Serialize(_cachedData!);
                 writer.Write(json);
             }
         });

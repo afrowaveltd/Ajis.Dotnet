@@ -18,8 +18,12 @@ public sealed class AjisIndex<T> : IDisposable where T : class
     private readonly ConcurrentDictionary<object, T?> _index = new();
     private readonly object _loadLock = new();
     private bool _isBuilt;
+    #pragma warning disable CS0414 // Field is assigned but its value is never used
     private bool _isDisposed;
+    #pragma warning restore CS0414
+    #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
     private List<T>? _allItems;
+    #pragma warning restore CS0649
 
     /// <summary>
     /// Gets the file path of the indexed data source.

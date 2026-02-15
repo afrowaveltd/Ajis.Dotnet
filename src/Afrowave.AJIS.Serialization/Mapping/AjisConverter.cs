@@ -361,7 +361,7 @@ public class AjisConverter<T>(INamingPolicy namingPolicy) where T : notnull
          pairs.Add(new KeyValuePair<string, AjisValue>(metadata.AjisKey, ajisValue));
       }
 
-      return AjisValue.Object(pairs.ToArray());
+      return AjisValue.Object([.. pairs]);
    }
 
    /// <summary>

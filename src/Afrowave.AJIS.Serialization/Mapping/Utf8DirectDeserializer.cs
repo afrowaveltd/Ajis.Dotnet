@@ -231,19 +231,20 @@ internal sealed class Utf8DirectDeserializer<T> where T : notnull
       return ReadArrayGeneric(ref reader, elementType, targetType);
    }
 
-   [MethodImpl(MethodImplOptions.AggressiveInlining)]
-   private T[] ReadArrayTyped<T>(ref Utf8JsonReader reader)
-   {
-      List<T> list = new List<T>(capacity: 16);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private TElement[] ReadArrayTyped<TElement>(ref Utf8JsonReader reader)
+        where TElement : notnull
+    {
+        List<TElement> list = new List<TElement>(capacity: 16);
 
-      while(reader.Read() && reader.TokenType != JsonTokenType.EndArray)
-      {
-         var item = ReadValue(ref reader, typeof(T));
-         list.Add((T)item!);
-      }
+        while(reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+        {
+            var item = ReadValue(ref reader, typeof(TElement));
+            list.Add((TElement?)item!);
+        }
 
-      return list.ToArray();
-   }
+        return list.ToArray();
+    }
 
    private object? ReadArrayGeneric(ref Utf8JsonReader reader, Type elementType, Type targetType)
    {

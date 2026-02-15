@@ -1,0 +1,32 @@
+  Zjišťují se projekty, které se mají obnovit...
+  Všechny projekty jsou v aktuálním stavu pro obnovení.
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.IO\Afrowave.AJIS.IO.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\Afrowave.AJIS.MongoDB\Afrowave.AJIS.MongoDB.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\Afrowave.AJIS.Streaming.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\Afrowave.AJIS.EntityFramework\Afrowave.AJIS.EntityFramework.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\Afrowave.AJIS.Benchmarks.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Core\Afrowave.AJIS.Core.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\Afrowave.AJIS.Serialization.Tests.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\Afrowave.AJIS.Serialization.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.IO.Tests\Afrowave.AJIS.IO.Tests.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\Afrowave.AJIS.Testing.csproj]
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\Afrowave.AJIS.Core.Tests.csproj]
+  Afrowave.AJIS.Core -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Core\bin\Debug\net10.0\Afrowave.AJIS.Core.dll
+C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(383,5): message NETSDK1057: Používáte verzi Preview rozhraní .NET. Viz: https://aka.ms/dotnet-support-policy [E:\C#\Ajis.Dotnet\tests\AjisCountriesTest\AjisCountriesTest.csproj]
+  Afrowave.AJIS.Streaming -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Streaming\bin\Debug\net10.0\Afrowave.AJIS.Streaming.dll
+  Afrowave.AJIS.Serialization -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.Serialization\bin\Debug\net10.0\Afrowave.AJIS.Serialization.dll
+  Afrowave.AJIS.Testing -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Testing\bin\Debug\net10.0\Afrowave.AJIS.Testing.dll
+  Afrowave.AJIS.MongoDB -> E:\C#\Ajis.Dotnet\Afrowave.AJIS.MongoDB\bin\Debug\net10.0\Afrowave.AJIS.MongoDB.dll
+  Afrowave.AJIS.IO -> E:\C#\Ajis.Dotnet\src\Afrowave.AJIS.IO\bin\Debug\net10.0\Afrowave.AJIS.IO.dll
+  Afrowave.AJIS.EntityFramework -> E:\C#\Ajis.Dotnet\Afrowave.AJIS.EntityFramework\bin\Debug\net10.0\Afrowave.AJIS.EntityFramework.dll
+  Afrowave.AJIS.Core.Tests -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Core.Tests\bin\Debug\net10.0\Afrowave.AJIS.Core.Tests.dll
+  Afrowave.AJIS.Serialization.Tests -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.Serialization.Tests\bin\Debug\net10.0\Afrowave.AJIS.Serialization.Tests.dll
+  Afrowave.AJIS.IO.Tests -> E:\C#\Ajis.Dotnet\tests\Afrowave.AJIS.IO.Tests\bin\Debug\net10.0\Afrowave.AJIS.IO.Tests.dll
+  Afrowave.AJIS.Benchmarks -> E:\C#\Ajis.Dotnet\benchmarks\Afrowave.AJIS.Benchmarks\bin\Debug\net10.0\Afrowave.AJIS.Benchmarks.dll
+  AjisCountriesTest -> E:\C#\Ajis.Dotnet\tests\AjisCountriesTest\bin\Debug\net10.0\AjisCountriesTest.dll
+
+Vytváření sestavení bylo úspěšně dokončeno.
+    0 upozornění
+    Počet chyb: 0
+
+Uplynulý čas 00:00:01.45
