@@ -166,7 +166,7 @@ public class StressTestUser
     public bool Active { get; set; }
     public int Score { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string[] Tags { get; set; } = Array.Empty<string>();
+    public string[] Tags { get; set; } = [];
     public StressTestAddress? Address { get; set; }
     public Dictionary<string, object> Metadata { get; set; } = new();
 }

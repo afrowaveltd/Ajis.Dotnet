@@ -69,7 +69,7 @@ public sealed class JsonToAtpConversionRunner
                         Path.GetFileNameWithoutExtension(jsonFile) + ".atp");
 
                     Directory.CreateDirectory(Path.GetDirectoryName(atpOutputPath)!);
-                    converter.SaveAsAtp(result, atpOutputPath);
+               JsonToAjisConverter.SaveAsAtp(result, atpOutputPath);
 
                     Console.WriteLine($"\n   💾 ATP File: {Path.GetFileName(atpOutputPath)}");
                     Console.WriteLine($"      Size: {FormatBytes(new FileInfo(atpOutputPath).Length)}");

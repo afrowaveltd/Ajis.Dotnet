@@ -90,7 +90,7 @@ public class TestObject
     public int Value { get; set; }
     public double Score { get; set; }
     public bool Active { get; set; }
-    public string[] Tags { get; set; } = Array.Empty<string>();
+    public string[] Tags { get; set; } = [];
     public List<TestItem> Items { get; set; } = new();
 }
 

@@ -14,49 +14,49 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        if (args.Length == 0 || args[0].ToLower() == "baseline")
+        if (args.Length == 0 || args[0].Equals("baseline", StringComparison.CurrentCultureIgnoreCase))
         {
             RunBaselineBenchmark();
         }
-        else if (args[0].ToLower() == "stress")
+        else if (args[0].Equals("stress", StringComparison.CurrentCultureIgnoreCase))
         {
             RunStressTesting();
         }
-        else if (args[0].ToLower() == "legacy")
+        else if (args[0].Equals("legacy", StringComparison.CurrentCultureIgnoreCase))
         {
             RunLegacyMigration();
         }
-        else if (args[0].ToLower() == "images")
+        else if (args[0].Equals("images", StringComparison.CurrentCultureIgnoreCase))
         {
             RunImageReconstruction();
         }
-        else if (args[0].ToLower() == "convert")
+         else if(args[0].Equals("convert", StringComparison.CurrentCultureIgnoreCase))
         {
             RunJsonToAtpConversion();
         }
-        else if (args[0].ToLower() == "perf")
+        else if (args[0].Equals("perf", StringComparison.CurrentCultureIgnoreCase))
         {
             SimplePerfTest.Run();
         }
-        else if (args[0].ToLower() == "roundtrip")
+        else if (args[0].Equals("roundtrip", StringComparison.CurrentCultureIgnoreCase))
         {
             RoundTripStressTest.Run();
         }
-        else if (args[0].ToLower() == "parsers")
+        else if (args[0].Equals("parsers", StringComparison.CurrentCultureIgnoreCase))
         {
             RunParserComparison();
         }
-        else if (args[0].ToLower() == "best")
+        else if (args[0].Equals("best", StringComparison.CurrentCultureIgnoreCase))
         {
             RunBestOfBreed();
         }
-        else if (args[0].ToLower() == "both")
+        else if (args[0].Equals("both", StringComparison.CurrentCultureIgnoreCase))
         {
             RunBaselineBenchmark();
             Console.WriteLine("\n\n");
             RunStressTesting();
         }
-        else if (args[0].ToLower() == "all")
+         else if(args[0].Equals("all", StringComparison.CurrentCultureIgnoreCase))
         {
             // Run ALL benchmarks one by one
             Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
@@ -137,7 +137,7 @@ public static class Program
         Console.WriteLine("════════════════════════════════════════════════════════");
         Console.WriteLine("            BASELINE BENCHMARK");
         Console.WriteLine("════════════════════════════════════════════════════════");
-        BaselineProgram.RunBaseline(Array.Empty<string>());
+        BaselineProgram.RunBaseline([]);
     }
 
     private static void RunStressTesting()
@@ -145,7 +145,7 @@ public static class Program
         Console.WriteLine("════════════════════════════════════════════════════════");
         Console.WriteLine("            STRESS TESTING");
         Console.WriteLine("════════════════════════════════════════════════════════");
-        StressTestProgram.RunStressTest(Array.Empty<string>());
+        StressTestProgram.RunStressTest([]);
     }
 
     private static void RunLegacyMigration()
@@ -153,7 +153,7 @@ public static class Program
         Console.WriteLine("════════════════════════════════════════════════════════");
         Console.WriteLine("            LEGACY JSON → AJIS MIGRATION");
         Console.WriteLine("════════════════════════════════════════════════════════");
-        LegacyMigrationProgram.RunMigration(Array.Empty<string>());
+        LegacyMigrationProgram.RunMigration([]);
     }
 
     private static void RunImageReconstruction()
@@ -182,7 +182,7 @@ public static class Program
         Console.WriteLine("════════════════════════════════════════════════════════");
         Console.WriteLine("          JSON → AJIS → .ATP CONVERSION");
         Console.WriteLine("════════════════════════════════════════════════════════");
-        JsonToAtpConversionProgram.RunJsonToAtp(Array.Empty<string>());
+        JsonToAtpConversionProgram.RunJsonToAtp([]);
     }
 
     private static void RunPerformanceTests()

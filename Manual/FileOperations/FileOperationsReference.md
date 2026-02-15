@@ -16,8 +16,11 @@ AjisFile.Create("data.ajis", items);
 var all = AjisFile.ReadAll<Item>("data.ajis");
 var one = AjisFile.FindByKey<Item>("data.ajis", "Id", 123);
 
-// UPDATE
-AjisFile.Update("data.ajis", "Id", 123, updatedItem);
+// UPDATE (by key)
+AjisFile.UpdateByKey("data.ajis", "Id", 123, user => {
+    user.Name = "Updated Name";
+    user.Email = "updated@example.com";
+});
 
 // DELETE
 AjisFile.DeleteByKey<Item>("data.ajis", "Id", 123);
@@ -131,14 +134,14 @@ foreach (var user in activeUsers)
 }
 ```
 
-### First or Default
+### Find First or Default
 
 ```csharp
 // Find first matching record
-var admin = AjisFile.FirstOrDefault<User>(
+var admin = AjisFile.FindByPredicate<User>(
     "users.ajis",
     u => u.Role == "Admin"
-);
+).FirstOrDefault();
 
 if (admin != null)
 {
@@ -151,35 +154,54 @@ if (admin != null)
 ### Update by Key
 
 ```csharp
-// Find and update
+// Find and update using delegate
 var user = AjisFile.FindByKey<User>("users.ajis", "Id", 1);
 if (user != null)
 {
     user.Name = "Alice Smith";
     user.Email = "alice.smith@example.com";
     
-    AjisFile.Update("users.ajis", "Id", 1, user);
+    AjisFile.UpdateByKey("users.ajis", "Id", 1, updated => {
+        updated.Name = user.Name;
+        updated.Email = user.Email;
+    });
 }
 ```
 
-### Update Multiple
+### Update Multiple Records
 
 ```csharp
-// Update all matching records
-AjisFile.UpdateWhere<User>(
-    "users.ajis",
-    u => u.IsActive == false,  // Where clause
-    u => { u.IsActive = true; return u; }  // Update action
-);
+// Read all, modify, and write back
+var users = AjisFile.ReadAll<User>("users.ajis").ToList();
+
+foreach (var user in users)
+{
+    if (!user.IsActive)
+        user.IsActive = true;
+}
+
+AjisFile.Create("users.ajis", users);
 ```
 
 ### Upsert (Insert or Update)
 
 ```csharp
-// Update if exists, insert if not
-var user = new User { Id = 1, Name = "Alice" };
-
-AjisFile.Upsert("users.ajis", "Id", 1, user);
+// Check if exists, then update or create
+var existing = AjisFile.FindByKey<User>("users.ajis", "Id", 1);
+if (existing != null)
+{
+    // Update
+    AjisFile.UpdateByKey("users.ajis", "Id", 1, updated => {
+        updated.Name = "Alice";
+        updated.Email = "alice@example.com";
+    });
+}
+else
+{
+    // Insert
+    var newUser = new User { Id = 1, Name = "Alice" };
+    AjisFile.Append("users.ajis", newUser);
+}
 ```
 
 ## Deleting Records
@@ -194,18 +216,24 @@ AjisFile.DeleteByKey<User>("users.ajis", "Id", 1);
 ### Delete by Predicate
 
 ```csharp
-// Delete all matching
-AjisFile.DeleteWhere<User>(
+// Delete all matching records
+var usersToDelete = AjisFile.FindByPredicate<User>(
     "users.ajis",
     u => u.LastLogin < DateTime.Now.AddDays(-365)
-);
+).ToList();
+
+foreach (var user in usersToDelete)
+{
+    AjisFile.DeleteByKey<User>("users.ajis", "Id", user.Id);
+}
 ```
 
 ### Clear All
 
 ```csharp
 // Delete all records (file remains)
-AjisFile.Clear<User>("users.ajis");
+var allUsers = AjisFile.ReadAll<User>("users.ajis").ToList();
+AjisFile.Create("users.ajis", new List<User>());
 
 // Or delete the file entirely
 File.Delete("users.ajis");

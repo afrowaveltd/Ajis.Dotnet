@@ -19,9 +19,9 @@ public class ExtendedUser
     public string Department { get; set; } = "";
     public string JobTitle { get; set; } = "";
     public DateTime HireDate { get; set; }
-    public string[] Emails { get; set; } = Array.Empty<string>();
-    public Address[] Addresses { get; set; } = Array.Empty<Address>();
-    public string[] PhoneNumbers { get; set; } = Array.Empty<string>();
+    public string[] Emails { get; set; } = [];
+    public Address[] Addresses { get; set; } = [];
+    public string[] PhoneNumbers { get; set; } = [];
     public Dictionary<string, string> Metadata { get; set; } = new();
     public List<Project> Projects { get; set; } = new();
     public Company Company { get; set; } = new();

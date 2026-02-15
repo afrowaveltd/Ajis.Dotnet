@@ -74,7 +74,7 @@ public sealed class AjisLexerParserStreamingAsync
    /// <exception cref="InvalidOperationException">Thrown when nesting depth exceeds maximum.</exception>
    public async IAsyncEnumerable<AjisSegment> ParseAsync([EnumeratorCancellation] CancellationToken ct = default)
    {
-      List<AjisSegment> metaSegments1 = new List<AjisSegment>();
+      List<AjisSegment> metaSegments1 = [];
       EmitMetaTokens(metaSegments1);
       foreach(var segment in metaSegments1)
       {
@@ -86,7 +86,7 @@ public sealed class AjisLexerParserStreamingAsync
          yield return segment;
       }
 
-      List<AjisSegment> metaSegments2 = new List<AjisSegment>();
+      List<AjisSegment> metaSegments2 = [];
       EmitMetaTokens(metaSegments2);
       foreach(var segment in metaSegments2)
       {
@@ -118,7 +118,7 @@ public sealed class AjisLexerParserStreamingAsync
    /// </summary>
    private async IAsyncEnumerable<AjisSegment> ParseValueAsync([EnumeratorCancellation] CancellationToken ct = default)
    {
-      List<AjisSegment> metaSegments = new List<AjisSegment>();
+      List<AjisSegment> metaSegments = [];
       EmitMetaTokens(metaSegments);
       foreach(var segment in metaSegments)
       {
@@ -188,7 +188,7 @@ public sealed class AjisLexerParserStreamingAsync
       {
          ct.ThrowIfCancellationRequested();
 
-         List<AjisSegment> metaSegments = new List<AjisSegment>();
+         List<AjisSegment> metaSegments = [];
          EmitMetaTokens(metaSegments);
          foreach(var segment in metaSegments)
          {
@@ -206,7 +206,7 @@ public sealed class AjisLexerParserStreamingAsync
          Advance();
          _depth++;
 
-         List<AjisSegment> metaSegments2 = new List<AjisSegment>();
+         List<AjisSegment> metaSegments2 = [];
          EmitMetaTokens(metaSegments2);
          foreach(var segment in metaSegments2)
          {
@@ -220,7 +220,7 @@ public sealed class AjisLexerParserStreamingAsync
             yield return segment;
          }
 
-         List<AjisSegment> metaSegments3 = new List<AjisSegment>();
+         List<AjisSegment> metaSegments3 = [];
          EmitMetaTokens(metaSegments3);
          foreach(var segment in metaSegments3)
          {
@@ -230,7 +230,7 @@ public sealed class AjisLexerParserStreamingAsync
          if(_current.Kind == AjisTokenKind.Comma)
          {
             Advance();
-            List<AjisSegment> metaSegments4 = new List<AjisSegment>();
+            List<AjisSegment> metaSegments4 = [];
             EmitMetaTokens(metaSegments4);
             foreach(var segment in metaSegments4)
             {
@@ -285,7 +285,7 @@ public sealed class AjisLexerParserStreamingAsync
       {
          ct.ThrowIfCancellationRequested();
 
-         List<AjisSegment> metaSegments = new List<AjisSegment>();
+         List<AjisSegment> metaSegments = [];
          EmitMetaTokens(metaSegments);
          foreach(var segment in metaSegments)
          {
@@ -297,7 +297,7 @@ public sealed class AjisLexerParserStreamingAsync
             yield return segment;
          }
 
-         List<AjisSegment> metaSegments2 = new List<AjisSegment>();
+         List<AjisSegment> metaSegments2 = [];
          EmitMetaTokens(metaSegments2);
          foreach(var segment in metaSegments2)
          {
@@ -307,7 +307,7 @@ public sealed class AjisLexerParserStreamingAsync
          if(_current.Kind == AjisTokenKind.Comma)
          {
             Advance();
-            List<AjisSegment> metaSegments3 = new List<AjisSegment>();
+            List<AjisSegment> metaSegments3 = [];
             EmitMetaTokens(metaSegments3);
             foreach(var segment in metaSegments3)
             {

@@ -60,4 +60,5 @@
     <Project Path="tests/Afrowave.AJIS.Serialization.Tests/Afrowave.AJIS.Serialization.Tests.csproj" />
     <Project Path="tests/Afrowave.AJIS.Testing/Afrowave.AJIS.Testing.csproj" />
   </Folder>
+  <Project Path="tests/AjisCountriesTest/AjisCountriesTest.csproj" />
 </Solution>

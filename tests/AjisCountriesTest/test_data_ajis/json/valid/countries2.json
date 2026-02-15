@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Austria",
+    "capital": "Vienna",
+    "region": "Europe",
+    "population": 9006000,
+    "area": 83871,
+    "languages": ["German"],
+    "currencies": ["EUR"],
+    "flagEmoji": "🇦🇹"
+  },
+  {
+    "name": "Brazil",
+    "capital": "Brasília",
+    "region": "South America",
+    "population": 214300000,
+    "area": 8515770,
+    "languages": ["Portuguese"],
+    "currencies": ["BRL"],
+    "flagEmoji": "🇧🇷"
+  },
+  {
+    "name": "Canada",
+    "capital": "Ottawa",
+    "region": "North America",
+    "population": 38250000,
+    "area": 9984670,
+    "languages": ["English", "French"],
+    "currencies": ["CAD"],
+    "flagEmoji": "🇨🇦"
+  },
+  {
+    "name": "China",
+    "capital": "Beijing",
+    "region": "Asia",
+    "population": 1412000000,
+    "area": 9706961,
+    "languages": ["Chinese"],
+    "currencies": ["CNY"],
+    "flagEmoji": "🇨🇳"
+  },
+  {
+    "name": "France",
+    "capital": "Paris",
+    "region": "Europe",
+    "population": 67060000,
+    "area": 643801,
+    "languages": ["French"],
+    "currencies": ["EUR"],
+    "flagEmoji": "🇫🇷"
+  }
+]

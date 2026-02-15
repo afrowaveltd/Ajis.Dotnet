@@ -54,7 +54,7 @@ public sealed class AtpRoundTripTester
       // Save ATP file
       string atpPath = Path.Combine(solutionRoot, "test_output", "countries4_roundtrip.atp");
       Directory.CreateDirectory(Path.GetDirectoryName(atpPath)!);
-      converter.SaveAsAtp(conversionResult, atpPath);
+      JsonToAjisConverter.SaveAsAtp(conversionResult, atpPath);
 
       Console.WriteLine($"\n💾 ATP File saved: {Path.GetFileName(atpPath)}");
       Console.WriteLine($"   Size: {FormatBytes(new FileInfo(atpPath).Length)}");

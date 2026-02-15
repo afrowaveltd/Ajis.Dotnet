@@ -369,7 +369,7 @@ Interpretation:
         public string Email { get; set; } = "";
         public bool Active { get; set; }
         public decimal Score { get; set; }
-        public string[] Tags { get; set; } = Array.Empty<string>();
+        public string[] Tags { get; set; } = [];
     }
 
     private class NestedObject

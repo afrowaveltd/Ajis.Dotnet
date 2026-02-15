@@ -48,7 +48,7 @@ internal sealed class TestObjectFastDeserializer
                         obj.Active = reader.GetBoolean();
                         break;
                     case "Tags":
-                        obj.Tags = ReadStringArray(ref reader) ?? Array.Empty<string>();
+                        obj.Tags = ReadStringArray(ref reader) ?? [];
                         break;
                     case "Items":
                         obj.Items = ReadTestItemArray(ref reader) ?? new List<TestItem>();

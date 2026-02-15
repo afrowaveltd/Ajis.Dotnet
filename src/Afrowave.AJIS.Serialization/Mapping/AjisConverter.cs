@@ -22,11 +22,16 @@ namespace Afrowave.AJIS.Serialization.Mapping;
 /// </para>
 /// </remarks>
 /// <typeparam name="T">The target type for conversion.</typeparam>
-public class AjisConverter<T> where T : notnull
+/// <remarks>
+/// Initializes a new instance of the <see cref="AjisConverter{T}"/> class with a specific naming policy.
+/// </remarks>
+/// <param name="namingPolicy">The naming policy to use for property name mapping.</param>
+/// <exception cref="ArgumentNullException">Thrown if namingPolicy is null.</exception>
+public class AjisConverter<T>(INamingPolicy namingPolicy) where T : notnull
 {
-   private readonly INamingPolicy _namingPolicy;
-   private readonly PropertyMapper _propertyMapper;
-   private readonly Dictionary<Type, object> _customConverters = new();
+   private readonly INamingPolicy _namingPolicy = namingPolicy ?? throw new ArgumentNullException(nameof(namingPolicy));
+   private readonly PropertyMapper _propertyMapper = GlobalPropertyMapperFactory.GetOrCreate(namingPolicy);
+   private readonly Dictionary<Type, object> _customConverters = [];
    private const int MaxDepth = 100; // Prevent stack overflow
 
    /// <summary>
@@ -34,20 +39,6 @@ public class AjisConverter<T> where T : notnull
    /// </summary>
    public AjisConverter() : this(CamelCaseNamingPolicy.Instance)
    {
-   }
-
-   /// <summary>
-   /// Initializes a new instance of the <see cref="AjisConverter{T}"/> class with a specific naming policy.
-   /// </summary>
-   /// <param name="namingPolicy">The naming policy to use for property name mapping.</param>
-   /// <exception cref="ArgumentNullException">Thrown if namingPolicy is null.</exception>
-   public AjisConverter(INamingPolicy namingPolicy)
-   {
-      _namingPolicy = namingPolicy ?? throw new ArgumentNullException(nameof(namingPolicy));
-
-      // PHASE 7B: Use global singleton PropertyMapper instead of creating new instance
-      // This shares type metadata cache across all AjisConverter<T> instances
-      _propertyMapper = GlobalPropertyMapperFactory.GetOrCreate(namingPolicy);
    }
 
    /// <summary>
@@ -67,8 +58,7 @@ public class AjisConverter<T> where T : notnull
    /// </remarks>
    public AjisConverter<T> RegisterConverter<TTarget>(ICustomAjisConverter<TTarget> converter) where TTarget : notnull
    {
-      if(converter == null)
-         throw new ArgumentNullException(nameof(converter));
+      ArgumentNullException.ThrowIfNull(converter);
 
       _customConverters[typeof(TTarget)] = converter;
       return this;
@@ -142,8 +132,8 @@ public class AjisConverter<T> where T : notnull
    // Static fields ensure we only create once per <T> type
    private static Utf8DirectSerializer<T>? _cachedSerializer;
    private static Utf8DirectDeserializer<T>? _cachedDeserializer;
-   private static readonly object _serializerLock = new();
-   private static readonly object _deserializerLock = new();
+   private static readonly Lock _serializerLock = new();
+   private static readonly Lock _deserializerLock = new();
 
    private Utf8DirectSerializer<T> GetCachedSerializer()
    {
@@ -178,7 +168,7 @@ public class AjisConverter<T> where T : notnull
    /// <summary>
    /// Recursively writes a segment value to Utf8JsonWriter.
    /// </summary>
-   private void WriteSegmentValue(List<AjisSegment> segments, ref int index, Utf8JsonWriter writer)
+   private static void WriteSegmentValue(List<AjisSegment> segments, ref int index, Utf8JsonWriter writer)
    {
       if(index >= segments.Count)
          return;
@@ -248,7 +238,7 @@ public class AjisConverter<T> where T : notnull
                if(segments[index].Kind == AjisSegmentKind.Value ||
                    segments[index].Kind == AjisSegmentKind.EnterContainer)
                {
-                  WriteSegmentValue(segments, ref index, writer);
+                  AjisConverter<T>.WriteSegmentValue(segments, ref index, writer);
                }
                else
                {
@@ -271,13 +261,15 @@ public class AjisConverter<T> where T : notnull
                if(segments[index].Kind == AjisSegmentKind.PropertyName && segments[index].Slice != null)
                {
                   // Write property name
-                  writer.WritePropertyName(segments[index].Slice.Value.Bytes.Span);
+#pragma warning disable CS8629 // Typ hodnoty, která připouští hodnotu null, nemůže být null.
+                  writer.WritePropertyName(utf8PropertyName: segments[index].Slice.Value.Bytes.Span);
+#pragma warning restore CS8629 // Typ hodnoty, která připouští hodnotu null, nemůže být null.
                   index++; // Move to value
 
                   // Write property value
                   if(index < segments.Count)
                   {
-                     WriteSegmentValue(segments, ref index, writer);
+                     AjisConverter<T>.WriteSegmentValue(segments, ref index, writer);
                   }
                }
                else
@@ -311,7 +303,7 @@ public class AjisConverter<T> where T : notnull
          MethodInfo? method = customConverter.GetType().GetMethod("Serialize", BindingFlags.Public | BindingFlags.Instance);
          if(method != null)
          {
-            var result = method.Invoke(customConverter, new[] { obj });
+            var result = method.Invoke(customConverter, [obj]);
             return (AjisValue)result!;
          }
       }
@@ -344,14 +336,14 @@ public class AjisConverter<T> where T : notnull
       }
 
       // Handle arrays and collections
-      if(obj is IEnumerable enumerable && !(obj is string))
+      if(obj is IEnumerable enumerable && obj is not string)
       {
          var items = new List<AjisValue>();
          foreach(var item in enumerable)
          {
             items.Add(ObjectToAjisValue(item, depth + 1));
          }
-         return AjisValue.Array(items.ToArray());
+         return AjisValue.Array([.. items]);
       }
 
       // Handle objects with property mapping
@@ -375,18 +367,12 @@ public class AjisConverter<T> where T : notnull
    /// <summary>
    /// Context for deserialization operations, tracking path and state.
    /// </summary>
-   private class DeserializationContext
+   private class DeserializationContext(AjisConverter<T> converter, PropertyMapper propertyMapper)
    {
-      private readonly AjisConverter<T> _converter;
-      private readonly PropertyMapper _propertyMapper;
+      private readonly AjisConverter<T> _converter = converter ?? throw new ArgumentNullException(nameof(converter));
+      private readonly PropertyMapper _propertyMapper = propertyMapper ?? throw new ArgumentNullException(nameof(propertyMapper));
 
-      public DeserializationContext(AjisConverter<T> converter, PropertyMapper propertyMapper)
-      {
-         _converter = converter ?? throw new ArgumentNullException(nameof(converter));
-         _propertyMapper = propertyMapper ?? throw new ArgumentNullException(nameof(propertyMapper));
-      }
-
-      public object? DeserializeValue(Type targetType, List<AjisSegment> segments, int index, string path)
+      public static object? DeserializeValue(Type targetType, List<AjisSegment> segments, int index, string path)
       {
          if(index >= segments.Count)
             throw new FormatException($"Path '{path}': Unexpected end of segments.");

@@ -642,8 +642,8 @@ public sealed class AjisLexer(
       if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Json)
          throw new FormatException($"Comments are not allowed at {_reader.Line}:{_reader.Column}.");
 
-      byte slash = _reader.Read();
-      if(_reader.EndOfInput)
+       byte slash = _reader.Read();
+       if(_reader.EndOfInput)
          throw new FormatException($"Invalid comment start at {_reader.Line}:{_reader.Column}.");
 
       byte next = _reader.Peek();

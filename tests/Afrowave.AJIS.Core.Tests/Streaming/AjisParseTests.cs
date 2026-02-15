@@ -799,7 +799,7 @@ public sealed class AjisParseTests
       await using MemoryStream stream = new MemoryStream("[1,2,3]"u8.ToArray());
       List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: TestContext.Current.CancellationToken))
       {
          segmentList.Add(segment);
       }
@@ -819,7 +819,7 @@ public sealed class AjisParseTests
       await using MemoryStream stream = new MemoryStream("{\"x\":{\"y\":1}}"u8.ToArray());
       List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: TestContext.Current.CancellationToken))
       {
          segmentList.Add(segment);
       }
@@ -846,7 +846,7 @@ public sealed class AjisParseTests
       await using MemoryStream stream = new MemoryStream("[[true]]"u8.ToArray());
       List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: TestContext.Current.CancellationToken))
       {
          segmentList.Add(segment);
       }
@@ -870,7 +870,7 @@ public sealed class AjisParseTests
       List<AjisSegment> segmentList = new List<AjisSegment>();
       var ex = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
       {
-         await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, maxDepth: 5))
+         await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, maxDepth: 5, ct: TestContext.Current.CancellationToken))
          {
             segmentList.Add(segment);
          }
@@ -885,7 +885,7 @@ public sealed class AjisParseTests
       await using MemoryStream stream = new MemoryStream("{\"name\":\"John\",\"age\":30}"u8.ToArray());
       List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: TestContext.Current.CancellationToken))
       {
          segmentList.Add(segment);
       }
@@ -918,7 +918,7 @@ public sealed class AjisParseTests
       await using MemoryStream stream = new MemoryStream("[10,20,30]"u8.ToArray());
       List<AjisSegment> segmentList = new List<AjisSegment>();
 
-      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
+      await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: TestContext.Current.CancellationToken))
       {
          segmentList.Add(segment);
       }
@@ -939,7 +939,7 @@ public sealed class AjisParseTests
       await Assert.ThrowsAsync<FormatException>(async () =>
       {
          List<AjisSegment> segmentList = new List<AjisSegment>();
-         await foreach(var segment in AjisLexerParserStream.ParseAsync(stream))
+         await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: TestContext.Current.CancellationToken))
          {
             segmentList.Add(segment);
          }
@@ -961,7 +961,13 @@ public sealed class AjisParseTests
          await foreach(var segment in AjisLexerParserStream.ParseAsync(stream, ct: cts.Token))
          {
             segmentList.Add(segment);
-            await Task.Delay(10); // Give cancellation time to propagate
+            try
+            {
+               await Task.Delay(10, cts.Token);
+            }
+            catch(TaskCanceledException)
+            {
+            }
          }
       });
 

@@ -23,23 +23,19 @@ namespace Afrowave.AJIS.Serialization.Mapping;
 /// regardless of the naming policy in use.
 /// </para>
 /// </remarks>
+/// <remarks>
+/// Initializes a new instance of the <see cref="AjisPropertyNameAttribute"/> class.
+/// </remarks>
+/// <param name="name">The AJIS key name to use for this property.</param>
+/// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-public sealed class AjisPropertyNameAttribute : Attribute
+public sealed class AjisPropertyNameAttribute(string name) : Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AjisPropertyNameAttribute"/> class.
-    /// </summary>
-    /// <param name="name">The AJIS key name to use for this property.</param>
-    /// <exception cref="ArgumentNullException">Thrown if name is null.</exception>
-    public AjisPropertyNameAttribute(string name)
-    {
-        Name = name ?? throw new ArgumentNullException(nameof(name));
-    }
 
-    /// <summary>
-    /// Gets the AJIS key name for this property.
-    /// </summary>
-    public string Name { get; }
+   /// <summary>
+   /// Gets the AJIS key name for this property.
+   /// </summary>
+   public string Name { get; } = name ?? throw new ArgumentNullException(nameof(name));
 }
 
 /// <summary>
@@ -127,22 +123,18 @@ public sealed class AjisRequiredAttribute : Attribute
 /// If `Color` is 255, it will be serialized as "0xFF" instead of "255".
 /// </para>
 /// </remarks>
+/// <remarks>
+/// Initializes a new instance of the <see cref="AjisNumberFormatAttribute"/> class.
+/// </remarks>
+/// <param name="style">The numeric format style.</param>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-public sealed class AjisNumberFormatAttribute : Attribute
+public sealed class AjisNumberFormatAttribute(AjisNumberStyle style) : Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AjisNumberFormatAttribute"/> class.
-    /// </summary>
-    /// <param name="style">The numeric format style.</param>
-    public AjisNumberFormatAttribute(AjisNumberStyle style)
-    {
-        Style = style;
-    }
 
-    /// <summary>
-    /// Gets the numeric format style.
-    /// </summary>
-    public AjisNumberStyle Style { get; }
+   /// <summary>
+   /// Gets the numeric format style.
+   /// </summary>
+   public AjisNumberStyle Style { get; } = style;
 }
 
 /// <summary>
@@ -169,4 +161,37 @@ public enum AjisNumberStyle
     /// Octal format (e.g., 0o377).
     /// </summary>
     Octal = 3
+}
+
+/// <summary>
+/// Marks a property as the primary key for AJIS entity mapping.
+/// </summary>
+/// <remarks>
+/// <para>
+/// This attribute explicitly Designates a property as the primary key when automatic detection fails
+/// or when you want to override the default naming convention (Id, {ClassName}Id).
+/// </para>
+/// <para>
+/// Example:
+/// <code>
+/// public class User
+/// {
+///     [AjisKey]
+///     public Guid UserId { get; set; }
+///     
+///     public string Name { get; set; }
+/// }
+/// </code>
+/// In this case, `UserId` will be used as the primary key instead of relying on automatic detection.
+/// </para>
+/// </remarks>
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+public sealed class AjisKeyAttribute : Attribute
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AjisKeyAttribute"/> class.
+    /// </summary>
+    public AjisKeyAttribute()
+    {
+    }
 }
