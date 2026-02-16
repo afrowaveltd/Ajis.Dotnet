@@ -20,16 +20,15 @@
 
 ### Notes
 - No breaking changes in this release
-</PackageReleaseNotes>
+    </PackageReleaseNotes>
     <Description>MongoDB integration for Ajis framework</Description>
-
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ajis/dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ajis/dotnet</RepositoryUrl>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
- 
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,8 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-
-    <None Include="$(MSBuildProjectDirectory)\README.md" Pack="true" PackagePath="\" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
     <None Include="Assets\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
