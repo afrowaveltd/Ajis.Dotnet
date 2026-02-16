@@ -16,7 +16,7 @@ public sealed class AjisParseLargeDataTests
       try
       {
          byte[] bytes = File.ReadAllBytes(path);
-         var settings = new AjisSettings { ParserProfile = AjisProcessingProfile.Universal };
+         AjisSettings settings = new AjisSettings { ParserProfile = AjisProcessingProfile.Universal };
 
          int count = AjisParse.ParseSegments(bytes, settings).Count();
 
@@ -39,14 +39,14 @@ public sealed class AjisParseLargeDataTests
          string payload = "{\"text\":\"" + new string('a', 1500) + "\\n\"}";
          await File.WriteAllTextAsync(path, payload, TestContext.Current.CancellationToken);
 
-         var settings = new AjisSettings
+         AjisSettings settings = new AjisSettings
          {
             ParserProfile = AjisProcessingProfile.Universal,
             StreamChunkThreshold = "1k"
          };
 
          await using var stream = File.OpenRead(path);
-         var segments = new List<AjisSegment>();
+         List<AjisSegment> segments = new List<AjisSegment>();
 
          await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
             .WithCancellation(TestContext.Current.CancellationToken))
@@ -77,7 +77,7 @@ public sealed class AjisParseLargeDataTests
       string path = CreateTempPayload(userCount: 200, addressesPerUser: 2);
       try
       {
-         var settings = new AjisSettings
+         AjisSettings settings = new AjisSettings
          {
             ParserProfile = AjisProcessingProfile.Universal,
             StreamChunkThreshold = threshold
@@ -103,7 +103,7 @@ public sealed class AjisParseLargeDataTests
       string path = CreateTempPayload(userCount: 200, addressesPerUser: 2);
       try
       {
-         var settings = new AjisSettings
+         AjisSettings settings = new AjisSettings
          {
             ParserProfile = AjisProcessingProfile.Universal,
             StreamChunkThreshold = "bad"
@@ -131,7 +131,7 @@ public sealed class AjisParseLargeDataTests
       string path = CreateTempPayload(userCount: 200, addressesPerUser: 2);
       try
       {
-         var settings = new AjisSettings
+         AjisSettings settings = new AjisSettings
          {
             ParserProfile = AjisProcessingProfile.Universal,
             StreamChunkThreshold = "1k"
@@ -151,21 +151,13 @@ public sealed class AjisParseLargeDataTests
       }
    }
 
-#pragma warning disable xUnit1004 // Test methods should not be skipped
-   [Fact(Skip = ">2GB chunked mapping test requires large fixture")]
-#pragma warning restore xUnit1004 // Test methods should not be skipped
-   public void ParseSegmentsAsync_Over2Gb_NotCovered()
-   {
-      Assert.True(true);
-   }
-
    [Fact]
    public async Task ParseSegmentsAsync_LargePayload_UniversalProfile_FileStream()
    {
       string path = CreateTempPayload(userCount: 200, addressesPerUser: 2);
       try
       {
-         var settings = new AjisSettings { ParserProfile = AjisProcessingProfile.Universal };
+         AjisSettings settings = new AjisSettings { ParserProfile = AjisProcessingProfile.Universal };
          int count = 0;
 
          await using var stream = File.OpenRead(path);
@@ -188,7 +180,7 @@ public sealed class AjisParseLargeDataTests
       try
       {
          byte[] bytes = File.ReadAllBytes(path);
-         var settings = new AjisSettings { ParserProfile = AjisProcessingProfile.HighThroughput };
+         AjisSettings settings = new AjisSettings { ParserProfile = AjisProcessingProfile.HighThroughput };
 
          int count = AjisParse.ParseSegments(bytes, settings).Count();
 
@@ -206,7 +198,7 @@ public sealed class AjisParseLargeDataTests
       string path = CreateTempPayload(userCount: 200, addressesPerUser: 2);
       try
       {
-         var settings = new AjisSettings { ParserProfile = AjisProcessingProfile.LowMemory };
+         AjisSettings settings = new AjisSettings { ParserProfile = AjisProcessingProfile.LowMemory };
          int count = 0;
 
          await using var stream = File.OpenRead(path);
