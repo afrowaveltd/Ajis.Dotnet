@@ -1,0 +1,77 @@
+@page
+@model AjisIdentity.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@inject AjisContext AjisContext
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to AjisIdentity</h1>
+    <p>ASP.NET Core Identity with AJIS Persistence</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <a asp-page="/Account/Register" class="btn btn-primary">Register New User</a>
+                <a asp-page="/Account/Login" class="btn btn-outline-primary">Login</a>
+                <a asp-page="/Account/Manage/Index" class="btn btn-outline-secondary">Manage Profile</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-page="/Admin/Users" class="btn btn-outline-info">Manage Users</a>
+                    <a asp-page="/Admin/Roles" class="btn btn-outline-warning">Manage Roles</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">AJIS Info</h5>
+            </div>
+            <div class="card-body">
+                <p>Total Users: <strong>@Model.TotalUsers</strong></p>
+                <p>Total Roles: <strong>@Model.TotalRoles</strong></p>
+                <p class="text-muted small" title="Users stored in: data\users.json">Users File: <code>data\users.json</code></p>
+                <p class="text-muted small" title="Roles stored in: data\roles.json">Roles File: <code>data\roles.json</code></p>
+                <p class="text-muted small" title="User profiles stored in: data\profiles.json">Profiles File: <code>data\profiles.json</code></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">System Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>Data Files</h6>
+                        <ul>
+                            <li>users.json: @(Model.UsersFileExists ? "✓ Exists" : "✗ Not found")</li>
+                            <li>roles.json: @(Model.RolesFileExists ? "✓ Exists" : "✗ Not found")</li>
+                            <li>profiles.json: @(Model.ProfilesFileExists ? "✓ Exists" : "✗ Not found")</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Storage Location</h6>
+                        <p><code>@Model.DataPath</code></p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>AJIS Version</h6>
+                        <p>Core v@Model.AjisCoreVersion</p>
+                        <p>IO v@Model.AjisIoVersion</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

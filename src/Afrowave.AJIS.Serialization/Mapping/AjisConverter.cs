@@ -1,5 +1,6 @@
 #nullable enable
 
+using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Streaming.Segments;
 using System.Buffers;
 using System.Collections;
@@ -417,10 +418,119 @@ public interface ICustomAjisConverter<T> where T : notnull
    /// <returns>The AjisValue representation.</returns>
    AjisValue Serialize(T value);
 
-   /// <summary>
-   /// Converts an AjisValue to an object of type T.
-   /// </summary>
-   /// <param name="value">The AjisValue to convert.</param>
-   /// <returns>The deserialized object.</returns>
-   T? Deserialize(AjisValue value);
+    /// <summary>
+    /// Converts an AjisValue to an object of type T.
+    /// </summary>
+    /// <param name="value">The AjisValue to convert.</param>
+    /// <returns>The deserialized object.</returns>
+    T? Deserialize(AjisValue value);
 }
+
+/// <summary>
+/// High-level AJIS API with simple deserialize/serialize methods.
+/// </summary>
+/// <remarks>
+/// This class provides convenient static methods for common AJIS operations,
+/// similar to the pattern used in IO for file operations.
+/// </remarks>
+public static class Ajis
+{
+    /// <summary>
+    /// Deserializes AJIS text to an object of type T.
+    /// </summary>
+    /// <typeparam name="T">The target type.</typeparam>
+    /// <param name="ajisText">The AJIS text to deserialize.</param>
+    /// <param name="settings">Optional AJIS settings.</param>
+    /// <returns>The deserialized object.</returns>
+    /// <exception cref="FormatException">Thrown if the AJIS text is malformed or cannot be converted to type T.</exception>
+    /// <example>
+    /// <code>
+    /// string ajisText = """{ name: "John", age: 30 }""";
+    /// var user = Ajis.Deserialize&lt;User&gt;(ajisText);
+    /// </code>
+    /// </example>
+    public static T? Deserialize<T>(string ajisText, AjisSettings? settings = null)
+    {
+        var converter = new AjisConverter<T>();
+        return converter.Deserialize(ajisText);
+    }
+
+    /// <summary>
+    /// Deserializes UTF-8 bytes to an object of type T.
+    /// </summary>
+    /// <typeparam name="T">The target type.</typeparam>
+    /// <param name="utf8Bytes">The UTF-8 bytes to deserialize.</param>
+    /// <param name="settings">Optional AJIS settings.</param>
+    /// <returns>The deserialized object.</returns>
+    /// <exception cref="FormatException">Thrown if the AJIS data is malformed or cannot be converted to type T.</exception>
+    public static T? Deserialize<T>(ReadOnlySpan<byte> utf8Bytes, AjisSettings? settings = null)
+    {
+        var converter = new AjisConverter<T>();
+        return converter.DeserializeFromUtf8(utf8Bytes);
+    }
+
+    /// <summary>
+    /// Deserializes AJIS text to an object of type T from a stream.
+    /// </summary>
+    /// <typeparam name="T">The target type.</typeparam>
+    /// <param name="stream">The stream containing AJIS text.</param>
+    /// <param name="settings">Optional AJIS settings.</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>The deserialized object.</returns>
+    /// <exception cref="FormatException">Thrown if the AJIS text is malformed or cannot be converted to type T.</exception>
+    public static async Task<T?> DeserializeAsync<T>(Stream stream, AjisSettings? settings = null, CancellationToken ct = default)
+    {
+        using var reader = new StreamReader(stream, Encoding.UTF8, true, 1024, leaveOpen: true);
+        var ajisText = await reader.ReadToEndAsync(ct).ConfigureAwait(false);
+        return Deserialize<T>(ajisText, settings);
+    }
+
+    /// <summary>
+    /// Serializes an object to AJIS text.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to serialize.</typeparam>
+    /// <param name="value">The object to serialize.</param>
+    /// <param name="settings">Optional AJIS settings.</param>
+    /// <returns>The AJIS text representation.</returns>
+    /// <example>
+    /// <code>
+    /// var user = new User { name = "John", age = 30 };
+    /// string ajisText = Ajis.Serialize(user);
+    /// </code>
+    /// </example>
+    public static string Serialize<T>(T value, AjisSettings? settings = null)
+    {
+        var converter = new AjisConverter<T>();
+        return converter.Serialize(value);
+    }
+
+    /// <summary>
+    /// Serializes an object to UTF-8 bytes.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to serialize.</typeparam>
+    /// <param name="value">The object to serialize.</param>
+    /// <param name="settings">Optional AJIS settings.</param>
+    /// <returns>The UTF-8 bytes representing the AJIS text.</returns>
+    public static byte[] SerializeToUtf8<T>(T value, AjisSettings? settings = null)
+    {
+        string text = Serialize<T>(value, settings);
+        return Encoding.UTF8.GetBytes(text);
+    }
+
+    /// <summary>
+    /// Serializes an object and writes it to a stream.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to serialize.</typeparam>
+    /// <param name="stream">The output stream.</param>
+    /// <param name="value">The object to serialize.</param>
+    /// <param name="settings">Optional AJIS settings.</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public static async Task SerializeAsync<T>(Stream stream, T value, AjisSettings? settings = null, CancellationToken ct = default)
+    {
+        string text = Serialize<T>(value, settings);
+        byte[] bytes = Encoding.UTF8.GetBytes(text);
+        await stream.WriteAsync(bytes, ct).ConfigureAwait(false);
+    }
+}
+

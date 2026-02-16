@@ -1,0 +1,13 @@
+{
+  "src": {
+    "Afrowave.AJIS.Core": "E:\\C#\\Ajis.Dotnet\\src\\Afrowave.AJIS.Core\\Afrowave.AJIS.Core.csproj",
+    "Afrowave.AJIS.Streaming": "E:\\C#\\Ajis.Dotnet\\src\\Afrowave.AJIS.Streaming\\Afrowave.AJIS.Streaming.csproj",
+    "Afrowave.AJIS.Serialization": "E:\\C#\\Ajis.Dotnet\\src\\Afrowave.AJIS.Serialization\\Afrowave.AJIS.Serialization.csproj",
+    "Afrowave.AJIS.IO": "E:\\C#\\Ajis.Dotnet\\src\\Afrowave.AJIS.IO\\Afrowave.AJIS.IO.csproj",
+    "Afrowave.AJIS.Net": "E:\\C#\\Ajis.Dotnet\\src\\Afrowave.AJIS.Net\\Afrowave.AJIS.Net.csproj"
+  },
+  "root": {
+    "Afrowave.AJIS.EntityFramework": "E:\\C#\\Ajis.Dotnet\\Afrowave.AJIS.EntityFramework\\Afrowave.AJIS.EntityFramework.csproj",
+    "Afrowave.AJIS.MongoDB": "E:\\C#\\Ajis.Dotnet\\Afrowave.AJIS.MongoDB\\Afrowave.AJIS.MongoDB.csproj"
+  }
+}

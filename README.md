@@ -120,7 +120,8 @@ Ajis.Dotnet/
 │  ├─ Afrowave.AJIS.Streaming/   # UTF-8 streaming parser & segments
 │  ├─ Afrowave.AJIS.Serialization/# Segment serializer & high-level API
 │  ├─ Afrowave.AJIS.IO/          # File operations & streaming I/O
-│  └─ Afrowave.AJIS.Net/         # ASP.NET Core integration
+│  ├─ Afrowave.AJIS.Net/         # ASP.NET Core integration
+│  └─ AjisIdentity/              # ASP.NET Core Identity with AJIS
 │
 ├─ Afrowave.AJIS.EntityFramework/# EF Core value converters
 ├─ Afrowave.AJIS.MongoDB/        # MongoDB BSON serializers
@@ -130,7 +131,7 @@ Ajis.Dotnet/
 │  ├─ Afrowave.AJIS.IO.Tests/
 │  ├─ Afrowave.AJIS.Serialization.Tests/
 │  ├─ Afrowave.AJIS.Net.Tests/
-│  └─ Afrowave.AJIS.Testing/
+│  └─ AjisIdentity.Tests/        # AJIS Identity tests
 │
 ├─ benchmarks/
 │  └─ Afrowave.AJIS.Benchmarks/
@@ -262,6 +263,24 @@ var serializer = new AjisSerializer();
 string ajisText = serializer.Serialize(myObject);
 ```
 
+### Simple deserialize/serialize API
+
+The `Ajis` class provides convenient static methods for common operations, similar to the IO file API:
+
+```csharp
+using Afrowave.AJIS.Serialization;
+
+// Deserialize from AJIS text
+string ajisText = """{ name: "John", age: 30 }""";
+var user = Ajis.Deserialize&lt;User&gt;(ajisText);
+
+// Serialize to AJIS text
+var user = new User { Name = "John", Age = 30 };
+string ajisText = Ajis.Serialize(user);
+```
+
+This pattern is similar to `AjisFile` in IO - simple and intuitive!
+
 ### File I/O
 
 ```csharp
@@ -308,6 +327,7 @@ Comprehensive documentation is available in the `Docs/` folder:
 | **Afrowave.AJIS.Net** | [NuGet](https://www.nuget.org/packages/Afrowave.AJIS.Net) | Stable | ASP.NET Core formatters (input/output) |
 | **Afrowave.AJIS.EntityFramework** | [NuGet](https://www.nuget.org/packages/Afrowave.AJIS.EntityFramework) | Stable | EF Core value converters |
 | **Afrowave.AJIS.MongoDB** | [NuGet](https://www.nuget.org/packages/Afrowave.AJIS.MongoDB) | Stable | MongoDB BSON serializers |
+| **AjisIdentity** | [Docs](src/AjisIdentity/README.md) | Demo | ASP.NET Core Identity with AJIS persistence |
 
 ---
 

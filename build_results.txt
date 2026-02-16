@@ -1,0 +1,6 @@
+MSBUILD : error MSB1008: Lze zadat pouze jeden projekt.
+    Úplný příkazový řádek:C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\MSBuild.dll -maxcpucount --verbosity:m -tlp:default=auto --property:NuGetInteractive=false --nologo -restore:false src/Afrowave.AJIS.Core/Afrowave.AJIS.Core.csproj src/Afrowave.AJIS.Streaming/Afrowave.AJIS.Streaming.csproj src/Afrowave.AJIS.Serialization/Afrowave.AJIS.Serialization.csproj src/Afrowave.AJIS.IO/Afrowave.AJIS.IO.csproj src/Afrowave.AJIS.Net/Afrowave.AJIS.Net.csproj Afrowave.AJIS.EntityFramework/Afrowave.AJIS.EntityFramework.csproj Afrowave.AJIS.MongoDB/Afrowave.AJIS.MongoDB.csproj -consoleloggerparameters:Summary -distributedlogger:Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildLogger,C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\dotnet.dll*Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildForwardingLogger,C:\Program Files\dotnet\sdk\10.0.200-preview.0.26103.119\dotnet.dll
+  Přepínače připojené pomocí souborů odpovědí:
+Přepínač: src/Afrowave.AJIS.Streaming/Afrowave.AJIS.Streaming.csproj
+
+Syntaxi přepínačů zobrazíte zadáním příkazu MSBuild -help.

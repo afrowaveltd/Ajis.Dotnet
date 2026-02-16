@@ -1,10 +1,58 @@
-# AJIS .NET - Release Notes v1.0
+# AJIS .NET - Release Notes v1.1.0
 
-> **Final Status:** ✅ **COMPLETE AND READY FOR LAUNCH**
+> **Release Date:** February 16, 2026
+> **Status:** ✅ **PRODUCTION READY**
 
 ---
 
-## What We've Built - Complete Overview
+## What's New in v1.1.0
+
+### 🎯 Simple Ajis Static API
+
+We've added a **simple, intuitive API** for common serialization/deserialization operations, similar to the pattern used in IO for file operations.
+
+| Method | Description |
+|--------|-------------|
+| `Ajis.Deserialize<T>(string)` | Deserialize AJIS text to object |
+| `Ajis.Deserialize<T>(ReadOnlySpan<byte>)` | Deserialize UTF-8 bytes |
+| `Ajis.DeserializeAsync<T>(Stream)` | Deserialize from stream |
+| `Ajis.Serialize<T>(T)` | Serialize object to AJIS text |
+| `Ajis.SerializeToUtf8<T>(T)` | Serialize to UTF-8 bytes |
+| `Ajis.SerializeAsync<T>(Stream, T)` | Serialize to stream |
+
+### Example
+
+```csharp
+using Afrowave.AJIS.Serialization;
+
+// Simple deserialize
+string ajisText = """{ name: "John", age: 30 }""";
+var user = Ajis.Deserialize<User>(ajisText);
+
+// Simple serialize
+var user = new User { Name = "John", Age = 30 };
+string ajisText = Ajis.Serialize(user);
+```
+
+This pattern is similar to `AjisFile` in IO - simple and intuitive!
+
+---
+
+## Updated Packages
+
+| Package | Version | Description |
+|---------|---------|-------------|
+| `Afrowave.AJIS.Core` | 1.1.0 | Core library with new Ajis static API |
+| `Afrowave.AJIS.Streaming` | 1.1.0 | Streaming parser (updated dependencies) |
+| `Afrowave.AJIS.Serialization` | 1.1.0 | Serialization library (updated dependencies) |
+| `Afrowave.AJIS.IO` | 1.1.0 | File operations (updated dependencies) |
+| `Afrowave.AJIS.Net` | 1.1.0 | ASP.NET Core integration (updated dependencies) |
+| `Afrowave.AJIS.EntityFramework` | 1.1.0 | EF Core converters (updated dependencies) |
+| `Afrowave.AJIS.MongoDB` | 1.1.0 | MongoDB BSON serializers (updated dependencies) |
+
+---
+
+## What We've Built - Complete Overview (v1.0)
 
 ### 8 Major Milestones Complete
 
@@ -29,7 +77,7 @@
 
 ---
 
-## Core Libraries
+## Core Libraries (v1.0)
 
 ### 1. Afrowave.AJIS.Core
 - ✅ AjisLexer - Tokenization engine
@@ -80,7 +128,7 @@
 
 ---
 
-## Performance Metrics
+## Performance Metrics (v1.0)
 
 ### Baseline Results (Real Measurements)
 
@@ -105,7 +153,7 @@ Average Across All Tests:
 
 ---
 
-## Feature Matrix
+## Feature Matrix (v1.0)
 
 | Feature | AJIS | System.Text.Json | Newtonsoft.Json |
 |---------|------|-----------------|-----------------|
@@ -120,34 +168,7 @@ Average Across All Tests:
 
 ---
 
-## Enterprise Features
-
-### Memory Management
-- ✅ Streaming without full DOM
-- ✅ Bounded memory usage
-- ✅ Graceful OutOfMemory handling
-- ✅ Buffer pooling support
-
-### Type Safety
-- ✅ AjisConverter<T> for strong typing
-- ✅ M7 attribute-driven configuration
-- ✅ Compile-time safety
-
-### Flexibility
-- ✅ 4 naming policies (Pascal, Camel, Snake, Kebab)
-- ✅ 3 parsing modes (JSON strict, AJIS, Lex permissive)
-- ✅ Custom converters support
-- ✅ CRUD operations on files
-
-### Transparency
-- ✅ Fair benchmarking with all three libraries
-- ✅ Medal-based comparison system
-- ✅ Fairness certification
-- ✅ Honest about strengths and weaknesses
-
----
-
-## Deployment Readiness
+## Deployment Readiness (v1.0)
 
 ### Code Quality
 - ✅ 60+ comprehensive tests (all passing)
@@ -182,9 +203,11 @@ await foreach (var segment in parser.ParseAsync())
     // Process segments
 }
 
-// Type mapping (M7)
-var converter = new AjisConverter<User>();
-var user = converter.Deserialize(ajisText);
+// Simple Deserialize (NEW!)
+var user = Ajis.Deserialize<User>(ajisText);
+
+// Simple Serialize (NEW!)
+string ajisText = Ajis.Serialize(user);
 
 // File I/O (M8A)
 AjisFile.Create("users.ajis", users);
@@ -192,19 +215,6 @@ var loaded = AjisFile.ReadAll<User>("users.ajis");
 
 // HTTP Integration
 services.AddControllers().AddAjisFormatters();
-```
-
-### Run Benchmarks
-
-```bash
-# Baseline comparison
-dotnet run baseline
-
-# Stress testing
-dotnet run stress
-
-# Both
-dotnet run both
 ```
 
 ---
@@ -218,39 +228,24 @@ Package ready for publication:
 - ✅ Enterprise-grade robustness
 - ✅ No critical issues
 
-**Next Step:** Publish to nuget.org as v1.0
+**Next Step:** Publish to nuget.org as v1.1.0
 
 ---
 
-## What's Unique About AJIS .NET
+## v1.1.0 Release Checklist
 
-1. **Enterprise Features**
-   - Type-safe M7 mapping
-   - Built-in file I/O
-   - Memory-bounded streaming
-   - Multiple parsing modes
-
-2. **Fair Competition**
-   - Honest benchmarks
-   - Compared with industry standards
-   - Medal-based scoring
-   - Fairness certified
-
-3. **Production Ready**
-   - Graceful failure handling
-   - Comprehensive testing
-   - Full documentation
-   - Open source
-
-4. **Developer Friendly**
-   - Simple fluent API
-   - Sensible defaults
-   - Extensive customization
-   - Clear error messages
+- [x] Add simple Ajis static API
+- [x] Update all packages to v1.1.0
+- [x] Update documentation with new API
+- [x] Add CHANGELOG.md
+- [x] Write release notes
+- [ ] NuGet package published
+- [ ] GitHub releases created
+- [ ] Community announcement
 
 ---
 
-## v1.0 Release Checklist
+## v1.0 Release Checklist (Completed)
 
 - [x] All 8 milestones complete
 - [x] 60+ tests passing
@@ -260,64 +255,35 @@ Package ready for publication:
 - [x] Documentation complete
 - [x] No build warnings
 - [x] Enterprise features implemented
-- [ ] NuGet package published
-- [ ] GitHub releases created
-- [ ] Blog post written
-- [ ] Community announcement
-
----
-
-## About Performance
-
-### Honest Assessment
-
-- ✅ **We match System.Text.Json** on large arrays
-- ✅ **We beat Newtonsoft** by 2.99x on average
-- ⚠️ **System.Text.Json is faster** on small objects (but by small margin)
-- ✅ **We offer MORE features** than both
-
-### Why the Difference?
-
-- **System.Text.Json**: Optimized for pure speed, minimal features
-- **AJIS**: Balanced - great speed + enterprise features + type mapping
-- **Newtonsoft**: Feature-rich but slower (older technology)
-
-### Trade-off
-
-You get:
-- ✅ Fast parsing (nearly System.Text.Json speeds)
-- ✅ Type mapping (M7)
-- ✅ File I/O (M8A)
-- ✅ Memory efficiency
-- ✅ Multiple modes (JSON/AJIS/Lex)
+- [x] NuGet package published
+- [x] GitHub releases created
+- [x] Documentation complete
 
 ---
 
 ## Next Steps
 
-### Immediate (v1.0)
-1. Publish to NuGet
-2. Create GitHub releases
+### Immediate
+1. Publish v1.1.0 to NuGet
+2. Create GitHub releases for v1.1.0
 3. Announce to community
-4. Write blog post
 
 ### Future (v2.0+)
-1. Binary format support (M11)
-2. Additional file operations (M8B)
-3. M6 SIMD optimizations
-4. Web/EF connectors
+1. M6 SIMD Optimizations
+2. M11 Binary Format
+3. Additional file operations (M8B)
 
 ---
 
 ## Summary
 
-**AJIS .NET is now:**
+**AJIS .NET v1.1.0 is now:**
 - ✅ **Production-Ready**
 - ✅ **Enterprise-Grade**
-- ✅ **Fairly Compared**
-- ✅ **Transparently Benchmarked**
-- ✅ **Ready for v1.0 Release**
+- ✅ **Simple to use** with new Ajis static API
+- ✅ **Backward compatible** with v1.0.0
+- ✅ **Ready for v1.1.0 Release**
 
 ---
 
-**Status: READY FOR v1.0 LAUNCH** 🎉
+**Status: READY FOR v1.1.0 LAUNCH** 🎉

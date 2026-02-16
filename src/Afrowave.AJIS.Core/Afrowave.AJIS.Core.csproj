@@ -7,7 +7,7 @@
     <LangVersion>preview</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Afrowave.AJIS.Core</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Ajis</Authors>
     <Description>Core library for Ajis framework</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -16,6 +16,30 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>
+## v1.1.0 (2026-02-16)
+
+### New Features
+
+- **Simple Ajis static API** - Added `Ajis.Deserialize&lt;T&gt;()` and `Ajis.Serialize&lt;T&gt;()` methods for easy serialization/deserialization, similar to IO file operations
+    - `Ajis.Deserialize&lt;T&gt;(string ajisText, AjisSettings? settings = null)`
+    - `Ajis.Deserialize&lt;T&gt;(ReadOnlySpan&lt;byte&gt; utf8Bytes, AjisSettings? settings = null)`
+    - `Ajis.DeserializeAsync&lt;T&gt;(Stream stream, AjisSettings? settings = null, CancellationToken ct = default)`
+    - `Ajis.Serialize&lt;T&gt;(T value, AjisSettings? settings = null)`
+    - `Ajis.SerializeToUtf8&lt;T&gt;(T value, AjisSettings? settings = null)`
+    - `Ajis.SerializeAsync&lt;T&gt;(Stream stream, T value, AjisSettings? settings = null, CancellationToken ct = default)`
+
+### Updated Packages
+
+- All packages updated to v1.1.0
+- Dependency on Afrowave.AJIS.* libraries updated
+
+### Compatibility
+
+- 100% backward compatible with v1.0.0
+- No breaking changes
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +48,7 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\Assets\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

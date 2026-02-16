@@ -177,6 +177,34 @@ The MongoDB integration provides:
 
 **API Reference:** `API/MongoDB.md`
 
+### AJIS Static Class
+
+The `Ajis` class provides convenient static methods for common AJIS operations, similar to the pattern used in IO:
+
+- **`Ajis.Deserialize<T>(string ajisText)`** - Deserialize AJIS text to object
+- **`Ajis.Deserialize<T>(ReadOnlySpan<byte> utf8Bytes)`** - Deserialize UTF-8 bytes
+- **`Ajis.DeserializeAsync<T>(Stream stream)`** - Deserialize from stream
+- **`Ajis.Serialize<T>(T value)`** - Serialize object to AJIS text
+- **`Ajis.SerializeToUtf8<T>(T value)`** - Serialize to UTF-8 bytes
+- **`Ajis.SerializeAsync<T>(Stream stream, T value)`** - Serialize to stream
+
+These methods provide a **simple API similar to IO file operations**.
+
+**Example:**
+```csharp
+using Afrowave.AJIS.Serialization;
+
+// Simple deserialize
+string ajisText = """{ name: "John", age: 30 }""";
+var user = Ajis.Deserialize<User>(ajisText);
+
+// Simple serialize
+var user = new User { Name = "John", Age = 30 };
+string ajisText = Ajis.Serialize(user);
+```
+
+**API Reference:** `API/Serialization.md`
+
 ---
 
 ## Related documentation

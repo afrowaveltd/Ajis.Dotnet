@@ -7,16 +7,28 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Afrowave.AJIS.Streaming</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Ajis</Authors>
     <Description>Streaming library for Ajis framework</Description>
-
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ajis/dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ajis/dotnet</RepositoryUrl>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconMetadata>icon.png</PackageIconMetadata>
+    <PackageReleaseNotes>
+## v1.1.0 (2026-02-16)
+
+### Dependencies
+
+- Updated to depend on Afrowave.AJIS.Core v1.1.0
+
+### Notes
+
+- No breaking changes in this release
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +38,7 @@
   <ItemGroup>
 
     <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\Assets\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

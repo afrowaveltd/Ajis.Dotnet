@@ -1,0 +1,48 @@
+@page
+@model AjisIdentity.Pages.Admin.UsersModel
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-page="/Account/Register" class="btn btn-primary">Create New User</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Profile</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var user in Model.Users) {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>@string.Join(", ", user.RoleNames)</td>
+            <td>
+                @if (user.Profile != null)
+                {
+                    @: @user.Profile.FirstName @user.Profile.LastName
+                    @if (!string.IsNullOrEmpty(user.Profile.PhotoPath))
+                    {
+                        <br /><img src="@user.Profile.PhotoPath" width="50" alt="Avatar" />
+                    }
+                }
+            </td>
+            <td>@(user.Profile?.CreatedAt != null ? user.Profile.CreatedAt.Value.ToString("yyyy-MM-dd") : "")</td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@user.Id" class="btn btn-sm btn-secondary">Edit</a>
+                <a asp-page="./Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

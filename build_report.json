@@ -1,0 +1,18 @@
+{
+  "status": "paths_updated",
+  "projects": {
+    "src": [
+      "Afrowave.AJIS.Core",
+      "Afrowave.AJIS.Streaming", 
+      "Afrowave.AJIS.Serialization",
+      "Afrowave.AJIS.IO",
+      "Afrowave.AJIS.Net"
+    ],
+    "root": [
+      "Afrowave.AJIS.EntityFramework",
+      "Afrowave.AJIS.MongoDB"
+    ]
+  },
+  "build_status": "pending",
+  "icons_verified": true
+}

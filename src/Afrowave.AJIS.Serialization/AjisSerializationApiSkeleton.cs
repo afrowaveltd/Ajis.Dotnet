@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Streaming.Segments; // AjisSegment
@@ -214,8 +214,8 @@ public abstract record AjisValue
    /// </summary>
    public static AjisValue Array(params AjisValue[] items) => new ArrayValue(items);
 
-   /// <summary>
-   /// Creates an object.
-   /// </summary>
-   public static AjisValue Object(params KeyValuePair<string, AjisValue>[] props) => new ObjectValue(props);
+    /// <summary>
+    /// Creates an object.
+    /// </summary>
+    public static AjisValue Object(params KeyValuePair<string, AjisValue>[] props) => new ObjectValue(props);
 }

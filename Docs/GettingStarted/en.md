@@ -69,6 +69,24 @@ var serializer = new AjisSerializer();
 string ajisText = serializer.Serialize(user);
 ```
 
+### Simple deserialize/serialize API (similar to IO)
+
+For convenience, the `Ajis` class provides static methods for common operations, similar to the pattern used in IO:
+
+```csharp
+using Afrowave.AJIS.Serialization;
+
+// Deserialize from AJIS text
+string ajisText = """{ name: "John", age: 30 }""";
+var user = Ajis.Deserialize&lt;User&gt;(ajisText);
+
+// Serialize to AJIS text
+var user = new User { Name = "John", Age = 30 };
+string ajisText = Ajis.Serialize(user);
+```
+
+This pattern is similar to `AjisFile` in IO - simple and intuitive!
+
 ### Use with file I/O
 
 ```csharp

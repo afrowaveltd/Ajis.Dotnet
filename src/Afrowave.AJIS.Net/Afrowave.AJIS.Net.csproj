@@ -6,8 +6,21 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Afrowave.AJIS.Net</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Ajis</Authors>
+    <PackageReleaseNotes>
+## v1.1.0 (2026-02-16)
+
+### New Features
+- ASP.NET Core formatters now work with new Ajis static API
+- Integration with new Ajis static API from Afrowave.AJIS.Core v1.1.0
+
+### Dependencies
+- Afrowave.AJIS.Core v1.1.0
+
+### Notes
+- No breaking changes in this release
+</PackageReleaseNotes>
     <Description>NET library for Ajis framework</Description>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -16,6 +29,8 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconMetadata>icon.png</PackageIconMetadata>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +48,7 @@
   <ItemGroup>
 
     <None Include="$(MSBuildProjectDirectory)\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\Assets\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
