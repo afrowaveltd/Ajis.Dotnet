@@ -76,19 +76,19 @@ public sealed class AjisLexerParserStreamingAsync
    {
       List<AjisSegment> metaSegments1 = [];
       EmitMetaTokens(metaSegments1);
-      foreach(var segment in metaSegments1)
+      foreach(AjisSegment segment in metaSegments1)
       {
          yield return segment;
       }
 
-      await foreach(var segment in ParseValueAsync(ct))
+      await foreach(AjisSegment segment in ParseValueAsync(ct))
       {
          yield return segment;
       }
 
       List<AjisSegment> metaSegments2 = [];
       EmitMetaTokens(metaSegments2);
-      foreach(var segment in metaSegments2)
+      foreach(AjisSegment segment in metaSegments2)
       {
          yield return segment;
       }
@@ -120,7 +120,7 @@ public sealed class AjisLexerParserStreamingAsync
    {
       List<AjisSegment> metaSegments = [];
       EmitMetaTokens(metaSegments);
-      foreach(var segment in metaSegments)
+      foreach(AjisSegment segment in metaSegments)
       {
          yield return segment;
       }
@@ -128,37 +128,44 @@ public sealed class AjisLexerParserStreamingAsync
       switch(_current.Kind)
       {
          case AjisTokenKind.LeftBrace:
-            await foreach(var segment in ParseObjectAsync(ct))
+            await foreach(AjisSegment segment in ParseObjectAsync(ct))
             {
                yield return segment;
             }
             break;
+
          case AjisTokenKind.LeftBracket:
-            await foreach(var segment in ParseArrayAsync(ct))
+            await foreach(AjisSegment segment in ParseArrayAsync(ct))
             {
                yield return segment;
             }
             break;
+
          case AjisTokenKind.String:
             yield return AjisSegment.Value(_current.Offset, _depth, AjisValueKind.String, CreateSlice(_current.Text, GetStringFlags(_current.Text)));
             Advance();
             break;
+
          case AjisTokenKind.Number:
             yield return AjisSegment.Value(_current.Offset, _depth, AjisValueKind.Number, CreateSlice(_current.Text, GetNumberFlags(_current.Text)));
             Advance();
             break;
+
          case AjisTokenKind.True:
             yield return AjisSegment.Value(_current.Offset, _depth, AjisValueKind.Boolean, CreateSlice("true", AjisSliceFlags.None));
             Advance();
             break;
+
          case AjisTokenKind.False:
             yield return AjisSegment.Value(_current.Offset, _depth, AjisValueKind.Boolean, CreateSlice("false", AjisSliceFlags.None));
             Advance();
             break;
+
          case AjisTokenKind.Null:
             yield return AjisSegment.Value(_current.Offset, _depth, AjisValueKind.Null, null);
             Advance();
             break;
+
          default:
             throw new FormatException($"Unexpected token '{_current.Kind}' at {_current.Line}:{_current.Column}.");
       }
@@ -171,13 +178,13 @@ public sealed class AjisLexerParserStreamingAsync
    {
       ValidateDepth();
 
-      var start = _current;
+      AjisToken start = _current;
       yield return AjisSegment.Enter(AjisContainerKind.Object, start.Offset, _depth);
       Advance();
 
       if(_current.Kind == AjisTokenKind.RightBrace)
       {
-         var end = _current;
+         AjisToken end = _current;
          _depth--;
          yield return AjisSegment.Exit(AjisContainerKind.Object, end.Offset, _depth);
          Advance();
@@ -190,7 +197,7 @@ public sealed class AjisLexerParserStreamingAsync
 
          List<AjisSegment> metaSegments = [];
          EmitMetaTokens(metaSegments);
-         foreach(var segment in metaSegments)
+         foreach(AjisSegment segment in metaSegments)
          {
             yield return segment;
          }
@@ -199,7 +206,7 @@ public sealed class AjisLexerParserStreamingAsync
             throw new FormatException($"Expected property name at {_current.Line}:{_current.Column}.");
 
          EnsurePropertyNameLimit(_current.Text, _current.Offset);
-         var nameFlags = _current.Kind == AjisTokenKind.Identifier
+         AjisSliceFlags nameFlags = _current.Kind == AjisTokenKind.Identifier
              ? AjisSliceFlags.IsIdentifierStyle | GetStringFlags(_current.Text)
              : GetStringFlags(_current.Text);
          yield return AjisSegment.Name(_current.Offset, _depth, CreateSlice(_current.Text, nameFlags));
@@ -208,21 +215,21 @@ public sealed class AjisLexerParserStreamingAsync
 
          List<AjisSegment> metaSegments2 = [];
          EmitMetaTokens(metaSegments2);
-         foreach(var segment in metaSegments2)
+         foreach(AjisSegment segment in metaSegments2)
          {
             yield return segment;
          }
 
          Expect(AjisTokenKind.Colon);
 
-         await foreach(var segment in ParseValueAsync(ct))
+         await foreach(AjisSegment segment in ParseValueAsync(ct))
          {
             yield return segment;
          }
 
          List<AjisSegment> metaSegments3 = [];
          EmitMetaTokens(metaSegments3);
-         foreach(var segment in metaSegments3)
+         foreach(AjisSegment segment in metaSegments3)
          {
             yield return segment;
          }
@@ -232,7 +239,7 @@ public sealed class AjisLexerParserStreamingAsync
             Advance();
             List<AjisSegment> metaSegments4 = [];
             EmitMetaTokens(metaSegments4);
-            foreach(var segment in metaSegments4)
+            foreach(AjisSegment segment in metaSegments4)
             {
                yield return segment;
             }
@@ -249,11 +256,11 @@ public sealed class AjisLexerParserStreamingAsync
 
          if(_current.Kind == AjisTokenKind.RightBrace)
          {
-         var end = _current;
-         _depth--;
-         yield return AjisSegment.Exit(AjisContainerKind.Object, end.Offset, _depth);
-         Advance();
-         yield break;
+            AjisToken end = _current;
+            _depth--;
+            yield return AjisSegment.Exit(AjisContainerKind.Object, end.Offset, _depth);
+            Advance();
+            yield break;
          }
 
          throw new FormatException($"Expected ',' or '}}' at {_current.Line}:{_current.Column}.");
@@ -267,14 +274,14 @@ public sealed class AjisLexerParserStreamingAsync
    {
       ValidateDepth();
 
-      var start = _current;
+      AjisToken start = _current;
       yield return AjisSegment.Enter(AjisContainerKind.Array, start.Offset, _depth);
       _depth++;
       Advance();
 
       if(_current.Kind == AjisTokenKind.RightBracket)
       {
-         var end = _current;
+         AjisToken end = _current;
          _depth--;
          yield return AjisSegment.Exit(AjisContainerKind.Array, end.Offset, _depth);
          Advance();
@@ -287,19 +294,19 @@ public sealed class AjisLexerParserStreamingAsync
 
          List<AjisSegment> metaSegments = [];
          EmitMetaTokens(metaSegments);
-         foreach(var segment in metaSegments)
+         foreach(AjisSegment segment in metaSegments)
          {
             yield return segment;
          }
 
-         await foreach(var segment in ParseValueAsync(ct))
+         await foreach(AjisSegment segment in ParseValueAsync(ct))
          {
             yield return segment;
          }
 
          List<AjisSegment> metaSegments2 = [];
          EmitMetaTokens(metaSegments2);
-         foreach(var segment in metaSegments2)
+         foreach(AjisSegment segment in metaSegments2)
          {
             yield return segment;
          }
@@ -309,7 +316,7 @@ public sealed class AjisLexerParserStreamingAsync
             Advance();
             List<AjisSegment> metaSegments3 = [];
             EmitMetaTokens(metaSegments3);
-            foreach(var segment in metaSegments3)
+            foreach(AjisSegment segment in metaSegments3)
             {
                yield return segment;
             }
@@ -326,7 +333,7 @@ public sealed class AjisLexerParserStreamingAsync
 
          if(_current.Kind == AjisTokenKind.RightBracket)
          {
-            var end = _current;
+            AjisToken end = _current;
             _depth--;
             yield return AjisSegment.Exit(AjisContainerKind.Array, end.Offset, _depth);
             Advance();

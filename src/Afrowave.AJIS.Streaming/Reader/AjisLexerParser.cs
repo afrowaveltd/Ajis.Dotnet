@@ -68,29 +68,36 @@ public sealed class AjisLexerParser
          case AjisTokenKind.LeftBrace:
             ParseObject();
             break;
+
          case AjisTokenKind.LeftBracket:
             ParseArray();
             break;
+
          case AjisTokenKind.String:
             EmitValue(AjisValueKind.String, CreateSlice(_current.Text, GetStringFlags(_current.Text)));
             Advance();
             break;
+
          case AjisTokenKind.Number:
             EmitValue(AjisValueKind.Number, CreateSlice(_current.Text, GetNumberFlags(_current.Text)));
             Advance();
             break;
+
          case AjisTokenKind.True:
             EmitValue(AjisValueKind.Boolean, CreateSlice("true", AjisSliceFlags.None));
             Advance();
             break;
+
          case AjisTokenKind.False:
             EmitValue(AjisValueKind.Boolean, CreateSlice("false", AjisSliceFlags.None));
             Advance();
             break;
+
          case AjisTokenKind.Null:
             EmitValue(AjisValueKind.Null, null);
             Advance();
             break;
+
          default:
             throw new FormatException($"Unexpected token '{_current.Kind}' at {_current.Line}:{_current.Column}.");
       }

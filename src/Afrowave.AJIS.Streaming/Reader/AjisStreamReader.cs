@@ -24,6 +24,7 @@ public sealed class AjisStreamReader : IAjisReader, IDisposable
    public long Offset => _offset;
    public int Line => _line;
    public int Column => _column;
+
    public bool EndOfInput
    {
       get
@@ -62,7 +63,7 @@ public sealed class AjisStreamReader : IAjisReader, IDisposable
       ArgumentOutOfRangeException.ThrowIfNegative(length);
       EnsureAvailable(length);
 
-      var span = new ReadOnlySpan<byte>(_buffer, _start, length);
+      ReadOnlySpan<byte> span = new ReadOnlySpan<byte>(_buffer, _start, length);
       _start += length;
       _offset += length;
       for(int i = 0; i < span.Length; i++)

@@ -1,11 +1,11 @@
 {
-  "profiles": {
-    "Afrowave.AJIS.Benchmarks": {
-      "commandName": "Project",
-      "commandLineArgs": "-- all"
-    },
-    "Profil 1": {
-      "commandName": "Executable"
+    "profiles": {
+        "Afrowave.AJIS.Benchmarks": {
+            "commandName": "Project",
+            "commandLineArgs": "-- all"
+        },
+        "Profil 1": {
+            "commandName": "Executable"
+        }
     }
-  }
 }

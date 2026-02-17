@@ -19,6 +19,7 @@ internal class AjisLexerOptions
 internal abstract class AjisNamingPolicy
 {
    public abstract string ConvertName(string name);
+
    public static AjisNamingPolicy CamelCase => new CamelCasePolicy();
 
    private class CamelCasePolicy : AjisNamingPolicy

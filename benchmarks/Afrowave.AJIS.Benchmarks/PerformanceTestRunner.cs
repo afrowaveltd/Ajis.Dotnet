@@ -56,7 +56,7 @@ public sealed class PerformanceTestRunner
    private void BenchmarkNumberParsing()
    {
       const int iterations = 1_000_000;
-      var numbers = GenerateNumberArray(1000);
+      List<int> numbers = GenerateNumberArray(1000);
       var json = System.Text.Json.JsonSerializer.Serialize(numbers);
       var bytes = Encoding.UTF8.GetBytes(json);
 
@@ -79,7 +79,7 @@ public sealed class PerformanceTestRunner
    private void BenchmarkStringParsing()
    {
       const int iterations = 1_000_000;
-      var strings = GenerateStringArray(1000);
+      List<string> strings = GenerateStringArray(1000);
       var json = System.Text.Json.JsonSerializer.Serialize(strings);
       var bytes = Encoding.UTF8.GetBytes(json);
 
@@ -102,7 +102,7 @@ public sealed class PerformanceTestRunner
    private void BenchmarkObjectParsing()
    {
       const int iterations = 100_000;
-      var objects = GenerateSimpleObjects(1000);
+      List<SimpleObject> objects = GenerateSimpleObjects(1000);
       var json = System.Text.Json.JsonSerializer.Serialize(objects);
       var bytes = Encoding.UTF8.GetBytes(json);
 
@@ -135,7 +135,7 @@ public sealed class PerformanceTestRunner
 
    private void BenchmarkParseOnly(int recordCount, string label)
    {
-      var objects = GenerateSimpleObjects(recordCount);
+      List<SimpleObject> objects = GenerateSimpleObjects(recordCount);
       var json = System.Text.Json.JsonSerializer.Serialize(objects);
       var bytes = Encoding.UTF8.GetBytes(json);
 
@@ -157,7 +157,7 @@ public sealed class PerformanceTestRunner
       var segments = AjisParse.ParseSegments(bytes).ToList();
       sw.Stop();
 
-      var mbPerSecond = (bytes.Length / 1024.0 / 1024.0) / sw.Elapsed.TotalSeconds;
+      var mbPerSecond = bytes.Length / 1024.0 / 1024.0 / sw.Elapsed.TotalSeconds;
       Console.WriteLine($"   Time:       {sw.ElapsedMilliseconds:N0} ms");
       Console.WriteLine($"   Throughput: {mbPerSecond:F2} MB/s");
       Console.WriteLine($"   Segments:   {segments.Count:N0}");
@@ -177,7 +177,7 @@ public sealed class PerformanceTestRunner
 
    private void BenchmarkSerializeOnly(int recordCount, string label)
    {
-      var objects = GenerateSimpleObjects(recordCount);
+      List<SimpleObject> objects = GenerateSimpleObjects(recordCount);
 
       Console.WriteLine($"📤 Serialize Only ({label} records):");
 
@@ -200,7 +200,7 @@ public sealed class PerformanceTestRunner
       var peakMemory = GC.GetTotalMemory(false);
 
       var bytes = Encoding.UTF8.GetByteCount(result);
-      var mbPerSecond = (bytes / 1024.0 / 1024.0) / sw.Elapsed.TotalSeconds;
+      var mbPerSecond = bytes / 1024.0 / 1024.0 / sw.Elapsed.TotalSeconds;
       var memoryUsedMB = (peakMemory - baselineMemory) / 1024.0 / 1024.0;
 
       Console.WriteLine($"   Time:       {sw.ElapsedMilliseconds:N0} ms");
@@ -223,7 +223,7 @@ public sealed class PerformanceTestRunner
 
    private void BenchmarkRoundTrip(int recordCount, string label)
    {
-      var objects = GenerateSimpleObjects(recordCount);
+      List<SimpleObject> objects = GenerateSimpleObjects(recordCount);
       var converter = new AjisConverter<List<SimpleObject>>();
 
       Console.WriteLine($"🔄 Round-Trip ({label} records):");
@@ -232,7 +232,7 @@ public sealed class PerformanceTestRunner
       for(int i = 0; i < 3; i++)
       {
          var warmupJson = converter.Serialize(objects);
-         var _ = converter.Deserialize(warmupJson);
+         List<SimpleObject>? _ = converter.Deserialize(warmupJson);
       }
 
       // Measure
@@ -247,7 +247,7 @@ public sealed class PerformanceTestRunner
 
       var sw = Stopwatch.StartNew();
       var json = converter.Serialize(objects);
-      var deserialized = converter.Deserialize(json);
+      List<SimpleObject>? deserialized = converter.Deserialize(json);
       sw.Stop();
 
       var peakMemory = GC.GetTotalMemory(false);
@@ -284,7 +284,7 @@ public sealed class PerformanceTestRunner
       Console.WriteLine($"💪 Extreme Stress Test ({label} records):");
       Console.WriteLine($"   Generating {recordCount:N0} objects...");
 
-      var objects = GenerateSimpleObjects(recordCount);
+      List<SimpleObject> objects = GenerateSimpleObjects(recordCount);
       var converter = new AjisConverter<List<SimpleObject>>();
 
       Console.WriteLine($"   ✓ Generated {recordCount:N0} objects");
@@ -318,7 +318,7 @@ public sealed class PerformanceTestRunner
       baselineMemory = GC.GetTotalMemory(false);
 
       sw = Stopwatch.StartNew();
-      var deserialized = converter.Deserialize(json);
+      List<SimpleObject>? deserialized = converter.Deserialize(json);
       sw.Stop();
 
       var deserializeTime = sw.ElapsedMilliseconds;

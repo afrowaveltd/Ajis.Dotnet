@@ -22,7 +22,7 @@ public sealed class BestOfBreedBenchmark
       Console.WriteLine("Testing at 3 scales: 10K, 100K, 1M records");
       Console.WriteLine();
 
-      var results = new Dictionary<string, BenchmarkResult>();
+      Dictionary<string, BenchmarkResult> results = new Dictionary<string, BenchmarkResult>();
 
       // Small scale (10K)
       Console.WriteLine("\n═══════════════════════════════════════════════════════════════════════");
@@ -133,7 +133,7 @@ public sealed class BestOfBreedBenchmark
       var gc1Before = GC.CollectionCount(1);
       var gc2Before = GC.CollectionCount(2);
 
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       var result = BenchmarkFastDeserialize(jsonBytes);
       sw.Stop();
 
@@ -155,13 +155,13 @@ public sealed class BestOfBreedBenchmark
 
    private static List<Afrowave.AJIS.Benchmarks.TestObject>? BenchmarkFastDeserialize(byte[] jsonBytes)
    {
-      var reader = new Utf8JsonReader(jsonBytes, new JsonReaderOptions
+      Utf8JsonReader reader = new Utf8JsonReader(jsonBytes, new JsonReaderOptions
       {
          AllowTrailingCommas = true,
          CommentHandling = JsonCommentHandling.Skip
       });
 
-      var list = new List<Afrowave.AJIS.Benchmarks.TestObject>();
+      List<TestObject> list = new List<Afrowave.AJIS.Benchmarks.TestObject>();
 
       if(!reader.Read() || reader.TokenType != JsonTokenType.StartArray)
          return list;
@@ -231,7 +231,7 @@ public sealed class BestOfBreedBenchmark
       var gc1Before = GC.CollectionCount(1);
       var gc2Before = GC.CollectionCount(2);
 
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       var result = System.Text.Json.JsonSerializer.Deserialize<List<Afrowave.AJIS.Benchmarks.TestObject>>(jsonBytes);
       sw.Stop();
 
@@ -266,7 +266,7 @@ public sealed class BestOfBreedBenchmark
       var gc1Before = GC.CollectionCount(1);
       var gc2Before = GC.CollectionCount(2);
 
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TestObject>>(json);
       sw.Stop();
 
@@ -301,7 +301,7 @@ public sealed class BestOfBreedBenchmark
       var gc1Before = GC.CollectionCount(1);
       var gc2Before = GC.CollectionCount(2);
 
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       var result = TestObjectFastSerializer.Serialize(testData);
       sw.Stop();
 
@@ -336,7 +336,7 @@ public sealed class BestOfBreedBenchmark
       var gc1Before = GC.CollectionCount(1);
       var gc2Before = GC.CollectionCount(2);
 
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       var result = MemoryEfficientSerializer.Serialize(data);
       sw.Stop();
 
@@ -371,7 +371,7 @@ public sealed class BestOfBreedBenchmark
       var gc1Before = GC.CollectionCount(1);
       var gc2Before = GC.CollectionCount(2);
 
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       var result = System.Text.Json.JsonSerializer.Serialize(data);
       sw.Stop();
 
@@ -406,7 +406,7 @@ public sealed class BestOfBreedBenchmark
       var gc1Before = GC.CollectionCount(1);
       var gc2Before = GC.CollectionCount(2);
 
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       var result = Newtonsoft.Json.JsonConvert.SerializeObject(data);
       sw.Stop();
 
@@ -443,17 +443,17 @@ public sealed class BestOfBreedBenchmark
       Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝\n");
 
       // Group by category and scale
-      var parsers10K = results.Where(r => r.Key.Contains("10K") && !r.Key.Contains("Serializer")).ToList();
-      var parsers100K = results.Where(r => r.Key.Contains("100K") && !r.Key.Contains("Serializer")).ToList();
-      var parsers1M = results.Where(r => r.Key.Contains("1M") && !r.Key.Contains("Serializer")).ToList();
+      List<KeyValuePair<string, BenchmarkResult>> parsers10K = results.Where(r => r.Key.Contains("10K") && !r.Key.Contains("Serializer")).ToList();
+      List<KeyValuePair<string, BenchmarkResult>> parsers100K = results.Where(r => r.Key.Contains("100K") && !r.Key.Contains("Serializer")).ToList();
+      List<KeyValuePair<string, BenchmarkResult>> parsers1M = results.Where(r => r.Key.Contains("1M") && !r.Key.Contains("Serializer")).ToList();
 
       PrintCategoryWinner("PARSER (10K)", parsers10K);
       PrintCategoryWinner("PARSER (100K)", parsers100K);
       PrintCategoryWinner("PARSER (1M)", parsers1M);
 
-      var serializers10K = results.Where(r => r.Key.Contains("10K") && r.Key.Contains("Serializer")).ToList();
-      var serializers100K = results.Where(r => r.Key.Contains("100K") && r.Key.Contains("Serializer")).ToList();
-      var serializers1M = results.Where(r => r.Key.Contains("1M") && r.Key.Contains("Serializer")).ToList();
+      List<KeyValuePair<string, BenchmarkResult>> serializers10K = results.Where(r => r.Key.Contains("10K") && r.Key.Contains("Serializer")).ToList();
+      List<KeyValuePair<string, BenchmarkResult>> serializers100K = results.Where(r => r.Key.Contains("100K") && r.Key.Contains("Serializer")).ToList();
+      List<KeyValuePair<string, BenchmarkResult>> serializers1M = results.Where(r => r.Key.Contains("1M") && r.Key.Contains("Serializer")).ToList();
 
       PrintCategoryWinner("SERIALIZER (10K)", serializers10K);
       PrintCategoryWinner("SERIALIZER (100K)", serializers100K);

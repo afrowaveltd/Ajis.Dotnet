@@ -18,6 +18,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
 {
    private readonly PropertyMapper _propertyMapper = propertyMapper ?? throw new ArgumentNullException(nameof(propertyMapper));
    private readonly PropertySetterCompiler _setterCompiler = new();
+
    // PHASE 9: Global constructor cache (ConcurrentDictionary for thread safety)
    private static readonly ConcurrentDictionary<Type, ConstructorInfo> s_constructorCache = new();
 
@@ -41,7 +42,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
       if(index >= segments.Count)
          return null;
 
-      var segment = segments[index];
+      AjisSegment segment = segments[index];
 
       // Handle primitive values
       if(segment.Kind == AjisSegmentKind.Value && segment.ValueKind.HasValue)
@@ -98,11 +99,11 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
             if(segment.Slice != null)
             {
                // PHASE 9: Parse directly from Span without string allocation for known types
-               var valueSpan = segment.Slice.Value.Bytes.Span;
+               ReadOnlySpan<byte> valueSpan = segment.Slice.Value.Bytes.Span;
 
                if(targetType == typeof(Guid))
                {
-                  if(Guid.TryParse(valueSpan, out var guid))
+                  if(Guid.TryParse(valueSpan, out Guid guid))
                      return guid;
                   // Fallback
                   var str = Encoding.UTF8.GetString(valueSpan);
@@ -112,7 +113,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
                if(targetType == typeof(DateTime))
                {
                   var str = Encoding.UTF8.GetString(valueSpan);
-                  if(DateTime.TryParse(str, out var dt))
+                  if(DateTime.TryParse(str, out DateTime dt))
                      return dt;
                   return DateTime.MinValue;
                }
@@ -120,7 +121,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
                if(targetType == typeof(DateTimeOffset))
                {
                   var str = Encoding.UTF8.GetString(valueSpan);
-                  if(DateTimeOffset.TryParse(str, out var dto))
+                  if(DateTimeOffset.TryParse(str, out DateTimeOffset dto))
                      return dto;
                   return DateTimeOffset.MinValue;
                }
@@ -128,7 +129,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
                if(targetType == typeof(TimeSpan))
                {
                   var str = Encoding.UTF8.GetString(valueSpan);
-                  if(TimeSpan.TryParse(str, out var ts))
+                  if(TimeSpan.TryParse(str, out TimeSpan ts))
                      return ts;
                   return TimeSpan.Zero;
                }
@@ -152,7 +153,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
 
    private static object? ConvertBoolean(bool value, Type targetType)
    {
-      var underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
+      Type underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
 
       if(underlyingType == typeof(bool))
          return value;
@@ -163,7 +164,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
    private static object? ParseNumber(ReadOnlySpan<byte> numberBytes, Type targetType)
    {
       // Handle nullable types
-      var underlyingType = Nullable.GetUnderlyingType(targetType);
+      Type? underlyingType = Nullable.GetUnderlyingType(targetType);
       if(underlyingType != null)
          targetType = underlyingType;
 
@@ -234,7 +235,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
       }
       else if(targetType.IsGenericType)
       {
-         var genericArgs = targetType.GetGenericArguments();
+         Type[] genericArgs = targetType.GetGenericArguments();
          if(genericArgs.Length == 1)
             elementType = genericArgs[0];
       }
@@ -263,9 +264,9 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
       index++; // Skip EnterContainer
 
       // Create instance
-      var ctor = s_constructorCache.GetOrAdd(targetType, t =>
+      ConstructorInfo ctor = s_constructorCache.GetOrAdd(targetType, t =>
       {
-         var c = t.GetConstructor(Type.EmptyTypes);
+         ConstructorInfo? c = t.GetConstructor(Type.EmptyTypes);
          return c ?? throw new InvalidOperationException($"Type {t} must have a parameterless constructor");
       });
 
@@ -282,40 +283,40 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
       }
 
       // Get properties and matcher
-      var properties = GlobalPropertyCache.GetProperties(targetType, _propertyMapper);
+      PropertyMetadata[] properties = GlobalPropertyCache.GetProperties(targetType, _propertyMapper);
       var matcher = new SpanPropertyMatcher(properties);
 
-       // Read properties
-       while(index < segments.Count &&
-             !((segments[index].Kind == AjisSegmentKind.ExitContainer) && (segments[index].ContainerKind ?? AjisContainerKind.Object) == AjisContainerKind.Object))
-       {
-           if(segments[index] is { Kind: AjisSegmentKind.PropertyName, Slice: not null })
-           {
-              // PHASE 3: Zero-allocation property lookup using Span
-              var propertyNameBytes = segments[index]!.Slice!.Value.Bytes.Span;
-             var property = matcher.FindProperty(propertyNameBytes);
+      // Read properties
+      while(index < segments.Count &&
+            !((segments[index].Kind == AjisSegmentKind.ExitContainer) && (segments[index].ContainerKind ?? AjisContainerKind.Object) == AjisContainerKind.Object))
+      {
+         if(segments[index] is { Kind: AjisSegmentKind.PropertyName, Slice: not null })
+         {
+            // PHASE 3: Zero-allocation property lookup using Span
+            ReadOnlySpan<byte> propertyNameBytes = segments[index]!.Slice!.Value.Bytes.Span;
+            PropertyMetadata? property = matcher.FindProperty(propertyNameBytes);
 
-             index++; // Move to value
+            index++; // Move to value
 
-             if(property != null && index < segments.Count)
-             {
-                var value = DeserializeValue(property.PropertyType, segments, ref index);
+            if(property != null && index < segments.Count)
+            {
+               var value = DeserializeValue(property.PropertyType, segments, ref index);
 
-                // PHASE 3: Use compiled setter (no reflection!)
-                var setter = _setterCompiler.GetOrCompileSetter(property);
-                setter(instance, value);
-             }
-             else
-             {
-                // Skip unknown property
-                FastDeserializer<T>.SkipValue(segments, ref index);
-             }
-          }
-          else
-          {
-             index++;
-          }
-       }
+               // PHASE 3: Use compiled setter (no reflection!)
+               Action<object, object?> setter = _setterCompiler.GetOrCompileSetter(property);
+               setter(instance, value);
+            }
+            else
+            {
+               // Skip unknown property
+               FastDeserializer<T>.SkipValue(segments, ref index);
+            }
+         }
+         else
+         {
+            index++;
+         }
+      }
 
       index++; // Skip ExitContainer
       return instance;
@@ -326,7 +327,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
       if(index >= segments.Count)
          return;
 
-      var segment = segments[index];
+      AjisSegment segment = segments[index];
 
       if(segment.Kind == AjisSegmentKind.Value)
       {
@@ -363,9 +364,9 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
    {
       var items = new List<object?>();
 
-       while(index < segments.Count &&
-             !(segments[index].Kind == AjisSegmentKind.ExitContainer &&
-               (segments[index].ContainerKind ?? AjisContainerKind.Array) == AjisContainerKind.Array))
+      while(index < segments.Count &&
+            !(segments[index].Kind == AjisSegmentKind.ExitContainer &&
+              (segments[index].ContainerKind ?? AjisContainerKind.Array) == AjisContainerKind.Array))
       {
          if(segments[index].Kind == AjisSegmentKind.Value ||
              segments[index].Kind == AjisSegmentKind.EnterContainer)
@@ -394,7 +395,7 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
       else
       {
          // Create List<T>
-         var listType = typeof(List<>).MakeGenericType(elementType);
+         Type listType = typeof(List<>).MakeGenericType(elementType);
          var list = (System.Collections.IList)Activator.CreateInstance(listType)!;
          foreach(var item in items)
          {
@@ -404,58 +405,58 @@ internal sealed class FastDeserializer<T>(PropertyMapper propertyMapper) where T
       }
    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private object? DeserializeArrayTyped<TElement>(List<AjisSegment> segments, ref int index, Type targetType)
-        where TElement : notnull
-    {
-        var list = new List<TElement>(capacity: 16);
+   [MethodImpl(MethodImplOptions.AggressiveInlining)]
+   private object? DeserializeArrayTyped<TElement>(List<AjisSegment> segments, ref int index, Type targetType)
+       where TElement : notnull
+   {
+      var list = new List<TElement>(capacity: 16);
 
-        while(index < segments.Count &&
-             !(segments[index].Kind == AjisSegmentKind.ExitContainer &&
-               segments[index].ContainerKind is not null &&
-               segments[index].ContainerKind == AjisContainerKind.Array))
-        {
-            if(segments[index].Kind == AjisSegmentKind.Value ||
-                segments[index].Kind == AjisSegmentKind.EnterContainer)
-            {
-                var item = DeserializeValue(typeof(TElement), segments, ref index);
-                list.Add((TElement?)item!);
-            }
-            else
-            {
-                index++;
-            }
-        }
+      while(index < segments.Count &&
+           !(segments[index].Kind == AjisSegmentKind.ExitContainer &&
+             segments[index].ContainerKind is not null &&
+             segments[index].ContainerKind == AjisContainerKind.Array))
+      {
+         if(segments[index].Kind == AjisSegmentKind.Value ||
+             segments[index].Kind == AjisSegmentKind.EnterContainer)
+         {
+            var item = DeserializeValue(typeof(TElement), segments, ref index);
+            list.Add((TElement?)item!);
+         }
+         else
+         {
+            index++;
+         }
+      }
 
-        index++; // Skip ExitContainer
+      index++; // Skip ExitContainer
 
-        // Convert to target type
-        if(targetType.IsArray)
-        {
-            return list.ToArray();
-        }
-        else
-        {
-            // Create List<T>
-            return list;
-        }
-    }
+      // Convert to target type
+      if(targetType.IsArray)
+      {
+         return list.ToArray();
+      }
+      else
+      {
+         // Create List<T>
+         return list;
+      }
+   }
 
-    private static object? GetObjectPool(Type type)
-    {
-        return s_objectPools.GetOrAdd(type, t =>
-        {
-            try
-            {
-                var poolType = typeof(SimpleObjectPool<>).MakeGenericType(t);
-                return (object?)Activator.CreateInstance(poolType)!;
-            }
-            catch
-            {
-                return null!;
-            }
-        });
-    }
+   private static object? GetObjectPool(Type type)
+   {
+      return s_objectPools.GetOrAdd(type, t =>
+      {
+         try
+         {
+            Type poolType = typeof(SimpleObjectPool<>).MakeGenericType(t);
+            return (object?)Activator.CreateInstance(poolType)!;
+         }
+         catch
+         {
+            return null!;
+         }
+      });
+   }
 }
 
 /// <summary>

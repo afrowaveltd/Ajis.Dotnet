@@ -14,7 +14,7 @@ public sealed class AjisSegmentMapTests
    [Fact]
    public void RenameProperties_RewritesPropertyNames()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("firstName")),

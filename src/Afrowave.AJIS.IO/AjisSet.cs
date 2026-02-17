@@ -114,7 +114,7 @@ public class AjisSet<T>(IAjisDataSource<T> dataSource) : IAjisDataSource<T> wher
       await _dataSource.ReloadAsync(cancellationToken);
    }
 
-   #endregion
+   #endregion IAjisDataSource<T> Implementation
 
    #region IDisposable Implementation
 
@@ -131,5 +131,5 @@ public class AjisSet<T>(IAjisDataSource<T> dataSource) : IAjisDataSource<T> wher
       return System.Threading.Tasks.ValueTask.CompletedTask;
    }
 
-   #endregion
+   #endregion IDisposable Implementation
 }

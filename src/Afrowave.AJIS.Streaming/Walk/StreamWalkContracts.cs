@@ -1,7 +1,5 @@
 #nullable enable
 
-using Afrowave.AJIS.Streaming;
-
 namespace Afrowave.AJIS.Streaming.Walk;
 
 /// <summary>

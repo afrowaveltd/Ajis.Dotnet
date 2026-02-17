@@ -18,28 +18,28 @@ namespace Afrowave.AJIS.Core;
 /// </remarks>
 public enum AjisTextMode
 {
-    /// <summary>
-    /// Strict JSON mode (RFC 8259 compliant).
-    /// No comments, no directives, no trailing commas, no extensions.
-    /// </summary>
-    Json = 0,
+   /// <summary>
+   /// Strict JSON mode (RFC 8259 compliant).
+   /// No comments, no directives, no trailing commas, no extensions.
+   /// </summary>
+   Json = 0,
 
-    /// <summary>
-    /// AJIS specification mode.
-    /// Allows comments, directives, trailing commas, and AJIS extensions.
-    /// </summary>
-    Ajis = 1,
+   /// <summary>
+   /// AJIS specification mode.
+   /// Allows comments, directives, trailing commas, and AJIS extensions.
+   /// </summary>
+   Ajis = 1,
 
-    /// <summary>
-    /// Permissive mode with relaxed rules.
-    /// Similar to Lex/LAX with flexible handling of syntax.
-    /// </summary>
-    Lex = 2,
+   /// <summary>
+   /// Permissive mode with relaxed rules.
+   /// Similar to Lex/LAX with flexible handling of syntax.
+   /// </summary>
+   Lex = 2,
 
-    /// <summary>
-    /// JavaScript-tolerant mode.
-    /// Allows unquoted keys, single-quoted strings, and JavaScript-style comments.
-    /// Useful for parsing JavaScript objects and comments.
-    /// </summary>
-    Lax = 3
+   /// <summary>
+   /// JavaScript-tolerant mode.
+   /// Allows unquoted keys, single-quoted strings, and JavaScript-style comments.
+   /// Useful for parsing JavaScript objects and comments.
+   /// </summary>
+   Lax = 3
 }

@@ -1,7 +1,6 @@
 ﻿// File: tests/Afrowave.AJIS.Testing/StreamWalk/AjisStreamWalkTestRunner.cs
 #nullable enable
 
-using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Walk;
 
 namespace Afrowave.AJIS.Testing.StreamWalk;
@@ -42,7 +41,6 @@ public static class AjisStreamWalkTestRunner
                _ => AjisStreamWalkMode.Ajis
             }
          };
-
 
       if(testCase.Options.Comments is not null)
          options = options with { Comments = testCase.Options.Comments.Value };

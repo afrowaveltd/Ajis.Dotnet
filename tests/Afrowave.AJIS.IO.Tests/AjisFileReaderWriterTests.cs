@@ -32,7 +32,7 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public async Task FileWriter_CreatesNewFile()
    {
-      var filePath = UniqueFile("test");
+      string filePath = UniqueFile("test");
       await using(var writer = new AjisFileWriter(filePath))
       {
          await writer.WriteAsync("[");
@@ -40,41 +40,41 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
          await writer.WriteAsync("]");
       }
       Assert.True(File.Exists(filePath));
-      var content = await File.ReadAllTextAsync(filePath);
+      string content = await File.ReadAllTextAsync(filePath);
       Assert.Contains("Alice", content);
    }
 
    [Fact]
    public async Task FileWriter_WritesContent()
    {
-      var filePath = UniqueFile("content");
-      var testContent = "{\"test\":\"value\"}";
+      string filePath = UniqueFile("content");
+      string testContent = "{\"test\":\"value\"}";
       await using(var writer = new AjisFileWriter(filePath))
       {
          await writer.WriteAsync(testContent);
       }
-      var written = await File.ReadAllTextAsync(filePath);
+      string written = await File.ReadAllTextAsync(filePath);
       Assert.Equal(testContent, written);
    }
 
    [Fact]
    public async Task FileWriter_FlushesContent()
    {
-      var filePath = UniqueFile("flush");
+      string filePath = UniqueFile("flush");
       await using(var writer = new AjisFileWriter(filePath))
       {
          await writer.WriteAsync("test");
          await writer.FlushAsync();
       }
       Assert.True(File.Exists(filePath));
-      var content = await File.ReadAllTextAsync(filePath);
+      string content = await File.ReadAllTextAsync(filePath);
       Assert.Contains("test", content);
    }
 
    [Fact]
    public async Task FileWriter_Finalizes()
    {
-      var filePath = UniqueFile("finalize");
+      string filePath = UniqueFile("finalize");
       var writer = new AjisFileWriter(filePath);
       await writer.WriteAsync("content");
       await writer.FinalizeAsync();
@@ -85,7 +85,7 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public async Task FileWriter_AppendsToFile()
    {
-      var filePath = UniqueFile("append");
+      string filePath = UniqueFile("append");
       await using(var writer = new AjisFileWriter(filePath))
       {
          await writer.WriteAsync("first");
@@ -94,14 +94,14 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
       {
          await writer.WriteAsync("second");
       }
-      var content = await File.ReadAllTextAsync(filePath);
+      string content = await File.ReadAllTextAsync(filePath);
       Assert.Equal("firstsecond", content);
    }
 
    [Fact]
    public async Task FileWriter_CreatesDirectories()
    {
-      var filePath = Path.Combine(_testDirectory, $"subdir_{Guid.NewGuid():N}", "nested", "file.ajis");
+      string filePath = Path.Combine(_testDirectory, $"subdir_{Guid.NewGuid():N}", "nested", "file.ajis");
       await using(var writer = new AjisFileWriter(filePath))
       {
          await writer.WriteAsync("content");
@@ -112,8 +112,8 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public async Task FileReader_OpensExistingFile()
    {
-      var filePath = UniqueFile("read");
-      var testContent = "[1, 2, 3]";
+      string filePath = UniqueFile("read");
+      string testContent = "[1, 2, 3]";
       await File.WriteAllTextAsync(filePath, testContent);
       using var reader = new AjisFileReader(filePath);
       Assert.Equal(filePath, reader.FilePath);
@@ -124,15 +124,15 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public void FileReader_ThrowsOnMissingFile()
    {
-      var filePath = UniqueFile("nonexistent");
+      string filePath = UniqueFile("nonexistent");
       Assert.Throws<FileNotFoundException>(() => new AjisFileReader(filePath));
    }
 
    [Fact]
    public void FileReader_ReadsAsStream()
    {
-      var filePath = UniqueFile("stream");
-      var testContent = "{\"items\": [1, 2, 3]}";
+      string filePath = UniqueFile("stream");
+      string testContent = "{\"items\": [1, 2, 3]}";
       File.WriteAllText(filePath, testContent);
       using var reader = new AjisFileReader(filePath);
       var stream = reader.OpenAsStream();
@@ -144,8 +144,8 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public void FileReader_Seeks()
    {
-      var filePath = UniqueFile("seek");
-      var testContent = "0123456789";
+      string filePath = UniqueFile("seek");
+      string testContent = "0123456789";
       File.WriteAllText(filePath, testContent);
       using var reader = new AjisFileReader(filePath);
       reader.Seek(5);
@@ -157,7 +157,7 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public void FileReader_RejectsInvalidSeek()
    {
-      var filePath = UniqueFile("seek_invalid");
+      string filePath = UniqueFile("seek_invalid");
       File.WriteAllText(filePath, "test");
       using var reader = new AjisFileReader(filePath);
       Assert.Throws<ArgumentOutOfRangeException>(() => reader.Seek(-1));
@@ -167,7 +167,7 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public void FileReader_ThrowsWhenDisposed()
    {
-      var filePath = UniqueFile("disposed");
+      string filePath = UniqueFile("disposed");
       File.WriteAllText(filePath, "test");
       var reader = new AjisFileReader(filePath);
       reader.Dispose();
@@ -177,7 +177,7 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public async Task FileWriter_ThrowsWhenDisposed()
    {
-      var filePath = UniqueFile("disposed_writer");
+      string filePath = UniqueFile("disposed_writer");
       var writer = new AjisFileWriter(filePath);
       await writer.DisposeAsync();
       await Assert.ThrowsAsync<ObjectDisposedException>(() => writer.WriteAsync("test"));
@@ -186,8 +186,8 @@ public sealed class AjisFileReaderWriterTests : IAsyncLifetime
    [Fact]
    public async Task FileReader_HandlesLargeFile()
    {
-      var filePath = UniqueFile("large");
-      var largeContent = new string('x', 1_000_000); // 1MB
+      string filePath = UniqueFile("large");
+      string largeContent = new string('x', 1_000_000); // 1MB
       await File.WriteAllTextAsync(filePath, largeContent);
       using var reader = new AjisFileReader(filePath);
       Assert.Equal(1_000_000, reader.FileSize);

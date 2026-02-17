@@ -1,8 +1,8 @@
 #nullable enable
 
-using Afrowave.AJIS.Serialization;
+using Afrowave.AJIS.Core;
+using Afrowave.AJIS.Core.Events;
 using System.Text;
-using Xunit;
 
 namespace Afrowave.AJIS.Serialization.Tests;
 
@@ -11,8 +11,8 @@ public sealed class AjisSerializerTests
    [Fact]
    public void Serialize_WritesNull()
    {
-      var value = AjisValue.Null();
-      using var stream = new MemoryStream();
+      AjisValue value = AjisValue.Null();
+      using MemoryStream stream = new MemoryStream();
 
       AjisSerializer.Serialize(stream, value);
 
@@ -22,8 +22,8 @@ public sealed class AjisSerializerTests
    [Fact]
    public async Task SerializeAsync_WritesBoolean()
    {
-      var value = AjisValue.Bool(true);
-      await using var stream = new MemoryStream();
+      AjisValue value = AjisValue.Bool(true);
+      await using MemoryStream stream = new MemoryStream();
 
       await AjisSerializer.SerializeAsync(stream, value, ct: TestContext.Current.CancellationToken).AsTask();
 
@@ -33,10 +33,10 @@ public sealed class AjisSerializerTests
    [Fact]
    public async Task SerializeAsync_EmitsProgressEvents()
    {
-      var eventStream = new global::Afrowave.AJIS.Core.Events.AjisEventStream();
-      var value = AjisValue.Bool(true);
-      await using var stream = new MemoryStream();
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisEventStream eventStream = new global::Afrowave.AJIS.Core.Events.AjisEventStream();
+      AjisValue value = AjisValue.Bool(true);
+      await using MemoryStream stream = new MemoryStream();
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          EventSink = eventStream
       };
@@ -45,7 +45,7 @@ public sealed class AjisSerializerTests
 
       eventStream.Complete();
 
-      var events = new List<global::Afrowave.AJIS.Core.Events.AjisEvent>();
+      List<Core.Events.AjisEvent> events = new List<global::Afrowave.AJIS.Core.Events.AjisEvent>();
       await foreach(var evt in eventStream.WithCancellation(TestContext.Current.CancellationToken))
          events.Add(evt);
 
@@ -55,7 +55,7 @@ public sealed class AjisSerializerTests
    [Fact]
    public void SerializeToUtf8Bytes_WritesString()
    {
-      var value = AjisValue.String("hi");
+      AjisValue value = AjisValue.String("hi");
 
       byte[] bytes = AjisSerializer.SerializeToUtf8Bytes(value);
 
@@ -65,7 +65,7 @@ public sealed class AjisSerializerTests
    [Fact]
    public void SerializeToUtf8Bytes_EscapesString()
    {
-      var value = AjisValue.String("a\n\"b");
+      AjisValue value = AjisValue.String("a\n\"b");
 
       byte[] bytes = AjisSerializer.SerializeToUtf8Bytes(value);
 
@@ -75,11 +75,11 @@ public sealed class AjisSerializerTests
    [Fact]
    public void SerializeToUtf8Bytes_RespectsNonCompactSettings()
    {
-      var value = AjisValue.Object(
+      AjisValue value = AjisValue.Object(
          new KeyValuePair<string, AjisValue>("a", AjisValue.Number("1")),
          new KeyValuePair<string, AjisValue>("b", AjisValue.Number("2")));
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
          {
@@ -95,11 +95,11 @@ public sealed class AjisSerializerTests
    [Fact]
    public void SerializeToUtf8Bytes_RespectsPrettySettings()
    {
-      var value = AjisValue.Object(
+      AjisValue value = AjisValue.Object(
          new KeyValuePair<string, AjisValue>("a", AjisValue.Number("1")),
          new KeyValuePair<string, AjisValue>("b", AjisValue.Number("2")));
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
          {
@@ -122,11 +122,11 @@ public sealed class AjisSerializerTests
    [Fact]
    public void SerializeToUtf8Bytes_RespectsCanonicalOrdering()
    {
-      var value = AjisValue.Object(
+      AjisValue value = AjisValue.Object(
          new KeyValuePair<string, AjisValue>("b", AjisValue.Number("2")),
          new KeyValuePair<string, AjisValue>("a", AjisValue.Number("1")));
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
          {

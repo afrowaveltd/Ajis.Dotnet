@@ -16,23 +16,23 @@ namespace Afrowave.AJIS.IO;
 /// </remarks>
 public enum AjisFormat
 {
-    /// <summary>
-    /// Automatic detection based on file extension and content.
-    /// - .atp files always use ATP format
-    /// - .ajis/.json files use AJIS format unless they contain binary attachments
-    /// - Files with binary attachments automatically use ATP format
-    /// </summary>
-    Auto = 0,
+   /// <summary>
+   /// Automatic detection based on file extension and content.
+   /// - .atp files always use ATP format
+   /// - .ajis/.json files use AJIS format unless they contain binary attachments
+   /// - Files with binary attachments automatically use ATP format
+   /// </summary>
+   Auto = 0,
 
-    /// <summary>
-    /// Force AJIS text format (JSON-like).
-    /// Use this for pure text data without binary attachments.
-    /// </summary>
-    Ajis = 1,
+   /// <summary>
+   /// Force AJIS text format (JSON-like).
+   /// Use this for pure text data without binary attachments.
+   /// </summary>
+   Ajis = 1,
 
-    /// <summary>
-    /// Force ATP format with native binary attachments.
-    /// Use this when you have binary data and want efficient storage without base64 encoding.
-    /// </summary>
-    Atp = 2
+   /// <summary>
+   /// Force ATP format with native binary attachments.
+   /// Use this when you have binary data and want efficient storage without base64 encoding.
+   /// </summary>
+   Atp = 2
 }

@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Streaming.Walk.Input;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
@@ -11,7 +10,7 @@ public sealed class AjisSpanInputTests
    public void SpanInput_ExposesLengthAndSpan()
    {
       byte[] bytes = "abc"u8.ToArray();
-      var input = new AjisSpanInput(bytes);
+      AjisSpanInput input = new AjisSpanInput(bytes);
 
       Assert.Equal(bytes.Length, input.LengthBytes);
 
@@ -22,7 +21,7 @@ public sealed class AjisSpanInputTests
    [Fact]
    public void SpanInput_OpenStream_ReturnsNull()
    {
-      var input = new AjisSpanInput(ReadOnlyMemory<byte>.Empty);
+      AjisSpanInput input = new AjisSpanInput(ReadOnlyMemory<byte>.Empty);
       Assert.Null(input.OpenStream());
    }
 }

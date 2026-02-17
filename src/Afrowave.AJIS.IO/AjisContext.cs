@@ -15,22 +15,22 @@ namespace Afrowave.AJIS.IO;
 /// Usage example:
 /// <code>
 /// using var context = new AjisContext();
-/// 
+///
 /// // Create a set for User entities
 /// var users = context.Set&lt;User&gt;("users.ajis");
-/// 
+///
 /// // Add a new user
 /// await users.AddAsync(new User { Id = 1, Name = "Alice" });
-/// 
+///
 /// // Save changes
 /// await context.SaveChangesAsync();
-/// 
+///
 /// // Query with LINQ
 /// var alice = await users.FindAsync(1);
-/// 
+///
 /// // Remove an entity
 /// await users.RemoveAsync(alice);
-/// 
+///
 /// // Query with predicate
 /// var adults = await users.CountAsync(u => u.Age >= 18);
 /// </code>
@@ -60,12 +60,12 @@ public class AjisContext : IAsyncDisposable, IDisposable
    public AjisSet<T> Set<T>(string filePath, AjisFormat format = AjisFormat.Auto,
        AjisEntityConfiguration<T>? configuration = null) where T : class
    {
-      var setKey = $"{typeof(T).FullName}:{filePath}";
+      string setKey = $"{typeof(T).FullName}:{filePath}";
 
       lock(_lock)
       {
          // Check if set already exists for this filePath
-         if(_sets.TryGetValue(setKey, out var set))
+         if(_sets.TryGetValue(setKey, out object? set))
          {
             return (AjisSet<T>)set;
          }
@@ -102,7 +102,7 @@ public class AjisContext : IAsyncDisposable, IDisposable
    private IAjisDataSource<T> CreateDataSource<T>(string filePath, AjisFormat format,
        AjisEntityConfiguration<T>? configuration) where T : class
    {
-      var extension = Path.GetExtension(filePath).ToLower();
+      string extension = Path.GetExtension(filePath).ToLower();
 
       // Determine actual format based on configuration and file extension
       var actualFormat = format switch
@@ -127,7 +127,7 @@ public class AjisContext : IAsyncDisposable, IDisposable
    /// </summary>
    private AjisFormat DetermineAutoFormat<T>(string filePath, AjisEntityConfiguration<T>? configuration) where T : class
    {
-      var extension = Path.GetExtension(filePath).ToLower();
+      string extension = Path.GetExtension(filePath).ToLower();
 
       // .atp files always use ATP format
       if(extension == ".atp")
@@ -174,10 +174,10 @@ public class AjisContext : IAsyncDisposable, IDisposable
    /// <returns>The <see cref="AjisSet{T}"/> for the entity type and file, or null if not found.</returns>
    public AjisSet<T>? GetSet<T>(string filePath) where T : class
    {
-      var setKey = $"{typeof(T).FullName}:{filePath}";
+      string setKey = $"{typeof(T).FullName}:{filePath}";
       lock(_lock)
       {
-         if(_sets.TryGetValue(setKey, out var set))
+         if(_sets.TryGetValue(setKey, out object? set))
          {
             return (AjisSet<T>)set;
          }
@@ -212,7 +212,7 @@ public class AjisContext : IAsyncDisposable, IDisposable
       GC.SuppressFinalize(this);
    }
 
-   #endregion
+   #endregion IDisposable Implementation
 
    #region JSON to AJIS/ATP Conversion
 
@@ -237,7 +237,7 @@ public class AjisContext : IAsyncDisposable, IDisposable
          throw new ArgumentNullException(nameof(ajisFilePath));
 
       // Read JSON and write directly as AJIS (JSON is valid AJIS)
-      var json = await File.ReadAllTextAsync(jsonFilePath, cancellationToken);
+      string json = await File.ReadAllTextAsync(jsonFilePath, cancellationToken);
 
       string? directory = Path.GetDirectoryName(ajisFilePath);
       if(!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
@@ -265,7 +265,7 @@ public class AjisContext : IAsyncDisposable, IDisposable
          throw new ArgumentNullException(nameof(atpFilePath));
 
       // Read JSON and write as ATP (for now, JSON structure - full ATP would require ATP serializer)
-      var json = await File.ReadAllTextAsync(jsonFilePath, cancellationToken);
+      string json = await File.ReadAllTextAsync(jsonFilePath, cancellationToken);
 
       string? directory = Path.GetDirectoryName(atpFilePath);
       if(!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
@@ -274,5 +274,5 @@ public class AjisContext : IAsyncDisposable, IDisposable
       await File.WriteAllTextAsync(atpFilePath, json, cancellationToken);
    }
 
-   #endregion
+   #endregion JSON to AJIS/ATP Conversion
 }

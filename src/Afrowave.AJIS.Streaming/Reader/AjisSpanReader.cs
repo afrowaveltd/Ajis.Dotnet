@@ -37,12 +37,13 @@ public sealed class AjisSpanReader(ReadOnlyMemory<byte> memory) : IAjisReader
       if(_offset + length > _memory.Length)
          throw new InvalidOperationException("Not enough data in input.");
 
-      var span = _memory.Span.Slice(_offset, length);
+      ReadOnlySpan<byte> span = _memory.Span.Slice(_offset, length);
       _offset += length;
       for(int i = 0; i < span.Length; i++)
          AdvancePosition(span[i]);
       return span;
    }
+
    private void AdvancePosition(byte value)
    {
       if(value == (byte)'\n')

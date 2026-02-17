@@ -12,7 +12,7 @@ public sealed class AjisSegmentSelectTests
    [Fact]
    public void SelectRootPropertyValue_ReturnsBareValue()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("config")),
@@ -40,7 +40,7 @@ public sealed class AjisSegmentSelectTests
    [Fact]
    public void SelectRootPropertyWrapped_WrapsValue()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("config")),

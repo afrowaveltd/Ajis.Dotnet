@@ -11,8 +11,8 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_WithAjisPropertyNameAttribute()
    {
-      var person = new PersonWithAttributes { UserId = 42, FullName = "Alice" };
-      var converter = new AjisConverter<PersonWithAttributes>();
+      PersonWithAttributes person = new PersonWithAttributes { UserId = 42, FullName = "Alice" };
+      AjisConverter<PersonWithAttributes> converter = new AjisConverter<PersonWithAttributes>();
       string result = converter.Serialize(person);
 
       Assert.Contains("\"user_id\"", result);
@@ -25,8 +25,8 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_WithAjisIgnoreAttribute()
    {
-      var user = new UserWithPassword { Name = "Bob", Password = "secret123" };
-      var converter = new AjisConverter<UserWithPassword>(PascalCaseNamingPolicy.Instance);
+      UserWithPassword user = new UserWithPassword { Name = "Bob", Password = "secret123" };
+      AjisConverter<UserWithPassword> converter = new AjisConverter<UserWithPassword>(PascalCaseNamingPolicy.Instance);
       string result = converter.Serialize(user);
 
       Assert.Contains("\"Name\"", result);
@@ -38,12 +38,12 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_WithMixedNamingPolicy()
    {
-      var data = new PersonWithMixedAttributes
+      PersonWithMixedAttributes data = new PersonWithMixedAttributes
       {
          FirstName = "Charlie",
          CustomKey = "special_value"
       };
-      var converter = new AjisConverter<PersonWithMixedAttributes>(new CamelCaseNamingPolicy());
+      AjisConverter<PersonWithMixedAttributes> converter = new AjisConverter<PersonWithMixedAttributes>(new CamelCaseNamingPolicy());
       string result = converter.Serialize(data);
 
       // FirstName should use camelCase policy → "firstName"
@@ -60,10 +60,10 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_NestedObjects()
    {
-      var address = new Address { City = "Prague", Country = "Czech Republic" };
-      var company = new Company { Name = "ACME Corp", Address = address };
+      Address address = new Address { City = "Prague", Country = "Czech Republic" };
+      Company company = new Company { Name = "ACME Corp", Address = address };
 
-      var converter = new AjisConverter<Company>(PascalCaseNamingPolicy.Instance);
+      AjisConverter<Company> converter = new AjisConverter<Company>(PascalCaseNamingPolicy.Instance);
       string result = converter.Serialize(company);
 
       Assert.Contains("\"Name\"", result);
@@ -78,11 +78,11 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_DeeplyNestedObjects()
    {
-      var address = new Address { City = "Paris", Country = "France" };
-      var company = new Company { Name = "Tech Inc", Address = address };
-      var person = new PersonWithCompany { Name = "Diana", Company = company };
+      Address address = new Address { City = "Paris", Country = "France" };
+      Company company = new Company { Name = "Tech Inc", Address = address };
+      PersonWithCompany person = new PersonWithCompany { Name = "Diana", Company = company };
 
-      var converter = new AjisConverter<PersonWithCompany>(PascalCaseNamingPolicy.Instance);
+      AjisConverter<PersonWithCompany> converter = new AjisConverter<PersonWithCompany>(PascalCaseNamingPolicy.Instance);
       string result = converter.Serialize(person);
 
       Assert.Contains("\"Name\"", result);
@@ -99,7 +99,7 @@ public sealed class AjisConverterM7Phase2Tests
    public void Serialize_ArrayOfPrimitives()
    {
       CollectionHolder data = new() { Numbers = [1, 2, 3, 4, 5] };
-      var converter = new AjisConverter<CollectionHolder>(PascalCaseNamingPolicy.Instance);
+      AjisConverter<CollectionHolder> converter = new AjisConverter<CollectionHolder>(PascalCaseNamingPolicy.Instance);
       string result = converter.Serialize(data);
 
       Assert.Contains("\"Numbers\"", result);
@@ -112,14 +112,14 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_ListOfObjects()
    {
-      var addresses = new List<Address>
+      List<Address> addresses = new List<Address>
         {
             new() { City = "Berlin", Country = "Germany" },
             new() { City = "Madrid", Country = "Spain" }
         };
-      var holder = new AddressListHolder { Addresses = addresses };
+      AddressListHolder holder = new AddressListHolder { Addresses = addresses };
 
-      var converter = new AjisConverter<AddressListHolder>(PascalCaseNamingPolicy.Instance);
+      AjisConverter<AddressListHolder> converter = new AjisConverter<AddressListHolder>(PascalCaseNamingPolicy.Instance);
       string result = converter.Serialize(holder);
 
       Assert.Contains("\"Addresses\"", result);
@@ -134,8 +134,8 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_NullableProperty()
    {
-      var data = new DataWithNullable { Value = 42, OptionalValue = null };
-      var converter = new AjisConverter<DataWithNullable>(PascalCaseNamingPolicy.Instance);
+      DataWithNullable data = new DataWithNullable { Value = 42, OptionalValue = null };
+      AjisConverter<DataWithNullable> converter = new AjisConverter<DataWithNullable>(PascalCaseNamingPolicy.Instance);
       string result = converter.Serialize(data);
 
       Assert.Contains("\"Value\"", result);
@@ -147,8 +147,8 @@ public sealed class AjisConverterM7Phase2Tests
    [Fact]
    public void Serialize_NullablePropertyWithValue()
    {
-      var data = new DataWithNullable { Value = 10, OptionalValue = 99 };
-      var converter = new AjisConverter<DataWithNullable>(PascalCaseNamingPolicy.Instance);
+      DataWithNullable data = new DataWithNullable { Value = 10, OptionalValue = 99 };
+      AjisConverter<DataWithNullable> converter = new AjisConverter<DataWithNullable>(PascalCaseNamingPolicy.Instance);
       string result = converter.Serialize(data);
 
       Assert.Contains("\"OptionalValue\"", result);

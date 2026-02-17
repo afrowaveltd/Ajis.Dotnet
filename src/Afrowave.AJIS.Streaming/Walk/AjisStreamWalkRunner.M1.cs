@@ -748,7 +748,7 @@ internal static class AjisStreamWalkRunnerM1
          }
 
          _i = i;
-         var slice = new AjisSliceUtf8(_src.Slice(start, len).ToArray(), AjisSliceFlags.IsNumberTyped);
+         AjisSliceUtf8 slice = new AjisSliceUtf8(_src.Slice(start, len).ToArray(), AjisSliceFlags.IsNumberTyped);
          Emit("NUMBER", slice, start);
          return true;
       }
@@ -789,7 +789,7 @@ internal static class AjisStreamWalkRunnerM1
             return;
          }
 
-         var slice = new AjisSliceUtf8(_src.Slice(start, len).ToArray(), AjisSliceFlags.None);
+         AjisSliceUtf8 slice = new AjisSliceUtf8(_src.Slice(start, len).ToArray(), AjisSliceFlags.None);
          Emit("IDENTIFIER", slice, start);
       }
 
@@ -866,5 +866,4 @@ internal static class AjisStreamWalkRunnerM1
          // M1 does not compute line/column yet.
          _v.OnError(new AjisStreamWalkError(code, offset, Line: null, Column: null));
       }
-   }
-}
+   }}

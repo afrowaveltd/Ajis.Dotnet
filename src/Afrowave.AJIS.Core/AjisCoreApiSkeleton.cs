@@ -238,7 +238,6 @@ public sealed class AjisSerializationOptions
    /// If true, output is limited to strict JSON features (no comments, no non-decimal bases, etc.).
    /// </summary>
    public bool JsonCompatible { get; init; } = false;
-
 }
 
 /// <summary>
@@ -276,7 +275,7 @@ public enum AjisDiagnosticSeverity
    Error = 2,
 
    /// <summary>
-   /// Debug level message, typically not emitted in production environments. 
+   /// Debug level message, typically not emitted in production environments.
    /// </summary>
    Debug = 3,
 }

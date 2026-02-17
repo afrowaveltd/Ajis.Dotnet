@@ -11,6 +11,7 @@ public static class AjisDiagnosticKeys
 
    // Reader / structure
    public const string UnexpectedEof = "unexpected_eof";
+
    public const string UnexpectedChar = "unexpected_char";
    public const string ExpectedChar = "expected_char";
    public const string DepthLimit = "depth_limit";
@@ -22,9 +23,9 @@ public static class AjisDiagnosticKeys
    public const string EngineSelected = "engine_selected";
    public const string InputNotSupported = "input_not_supported";
 
-
    // Strings
    public const string StringUnterminated = "string_unterminated";
+
    public const string StringInvalidEscape = "string_invalid_escape";
    public const string StringInvalidUnicodeEscape = "string_invalid_unicode_escape";
    public const string StringControlChar = "string_control_char";
@@ -32,6 +33,7 @@ public static class AjisDiagnosticKeys
 
    // Numbers
    public const string NumberInvalid = "number_invalid";
+
    public const string NumberBaseInvalid = "number_base_invalid";
    public const string NumberGroupingInvalid = "number_grouping_invalid";
    public const string NumberGroupingInFraction = "number_grouping_in_fraction";
@@ -39,6 +41,7 @@ public static class AjisDiagnosticKeys
 
    // Arrays/Objects
    public const string ArrayTrailingComma = "array_trailing_comma";
+
    public const string ObjectTrailingComma = "object_trailing_comma";
    public const string ObjectExpectedKey = "object_expected_key";
    public const string ObjectDuplicateKey = "object_duplicate_key";
@@ -46,6 +49,7 @@ public static class AjisDiagnosticKeys
 
    // AJIS text extensions (planned)
    public const string CommentUnterminated = "comment_unterminated";
+
    public const string DirectiveInvalid = "directive_invalid";
    public const string DirectiveUnknown = "directive_unknown";
    public const string IdentifierInvalid = "identifier_invalid";
@@ -53,11 +57,13 @@ public static class AjisDiagnosticKeys
 
    // Typed literals (planned)
    public const string TimestampInvalid = "timestamp_invalid";
+
    public const string TimestampUnitInvalid = "timestamp_unit_invalid";
    public const string TimestampOverflow = "timestamp_overflow";
 
    // LAX recovery & tolerance
    public const string LaxRecoveredUnquotedKey = "lax_recovered_unquoted_key";
+
    public const string LaxRecoveredSingleQuotedString = "lax_recovered_single_quoted_string";
    public const string LaxRecoveredTrailingComma = "lax_recovered_trailing_comma";
    public const string LaxRecoveredMissingComma = "lax_recovered_missing_comma";
@@ -66,6 +72,7 @@ public static class AjisDiagnosticKeys
 
    // ATP / attachments (reserved)
    public const string AttachmentTableInvalid = "attachment_table_invalid";
+
    public const string AttachmentOutOfRange = "attachment_out_of_range";
    public const string AttachmentCrcMismatch = "attachment_crc_mismatch";
    public const string AttachmentNotFound = "attachment_not_found";
@@ -88,7 +95,6 @@ public static class AjisDiagnosticKeys
       AjisDiagnosticCode.InvalidUtf8 => InvalidUtf8,
       AjisDiagnosticCode.EngineSelected => EngineSelected,
       AjisDiagnosticCode.InputNotSupported => InputNotSupported,
-
 
       AjisDiagnosticCode.StringUnterminated => StringUnterminated,
       AjisDiagnosticCode.StringInvalidEscape => StringInvalidEscape,

@@ -12,7 +12,7 @@ public sealed class AjisSegmentPatchTests
    [Fact]
    public void ReplacePropertyValue_ReplacesPrimitiveValue()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("a")),
@@ -42,7 +42,7 @@ public sealed class AjisSegmentPatchTests
    [Fact]
    public void ReplacePropertyValue_ReplacesContainerValue()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("a")),

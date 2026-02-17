@@ -46,7 +46,7 @@ public sealed class BaselineBenchmark
    {
       Console.WriteLine("\n┌─ Test 1: Small Object (1KB) ─────────────────────────────────────┐");
 
-      var testObject = new TestUser
+      TestUser testObject = new TestUser
       {
          Id = 1,
          Name = "Alice Johnson",
@@ -58,7 +58,7 @@ public sealed class BaselineBenchmark
 
       var ajisTime = MeasureAjis(() =>
       {
-         var converter = new AjisConverter<TestUser>();
+         AjisConverter<TestUser> converter = new AjisConverter<TestUser>();
          var json = converter.Serialize(testObject);
          var deserialized = converter.Deserialize(json);
          return deserialized;
@@ -94,21 +94,21 @@ public sealed class BaselineBenchmark
    {
       Console.WriteLine("\n┌─ Test 2: Medium Array (10 objects, ~10KB) ────────────────────────┐");
 
-      var testArray = Enumerable.Range(1, 10)
+      List<TestUser> testArray = Enumerable.Range(1, 10)
           .Select(i => new TestUser
           {
              Id = i,
              Name = $"User {i}",
              Email = $"user{i}@example.com",
              Active = i % 2 == 0,
-             Score = 50 + i * 5,
+             Score = 50 + (i * 5),
              Tags = [$"tag{i}"]
           })
           .ToList();
 
       var ajisTime = MeasureAjis(() =>
       {
-         var converter = new AjisConverter<List<TestUser>>();
+         AjisConverter<List<TestUser>> converter = new AjisConverter<List<TestUser>>();
          var ajis = converter.Serialize(testArray);
          var deserialized = converter.Deserialize(ajis);
          return deserialized;
@@ -144,7 +144,7 @@ public sealed class BaselineBenchmark
    {
       Console.WriteLine("\n┌─ Test 3: Large Array (100 objects, ~100KB) ──────────────────────┐");
 
-      var testArray = Enumerable.Range(1, 100)
+      List<TestUser> testArray = Enumerable.Range(1, 100)
           .Select(i => new TestUser
           {
              Id = i,
@@ -158,7 +158,7 @@ public sealed class BaselineBenchmark
 
       var ajisTime = MeasureAjis(() =>
       {
-         var converter = new AjisConverter<List<TestUser>>();
+         AjisConverter<List<TestUser>> converter = new AjisConverter<List<TestUser>>();
          var ajis = converter.Serialize(testArray);
          var deserialized = converter.Deserialize(ajis);
          return deserialized;
@@ -194,7 +194,7 @@ public sealed class BaselineBenchmark
    {
       Console.WriteLine("\n┌─ Test 4: Deep Nesting (50 levels) ───────────────────────────────┐");
 
-      var testData = new NestedObject { Level = 0 };
+      NestedObject testData = new NestedObject { Level = 0 };
       var current = testData;
       for(int i = 1; i < 50; i++)
       {
@@ -204,7 +204,7 @@ public sealed class BaselineBenchmark
 
       var ajisTime = MeasureAjis(() =>
       {
-         var converter = new AjisConverter<NestedObject>();
+         AjisConverter<NestedObject> converter = new AjisConverter<NestedObject>();
          var json = converter.Serialize(testData);
          var deserialized = converter.Deserialize(json);
          return deserialized;
@@ -258,7 +258,7 @@ public sealed class BaselineBenchmark
          try { operation(); } catch { }
 
       // Measure
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       for(int i = 0; i < iterations; i++)
          try { operation(); } catch { }
       sw.Stop();
@@ -386,7 +386,7 @@ internal static class BaselineProgram
    internal static void RunBaseline(string[] args)
    {
       Console.WriteLine("Starting baseline benchmark comparison...\n");
-      var benchmark = new BaselineBenchmark();
+      BaselineBenchmark benchmark = new BaselineBenchmark();
       benchmark.RunBaseline();
 
       Console.WriteLine("\nBaseline benchmark complete!");

@@ -22,7 +22,7 @@ public readonly record struct AjisEngineCost(
          const long passWeight = 1_000_000_000L;
          const long randomAccessPenalty = 10_000_000_000L;
 
-         long score = EstimatedPasses * passWeight + EstimatedMemoryBytes;
+         long score = (EstimatedPasses * passWeight) + EstimatedMemoryBytes;
          if(RequiresRandomAccess)
             score += randomAccessPenalty;
 

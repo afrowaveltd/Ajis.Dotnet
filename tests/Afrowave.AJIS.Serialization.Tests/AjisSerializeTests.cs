@@ -1,11 +1,11 @@
 #nullable enable
 
-using Afrowave.AJIS.Serialization;
+using Afrowave.AJIS.Core;
+using Afrowave.AJIS.Core.Events;
+using Afrowave.AJIS.Serialization.Mapping;
 using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
-using Afrowave.AJIS.Streaming.Reader;
 using System.Text;
-using Xunit;
 
 namespace Afrowave.AJIS.Serialization.Tests;
 
@@ -14,7 +14,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_SerializesSimpleObject()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, new AjisSliceUtf8("a"u8.ToArray(), AjisSliceFlags.None)),
@@ -30,7 +30,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_EscapesStringSlice()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Value(0, 0, AjisValueKind.String, new AjisSliceUtf8("a\n\"b"u8.ToArray(), AjisSliceFlags.None))
       };
@@ -43,7 +43,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_IgnoresCommentAndDirectiveSegments()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Comment(0, 0, new AjisSliceUtf8("note"u8.ToArray(), AjisSliceFlags.None)),
          AjisSegment.Value(1, 0, AjisValueKind.Number, new AjisSliceUtf8("1"u8.ToArray(), AjisSliceFlags.None)),
@@ -58,7 +58,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public async Task ToStreamAsync_SerializesSimpleArray()
    {
-      await using var stream = new MemoryStream();
+      await using MemoryStream stream = new MemoryStream();
       var segments = GetSegments();
 
       await AjisSerialize.ToStreamAsync(stream, segments, ct: TestContext.Current.CancellationToken);
@@ -70,10 +70,10 @@ public sealed class AjisSerializeTests
    [Fact]
    public async Task ToStreamAsync_EmitsProgressEvents()
    {
-      var eventStream = new global::Afrowave.AJIS.Core.Events.AjisEventStream();
-      await using var stream = new MemoryStream();
+      AjisEventStream eventStream = new global::Afrowave.AJIS.Core.Events.AjisEventStream();
+      await using MemoryStream stream = new MemoryStream();
       var segments = GetSegments();
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          EventSink = eventStream
       };
@@ -82,7 +82,7 @@ public sealed class AjisSerializeTests
 
       eventStream.Complete();
 
-      var events = new List<global::Afrowave.AJIS.Core.Events.AjisEvent>();
+      List<Core.Events.AjisEvent> events = new List<global::Afrowave.AJIS.Core.Events.AjisEvent>();
       await foreach(var evt in eventStream.WithCancellation(TestContext.Current.CancellationToken))
          events.Add(evt);
 
@@ -92,7 +92,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_RespectsNonCompactSettings()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Array, 0, 0),
          AjisSegment.Value(1, 1, AjisValueKind.Number, new AjisSliceUtf8("1"u8.ToArray(), AjisSliceFlags.None)),
@@ -100,7 +100,7 @@ public sealed class AjisSerializeTests
          AjisSegment.Exit(AjisContainerKind.Array, 3, 0)
       };
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
          {
@@ -116,7 +116,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_RespectsPrettySettings()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Array, 0, 0),
          AjisSegment.Value(1, 1, AjisValueKind.Number, new AjisSliceUtf8("1"u8.ToArray(), AjisSliceFlags.None)),
@@ -124,7 +124,7 @@ public sealed class AjisSerializeTests
          AjisSegment.Exit(AjisContainerKind.Array, 3, 0)
       };
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
          {
@@ -147,7 +147,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_RespectsCanonicalOrdering()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, new AjisSliceUtf8("b"u8.ToArray(), AjisSliceFlags.None)),
@@ -157,7 +157,7 @@ public sealed class AjisSerializeTests
          AjisSegment.Exit(AjisContainerKind.Object, 12, 0)
       };
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
          {
@@ -183,7 +183,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_CompactMode_NoSpacing()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, new AjisSliceUtf8("a"u8.ToArray(), AjisSliceFlags.None)),
@@ -193,7 +193,7 @@ public sealed class AjisSerializeTests
          AjisSegment.Exit(AjisContainerKind.Object, 12, 0)
       };
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          Serialization = new global::Afrowave.AJIS.Core.AjisSerializationOptions
          {
@@ -211,7 +211,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_PrettyMode_WithIndentation()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, new AjisSliceUtf8("name"u8.ToArray(), AjisSliceFlags.None)),
@@ -221,7 +221,7 @@ public sealed class AjisSerializeTests
          AjisSegment.Exit(AjisContainerKind.Object, 20, 0)
       };
 
-      var settings = new global::Afrowave.AJIS.Core.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.AjisSettings
       {
          // Pretty mode via formatting options (if exposed)
       };
@@ -238,7 +238,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_NestedObjectFormatting()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, new AjisSliceUtf8("user"u8.ToArray(), AjisSliceFlags.None)),
@@ -259,7 +259,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_ArrayWithMixedTypes()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Array, 0, 0),
          AjisSegment.Value(1, 1, AjisValueKind.Null, null),
@@ -280,7 +280,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_NumberFormatPreservation()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Array, 0, 0),
          AjisSegment.Value(1, 1, AjisValueKind.Number, new AjisSliceUtf8("0xFF"u8.ToArray(), AjisSliceFlags.IsNumberHex)),
@@ -300,11 +300,11 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_EscapeSequencesCorrect()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, new AjisSliceUtf8("key"u8.ToArray(), AjisSliceFlags.None)),
-         AjisSegment.Value(6, 1, AjisValueKind.String, 
+         AjisSegment.Value(6, 1, AjisValueKind.String,
             new AjisSliceUtf8("line1\nline2\ttab\"quote"u8.ToArray(), AjisSliceFlags.None)),
          AjisSegment.Exit(AjisContainerKind.Object, 26, 0)
       };
@@ -320,7 +320,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void ToText_EmptyContainers()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, new AjisSliceUtf8("empty_obj"u8.ToArray(), AjisSliceFlags.None)),
@@ -344,12 +344,12 @@ public sealed class AjisSerializeTests
       // Parse → Serialize → Compare
       string original = "{\"a\":1}";
       byte[] originalBytes = Encoding.UTF8.GetBytes(original);
-      var parsedSegments = AjisParse.ParseSegments(originalBytes).ToList();
+      List<AjisSegment> parsedSegments = AjisParse.ParseSegments(originalBytes).ToList();
       string serialized = AjisSerialize.ToText(parsedSegments);
 
       // Should produce valid AJIS text that parses to same structure
       byte[] serializedBytes = Encoding.UTF8.GetBytes(serialized);
-      var reparse = AjisParse.ParseSegments(serializedBytes).ToList();
+      List<AjisSegment> reparse = AjisParse.ParseSegments(serializedBytes).ToList();
       Assert.Equal(parsedSegments.Count, reparse.Count);
    }
 
@@ -358,12 +358,12 @@ public sealed class AjisSerializeTests
    {
       string original = "{\"users\":[{\"id\":1,\"name\":\"Alice\"},{\"id\":2,\"name\":\"Bob\"}]}";
       byte[] originalBytes = Encoding.UTF8.GetBytes(original);
-      var parsedSegments = AjisParse.ParseSegments(originalBytes).ToList();
+      List<AjisSegment> parsedSegments = AjisParse.ParseSegments(originalBytes).ToList();
       string serialized = AjisSerialize.ToText(parsedSegments);
 
       // Validate structure is preserved
       byte[] serializedBytes = Encoding.UTF8.GetBytes(serialized);
-      var reparse = AjisParse.ParseSegments(serializedBytes).ToList();
+      List<AjisSegment> reparse = AjisParse.ParseSegments(serializedBytes).ToList();
 
       // Should have same number of segments (ignoring whitespace differences)
       Assert.True(parsedSegments.Count > 0);
@@ -376,7 +376,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void Serialize_PrimitiveTypes()
    {
-      var converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<int>();
+      AjisConverter<int> converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<int>();
       string result = converter.Serialize(42);
       Assert.Equal("42", result);
    }
@@ -384,7 +384,7 @@ public sealed class AjisSerializeTests
    [Fact]
    public void Serialize_String()
    {
-      var converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<string>();
+      AjisConverter<string> converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<string>();
       string result = converter.Serialize("hello");
       Assert.Equal("\"hello\"", result);
    }
@@ -392,8 +392,8 @@ public sealed class AjisSerializeTests
    [Fact]
    public void Serialize_SimpleObject()
    {
-      var person = new Person { Name = "Alice", Age = 30 };
-      var converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<Person>();
+      Person person = new Person { Name = "Alice", Age = 30 };
+      AjisConverter<Person> converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<Person>();
       string result = converter.Serialize(person);
       // Výchozí je camelCase
       Assert.Contains("\"name\"", result);
@@ -405,8 +405,8 @@ public sealed class AjisSerializeTests
    [Fact]
    public void Serialize_WithCamelCaseNaming()
    {
-      var person = new Person { Name = "Bob", Age = 25 };
-      var converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<Person>(
+      Person person = new Person { Name = "Bob", Age = 25 };
+      AjisConverter<Person> converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<Person>(
          new global::Afrowave.AJIS.Serialization.Mapping.CamelCaseNamingPolicy()
       );
       string result = converter.Serialize(person);
@@ -421,8 +421,8 @@ public sealed class AjisSerializeTests
    [Fact]
    public void Serialize_WithSnakeCaseNaming()
    {
-      var person = new Person { Name = "Charlie", Age = 35 };
-      var converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<Person>(
+      Person person = new Person { Name = "Charlie", Age = 35 };
+      AjisConverter<Person> converter = new global::Afrowave.AJIS.Serialization.Mapping.AjisConverter<Person>(
          new global::Afrowave.AJIS.Serialization.Mapping.SnakeCaseNamingPolicy()
       );
       string result = converter.Serialize(person);

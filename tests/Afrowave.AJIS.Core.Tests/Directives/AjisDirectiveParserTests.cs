@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Core.Directives;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Directives;
 

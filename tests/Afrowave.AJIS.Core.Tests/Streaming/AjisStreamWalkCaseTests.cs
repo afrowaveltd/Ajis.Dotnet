@@ -12,7 +12,6 @@ public sealed class AjisStreamWalkCaseTests
    [Theory]
 #pragma warning disable xUnit1042 // The member referenced by the MemberData attribute returns untyped data rows
    [MemberData(nameof(Cases))]
-#pragma warning restore xUnit1042 // The member referenced by the MemberData attribute returns untyped data rows
    public void RunCase_ProducesExpectedResult(AjisStreamWalkTestCase testCase)
    {
       AjisStreamWalkTestRunResult result = AjisStreamWalkTestRunner.Run(testCase, new AjisStreamWalkRunnerOptions());

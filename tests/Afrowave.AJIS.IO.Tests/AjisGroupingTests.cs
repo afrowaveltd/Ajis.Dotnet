@@ -28,7 +28,7 @@ public class AjisGroupingTests : IDisposable
    public void GroupBy_GroupsByKey()
    {
       // Arrange
-      var products = new List<GroupTestProduct>
+      List<GroupTestProduct> products = new List<GroupTestProduct>
         {
             new() { Id = 1, Category = "Electronics", Price = 100 },
             new() { Id = 2, Category = "Electronics", Price = 200 },
@@ -38,7 +38,7 @@ public class AjisGroupingTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var groups = AjisQuery.FromFile<GroupTestProduct>(TestFile)
+      List<IGrouping<string, GroupTestProduct>> groups = AjisQuery.FromFile<GroupTestProduct>(TestFile)
           .GroupBy(p => p.Category)
           .ToList();
 
@@ -89,7 +89,7 @@ public class AjisGroupingTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var counts = AjisQuery.FromFile<GroupTestProduct>(TestFile)
+      List<(string Key, int Count)> counts = AjisQuery.FromFile<GroupTestProduct>(TestFile)
           .GroupByCount(p => p.Category)
           .ToList();
 
@@ -109,7 +109,7 @@ public class AjisGroupingTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var sums = AjisQuery.FromFile<GroupTestProduct>(TestFile)
+      List<(string Key, decimal Sum)> sums = AjisQuery.FromFile<GroupTestProduct>(TestFile)
           .GroupBySum(p => p.Category, p => p.Price)
           .ToList();
 
@@ -129,7 +129,7 @@ public class AjisGroupingTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var averages = AjisQuery.FromFile<GroupTestProduct>(TestFile)
+      List<(string Key, double Average)> averages = AjisQuery.FromFile<GroupTestProduct>(TestFile)
           .GroupByAverage(p => p.Category, p => (double)p.Price)
           .ToList();
 
@@ -149,7 +149,7 @@ public class AjisGroupingTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var minMax = AjisQuery.FromFile<GroupTestProduct>(TestFile)
+      List<(string Key, decimal Min, decimal Max)> minMax = AjisQuery.FromFile<GroupTestProduct>(TestFile)
           .GroupByMinMax(p => p.Category, p => p.Price)
           .ToList();
 
@@ -171,7 +171,7 @@ public class AjisGroupingTests : IDisposable
    public void ComplexGrouping_MultipleAggregates()
    {
       // Arrange
-      var products = new List<GroupTestProduct>
+      List<GroupTestProduct> products = new List<GroupTestProduct>
         {
             new() { Id = 1, Category = "Electronics", Price = 100, Stock = 10 },
             new() { Id = 2, Category = "Electronics", Price = 200, Stock = 5 },
@@ -219,7 +219,7 @@ public class AjisGroupingTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act - Group only expensive products (>50)
-      var expensiveGroups = AjisQuery.FromFile<GroupTestProduct>(TestFile)
+      List<(string Key, int Count)> expensiveGroups = AjisQuery.FromFile<GroupTestProduct>(TestFile)
           .Where(p => p.Price > 50)
           .GroupByCount(p => p.Category)
           .ToList();
@@ -237,7 +237,7 @@ public class AjisGroupingTests : IDisposable
       AjisFile.Create(TestFile, new List<GroupTestProduct>());
 
       // Act
-      var groups = AjisQuery.FromFile<GroupTestProduct>(TestFile)
+      List<IGrouping<string, GroupTestProduct>> groups = AjisQuery.FromFile<GroupTestProduct>(TestFile)
           .GroupBy(p => p.Category)
           .ToList();
 

@@ -37,7 +37,7 @@ public sealed class AtpRoundTripTester
       Console.WriteLine("═════════════════════════════════════════════════════════════════════════════");
 
       JsonToAjisConverter converter = new();
-      var conversionResult = converter.ConvertJsonToAjis(countries4Path, detectBinary: true);
+      AjisConversionResult conversionResult = converter.ConvertJsonToAjis(countries4Path, detectBinary: true);
 
       if(!conversionResult.Success)
       {
@@ -65,27 +65,27 @@ public sealed class AtpRoundTripTester
 
       string atpContent = File.ReadAllText(atpPath);
       JsonDocument atpDocument = JsonDocument.Parse(atpContent);
-      var atpRoot = atpDocument.RootElement;
+      JsonElement atpRoot = atpDocument.RootElement;
 
       Console.WriteLine($"✅ ATP parsed successfully!");
       Console.WriteLine($"   Total size:     {FormatBytes(atpContent.Length)}");
 
       // Extract metadata
-      if(atpRoot.TryGetProperty("metadata", out var metadataElem))
+      if(atpRoot.TryGetProperty("metadata", out JsonElement metadataElem))
       {
          Console.WriteLine($"\n📊 METADATA:");
          Console.WriteLine("   ─────────────────────────────────────────────────────────────");
 
-         if(metadataElem.TryGetProperty("createdDate", out var createdElem))
+         if(metadataElem.TryGetProperty("createdDate", out JsonElement createdElem))
             Console.WriteLine($"   Created:        {createdElem.GetString()}");
 
-         if(metadataElem.TryGetProperty("sourceFormat", out var sourceElem))
+         if(metadataElem.TryGetProperty("sourceFormat", out JsonElement sourceElem))
             Console.WriteLine($"   Source Format:  {sourceElem.GetString()}");
 
-         if(metadataElem.TryGetProperty("binaryAttachmentCount", out var countElem))
+         if(metadataElem.TryGetProperty("binaryAttachmentCount", out JsonElement countElem))
             Console.WriteLine($"   Attachment Cnt: {countElem.GetInt32()}");
 
-         if(metadataElem.TryGetProperty("sizeReduction", out var reductionElem))
+         if(metadataElem.TryGetProperty("sizeReduction", out JsonElement reductionElem))
             Console.WriteLine($"   Size Reduction: {reductionElem.GetDouble():F1}%");
       }
 
@@ -93,7 +93,7 @@ public sealed class AtpRoundTripTester
       Console.WriteLine($"\n\n📎 STEP 3: ANALYZE ATTACHMENTS WITH OFFSETS");
       Console.WriteLine("═════════════════════════════════════════════════════════════════════════════");
 
-      var attachments = ParseAttachmentsWithOffsets(atpPath, atpRoot);
+      List<BinaryAttachment> attachments = ParseAttachmentsWithOffsets(atpPath, atpRoot);
 
       Console.WriteLine($"\nFound {attachments.Count} attachments:");
       Console.WriteLine($"{"Idx",-5} {"Filename",-30} {"Offset",-12} {"Size",-12} {"MIME Type",-20}");
@@ -102,7 +102,7 @@ public sealed class AtpRoundTripTester
       long currentOffset = 0;
       int index = 0;
 
-      foreach(var attachment in attachments)
+      foreach(BinaryAttachment attachment in attachments)
       {
          Console.WriteLine(
              $"{index,-5} {attachment.FileName,-30} {currentOffset,-12} " +
@@ -122,7 +122,7 @@ public sealed class AtpRoundTripTester
       int checksumFailures = 0;
       index = 0;
 
-      foreach(var attachment in attachments)
+      foreach(BinaryAttachment attachment in attachments)
       {
          // Recompute checksum
          using(SHA256 sha256 = System.Security.Cryptography.SHA256.Create())
@@ -196,13 +196,13 @@ public sealed class AtpRoundTripTester
    {
       List<BinaryAttachment> attachments = [];
 
-      if(atpRoot.TryGetProperty("attachments", out var attachmentsArray))
+      if(atpRoot.TryGetProperty("attachments", out JsonElement attachmentsArray))
       {
-         foreach(var attachmentElem in attachmentsArray.EnumerateArray())
+         foreach(JsonElement attachmentElem in attachmentsArray.EnumerateArray())
          {
-            if(attachmentElem.TryGetProperty("attachment", out var attachmentObj))
+            if(attachmentElem.TryGetProperty("attachment", out JsonElement attachmentObj))
             {
-               var attachment = ParseBinaryAttachment(attachmentObj);
+               BinaryAttachment? attachment = ParseBinaryAttachment(attachmentObj);
                if(attachment != null)
                {
                   attachments.Add(attachment);
@@ -220,22 +220,22 @@ public sealed class AtpRoundTripTester
       {
          BinaryAttachment attachment = new();
 
-         if(element.TryGetProperty("attachmentId", out var idElem))
+         if(element.TryGetProperty("attachmentId", out JsonElement idElem))
             attachment.AttachmentId = Guid.Parse(idElem.GetString() ?? "");
 
-         if(element.TryGetProperty("fileName", out var nameElem))
+         if(element.TryGetProperty("fileName", out JsonElement nameElem))
             attachment.FileName = nameElem.GetString() ?? "";
 
-         if(element.TryGetProperty("mimeType", out var mimeElem))
+         if(element.TryGetProperty("mimeType", out JsonElement mimeElem))
             attachment.MimeType = mimeElem.GetString() ?? "";
 
-         if(element.TryGetProperty("fileSize", out var sizeElem))
+         if(element.TryGetProperty("fileSize", out JsonElement sizeElem))
             attachment.FileSize = sizeElem.GetInt64();
 
-         if(element.TryGetProperty("checksum", out var checksumElem))
+         if(element.TryGetProperty("checksum", out JsonElement checksumElem))
             attachment.Checksum = checksumElem.GetString() ?? "";
 
-         if(element.TryGetProperty("data", out var dataElem))
+         if(element.TryGetProperty("data", out JsonElement dataElem))
          {
             string base64Data = dataElem.GetString() ?? "";
             attachment.Data = Convert.FromBase64String(base64Data);

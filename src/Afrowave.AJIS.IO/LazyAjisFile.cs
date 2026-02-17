@@ -41,7 +41,7 @@ public class LazyAjisFile<T> : IDisposable where T : class
    /// </summary>
    public async Task<T?> GetAsync(Func<T, bool> predicate)
    {
-      var all = await GetAllAsync();
+      List<T> all = await GetAllAsync();
       return all.FirstOrDefault(predicate);
    }
 
@@ -161,7 +161,7 @@ public class LazyAjisFile<T> : IDisposable where T : class
    {
       if(_cachedData == null) return;
 
-      while(_pendingOperations.TryDequeue(out var operation))
+      while(_pendingOperations.TryDequeue(out PendingOperation? operation))
       {
          switch(operation.Type)
          {
@@ -170,7 +170,7 @@ public class LazyAjisFile<T> : IDisposable where T : class
                break;
 
             case OperationType.Update:
-               var itemToUpdate = _cachedData.FirstOrDefault(operation.Predicate!);
+               T? itemToUpdate = _cachedData.FirstOrDefault(operation.Predicate!);
                if(itemToUpdate != null && operation.Item != null)
                {
                   var index = _cachedData.IndexOf(itemToUpdate);
@@ -210,7 +210,8 @@ public class LazyAjisFile<T> : IDisposable where T : class
       _operationSemaphore.Dispose();
    }
 
-   private enum OperationType { Add, Update, Delete }
+   private enum OperationType
+   { Add, Update, Delete }
 
    private class PendingOperation(LazyAjisFile<T>.OperationType type, T? item = null, Func<T, bool>? predicate = null)
    {
@@ -228,7 +229,8 @@ public class ObservableAjisFile<T>(string filePath) where T : class
    private readonly LazyAjisFile<T> _file = new(filePath);
    private readonly List<Action<T, ChangeType>> _changeHandlers = [];
 
-   public enum ChangeType { Added, Updated, Deleted }
+   public enum ChangeType
+   { Added, Updated, Deleted }
 
    public void Subscribe(Action<T, ChangeType> handler)
    {
@@ -262,7 +264,7 @@ public class ObservableAjisFile<T>(string filePath) where T : class
       // Get item before deletion for notification
       Task.Run(async () =>
       {
-         var item = await _file.GetAsync(predicate);
+         T? item = await _file.GetAsync(predicate);
          if(item != null)
          {
             _file.Delete(predicate);
@@ -278,7 +280,7 @@ public class ObservableAjisFile<T>(string filePath) where T : class
 
    private void NotifyChangeHandlers(T item, ChangeType changeType)
    {
-      foreach(var handler in _changeHandlers)
+      foreach(Action<T, ChangeType> handler in _changeHandlers)
       {
          try
          {

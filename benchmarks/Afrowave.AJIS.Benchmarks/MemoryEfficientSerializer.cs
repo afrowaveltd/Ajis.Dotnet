@@ -33,9 +33,9 @@ internal sealed class MemoryEfficientSerializer
       byte[] buffer = BytePool.Rent(InitialBufferSize);
 
       // Use ArrayBufferWriter backed by pooled array for dynamic growth
-      using var bufferWriter = new PooledArrayBufferWriter(buffer, BytePool);
+      using PooledArrayBufferWriter bufferWriter = new PooledArrayBufferWriter(buffer, BytePool);
 
-      using(var writer = new Utf8JsonWriter(bufferWriter, new JsonWriterOptions
+      using(Utf8JsonWriter writer = new Utf8JsonWriter(bufferWriter, new JsonWriterOptions
       {
          Indented = false,
          SkipValidation = false // Keep validation for correctness

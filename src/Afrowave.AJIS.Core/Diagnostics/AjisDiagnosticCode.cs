@@ -11,6 +11,7 @@ public enum AjisDiagnosticCode
 
    // Reader / structure (1000–1099)
    UnexpectedEof = 1001,
+
    UnexpectedChar = 1002,
    ExpectedChar = 1003,
    DepthLimit = 1004,
@@ -24,6 +25,7 @@ public enum AjisDiagnosticCode
 
    // Strings (1100–1199)
    StringUnterminated = 1101,
+
    StringInvalidEscape = 1102,
    StringInvalidUnicodeEscape = 1103,
    StringControlChar = 1104,
@@ -31,6 +33,7 @@ public enum AjisDiagnosticCode
 
    // Numbers (1200–1299)
    NumberInvalid = 1201,
+
    NumberBaseInvalid = 1202,
    NumberGroupingInvalid = 1203,
    NumberFractionGrouping = 1204,
@@ -38,6 +41,7 @@ public enum AjisDiagnosticCode
 
    // Arrays/Objects (1300–1399)
    ArrayTrailingComma = 1301,
+
    ObjectTrailingComma = 1302,
    ObjectExpectedKey = 1303,
    ObjectDuplicateKey = 1304,
@@ -45,6 +49,7 @@ public enum AjisDiagnosticCode
 
    // AJIS text extensions (1500–1599) – planned / optional
    CommentUnterminated = 1501,
+
    DirectiveInvalid = 1502,
    DirectiveUnknown = 1503,
    IdentifierInvalid = 1504,
@@ -52,11 +57,13 @@ public enum AjisDiagnosticCode
 
    // Typed literals (1600–1699)
    TimestampInvalid = 1601,
+
    TimestampUnitInvalid = 1602,
    TimestampOverflow = 1603,
 
    // LAX recovery & tolerance (1700–1799)
    LaxRecoveredUnquotedKey = 1701,
+
    LaxRecoveredSingleQuotedString = 1702,
    LaxRecoveredTrailingComma = 1703,
    LaxRecoveredMissingComma = 1704,
@@ -65,6 +72,7 @@ public enum AjisDiagnosticCode
 
    // ATP / attachments (1800–1899) – reserved for M3
    AttachmentTableInvalid = 1801,
+
    AttachmentOutOfRange = 1802,
    AttachmentCrcMismatch = 1803,
    AttachmentNotFound = 1804,

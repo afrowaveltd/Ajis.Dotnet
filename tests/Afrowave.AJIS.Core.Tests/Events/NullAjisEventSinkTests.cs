@@ -1,5 +1,6 @@
 #nullable enable
 
+using Afrowave.AJIS.Core.Events;
 using CoreEvents = global::Afrowave.AJIS.Core.Events;
 
 namespace Afrowave.AJIS.Core.Tests.Events;
@@ -9,7 +10,7 @@ public sealed class NullAjisEventSinkTests
    [Fact]
    public async Task EmitAsync_CompletesImmediately()
    {
-      var sink = CoreEvents.NullAjisEventSink.Instance;
+      NullAjisEventSink sink = CoreEvents.NullAjisEventSink.Instance;
       await sink.EmitAsync(new CoreEvents.AjisMilestoneEvent(DateTimeOffset.UtcNow, "m"), TestContext.Current.CancellationToken);
    }
 

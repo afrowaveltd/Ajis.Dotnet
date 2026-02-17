@@ -76,7 +76,7 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
                return;
             }
 
-            var json = File.ReadAllText(_filePath);
+            string json = File.ReadAllText(_filePath);
             _cachedData = _converter.Deserialize(json) ?? [];
          }
       });
@@ -100,7 +100,7 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
 
             using var stream = new FileStream(_filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             using var writer = new StreamWriter(stream, System.Text.Encoding.UTF8);
-            var json = _converter.Serialize(_cachedData!);
+            string json = _converter.Serialize(_cachedData!);
             writer.Write(json);
          }
       });
@@ -114,7 +114,7 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
       if(entity == null)
          return null;
 
-      var keyPropName = KeyPropertyName ?? DetectKeyName();
+      string? keyPropName = KeyPropertyName ?? DetectKeyName();
       if(string.IsNullOrEmpty(keyPropName))
          return null;
 
@@ -137,7 +137,7 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
       }
 
       // Check for "Id" or "{ClassName}Id" pattern
-      var className = typeof(T).Name;
+      string className = typeof(T).Name;
       foreach(var prop in properties)
       {
          if(prop.Name == "Id" || prop.Name == $"{className}Id")
@@ -155,7 +155,7 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
       if(_cachedData == null)
          return default;
 
-      var keyPropName = KeyPropertyName ?? DetectKeyName();
+      string? keyPropName = KeyPropertyName ?? DetectKeyName();
       if(string.IsNullOrEmpty(keyPropName))
          return default;
 
@@ -183,8 +183,8 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
       cancellationToken.ThrowIfCancellationRequested();
       await EnsureLoadedAsync();
 
-      var keyValue = GetKeyValue(entity) ?? throw new InvalidOperationException("Entity has no valid key value");
-      var index = _cachedData!.FindIndex(e => GetKeyValue(e)?.Equals(keyValue) == true);
+      object keyValue = GetKeyValue(entity) ?? throw new InvalidOperationException("Entity has no valid key value");
+      int index = _cachedData!.FindIndex(e => GetKeyValue(e)?.Equals(keyValue) == true);
       if(index >= 0)
       {
          _cachedData[index] = entity;
@@ -277,7 +277,7 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
       await EnsureLoadedAsync();
    }
 
-   #endregion
+   #endregion IAjisDataSource<T> Implementation
 
    #region IDisposable Implementation
 
@@ -293,5 +293,5 @@ public class AjisFileDataSource<T> : IAjisDataSource<T> where T : class
       return System.Threading.Tasks.ValueTask.CompletedTask;
    }
 
-   #endregion
+   #endregion IDisposable Implementation
 }

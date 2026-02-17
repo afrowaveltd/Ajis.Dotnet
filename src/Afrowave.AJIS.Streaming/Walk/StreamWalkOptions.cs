@@ -105,10 +105,12 @@ public enum AjisStreamWalkEnginePreference
    /// Balance memory usage and throughput.
    /// </summary>
    Balanced = 0,
+
    /// <summary>
    /// Prefer lower memory usage over throughput.
    /// </summary>
    LowMemory = 1,
+
    /// <summary>
    /// Prefer throughput over memory usage.
    /// </summary>

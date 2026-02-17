@@ -1,7 +1,6 @@
 #nullable enable
 
 using System.Text;
-using Afrowave.AJIS.Streaming.Segments.Transforms;
 
 namespace Afrowave.AJIS.Streaming.Segments.Transforms;
 
@@ -106,7 +105,7 @@ public static class AjisSegmentFilter
       if(string.IsNullOrWhiteSpace(path))
          throw new ArgumentException(null, nameof(path));
 
-      var tracker = new AjisSegmentPathTracker();
+      AjisSegmentPathTracker tracker = new AjisSegmentPathTracker();
       int? skipDepth = null;
       bool skipNextValue = false;
 
@@ -161,7 +160,7 @@ public static class AjisSegmentFilter
       ArgumentNullException.ThrowIfNull(segments);
       ArgumentNullException.ThrowIfNull(predicate);
 
-      var stack = new Stack<AjisContainerKind>();
+      Stack<AjisContainerKind> stack = new Stack<AjisContainerKind>();
       using IEnumerator<AjisSegment> enumerator = segments.GetEnumerator();
       while(enumerator.MoveNext())
       {
@@ -199,7 +198,7 @@ public static class AjisSegmentFilter
 
    private static List<AjisSegment> ReadArrayItem(AjisSegment first, IEnumerator<AjisSegment> enumerator)
    {
-      var item = new List<AjisSegment> { first };
+      List<AjisSegment> item = new List<AjisSegment> { first };
       if(first.Kind != AjisSegmentKind.EnterContainer)
          return item;
 

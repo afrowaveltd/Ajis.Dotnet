@@ -1,7 +1,5 @@
 #nullable enable
 
-using Afrowave.AJIS.Core;
-
 namespace Afrowave.AJIS.Core.Directives;
 
 /// <summary>

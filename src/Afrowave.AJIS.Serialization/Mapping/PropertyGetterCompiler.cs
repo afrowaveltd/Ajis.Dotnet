@@ -26,9 +26,9 @@ internal sealed class PropertyGetterCompiler
    [MethodImpl(MethodImplOptions.AggressiveInlining)]
    public Func<object, object?> GetOrCompileGetter(PropertyMetadata property)
    {
-      var key = (property.Member.DeclaringType!, property.Member.Name);
+      (Type, string Name) key = (property.Member.DeclaringType!, property.Member.Name);
 
-      if(_getterCache.TryGetValue(key, out var cached))
+      if(_getterCache.TryGetValue(key, out GetterCacheEntry? cached))
          return cached.Getter;
 
       lock(_lock)
@@ -36,7 +36,7 @@ internal sealed class PropertyGetterCompiler
          if(_getterCache.TryGetValue(key, out cached))
             return cached.Getter;
 
-         var compiled = property.Member switch
+         Func<object, object?> compiled = property.Member switch
          {
             PropertyInfo prop => CompilePropertyGetter(prop),
             FieldInfo field => CompileFieldGetter(field),
@@ -51,10 +51,10 @@ internal sealed class PropertyGetterCompiler
    private Func<object, object?> CompilePropertyGetter(PropertyInfo propertyInfo)
    {
       // (object instance) => (object)((TInstance)instance).Property
-      var instanceParam = Expression.Parameter(typeof(object), "instance");
-      var typedInstance = Expression.Convert(instanceParam, propertyInfo.DeclaringType!);
-      var propertyAccess = Expression.Property(typedInstance, propertyInfo);
-      var boxed = Expression.Convert(propertyAccess, typeof(object));
+      ParameterExpression instanceParam = Expression.Parameter(typeof(object), "instance");
+      UnaryExpression typedInstance = Expression.Convert(instanceParam, propertyInfo.DeclaringType!);
+      MemberExpression propertyAccess = Expression.Property(typedInstance, propertyInfo);
+      UnaryExpression boxed = Expression.Convert(propertyAccess, typeof(object));
 
       return Expression.Lambda<Func<object, object?>>(boxed, instanceParam).Compile();
    }
@@ -62,10 +62,10 @@ internal sealed class PropertyGetterCompiler
    private Func<object, object?> CompileFieldGetter(FieldInfo fieldInfo)
    {
       // (object instance) => (object)((TInstance)instance).Field
-      var instanceParam = Expression.Parameter(typeof(object), "instance");
-      var typedInstance = Expression.Convert(instanceParam, fieldInfo.DeclaringType!);
-      var fieldAccess = Expression.Field(typedInstance, fieldInfo);
-      var boxed = Expression.Convert(fieldAccess, typeof(object));
+      ParameterExpression instanceParam = Expression.Parameter(typeof(object), "instance");
+      UnaryExpression typedInstance = Expression.Convert(instanceParam, fieldInfo.DeclaringType!);
+      MemberExpression fieldAccess = Expression.Field(typedInstance, fieldInfo);
+      UnaryExpression boxed = Expression.Convert(fieldAccess, typeof(object));
 
       return Expression.Lambda<Func<object, object?>>(boxed, instanceParam).Compile();
    }

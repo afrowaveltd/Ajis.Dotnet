@@ -26,7 +26,7 @@ public static class AjisDirectiveParser
 
       string ns = parts[0].ToUpperInvariant();
       string command = parts[1];
-      var args = new Dictionary<string, string>(StringComparer.Ordinal);
+      Dictionary<string, string> args = new Dictionary<string, string>(StringComparer.Ordinal);
 
       for(int i = 2; i < parts.Length; i++)
       {

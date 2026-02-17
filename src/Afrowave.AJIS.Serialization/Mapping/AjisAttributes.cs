@@ -31,7 +31,6 @@ namespace Afrowave.AJIS.Serialization.Mapping;
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public sealed class AjisPropertyNameAttribute(string name) : Attribute
 {
-
    /// <summary>
    /// Gets the AJIS key name for this property.
    /// </summary>
@@ -52,7 +51,7 @@ public sealed class AjisPropertyNameAttribute(string name) : Attribute
 /// public class User
 /// {
 ///     public string Name { get; set; }
-///     
+///
 ///     [AjisIgnore]
 ///     public string Password { get; set; }
 /// }
@@ -63,12 +62,12 @@ public sealed class AjisPropertyNameAttribute(string name) : Attribute
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public sealed class AjisIgnoreAttribute : Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AjisIgnoreAttribute"/> class.
-    /// </summary>
-    public AjisIgnoreAttribute()
-    {
-    }
+   /// <summary>
+   /// Initializes a new instance of the <see cref="AjisIgnoreAttribute"/> class.
+   /// </summary>
+   public AjisIgnoreAttribute()
+   {
+   }
 }
 
 /// <summary>
@@ -86,7 +85,7 @@ public sealed class AjisIgnoreAttribute : Attribute
 /// {
 ///     [AjisRequired]
 ///     public string Email { get; set; }
-///     
+///
 ///     public string? Phone { get; set; }
 /// }
 /// </code>
@@ -96,12 +95,12 @@ public sealed class AjisIgnoreAttribute : Attribute
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public sealed class AjisRequiredAttribute : Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AjisRequiredAttribute"/> class.
-    /// </summary>
-    public AjisRequiredAttribute()
-    {
-    }
+   /// <summary>
+   /// Initializes a new instance of the <see cref="AjisRequiredAttribute"/> class.
+   /// </summary>
+   public AjisRequiredAttribute()
+   {
+   }
 }
 
 /// <summary>
@@ -130,7 +129,6 @@ public sealed class AjisRequiredAttribute : Attribute
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public sealed class AjisNumberFormatAttribute(AjisNumberStyle style) : Attribute
 {
-
    /// <summary>
    /// Gets the numeric format style.
    /// </summary>
@@ -142,25 +140,25 @@ public sealed class AjisNumberFormatAttribute(AjisNumberStyle style) : Attribute
 /// </summary>
 public enum AjisNumberStyle
 {
-    /// <summary>
-    /// Standard decimal format (e.g., 255).
-    /// </summary>
-    Decimal = 0,
+   /// <summary>
+   /// Standard decimal format (e.g., 255).
+   /// </summary>
+   Decimal = 0,
 
-    /// <summary>
-    /// Hexadecimal format (e.g., 0xFF).
-    /// </summary>
-    Hex = 1,
+   /// <summary>
+   /// Hexadecimal format (e.g., 0xFF).
+   /// </summary>
+   Hex = 1,
 
-    /// <summary>
-    /// Binary format (e.g., 0b11111111).
-    /// </summary>
-    Binary = 2,
+   /// <summary>
+   /// Binary format (e.g., 0b11111111).
+   /// </summary>
+   Binary = 2,
 
-    /// <summary>
-    /// Octal format (e.g., 0o377).
-    /// </summary>
-    Octal = 3
+   /// <summary>
+   /// Octal format (e.g., 0o377).
+   /// </summary>
+   Octal = 3
 }
 
 /// <summary>
@@ -178,7 +176,7 @@ public enum AjisNumberStyle
 /// {
 ///     [AjisKey]
 ///     public Guid UserId { get; set; }
-///     
+///
 ///     public string Name { get; set; }
 /// }
 /// </code>
@@ -188,10 +186,10 @@ public enum AjisNumberStyle
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public sealed class AjisKeyAttribute : Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AjisKeyAttribute"/> class.
-    /// </summary>
-    public AjisKeyAttribute()
-    {
-    }
+   /// <summary>
+   /// Initializes a new instance of the <see cref="AjisKeyAttribute"/> class.
+   /// </summary>
+   public AjisKeyAttribute()
+   {
+   }
 }

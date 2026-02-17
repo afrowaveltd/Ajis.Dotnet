@@ -22,6 +22,7 @@ internal sealed class Utf8DirectSerializer<T>(PropertyMapper propertyMapper) whe
 
    // PHASE 5: Inline type cache for fast type matching
    private static readonly Type TypeString = typeof(string);
+
    private static readonly Type TypeBool = typeof(bool);
    private static readonly Type TypeInt = typeof(int);
    private static readonly Type TypeLong = typeof(long);
@@ -74,7 +75,7 @@ internal sealed class Utf8DirectSerializer<T>(PropertyMapper propertyMapper) whe
          return;
       }
 
-      var actualType = value.GetType();
+      Type actualType = value.GetType();
 
       // PHASE 5: Fast-path primitives using ReferenceEquals
       if(ReferenceEquals(actualType, TypeBool))
@@ -159,19 +160,19 @@ internal sealed class Utf8DirectSerializer<T>(PropertyMapper propertyMapper) whe
       // Objects - use cached metadata and compiled getters
       writer.WriteStartObject();
 
-      if(!_propertyCache.TryGetValue(actualType, out var properties))
+      if(!_propertyCache.TryGetValue(actualType, out PropertyMetadata[]? properties))
       {
          properties = [.. _propertyMapper.GetProperties(actualType)];
          _propertyCache[actualType] = properties;
       }
 
-      foreach(var property in properties)
+      foreach(PropertyMetadata property in properties)
       {
          if(property.IsIgnored)
             continue;
 
          // PHASE 5: Use compiled getter instead of reflection
-         var getter = _getterCompiler.GetOrCompileGetter(property);
+         Func<object, object?> getter = _getterCompiler.GetOrCompileGetter(property);
          var propValue = getter(value);
 
          writer.WritePropertyName(property.AjisKey);

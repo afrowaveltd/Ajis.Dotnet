@@ -86,11 +86,11 @@ internal sealed class PropertyMapper(INamingPolicy namingPolicy)
          throw new ArgumentNullException(nameof(type));
 
       // Try cache first
-      if(_cache.TryGetValue(type, out var cached))
+      if(_cache.TryGetValue(type, out PropertyMetadata[]? cached))
          return cached;
 
       // Discover and cache properties
-      var properties = DiscoverProperties(type);
+      PropertyMetadata[] properties = DiscoverProperties(type);
       _cache[type] = properties;
       return properties;
    }
@@ -100,11 +100,11 @@ internal sealed class PropertyMapper(INamingPolicy namingPolicy)
    /// </summary>
    private PropertyMetadata[] DiscoverProperties(Type type)
    {
-      var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+      BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
       var result = new List<PropertyMetadata>();
 
       // Get all properties
-      foreach(var prop in type.GetProperties(bindingFlags))
+      foreach(PropertyInfo prop in type.GetProperties(bindingFlags))
       {
          if(!prop.CanRead)
             continue;
@@ -113,7 +113,7 @@ internal sealed class PropertyMapper(INamingPolicy namingPolicy)
       }
 
       // Get all public fields (less common but supported)
-      foreach(var field in type.GetFields(bindingFlags))
+      foreach(FieldInfo field in type.GetFields(bindingFlags))
       {
          result.Add(CreatePropertyMetadata(field));
       }
@@ -127,23 +127,23 @@ internal sealed class PropertyMapper(INamingPolicy namingPolicy)
    private PropertyMetadata CreatePropertyMetadata(MemberInfo member)
    {
       // Check for [AjisIgnore]
-      var ignoreAttr = member.GetCustomAttribute<AjisIgnoreAttribute>();
+      AjisIgnoreAttribute? ignoreAttr = member.GetCustomAttribute<AjisIgnoreAttribute>();
       if(ignoreAttr != null)
          return new PropertyMetadata(member, "", isIgnored: true, isRequired: false, null, GetMemberType(member));
 
       // Check for [AjisPropertyName] override
-      var propertyNameAttr = member.GetCustomAttribute<AjisPropertyNameAttribute>();
+      AjisPropertyNameAttribute? propertyNameAttr = member.GetCustomAttribute<AjisPropertyNameAttribute>();
       var ajisKey = propertyNameAttr?.Name ?? _namingPolicy.ConvertName(member.Name);
 
       // Check for [AjisRequired]
-      var requiredAttr = member.GetCustomAttribute<AjisRequiredAttribute>();
+      AjisRequiredAttribute? requiredAttr = member.GetCustomAttribute<AjisRequiredAttribute>();
       bool isRequired = requiredAttr != null;
 
       // Check for [AjisNumberFormat]
-      var numberFormatAttr = member.GetCustomAttribute<AjisNumberFormatAttribute>();
+      AjisNumberFormatAttribute? numberFormatAttr = member.GetCustomAttribute<AjisNumberFormatAttribute>();
       AjisNumberStyle? numberStyle = numberFormatAttr?.Style;
 
-      var propertyType = GetMemberType(member);
+      Type propertyType = GetMemberType(member);
 
       return new PropertyMetadata(
           member,
@@ -199,9 +199,11 @@ internal sealed class PropertyMapper(INamingPolicy namingPolicy)
                if(prop.CanWrite)
                   prop.SetValue(obj, value);
                break;
+
             case FieldInfo field:
                field.SetValue(obj, value);
                break;
+
             default:
                throw new InvalidOperationException($"Unknown member type: {metadata.Member.GetType().Name}");
          }

@@ -1,10 +1,10 @@
 #nullable enable
 
-using System.Diagnostics;
-using System.Text.Json;
 using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Streaming.Segments;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using System.Text.Json;
 
 namespace Afrowave.AJIS.Testing.TestData;
 
@@ -24,7 +24,7 @@ public static class AjisBenchmarkRunner
       byte[] bytes = await File.ReadAllBytesAsync(path, ct).ConfigureAwait(false);
       string json = await File.ReadAllTextAsync(path, ct).ConfigureAwait(false);
 
-      var results = new List<AjisBenchmarkResult>
+      List<AjisBenchmarkResult> results = new List<AjisBenchmarkResult>
       {
          RunAjisBytes("AJIS.Universal", bytes, AjisProcessingProfile.Universal),
          RunAjisBytes("AJIS.HighThroughput", bytes, AjisProcessingProfile.HighThroughput),
@@ -38,7 +38,7 @@ public static class AjisBenchmarkRunner
 
    private static AjisBenchmarkResult RunAjisBytes(string name, byte[] bytes, AjisProcessingProfile profile)
    {
-      var settings = new AjisSettings { ParserProfile = profile };
+      AjisSettings settings = new AjisSettings { ParserProfile = profile };
 
       return Measure(name, () =>
       {
@@ -51,7 +51,7 @@ public static class AjisBenchmarkRunner
 
    private static async Task<AjisBenchmarkResult> RunAjisStreamAsync(string name, string path, CancellationToken ct)
    {
-      var settings = new AjisSettings { ParserProfile = AjisProcessingProfile.LowMemory };
+      AjisSettings settings = new AjisSettings { ParserProfile = AjisProcessingProfile.LowMemory };
 
       return await MeasureAsync(name, async () =>
       {
@@ -66,14 +66,14 @@ public static class AjisBenchmarkRunner
    private static AjisBenchmarkResult RunSystemTextJson(byte[] bytes)
       => Measure("System.Text.Json", () =>
       {
-         using var doc = JsonDocument.Parse(bytes);
+         using JsonDocument doc = JsonDocument.Parse(bytes);
          return doc.RootElement.GetRawText().Length;
       });
 
    private static AjisBenchmarkResult RunNewtonsoftJson(string json)
       => Measure("Newtonsoft.Json", () =>
       {
-         var token = JToken.Parse(json);
+         JToken token = JToken.Parse(json);
          return token.ToString().Length;
       });
 
@@ -84,7 +84,7 @@ public static class AjisBenchmarkRunner
       GC.Collect();
 
       long before = GC.GetTotalMemory(true);
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       int count = action();
       sw.Stop();
       long after = GC.GetTotalMemory(true);
@@ -99,7 +99,7 @@ public static class AjisBenchmarkRunner
       GC.Collect();
 
       long before = GC.GetTotalMemory(true);
-      var sw = Stopwatch.StartNew();
+      Stopwatch sw = Stopwatch.StartNew();
       int count = await action().ConfigureAwait(false);
       sw.Stop();
       long after = GC.GetTotalMemory(true);

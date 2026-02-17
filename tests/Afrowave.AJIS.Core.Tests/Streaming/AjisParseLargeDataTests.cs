@@ -45,10 +45,10 @@ public sealed class AjisParseLargeDataTests
             StreamChunkThreshold = "1k"
          };
 
-         await using var stream = File.OpenRead(path);
+         await using FileStream stream = File.OpenRead(path);
          List<AjisSegment> segments = new List<AjisSegment>();
 
-         await foreach(var segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+         await foreach(AjisSegment? segment in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
             .WithCancellation(TestContext.Current.CancellationToken))
             segments.Add(segment);
          Assert.Contains(segments, s => s.ValueKind == AjisValueKind.String
@@ -84,8 +84,8 @@ public sealed class AjisParseLargeDataTests
          };
 
          int count = 0;
-         await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+         await using FileStream stream = File.OpenRead(path);
+         await foreach(AjisSegment? _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
             .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 
@@ -109,11 +109,11 @@ public sealed class AjisParseLargeDataTests
             StreamChunkThreshold = "bad"
          };
 
-         await using var stream = File.OpenRead(path);
+         await using FileStream stream = File.OpenRead(path);
 
          await Assert.ThrowsAsync<FormatException>(async () =>
             {
-               await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+               await foreach(AjisSegment? _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
                .WithCancellation(TestContext.Current.CancellationToken))
                {
                }
@@ -138,8 +138,8 @@ public sealed class AjisParseLargeDataTests
          };
 
          int count = 0;
-         await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+         await using FileStream stream = File.OpenRead(path);
+         await foreach(AjisSegment? _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
             .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 
@@ -160,8 +160,8 @@ public sealed class AjisParseLargeDataTests
          AjisSettings settings = new AjisSettings { ParserProfile = AjisProcessingProfile.Universal };
          int count = 0;
 
-         await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+         await using FileStream stream = File.OpenRead(path);
+         await foreach(AjisSegment? _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
             .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 
@@ -201,8 +201,8 @@ public sealed class AjisParseLargeDataTests
          AjisSettings settings = new AjisSettings { ParserProfile = AjisProcessingProfile.LowMemory };
          int count = 0;
 
-         await using var stream = File.OpenRead(path);
-         await foreach(var _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
+         await using FileStream stream = File.OpenRead(path);
+         await foreach(AjisSegment? _ in AjisParse.ParseSegmentsAsync(stream, settings, TestContext.Current.CancellationToken)
             .WithCancellation(TestContext.Current.CancellationToken))
             count++;
 

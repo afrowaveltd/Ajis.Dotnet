@@ -1,9 +1,8 @@
 #nullable enable
 
-using CoreSettings = global::Afrowave.AJIS.Core.Configuration.AjisSettings;
-using CoreNaming = global::Afrowave.AJIS.Core.Configuration.AjisPropertyNaming;
 using CoreEvents = global::Afrowave.AJIS.Core.Events;
-using Xunit;
+using CoreNaming = global::Afrowave.AJIS.Core.Configuration.AjisPropertyNaming;
+using CoreSettings = global::Afrowave.AJIS.Core.Configuration.AjisSettings;
 
 namespace Afrowave.AJIS.Core.Tests.Configuration;
 
@@ -12,7 +11,7 @@ public sealed class AjisSettingsTests
    [Fact]
    public void Defaults_AreExpected()
    {
-      var settings = new CoreSettings();
+      CoreSettings settings = new CoreSettings();
 
       Assert.Null(settings.Culture);
       Assert.Null(settings.TextProvider);

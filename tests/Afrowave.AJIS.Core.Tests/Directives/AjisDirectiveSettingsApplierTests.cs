@@ -1,11 +1,9 @@
 #nullable enable
 
-using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Core.Directives;
+using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
 using Afrowave.AJIS.Streaming.Segments.Transforms;
-using Xunit;
-using Afrowave.AJIS.Streaming;
 
 namespace Afrowave.AJIS.Core.Tests.Directives;
 
@@ -14,8 +12,8 @@ public sealed class AjisDirectiveSettingsApplierTests
    [Fact]
    public void ApplyDocumentDirectives_ReturnsUpdatedSettings()
    {
-      var settings = new AjisSettings();
-      var binding = new AjisParsedDirectiveBinding(
+      AjisSettings settings = new AjisSettings();
+      AjisParsedDirectiveBinding binding = new AjisParsedDirectiveBinding(
          new AjisDirective("AJIS", "mode", new Dictionary<string, string> { ["value"] = "json" }),
          AjisDirectiveBindingScope.Document,
          "$",
@@ -29,8 +27,8 @@ public sealed class AjisDirectiveSettingsApplierTests
    [Fact]
    public void ApplyDocumentDirectives_IgnoresNonDocumentBindings()
    {
-      var settings = new AjisSettings();
-      var binding = new AjisParsedDirectiveBinding(
+      AjisSettings settings = new AjisSettings();
+      AjisParsedDirectiveBinding binding = new AjisParsedDirectiveBinding(
          new AjisDirective("AJIS", "mode", new Dictionary<string, string> { ["value"] = "lex" }),
          AjisDirectiveBindingScope.Target,
          "$.a",
@@ -44,8 +42,8 @@ public sealed class AjisDirectiveSettingsApplierTests
    [Fact]
    public void ApplyDocumentDirectives_UsesSegments()
    {
-      var settings = new AjisSettings();
-      var segments = new List<AjisSegment>
+      AjisSettings settings = new AjisSettings();
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Directive(0, 0, new AjisSliceUtf8("ajis mode value=json"u8.ToArray(), AjisSliceFlags.None)),
          AjisSegment.Value(1, 0, AjisValueKind.Boolean, new AjisSliceUtf8("true"u8.ToArray(), AjisSliceFlags.None))

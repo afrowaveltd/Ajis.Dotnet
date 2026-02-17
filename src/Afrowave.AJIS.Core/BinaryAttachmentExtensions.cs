@@ -22,7 +22,7 @@ public static class BinaryAttachmentExtensions
       if(!stream.CanRead)
          throw new ArgumentException("Stream is not readable", nameof(stream));
 
-      var data = new byte[stream.Length];
+      byte[] data = new byte[stream.Length];
       stream.ReadExactly(data);
 
       var attachment = new BinaryAttachment
@@ -139,7 +139,7 @@ public static class BinaryAttachmentExtensions
       if(string.IsNullOrEmpty(base64String))
          throw new ArgumentException("Base64 string cannot be null or empty", nameof(base64String));
 
-      var data = Convert.FromBase64String(base64String);
+      byte[] data = Convert.FromBase64String(base64String);
 
       var attachment = new BinaryAttachment
       {

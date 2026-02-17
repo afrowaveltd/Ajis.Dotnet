@@ -76,7 +76,6 @@ public static class AjisStreamWalkEngineRegistry
             RequiresRandomAccess: false);
       }
 
-
       public IAjisStreamWalkEngine CreateEngine() => s_engine;
    }
 }

@@ -70,7 +70,7 @@ public class BinaryAttachment
          Checksum = "";
          return;
       }
-      var hash = SHA256.HashData(Data);
+      byte[] hash = SHA256.HashData(Data);
       Checksum = Convert.ToHexStringLower(hash);
 
       FileSize = Data.Length;
@@ -84,8 +84,8 @@ public class BinaryAttachment
    {
       if(string.IsNullOrEmpty(Checksum) || Data == null)
          return false;
-      var hash = SHA256.HashData(Data);
-      var computed = Convert.ToHexStringLower(hash);
+      byte[] hash = SHA256.HashData(Data);
+      string computed = Convert.ToHexStringLower(hash);
       return computed.Equals(Checksum, StringComparison.CurrentCultureIgnoreCase);
    }
 
@@ -105,7 +105,7 @@ public class BinaryAttachment
       if(OriginalSize <= 0)
          return 0;
 
-      return (1.0 - (double)FileSize / OriginalSize) * 100;
+      return (1.0 - ((double)FileSize / OriginalSize)) * 100;
    }
 
    /// <summary>
@@ -236,12 +236,12 @@ public class AttachmentValidator(
       if(_allowedMimeTypes == null)
          return true;
 
-      foreach(var allowed in _allowedMimeTypes)
+      foreach(string allowed in _allowedMimeTypes)
       {
          if(allowed.EndsWith('*'))
          {
             // Wildcard match (e.g., "image/*")
-            var prefix = allowed[..^1];
+            string prefix = allowed[..^1];
             if(mimeType.StartsWith(prefix))
                return true;
          }
@@ -271,7 +271,7 @@ public static class AjisAttachmentHelper
          throw new FileNotFoundException($"File not found: {filePath}");
 
       var fileInfo = new FileInfo(filePath);
-      var data = File.ReadAllBytes(filePath);
+      byte[] data = File.ReadAllBytes(filePath);
 
       var attachment = new BinaryAttachment
       {

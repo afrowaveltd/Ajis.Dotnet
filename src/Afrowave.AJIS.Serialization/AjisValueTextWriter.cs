@@ -41,21 +41,27 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
          case AjisValue.NullValue:
             _builder.Append("null");
             break;
+
          case AjisValue.BoolValue b:
             _builder.Append(b.Value ? "true" : "false");
             break;
+
          case AjisValue.NumberValue n:
             _builder.Append(n.Text);
             break;
+
          case AjisValue.StringValue s:
             AppendQuoted(s.Value);
             break;
+
          case AjisValue.ArrayValue a:
             AppendArray(a.Items, depth);
             break;
+
          case AjisValue.ObjectValue o:
             AppendObject(o.Properties, depth);
             break;
+
          default:
             throw new InvalidOperationException("Unsupported AjisValue type.");
       }
@@ -95,7 +101,7 @@ internal sealed class AjisValueTextWriter(AjisSerializationFormattingOptions opt
          ordered = properties.OrderBy(p => p.Key, StringComparer.Ordinal);
       _builder.Append('{');
       int i = 0;
-      foreach(var property in ordered)
+      foreach(KeyValuePair<string, AjisValue> property in ordered)
       {
          if(_pretty)
          {

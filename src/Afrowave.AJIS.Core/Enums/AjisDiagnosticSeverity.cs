@@ -28,4 +28,3 @@ public enum AjisDiagnosticSeverity
    /// </summary>
    Error = 3,
 }
-

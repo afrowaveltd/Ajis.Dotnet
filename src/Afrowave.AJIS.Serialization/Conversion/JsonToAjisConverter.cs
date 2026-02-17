@@ -35,7 +35,7 @@ public sealed class JsonToAjisConverter
        ConversionOptions? options = null)
    {
       _ = options ?? new();
-      var result = new AjisConversionResult { SourceFile = jsonFilePath };
+      AjisConversionResult result = new AjisConversionResult { SourceFile = jsonFilePath };
 
       try
       {
@@ -44,7 +44,7 @@ public sealed class JsonToAjisConverter
          result.OriginalSize = jsonContent.Length;
 
          // Parse JSON
-         using var jsonDoc = JsonDocument.Parse(jsonContent);
+         using JsonDocument jsonDoc = JsonDocument.Parse(jsonContent);
          var root = jsonDoc.RootElement;
 
          // Process JSON
@@ -63,7 +63,7 @@ public sealed class JsonToAjisConverter
          var ajisText = SerializeToAjisText(processedElement);
          result.AjisText = ajisText;
          result.AjisSize = Encoding.UTF8.GetByteCount(ajisText);
-         result.SizeReduction = 100.0 * (1.0 - (double)result.AjisSize / result.OriginalSize);
+         result.SizeReduction = 100.0 * (1.0 - ((double)result.AjisSize / result.OriginalSize));
 
          // If attachments detected, prepare ATP format
          if(_detectedAttachments.Count > 0)
@@ -97,7 +97,7 @@ public sealed class JsonToAjisConverter
        string outputFilePath)
    {
       // Create ATP wrapper
-      var atpWrapper = new AtpFileWrapper
+      AtpFileWrapper atpWrapper = new AtpFileWrapper
       {
          AjisContent = conversionResult.AjisText ?? "",
          Metadata = conversionResult.AtpMetadata ?? new(),
@@ -141,7 +141,7 @@ public sealed class JsonToAjisConverter
             break;
 
          case JsonValueKind.Array:
-            var jsonArray = element.EnumerateArray().ToList();
+            List<JsonElement> jsonArray = element.EnumerateArray().ToList();
             // Check if array contains binary-like strings
             if(jsonArray.All(e => e.ValueKind == JsonValueKind.String && BinaryDetector.IsLikelyBinary(e.GetString() ?? "")))
             {
@@ -362,7 +362,7 @@ public sealed record ImageType(string Extension, string MimeType);
 /// </summary>
 public sealed class AjisConversionResult
 {
-   public required string SourceFile { get; init; }
+   public string SourceFile { get; init; }
    public bool Success { get; set; }
    public string? Error { get; set; }
    public long OriginalSize { get; set; }

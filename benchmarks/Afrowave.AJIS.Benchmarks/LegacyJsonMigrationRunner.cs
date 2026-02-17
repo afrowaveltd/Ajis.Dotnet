@@ -29,8 +29,8 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
 """);
 
       // Resolve path correctly - relative to solution root, not bin directory
-      var solutionRoot = FindSolutionRoot();
-      var legacyDataPath = Path.Combine(solutionRoot, _legacyDataPath);
+      string solutionRoot = FindSolutionRoot();
+      string legacyDataPath = Path.Combine(solutionRoot, _legacyDataPath);
 
       if(!Directory.Exists(legacyDataPath))
       {
@@ -40,9 +40,9 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
          return;
       }
 
-      var jsonFiles = Directory.GetFiles(legacyDataPath, "*.json");
+      string[] jsonFiles = Directory.GetFiles(legacyDataPath, "*.json");
 
-      foreach(var jsonFile in jsonFiles)
+      foreach(string jsonFile in jsonFiles)
       {
          Console.WriteLine($"\n\n📄 Processing: {Path.GetFileName(jsonFile)}");
          Console.WriteLine("═════════════════════════════════════════════════════════════════════════════");
@@ -55,12 +55,12 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
 
    private void MigrateJsonFile(string jsonFilePath)
    {
-      var fileName = Path.GetFileName(jsonFilePath);
+      string fileName = Path.GetFileName(jsonFilePath);
 
       // Read legacy JSON
-      var jsonContent = File.ReadAllText(jsonFilePath);
+      string jsonContent = File.ReadAllText(jsonFilePath);
       var fileInfo = new FileInfo(jsonFilePath);
-      var jsonSizeBytes = fileInfo.Length;
+      long jsonSizeBytes = fileInfo.Length;
 
       Console.WriteLine($"\n1️⃣  LEGACY JSON FILE");
       Console.WriteLine($"   File: {fileName}");
@@ -71,7 +71,7 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
       try
       {
          var jsonData = JsonDocument.Parse(jsonContent);
-         var elementCount = jsonData.RootElement.GetArrayLength();
+         int elementCount = jsonData.RootElement.GetArrayLength();
          Console.WriteLine($"   Records: {elementCount:N0} items");
 
          // Detect if it has emoji (flags)
@@ -87,12 +87,12 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
 
       // Convert to AJIS (text)
       Console.WriteLine($"\n2️⃣  CONVERT TO AJIS (TEXT)");
-      var ajisText = jsonContent;  // AJIS is JSON-compatible for migration
+      string ajisText = jsonContent;  // AJIS is JSON-compatible for migration
       Console.WriteLine($"   AJIS Text Size: {FormatBytes(ajisText.Length)}");
-      Console.WriteLine($"   Savings: {((1.0 - (double)ajisText.Length / jsonSizeBytes) * 100):F1}%");
+      Console.WriteLine($"   Savings: {(1.0 - ((double)ajisText.Length / jsonSizeBytes)) * 100:F1}%");
 
       // For binary: simple compression simulation
-      var ajisTextBytes = Encoding.UTF8.GetBytes(ajisText);
+      byte[] ajisTextBytes = Encoding.UTF8.GetBytes(ajisText);
       Console.WriteLine($"   UTF-8 Bytes: {FormatBytes(ajisTextBytes.Length)}");
 
       // Create AJIS with ATP (if it has emoji flags, embed as binary)
@@ -100,9 +100,9 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
 
       if(jsonContent.Contains("\"emoji\""))
       {
-         var ajisWithAtp = CreateAjisWithFlagAttachments(jsonContent, fileName);
+         long ajisWithAtp = CreateAjisWithFlagAttachments(jsonContent, fileName);
          Console.WriteLine($"   AJIS with ATP: {FormatBytes(ajisWithAtp)}");
-         Console.WriteLine($"   Total Savings: {((1.0 - (double)ajisWithAtp / jsonSizeBytes) * 100):F1}%");
+         Console.WriteLine($"   Total Savings: {(1.0 - ((double)ajisWithAtp / jsonSizeBytes)) * 100:F1}%");
 
          _results.Add(new MigrationResult
          {
@@ -116,9 +116,9 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
       }
       else
       {
-         var ajisSize = ajisTextBytes.Length;
+         int ajisSize = ajisTextBytes.Length;
          Console.WriteLine($"   AJIS Size: {FormatBytes(ajisSize)}");
-         Console.WriteLine($"   Savings: {((1.0 - (double)ajisSize / jsonSizeBytes) * 100):F1}%");
+         Console.WriteLine($"   Savings: {(1.0 - ((double)ajisSize / jsonSizeBytes)) * 100:F1}%");
 
          _results.Add(new MigrationResult
          {
@@ -149,11 +149,11 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
       {
          if(item.TryGetProperty("emoji", out var emojiProp))
          {
-            var emoji = emojiProp.GetString();
+            string? emoji = emojiProp.GetString();
             if(!string.IsNullOrEmpty(emoji))
             {
                // Create binary attachment for flag
-               var flagBytes = Encoding.UTF8.GetBytes(emoji);
+               byte[] flagBytes = Encoding.UTF8.GetBytes(emoji);
                var attachment = new BinaryAttachment
                {
                   FileName = $"flag_{item.GetProperty("code").GetString()}.bin",
@@ -170,7 +170,7 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
       }
 
       // Scale up to estimate full size
-      var estimatedTotal = (long)(totalSize * (items.Count / 5.0));
+      long estimatedTotal = (long)(totalSize * (items.Count / 5.0));
       jsonDoc.Dispose();
 
       return estimatedTotal;
@@ -210,13 +210,13 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
       sw.Restart();
 
       // AJIS simulation
-      var ajisBytes = Encoding.UTF8.GetBytes(jsonContent);
+      byte[] ajisBytes = Encoding.UTF8.GetBytes(jsonContent);
       try
       {
          for(int i = 0; i < 10; i++)
          {
             // Simulate AJIS parsing
-            var _ = ajisBytes.Length;
+            int _ = ajisBytes.Length;
          }
          sw.Stop();
          Console.WriteLine($"   AJIS (simulated):  {sw.ElapsedMilliseconds}ms (10 iterations)");
@@ -239,7 +239,7 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
 
       foreach(var result in _results)
       {
-         var savings = (1.0 - (double)result.AjisWithAtpSize / result.OriginalJsonSize) * 100;
+         double savings = (1.0 - ((double)result.AjisWithAtpSize / result.OriginalJsonSize)) * 100;
          Console.WriteLine($"{result.FileName,-25} {FormatBytes(result.OriginalJsonSize),-15} " +
                          $"{FormatBytes(result.AjisTextSize),-15} {FormatBytes(result.AjisWithAtpSize),-15} " +
                          $"{savings:F1}%{(result.HasAttachments ? " ✨" : " ")}");
@@ -247,15 +247,15 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
 
       // Overall stats
       Console.WriteLine("\n📈 Overall Migration Results:");
-      var totalOriginal = _results.Sum(r => r.OriginalJsonSize);
-      var totalAjisText = _results.Sum(r => r.AjisTextSize);
-      var totalAjisAtp = _results.Sum(r => r.AjisWithAtpSize);
+      long totalOriginal = _results.Sum(r => r.OriginalJsonSize);
+      long totalAjisText = _results.Sum(r => r.AjisTextSize);
+      long totalAjisAtp = _results.Sum(r => r.AjisWithAtpSize);
 
       Console.WriteLine($"   Total Original JSON:    {FormatBytes(totalOriginal)}");
-      Console.WriteLine($"   Total AJIS (text):      {FormatBytes(totalAjisText)} ({((1.0 - (double)totalAjisText / totalOriginal) * 100):F1}% saved)");
-      Console.WriteLine($"   Total AJIS (with ATP):  {FormatBytes(totalAjisAtp)} ({((1.0 - (double)totalAjisAtp / totalOriginal) * 100):F1}% saved)");
+      Console.WriteLine($"   Total AJIS (text):      {FormatBytes(totalAjisText)} ({(1.0 - ((double)totalAjisText / totalOriginal)) * 100:F1}% saved)");
+      Console.WriteLine($"   Total AJIS (with ATP):  {FormatBytes(totalAjisAtp)} ({(1.0 - ((double)totalAjisAtp / totalOriginal)) * 100:F1}% saved)");
 
-      var filesToMigrate = _results.Count(r => r.HasAttachments);
+      int filesToMigrate = _results.Count(r => r.HasAttachments);
       Console.WriteLine($"\n✨ Files with Attachments: {filesToMigrate} of {_results.Count}");
 
       Console.WriteLine("""
@@ -328,12 +328,12 @@ public sealed class LegacyJsonMigrationRunner(string legacyDataPath = "test_data
 /// </summary>
 public sealed class MigrationResult
 {
-   public required string FileName { get; init; }
-   public required long OriginalJsonSize { get; init; }
-   public required long AjisTextSize { get; init; }
-   public required long AjisWithAtpSize { get; init; }
-   public required bool HasAttachments { get; init; }
-   public required DateTime Timestamp { get; init; }
+   public string FileName { get; init; }
+   public long OriginalJsonSize { get; init; }
+   public long AjisTextSize { get; init; }
+   public long AjisWithAtpSize { get; init; }
+   public bool HasAttachments { get; init; }
+   public DateTime Timestamp { get; init; }
 }
 
 /// <summary>

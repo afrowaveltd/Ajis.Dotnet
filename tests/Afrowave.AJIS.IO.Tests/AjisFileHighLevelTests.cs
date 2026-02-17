@@ -29,7 +29,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public void Create_CreatesFileWithObjects()
    {
-      var filePath = Path.Combine(_testDirectory, "create.ajis");
+      string filePath = Path.Combine(_testDirectory, "create.ajis");
       var items = new[]
       {
             new TestUser { Id = 1, Name = "Alice" },
@@ -39,7 +39,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
       AjisFile.Create(filePath, items);
 
       Assert.True(File.Exists(filePath));
-      var content = File.ReadAllText(filePath);
+      string content = File.ReadAllText(filePath);
       Assert.Contains("Alice", content);
       Assert.Contains("Bob", content);
    }
@@ -47,7 +47,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public void ReadAll_ReadsAllObjects()
    {
-      var filePath = Path.Combine(_testDirectory, "readall.ajis");
+      string filePath = Path.Combine(_testDirectory, "readall.ajis");
       var items = new[]
       {
             new TestUser { Id = 1, Name = "Charlie" },
@@ -64,7 +64,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public void Enumerate_EnumeratesObjects()
    {
-      var filePath = Path.Combine(_testDirectory, "enum.ajis");
+      string filePath = Path.Combine(_testDirectory, "enum.ajis");
       var items = new[]
       {
             new TestUser { Id = 1, Name = "Eve" }
@@ -79,7 +79,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public void ReadAt_ReadsSpecificIndex()
    {
-      var filePath = Path.Combine(_testDirectory, "readat.ajis");
+      string filePath = Path.Combine(_testDirectory, "readat.ajis");
       var items = new[]
       {
             new TestUser { Id = 1, Name = "Frank" },
@@ -95,7 +95,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public void Append_AppendsToFile()
    {
-      var filePath = Path.Combine(_testDirectory, "append.ajis");
+      string filePath = Path.Combine(_testDirectory, "append.ajis");
       var initial = new TestUser { Id = 1, Name = "Henry" };
 
       AjisFile.Create(filePath, [initial]);
@@ -110,7 +110,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public async Task CreateAsync_CreatesFileAsync()
    {
-      var filePath = Path.Combine(_testDirectory, "create_async.ajis");
+      string filePath = Path.Combine(_testDirectory, "create_async.ajis");
       var items = new[]
       {
             new TestUser { Id = 1, Name = "Jack" }
@@ -124,7 +124,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public async Task AppendAsync_AppendsAsync()
    {
-      var filePath = Path.Combine(_testDirectory, "append_async.ajis");
+      string filePath = Path.Combine(_testDirectory, "append_async.ajis");
       var item = new TestUser { Id = 1, Name = "Kate" };
 
       await AjisFile.CreateAsync(filePath, new[] { item }.ToAsyncEnumerable());
@@ -139,7 +139,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public async Task ReadAllAsync_ReadsAsync()
    {
-      var filePath = Path.Combine(_testDirectory, "readall_async.ajis");
+      string filePath = Path.Combine(_testDirectory, "readall_async.ajis");
       var items = new[]
       {
             new TestUser { Id = 1, Name = "Mona" }
@@ -166,7 +166,7 @@ public sealed class AjisFileHighLevelTests : IAsyncLifetime
    [Fact]
    public void ReadAll_ThrowsOnMissingFile()
    {
-      var filePath = Path.Combine(_testDirectory, "nonexistent.ajis");
+      string filePath = Path.Combine(_testDirectory, "nonexistent.ajis");
 
       Assert.Throws<FileNotFoundException>(() => AjisFile.ReadAll<TestUser>(filePath));
    }

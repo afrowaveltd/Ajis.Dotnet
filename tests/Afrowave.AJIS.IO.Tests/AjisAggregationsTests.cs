@@ -32,7 +32,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, new List<TestProduct>());
 
       // Act
-      var count = AjisQuery.FromFile<TestProduct>(TestFile).Count();
+      int count = AjisQuery.FromFile<TestProduct>(TestFile).Count();
 
       // Assert
       Assert.Equal(0, count);
@@ -51,7 +51,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var count = AjisQuery.FromFile<TestProduct>(TestFile).Count();
+      int count = AjisQuery.FromFile<TestProduct>(TestFile).Count();
 
       // Assert
       Assert.Equal(3, count);
@@ -65,7 +65,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var count = AjisQuery.FromFile<TestProduct>(TestFile)
+      int count = AjisQuery.FromFile<TestProduct>(TestFile)
           .Count(p => p.Price > 15.0m);
 
       // Assert
@@ -81,7 +81,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, new List<TestProduct>());
 
       // Act
-      var result = AjisQuery.FromFile<TestProduct>(TestFile).Any();
+      bool result = AjisQuery.FromFile<TestProduct>(TestFile).Any();
 
       // Assert
       Assert.False(result);
@@ -95,7 +95,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var result = AjisQuery.FromFile<TestProduct>(TestFile).Any();
+      bool result = AjisQuery.FromFile<TestProduct>(TestFile).Any();
 
       // Assert
       Assert.True(result);
@@ -109,7 +109,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var result = AjisQuery.FromFile<TestProduct>(TestFile)
+      bool result = AjisQuery.FromFile<TestProduct>(TestFile)
           .Any(p => p.Price > 25.0m);
 
       // Assert
@@ -124,7 +124,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var result = AjisQuery.FromFile<TestProduct>(TestFile)
+      bool result = AjisQuery.FromFile<TestProduct>(TestFile)
           .Any(p => p.Price > 100.0m);
 
       // Assert
@@ -141,7 +141,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var result = AjisQuery.FromFile<TestProduct>(TestFile)
+      bool result = AjisQuery.FromFile<TestProduct>(TestFile)
           .All(p => p.Price > 0);
 
       // Assert
@@ -156,7 +156,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var result = AjisQuery.FromFile<TestProduct>(TestFile)
+      bool result = AjisQuery.FromFile<TestProduct>(TestFile)
           .All(p => p.Price > 15.0m);
 
       // Assert
@@ -173,7 +173,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var sum = AjisQuery.FromFile<TestProduct>(TestFile)
+      decimal sum = AjisQuery.FromFile<TestProduct>(TestFile)
           .Sum(p => p.Price);
 
       // Assert
@@ -188,7 +188,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var sum = AjisQuery.FromFile<TestProduct>(TestFile)
+      int sum = AjisQuery.FromFile<TestProduct>(TestFile)
           .Sum(p => p.Stock);
 
       // Assert
@@ -205,7 +205,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var avg = AjisQuery.FromFile<TestProduct>(TestFile)
+      double avg = AjisQuery.FromFile<TestProduct>(TestFile)
           .Average(p => (double)p.Price);
 
       // Assert
@@ -220,7 +220,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var avg = AjisQuery.FromFile<TestProduct>(TestFile)
+      double avg = AjisQuery.FromFile<TestProduct>(TestFile)
           .Average(p => p.Stock);
 
       // Assert
@@ -237,7 +237,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var min = AjisQuery.FromFile<TestProduct>(TestFile)
+      decimal min = AjisQuery.FromFile<TestProduct>(TestFile)
           .Min(p => p.Price);
 
       // Assert
@@ -252,7 +252,7 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act
-      var max = AjisQuery.FromFile<TestProduct>(TestFile)
+      decimal max = AjisQuery.FromFile<TestProduct>(TestFile)
           .Max(p => p.Price);
 
       // Assert
@@ -269,7 +269,7 @@ public class AjisAggregationsTests : IDisposable
         {
             new() { Id = 1, Name = "ProductA", Price = 10.0m },
             new() { Id = 2, Name = "ProductB", Price = 20.0m },
-            new() { Id = 3, Name = "ProductA", Price = 10.0m }, // Duplicate  
+            new() { Id = 3, Name = "ProductA", Price = 10.0m }, // Duplicate
             new() { Id = 4, Name = "ProductB", Price = 20.0m }  // Duplicate
         };
       AjisFile.Create(TestFile, products);
@@ -393,19 +393,19 @@ public class AjisAggregationsTests : IDisposable
       AjisFile.Create(TestFile, products);
 
       // Act & Assert
-      var count = AjisQuery.FromFile<TestProduct>(TestFile).Count();
+      int count = AjisQuery.FromFile<TestProduct>(TestFile).Count();
       Assert.Equal(4, count);
 
-      var avgPrice = AjisQuery.FromFile<TestProduct>(TestFile).Average(p => (double)p.Price);
+      double avgPrice = AjisQuery.FromFile<TestProduct>(TestFile).Average(p => (double)p.Price);
       Assert.Equal(18.75, avgPrice); // (10+20+30+15)/4
 
-      var totalStock = AjisQuery.FromFile<TestProduct>(TestFile).Sum(p => p.Stock);
+      int totalStock = AjisQuery.FromFile<TestProduct>(TestFile).Sum(p => p.Stock);
       Assert.Equal(425, totalStock); // 100+50+75+200
 
-      var maxPrice = AjisQuery.FromFile<TestProduct>(TestFile).Max(p => p.Price);
+      decimal maxPrice = AjisQuery.FromFile<TestProduct>(TestFile).Max(p => p.Price);
       Assert.Equal(30.0m, maxPrice);
 
-      var anyExpensive = AjisQuery.FromFile<TestProduct>(TestFile).Any(p => p.Price > 25.0m);
+      bool anyExpensive = AjisQuery.FromFile<TestProduct>(TestFile).Any(p => p.Price > 25.0m);
       Assert.True(anyExpensive);
    }
 

@@ -32,23 +32,23 @@ public sealed class ParserCompetitionBenchmark
       Console.WriteLine($"═══════════════════════════════════════════════════════════════════════\n");
 
       // Generate test data
-      var testData = GenerateTestData(recordCount);
+      List<TestObject> testData = GenerateTestData(recordCount);
       var jsonBytes = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(testData));
 
       Console.WriteLine($"Data size: {jsonBytes.Length / 1024.0:F2} KB");
       Console.WriteLine();
 
       // Test 1: Current FastDeserializer
-      var (time1, memory1, gc1) = BenchmarkFastDeserializer(jsonBytes);
+      (long time1, long memory1, int gc1) = BenchmarkFastDeserializer(jsonBytes);
 
       // Test 2: Old AjisUtf8Parser
-      var (time2, memory2, gc2) = BenchmarkOldUtf8Parser(jsonBytes);
+      (long time2, long memory2, int gc2) = BenchmarkOldUtf8Parser(jsonBytes);
 
       // Test 3: System.Text.Json
-      var (time3, memory3, gc3) = BenchmarkSystemTextJson(jsonBytes);
+      (long time3, long memory3, int gc3) = BenchmarkSystemTextJson(jsonBytes);
 
       // Test 4: Newtonsoft.Json
-      var (time4, memory4, gc4) = BenchmarkNewtonsoftJson(jsonBytes);
+      (long time4, long memory4, int gc4) = BenchmarkNewtonsoftJson(jsonBytes);
 
       // Print comparison
       PrintComparison(label, time1, time2, time3, time4, memory1, memory2, memory3, memory4, gc1, gc2, gc3, gc4);
@@ -64,7 +64,7 @@ public sealed class ParserCompetitionBenchmark
       // Warmup
       for(int i = 0; i < 3; i++)
       {
-         var _ = converter.Deserialize(json);
+         List<TestObject>? _ = converter.Deserialize(json);
       }
 
       GC.Collect();
@@ -75,7 +75,7 @@ public sealed class ParserCompetitionBenchmark
       var gcBefore = GC.CollectionCount(0);
 
       var sw = Stopwatch.StartNew();
-      var result = converter.Deserialize(json);
+      List<TestObject>? result = converter.Deserialize(json);
       sw.Stop();
 
       var peak = GC.GetTotalMemory(false);
@@ -155,7 +155,7 @@ public sealed class ParserCompetitionBenchmark
       // Warmup
       for(int i = 0; i < 3; i++)
       {
-         var _ = System.Text.Json.JsonSerializer.Deserialize<List<TestObject>>(jsonBytes);
+         List<TestObject>? _ = System.Text.Json.JsonSerializer.Deserialize<List<TestObject>>(jsonBytes);
       }
 
       GC.Collect();
@@ -166,7 +166,7 @@ public sealed class ParserCompetitionBenchmark
       var gcBefore = GC.CollectionCount(0);
 
       var sw = Stopwatch.StartNew();
-      var result = System.Text.Json.JsonSerializer.Deserialize<List<TestObject>>(jsonBytes);
+      List<TestObject>? result = System.Text.Json.JsonSerializer.Deserialize<List<TestObject>>(jsonBytes);
       sw.Stop();
 
       var peak = GC.GetTotalMemory(false);
@@ -194,7 +194,7 @@ public sealed class ParserCompetitionBenchmark
       // Warmup
       for(int i = 0; i < 3; i++)
       {
-         var _ = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TestObject>>(json);
+         List<TestObject>? _ = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TestObject>>(json);
       }
 
       GC.Collect();
@@ -205,7 +205,7 @@ public sealed class ParserCompetitionBenchmark
       var gcBefore = GC.CollectionCount(0);
 
       var sw = Stopwatch.StartNew();
-      var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TestObject>>(json);
+      List<TestObject>? result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TestObject>>(json);
       sw.Stop();
 
       var peak = GC.GetTotalMemory(false);

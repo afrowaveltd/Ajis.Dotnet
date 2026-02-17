@@ -36,9 +36,9 @@ public static class AjisSegmentCanonicalizer
       IEnumerator<AjisSegment> enumerator)
    {
       int depth = start.Depth;
-      var blocks = new List<PropertyBlock>();
-      var trailing = new List<AjisSegment>();
-      var metaBuffer = new List<AjisSegment>();
+      List<PropertyBlock> blocks = new List<PropertyBlock>();
+      List<AjisSegment> trailing = new List<AjisSegment>();
+      List<AjisSegment> metaBuffer = new List<AjisSegment>();
 
       while(enumerator.MoveNext())
       {
@@ -59,7 +59,7 @@ public static class AjisSegmentCanonicalizer
          {
             AjisSegment nameSegment = segment;
             AjisSegment valueSegment = ReadNextValue(enumerator, metaBuffer, out List<AjisSegment> valueMeta);
-            var blockSegments = new List<AjisSegment>();
+            List<AjisSegment> blockSegments = new List<AjisSegment>();
             blockSegments.AddRange(metaBuffer);
             blockSegments.Add(nameSegment);
             blockSegments.AddRange(valueMeta);

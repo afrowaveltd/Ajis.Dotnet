@@ -38,7 +38,7 @@ public readonly record struct AjisSliceUtf8(ReadOnlyMemory<byte> Bytes, AjisSlic
 
    public override int GetHashCode()
    {
-      var hash = new HashCode();
+      HashCode hash = new HashCode();
       hash.Add(Flags);
       hash.Add(Bytes.Length);
       if(!Bytes.IsEmpty)

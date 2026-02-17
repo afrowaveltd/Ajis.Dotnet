@@ -97,7 +97,7 @@ public sealed class AjisLexer(
 
    private AjisToken ReadIdentifierToken(long offset, int line, int column)
    {
-      var buffer = new List<byte>();
+      List<byte> buffer = new List<byte>();
 
       while(!_reader.EndOfInput)
       {
@@ -158,7 +158,7 @@ public sealed class AjisLexer(
    private AjisToken ReadStringToken(long offset, int line, int column, char delimiter)
    {
       _reader.Read();
-      var builder = new StringBuilder();
+      StringBuilder builder = new StringBuilder();
       int tokenBytes = 0;
       bool escapesEnabled = _textMode == global::Afrowave.AJIS.Core.AjisTextMode.Json || _stringOptions.EnableEscapes;
 
@@ -283,9 +283,9 @@ public sealed class AjisLexer(
             throw new FormatException("Unterminated unicode escape sequence.");
 
          byte b = _reader.Read();
-         bool isHex = b is >= (byte)'0' and <= (byte)'9'
-            or >= (byte)'a' and <= (byte)'f'
-            or >= (byte)'A' and <= (byte)'F';
+         bool isHex = b is (>= (byte)'0' and <= (byte)'9')
+            or (>= (byte)'a' and <= (byte)'f')
+            or (>= (byte)'A' and <= (byte)'F');
 
          if(!isHex)
             throw new FormatException($"Invalid unicode escape sequence at offset {offset}.");
@@ -302,7 +302,7 @@ public sealed class AjisLexer(
 
    private AjisToken ReadNumberToken(long offset, int line, int column)
    {
-      var signedPrefix = new List<byte>();
+      List<byte> signedPrefix = new List<byte>();
       if(_reader.Peek() == '-' || (_reader.Peek() == '+' && _numberOptions.AllowLeadingPlusOnNumbers))
          signedPrefix.Add(_reader.Read());
 
@@ -323,7 +323,7 @@ public sealed class AjisLexer(
       if(_numberOptions.EnableBasePrefixes && TryReadPrefixedNumber(offset, line, column, signedPrefix, out AjisToken prefixed))
          return prefixed;
 
-      var buffer = new List<byte>();
+      List<byte> buffer = new List<byte>();
       if(signedPrefix.Count > 0)
          buffer.AddRange(signedPrefix);
       bool hasDot = false;
@@ -411,7 +411,7 @@ public sealed class AjisLexer(
 
       _reader.Read();
 
-      var buffer = new List<byte>();
+      List<byte> buffer = new List<byte>();
       if(signedPrefix.Count > 0)
          buffer.AddRange(signedPrefix);
       buffer.Add(first);
@@ -456,7 +456,7 @@ public sealed class AjisLexer(
 
    private string ReadDecimalIntegerPart(long offset)
    {
-      var buffer = new List<byte>();
+      List<byte> buffer = new List<byte>();
       if(_reader.EndOfInput) return string.Empty;
 
       byte first = _reader.Peek();
@@ -619,7 +619,7 @@ public sealed class AjisLexer(
          throw new FormatException($"Directives are not allowed at {line}:{column}.");
 
       _reader.Read();
-      var buffer = new List<byte>();
+      List<byte> buffer = new List<byte>();
       while(!_reader.EndOfInput)
       {
          byte b = _reader.Peek();
@@ -642,8 +642,8 @@ public sealed class AjisLexer(
       if(_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Json)
          throw new FormatException($"Comments are not allowed at {_reader.Line}:{_reader.Column}.");
 
-       byte slash = _reader.Read();
-       if(_reader.EndOfInput)
+      byte slash = _reader.Read();
+      if(_reader.EndOfInput)
          throw new FormatException($"Invalid comment start at {_reader.Line}:{_reader.Column}.");
 
       byte next = _reader.Peek();
@@ -707,7 +707,7 @@ public sealed class AjisLexer(
             throw new FormatException($"Line comments are not allowed at {line}:{column}.");
 
          _reader.Read();
-         var buffer = new List<byte>();
+         List<byte> buffer = new List<byte>();
          while(!_reader.EndOfInput)
          {
             byte b = _reader.Read();
@@ -728,7 +728,7 @@ public sealed class AjisLexer(
             throw new FormatException($"Block comments are not allowed at {line}:{column}.");
 
          _reader.Read();
-         var buffer = new List<byte>();
+         List<byte> buffer = new List<byte>();
          byte prev = 0;
          while(!_reader.EndOfInput)
          {
@@ -808,7 +808,7 @@ public sealed class AjisLexer(
             throw new FormatException($"Invalid number at offset {offset}.");
       }
 
-      var buffer = new List<byte>(signedPrefix.Count + literal.Length);
+      List<byte> buffer = new List<byte>(signedPrefix.Count + literal.Length);
       if(signedPrefix.Count > 0)
          buffer.AddRange(signedPrefix);
       buffer.AddRange(Encoding.UTF8.GetBytes(literal));
@@ -822,8 +822,8 @@ public sealed class AjisLexer(
          || (_textMode == global::Afrowave.AJIS.Core.AjisTextMode.Ajis && _stringOptions.AllowUnquotedPropertyNames);
 
    private static bool IsIdentifierStart(byte b)
-      => b is >= (byte)'A' and <= (byte)'Z'
-         or >= (byte)'a' and <= (byte)'z'
+      => b is (>= (byte)'A' and <= (byte)'Z')
+         or (>= (byte)'a' and <= (byte)'z')
          or (byte)'$';
 
    private static bool IsIdentifierPart(byte b)

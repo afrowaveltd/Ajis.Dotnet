@@ -10,6 +10,8 @@ public interface IAjisReader
    bool EndOfInput { get; }
 
    byte Peek();
+
    byte Read();
+
    ReadOnlySpan<byte> ReadSpan(int length);
 }

@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Collections;
+using System.Collections.Frozen;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -19,6 +20,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
 
    // Three-tier cache: Type → PropertyMetadata, Type → Properties, Type → Lookup dictionary
    private readonly Dictionary<Type, PropertyMetadata[]> _propertyCache = [];
+
    private readonly Dictionary<Type, ConstructorInfo> _constructorCache = [];
    private readonly Dictionary<Type, Dictionary<string, PropertyMetadata>> _propertyLookupCache = [];
 
@@ -27,6 +29,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
 
    // PHASE 5: Inline type cache for common types to avoid branching
    private static readonly Type TypeString = typeof(string);
+
    private static readonly Type TypeInt = typeof(int);
    private static readonly Type TypeLong = typeof(long);
    private static readonly Type TypeDouble = typeof(double);
@@ -36,7 +39,6 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
    private static readonly Type TypeDateTime = typeof(DateTime);
    private static readonly Type TypeDateTimeOffset = typeof(DateTimeOffset);
    private static readonly Type TypeTimeSpan = typeof(TimeSpan);
-
 
    /// <summary>
    /// Deserialize directly from UTF8 bytes using Utf8JsonReader (FAST!).
@@ -80,15 +82,15 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
       if(ReferenceEquals(targetType, TypeString))
          return reader.GetString();
 
-      var underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
+      Type underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
 
       // PHASE 7C: Parse directly from ValueSpan<byte> without string allocation!
-      var valueSpan = reader.ValueSpan;
+      ReadOnlySpan<byte> valueSpan = reader.ValueSpan;
 
       if(ReferenceEquals(underlyingType, TypeGuid))
       {
          // Parse from UTF8 bytes directly, not from converted string
-         if(Guid.TryParse(valueSpan, out var guid))
+         if(Guid.TryParse(valueSpan, out Guid guid))
             return guid;
          // Fallback: try string-based parsing if span parsing fails
          var str = reader.GetString();
@@ -97,7 +99,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
 
       if(ReferenceEquals(underlyingType, TypeDateTime))
       {
-         if(DateTime.TryParse(Encoding.UTF8.GetString(valueSpan), out var dt))
+         if(DateTime.TryParse(Encoding.UTF8.GetString(valueSpan), out DateTime dt))
             return dt;
          // Fallback
          var str = reader.GetString();
@@ -106,7 +108,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
 
       if(ReferenceEquals(underlyingType, TypeDateTimeOffset))
       {
-         if(DateTimeOffset.TryParse(Encoding.UTF8.GetString(valueSpan), out var dto))
+         if(DateTimeOffset.TryParse(Encoding.UTF8.GetString(valueSpan), out DateTimeOffset dto))
             return dto;
          // Fallback
          var str = reader.GetString();
@@ -115,7 +117,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
 
       if(ReferenceEquals(underlyingType, TypeTimeSpan))
       {
-         if(TimeSpan.TryParse(Encoding.UTF8.GetString(valueSpan), out var ts))
+         if(TimeSpan.TryParse(Encoding.UTF8.GetString(valueSpan), out TimeSpan ts))
             return ts;
          // Fallback
          var str = reader.GetString();
@@ -137,7 +139,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
       if(ReferenceEquals(targetType, TypeBool))
          return value;
 
-      var underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
+      Type underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
       if(ReferenceEquals(underlyingType, TypeBool))
          return value;
 
@@ -147,7 +149,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
    [MethodImpl(MethodImplOptions.AggressiveInlining)]
    private object? ReadNumber(ref Utf8JsonReader reader, Type targetType)
    {
-      var underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
+      Type underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
 
       // PHASE 5: Use ReferenceEquals for fast type matching (no boxing!)
       if(ReferenceEquals(underlyingType, TypeInt))
@@ -187,7 +189,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
       }
       else if(targetType.IsGenericType)
       {
-         var genericArgs = targetType.GetGenericArguments();
+         Type[] genericArgs = targetType.GetGenericArguments();
          if(genericArgs.Length == 1)
             elementType = genericArgs[0];
       }
@@ -262,7 +264,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
       else
       {
          // Create List<T> efficiently
-         var listType = typeof(List<>).MakeGenericType(elementType);
+         Type listType = typeof(List<>).MakeGenericType(elementType);
          IList list = (System.Collections.IList)Activator.CreateInstance(listType)!;
          foreach(var item in itemsList)
          {
@@ -275,7 +277,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
    private object? ReadObject(ref Utf8JsonReader reader, Type targetType)
    {
       // Get or create constructor
-      if(!_constructorCache.TryGetValue(targetType, out var ctor))
+      if(!_constructorCache.TryGetValue(targetType, out ConstructorInfo? ctor))
       {
          ctor = targetType.GetConstructor(Type.EmptyTypes) ?? throw new InvalidOperationException($"Type {targetType} must have a parameterless constructor");
          _constructorCache[targetType] = ctor;
@@ -286,8 +288,8 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
 
       // PHASE 8C: Use GLOBAL static cache instead of per-instance cache
       // This eliminates cache miss on new deserializer instances
-      var exactLookup = GlobalPropertyCache.GetExactLookup(targetType, _propertyMapper);
-      var caseInsensitiveLookup = GlobalPropertyCache.GetCaseInsensitiveLookup(targetType, _propertyMapper);
+      FrozenDictionary<string, PropertyMetadata> exactLookup = GlobalPropertyCache.GetExactLookup(targetType, _propertyMapper);
+      Dictionary<string, PropertyMetadata> caseInsensitiveLookup = GlobalPropertyCache.GetCaseInsensitiveLookup(targetType, _propertyMapper);
 
       // Read properties
       while(reader.Read() && reader.TokenType != JsonTokenType.EndObject)
@@ -300,7 +302,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
             if(propertyName != null)
             {
                // PHASE 8C: Try exact match first (FrozenDictionary - super fast!)
-               if(!exactLookup.TryGetValue(propertyName, out var property))
+               if(!exactLookup.TryGetValue(propertyName, out PropertyMetadata? property))
                {
                   // PHASE 8C: Fallback to precomputed case-insensitive (O(1), not LINQ!)
                   caseInsensitiveLookup.TryGetValue(propertyName, out property);
@@ -311,7 +313,7 @@ internal sealed class Utf8DirectDeserializer<T>(PropertyMapper propertyMapper) w
                   var value = ReadValue(ref reader, property.PropertyType);
 
                   // Use compiled setter (cached)
-                  var setter = _setterCompiler.GetOrCompileSetter(property);
+                  Action<object, object?> setter = _setterCompiler.GetOrCompileSetter(property);
                   setter(instance, value);
                }
                // else skip unknown property (already advanced reader)

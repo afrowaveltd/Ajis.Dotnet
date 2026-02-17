@@ -19,7 +19,7 @@ internal sealed class TestObjectFastDeserializer
       if(reader.TokenType != JsonTokenType.StartObject)
          return null;
 
-      var obj = new TestObject();
+      TestObject obj = new TestObject();
 
       while(reader.Read() && reader.TokenType != JsonTokenType.EndObject)
       {
@@ -33,21 +33,27 @@ internal sealed class TestObjectFastDeserializer
                case "Id":
                   obj.Id = reader.GetInt32();
                   break;
+
                case "Name":
                   obj.Name = reader.GetString() ?? "";
                   break;
+
                case "Value":
                   obj.Value = reader.GetInt32();
                   break;
+
                case "Score":
                   obj.Score = reader.GetDouble();
                   break;
+
                case "Active":
                   obj.Active = reader.GetBoolean();
                   break;
+
                case "Tags":
                   obj.Tags = ReadStringArray(ref reader) ?? [];
                   break;
+
                case "Items":
                   obj.Items = ReadTestItemArray(ref reader) ?? [];
                   break;
@@ -65,7 +71,7 @@ internal sealed class TestObjectFastDeserializer
       if(reader.TokenType != JsonTokenType.StartArray)
          return null;
 
-      var list = new System.Collections.Generic.List<string>();
+      List<string> list = new System.Collections.Generic.List<string>();
       while(reader.Read() && reader.TokenType != JsonTokenType.EndArray)
       {
          if(reader.TokenType == JsonTokenType.String)
@@ -83,7 +89,7 @@ internal sealed class TestObjectFastDeserializer
       if(reader.TokenType != JsonTokenType.StartArray)
          return null;
 
-      var list = new System.Collections.Generic.List<TestItem>();
+      List<TestItem> list = new System.Collections.Generic.List<TestItem>();
       while(reader.Read() && reader.TokenType != JsonTokenType.EndArray)
       {
          if(reader.TokenType == JsonTokenType.StartObject)
@@ -103,7 +109,7 @@ internal sealed class TestObjectFastDeserializer
       if(reader.TokenType != JsonTokenType.StartObject)
          return null;
 
-      var item = new TestItem();
+      TestItem item = new TestItem();
 
       while(reader.Read() && reader.TokenType != JsonTokenType.EndObject)
       {
@@ -117,9 +123,11 @@ internal sealed class TestObjectFastDeserializer
                case "ItemId":
                   item.ItemId = reader.GetInt32();
                   break;
+
                case "ItemName":
                   item.ItemName = reader.GetString() ?? "";
                   break;
+
                case "Amount":
                   item.Amount = reader.GetInt32();
                   break;

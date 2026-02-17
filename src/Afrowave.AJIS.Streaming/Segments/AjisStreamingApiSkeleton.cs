@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using Afrowave.AJIS.Core;
+using Afrowave.AJIS.Core.Events;
 using Afrowave.AJIS.Streaming.Reader;
 using Afrowave.AJIS.Streaming.Segments.Engines;
 using System.Buffers;
@@ -146,7 +147,7 @@ public static class AjisParse
       _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
       _ = ct;
 
-      var eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
+      IAjisEventSink eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
       long? totalBytes = input.CanSeek ? input.Length : null;
       await eventSink.EmitAsync(
          new global::Afrowave.AJIS.Core.Events.AjisMilestoneEvent(DateTimeOffset.UtcNow, "parse", "start"),
@@ -161,7 +162,7 @@ public static class AjisParse
 
       if(profile == AjisProcessingProfile.Universal)
       {
-         foreach(var segment in AjisLexerParserStream.Parse(
+         foreach(AjisSegment segment in AjisLexerParserStream.Parse(
             input,
             numberOptions: settings?.Numbers,
             stringOptions: settings?.Strings,
@@ -180,7 +181,7 @@ public static class AjisParse
 
       if(RequiresLexerParsing(settings))
       {
-         foreach(var segment in AjisLexerParserStream.Parse(
+         foreach(AjisSegment segment in AjisLexerParserStream.Parse(
             input,
             numberOptions: settings?.Numbers,
             stringOptions: settings?.Strings,
@@ -200,7 +201,7 @@ public static class AjisParse
       if(input is MemoryStream mem && mem.TryGetBuffer(out ArraySegment<byte> buffer))
       {
          _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Span);
-         foreach(var segment in ParseSegments(buffer.AsSpan(), settings))
+         foreach(AjisSegment segment in ParseSegments(buffer.AsSpan(), settings))
             yield return segment;
 
          await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
@@ -210,7 +211,7 @@ public static class AjisParse
       if(input is FileStream fileStream && fileStream.CanSeek)
       {
          _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
-         foreach(var segment in ParseSegmentsMappedFile(fileStream.Name, settings))
+         foreach(AjisSegment segment in ParseSegmentsMappedFile(fileStream.Name, settings))
             yield return segment;
 
          await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
@@ -220,11 +221,11 @@ public static class AjisParse
       string tempPath = Path.GetTempFileName();
       try
       {
-         await using(var tempStream = File.Create(tempPath))
+         await using(FileStream tempStream = File.Create(tempPath))
             await input.CopyToAsync(tempStream, ct).ConfigureAwait(false);
 
          _ = AjisSegmentParseEngineSelector.Select(profile, AjisSegmentParseInputKind.Stream);
-         foreach(var segment in ParseSegmentsMappedFile(tempPath, settings))
+         foreach(AjisSegment segment in ParseSegmentsMappedFile(tempPath, settings))
             yield return segment;
 
          await EmitParseCompletionAsync(eventSink, totalBytes, ct).ConfigureAwait(false);
@@ -424,7 +425,7 @@ public static class AjisParse
       if(length > int.MaxValue)
          return ParseSegmentsMappedFileChunked(path, settings, thresholdBytes);
 
-      using var accessor = mmf.CreateViewAccessor(0, length, MemoryMappedFileAccess.Read);
+      using MemoryMappedViewAccessor accessor = mmf.CreateViewAccessor(0, length, MemoryMappedFileAccess.Read);
 
       unsafe
       {
@@ -442,7 +443,6 @@ public static class AjisParse
             accessor.SafeMemoryMappedViewHandle.ReleasePointer();
          }
       }
-
    }
 
    private static IEnumerable<AjisSegment> ParseSegmentsMappedFileChunked(
@@ -471,7 +471,7 @@ public static class AjisParse
          while(offset < length)
          {
             int take = (int)Math.Min(chunkSize, length - offset);
-            using var accessor = mmf.CreateViewAccessor(offset, take, MemoryMappedFileAccess.Read);
+            using MemoryMappedViewAccessor accessor = mmf.CreateViewAccessor(offset, take, MemoryMappedFileAccess.Read);
             accessor.ReadArray(0, buffer, carry, take);
 
             bool isFinal = offset + take >= length;
@@ -488,15 +488,19 @@ public static class AjisParse
                   case JsonTokenType.StartObject:
                      segments.Add(AjisSegment.Enter(AjisContainerKind.Object, tokenOffset, depth));
                      break;
+
                   case JsonTokenType.EndObject:
                      segments.Add(AjisSegment.Exit(AjisContainerKind.Object, tokenOffset, depth));
                      break;
+
                   case JsonTokenType.StartArray:
                      segments.Add(AjisSegment.Enter(AjisContainerKind.Array, tokenOffset, depth));
                      break;
+
                   case JsonTokenType.EndArray:
                      segments.Add(AjisSegment.Exit(AjisContainerKind.Array, tokenOffset, depth));
                      break;
+
                   case JsonTokenType.PropertyName:
                      {
                         string nameText = reader.GetString() ?? string.Empty;
@@ -518,9 +522,11 @@ public static class AjisParse
                   case JsonTokenType.True:
                      segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Boolean, CreateSlice("true", AjisSliceFlags.None)));
                      break;
+
                   case JsonTokenType.False:
                      segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Boolean, CreateSlice("false", AjisSliceFlags.None)));
                      break;
+
                   case JsonTokenType.Null:
                      segments.Add(AjisSegment.Value(tokenOffset, depth, AjisValueKind.Null));
                      break;

@@ -82,11 +82,11 @@ public sealed class ImageReconstructionService
    public static List<CountryModernFormat> ReconstructFromLegacy(
        List<CountryLegacyFormat> legacyCountries)
    {
-      var reconstructed = new List<CountryModernFormat>();
+      List<CountryModernFormat> reconstructed = new List<CountryModernFormat>();
 
       foreach(var legacy in legacyCountries)
       {
-         var modern = new CountryModernFormat
+         CountryModernFormat modern = new CountryModernFormat
          {
             Id = legacy.Id,
             Name = legacy.Name,
@@ -206,7 +206,7 @@ public sealed class ImageReconstructionService
 
    private static string FindSolutionRoot()
    {
-      var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
+      DirectoryInfo? currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
 
       while(currentDirectory != null)
       {
@@ -261,17 +261,17 @@ public sealed class ImageReconstructionService
 
       Console.WriteLine($"\nBase64 Encoded Size:     {FormatBytes(totalBase64Size)}");
       Console.WriteLine($"Binary Image Size:       {FormatBytes(totalImageSize)}");
-      Console.WriteLine($"Size Reduction:          {((1.0 - (double)totalImageSize / totalBase64Size) * 100):F1}%");
+      Console.WriteLine($"Size Reduction:          {(1.0 - ((double)totalImageSize / totalBase64Size)) * 100:F1}%");
 
       var reconstructedCount = modern.Count(c => c.FlagImage != null);
       Console.WriteLine($"\nImages Reconstructed:    {reconstructedCount}/{modern.Count}");
-      Console.WriteLine($"Success Rate:            {(reconstructedCount * 100.0 / modern.Count):F1}%");
+      Console.WriteLine($"Success Rate:            {reconstructedCount * 100.0 / modern.Count:F1}%");
 
       // Detailed breakdown
       Console.WriteLine("\n\n🖼️  IMAGE TYPE BREAKDOWN:");
       Console.WriteLine("─────────────────────────────────────────────────────────────────");
 
-      var byType = modern
+      List<IGrouping<string, CountryModernFormat>> byType = modern
           .Where(c => c.FlagImage != null)
           .GroupBy(c => c.FlagImage!.MimeType)
           .OrderByDescending(g => g.Sum(c => c.FlagImage!.Data.Length))
@@ -295,7 +295,7 @@ public sealed class ImageReconstructionService
 
       Console.WriteLine($"Without Compression:     {FormatBytes(totalImageSize)}");
       Console.WriteLine($"With Compression (est.): {FormatBytes((long)withCompression)}");
-      Console.WriteLine($"Additional Savings:      {FormatBytes(savedWithCompression)} ({(savedWithCompression * 100.0 / totalImageSize):F1}%)");
+      Console.WriteLine($"Additional Savings:      {FormatBytes(savedWithCompression)} ({savedWithCompression * 100.0 / totalImageSize:F1}%)");
 
       // Total impact
       Console.WriteLine("\n\n💰 TOTAL MIGRATION IMPACT:");
@@ -307,7 +307,7 @@ public sealed class ImageReconstructionService
 
       Console.WriteLine($"Original JSON Size:      {FormatBytes(originalJsonSize)}");
       Console.WriteLine($"AJIS with ATP:           {FormatBytes(estimatedAjisSize)}");
-      Console.WriteLine($"Total Savings:           {((1.0 - (double)estimatedAjisSize / originalJsonSize) * 100):F1}%");
+      Console.WriteLine($"Total Savings:           {(1.0 - ((double)estimatedAjisSize / originalJsonSize)) * 100:F1}%");
 
       Console.WriteLine("""
 

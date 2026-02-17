@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Afrowave.AJIS.IO;
 
@@ -119,10 +120,10 @@ public static class AjisAggregations
       if(selector == null)
          throw new ArgumentNullException(nameof(selector));
 
-      var compiled = selector.Compile();
+      Func<T, TResult> compiled = selector.Compile();
       dynamic sum = default(TResult);
 
-      foreach(var item in source)
+      foreach(T item in source)
       {
          sum += (dynamic)compiled(item);
       }
@@ -140,11 +141,11 @@ public static class AjisAggregations
       if(selector == null)
          throw new ArgumentNullException(nameof(selector));
 
-      var compiled = selector.Compile();
+      Func<T, double> compiled = selector.Compile();
       double sum = 0;
       int count = 0;
 
-      foreach(var item in source)
+      foreach(T item in source)
       {
          sum += compiled(item);
          count++;
@@ -166,11 +167,11 @@ public static class AjisAggregations
       if(selector == null)
          throw new ArgumentNullException(nameof(selector));
 
-      var compiled = selector.Compile();
+      Func<T, int> compiled = selector.Compile();
       long sum = 0;
       int count = 0;
 
-      foreach(var item in source)
+      foreach(T item in source)
       {
          sum += compiled(item);
          count++;
@@ -194,13 +195,13 @@ public static class AjisAggregations
       if(selector == null)
          throw new ArgumentNullException(nameof(selector));
 
-      var compiled = selector.Compile();
+      Func<T, TResult> compiled = selector.Compile();
       TResult? min = default;
       bool hasValue = false;
 
-      foreach(var item in source)
+      foreach(T item in source)
       {
-         var value = compiled(item);
+         TResult value = compiled(item);
          if(!hasValue || (value != null && value.CompareTo(min!) < 0))
          {
             min = value;
@@ -226,13 +227,13 @@ public static class AjisAggregations
       if(selector == null)
          throw new ArgumentNullException(nameof(selector));
 
-      var compiled = selector.Compile();
+      Func<T, TResult> compiled = selector.Compile();
       TResult? max = default;
       bool hasValue = false;
 
-      foreach(var item in source)
+      foreach(T item in source)
       {
-         var value = compiled(item);
+         TResult value = compiled(item);
          if(!hasValue || (value != null && value.CompareTo(max!) > 0))
          {
             max = value;
@@ -269,12 +270,12 @@ public static class AjisAggregations
       if(keySelector == null)
          throw new ArgumentNullException(nameof(keySelector));
 
-      var compiled = keySelector.Compile();
+      Func<T, TKey> compiled = keySelector.Compile();
       var seen = new HashSet<TKey>();
 
-      foreach(var item in source)
+      foreach(T item in source)
       {
-         var key = compiled(item);
+         TKey? key = compiled(item);
          if(key != null && seen.Add(key))
          {
             yield return item;
@@ -293,7 +294,7 @@ public static class AjisAggregations
       var visitor = new EnhancedAjisQueryVisitor<T>();
       visitor.Visit(ajisQuery.Expression);
 
-      var result = visitor.ExecuteQuery<T>(filePath);
+      IEnumerable<T> result = visitor.ExecuteQuery<T>(filePath);
       return result.Count();
    }
 
@@ -304,17 +305,17 @@ public static class AjisAggregations
       var visitor = new EnhancedAjisQueryVisitor<T>();
       visitor.Visit(ajisQuery.Expression);
 
-      var result = visitor.ExecuteQuery<T>(filePath);
+      IEnumerable<T> result = visitor.ExecuteQuery<T>(filePath);
       return result.Any();
    }
 
    private static bool ExecuteAll<T>(AjisQueryable<T> ajisQuery, Expression<Func<T, bool>> predicate) where T : notnull
    {
       var filePath = GetFilePath(ajisQuery);
-      var compiled = predicate.Compile();
+      Func<T, bool> compiled = predicate.Compile();
 
       // Enumerate and check all elements
-      foreach(var item in AjisFile.Enumerate<T>(filePath))
+      foreach(T item in AjisFile.Enumerate<T>(filePath))
       {
          if(!compiled(item))
             return false;
@@ -326,7 +327,7 @@ public static class AjisAggregations
    private static string GetFilePath<T>(AjisQueryable<T> ajisQuery) where T : notnull
    {
       // Use reflection to get the private _filePath field
-      var field = typeof(AjisQueryable<T>).GetField("_filePath",
+      FieldInfo? field = typeof(AjisQueryable<T>).GetField("_filePath",
           System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
       return field == null

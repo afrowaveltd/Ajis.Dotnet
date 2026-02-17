@@ -25,10 +25,10 @@ public sealed class StressTestRunner
 
       // Generate test data
       Console.WriteLine("\n1. GENERATING TEST DATA...");
-      var users100k = _generator.GenerateUsers(100_000);
+      List<StressTestUser> users100k = _generator.GenerateUsers(100_000);
       Console.WriteLine($"✓ Generated 100K users");
 
-      var users500k = _generator.GenerateUsers(500_000);
+      List<StressTestUser> users500k = _generator.GenerateUsers(500_000);
       Console.WriteLine($"✓ Generated 500K users");
 
       // Note: 1M might exceed memory - we'll try but handle gracefully
@@ -82,44 +82,44 @@ public sealed class StressTestRunner
       Console.WriteLine();
 
       // Test AJIS
-      var ajisResult = _framework.RunTest(
+      StressTestResult ajisResult = _framework.RunTest(
           $"AJIS Parsing ({label})",
           path =>
           {
              // Fair comparison: deserialize to List<StressTestUser> just like JSON
-             using var fs = System.IO.File.OpenRead(path);
+             using FileStream fs = System.IO.File.OpenRead(path);
              var converter = new AjisConverter<List<StressTestUser>>();
              var ajisText = new System.IO.StreamReader(fs).ReadToEnd();
-             var deserialized = converter.Deserialize(ajisText);
+             List<StressTestUser>? deserialized = converter.Deserialize(ajisText);
              return deserialized?.Count ?? 0;
           },
           ajisPath);
       _results.Add(ajisResult);
 
       // Test System.Text.Json
-      var jsonResult = _framework.RunTest(
+      StressTestResult jsonResult = _framework.RunTest(
           $"System.Text.Json Parsing ({label})",
           path =>
           {
              // Fair comparison: use streaming
-             using var fs = System.IO.File.OpenRead(path);
-             var deserialized = System.Text.Json.JsonSerializer.Deserialize<List<StressTestUser>>(fs);
+             using FileStream fs = System.IO.File.OpenRead(path);
+             List<StressTestUser>? deserialized = System.Text.Json.JsonSerializer.Deserialize<List<StressTestUser>>(fs);
              return deserialized?.Count ?? 0;
           },
           jsonPath);
       _results.Add(jsonResult);
 
       // Test Newtonsoft.Json
-      var newtonResult = _framework.RunTest(
+      StressTestResult newtonResult = _framework.RunTest(
           $"Newtonsoft.Json Parsing ({label})",
           path =>
           {
              // Fair comparison: use streaming
-             using var fs = System.IO.File.OpenRead(path);
+             using FileStream fs = System.IO.File.OpenRead(path);
              using var sr = new System.IO.StreamReader(fs);
              using var jr = new Newtonsoft.Json.JsonTextReader(sr);
              var serializer = new Newtonsoft.Json.JsonSerializer();
-             var deserialized = serializer.Deserialize<List<StressTestUser>>(jr);
+             List<StressTestUser>? deserialized = serializer.Deserialize<List<StressTestUser>>(jr);
              return deserialized?.Count ?? 0;
           },
           jsonPath);
@@ -180,7 +180,7 @@ public sealed class StressTestRunner
       else
       {
          Console.WriteLine($"  ⚠️  {failedTests.Count} tests failed (out of {_results.Count}):");
-         foreach(var failed in failedTests)
+         foreach(StressTestResult? failed in failedTests)
          {
             Console.WriteLine($"      - {failed.TestName}: {failed.ErrorMessage}");
          }

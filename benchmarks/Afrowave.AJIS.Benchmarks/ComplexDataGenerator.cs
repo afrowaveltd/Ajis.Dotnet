@@ -16,7 +16,7 @@ public sealed class ComplexDataGenerator
    /// </summary>
    public List<StressTestUser> GenerateUsers(int count)
    {
-      var users = new List<StressTestUser>(count);
+      List<StressTestUser> users = new List<StressTestUser>(count);
 
       for(int i = 0; i < count; i++)
       {
@@ -125,7 +125,7 @@ public sealed class ComplexDataGenerator
    {
       Console.WriteLine($"Saving {users.Count:N0} users to AJIS file...");
 
-      using(var writer = new System.IO.StreamWriter(new System.IO.FileStream(filePath, System.IO.FileMode.Create, System.IO.FileAccess.Write), System.Text.Encoding.UTF8, 4096))
+      using(StreamWriter writer = new System.IO.StreamWriter(new System.IO.FileStream(filePath, System.IO.FileMode.Create, System.IO.FileAccess.Write), System.Text.Encoding.UTF8, 4096))
       {
          writer.Write("[");
          for(int i = 0; i < users.Count; i++)
@@ -142,7 +142,7 @@ public sealed class ComplexDataGenerator
          writer.Write("]");
       }
 
-      var fileInfo = new System.IO.FileInfo(filePath);
+      FileInfo fileInfo = new System.IO.FileInfo(filePath);
       Console.WriteLine($"✓ Saved {users.Count:N0} users ({fileInfo.Length / (1024 * 1024)}MB)");
    }
 
@@ -151,7 +151,7 @@ public sealed class ComplexDataGenerator
    /// </summary>
    public static double GetFileSizeMB(string filePath)
    {
-      var info = new System.IO.FileInfo(filePath);
+      FileInfo info = new System.IO.FileInfo(filePath);
       return info.Length / (1024.0 * 1024.0);
    }
 }

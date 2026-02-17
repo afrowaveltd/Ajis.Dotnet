@@ -2,7 +2,6 @@
 
 using Afrowave.AJIS.Core.Abstraction;
 using Afrowave.AJIS.Core.Localization;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Localization;
 
@@ -11,7 +10,7 @@ public sealed class AjisLocalizationDefaultsTests
    [Fact]
    public async Task BuildDefaultAsync_PrioritizesUserOverrides()
    {
-      var overrides = new AjisLocDictionary(new Dictionary<string, string>
+      AjisLocDictionary overrides = new AjisLocDictionary(new Dictionary<string, string>
       {
          ["ajis.error.unknown"] = "override"
       });

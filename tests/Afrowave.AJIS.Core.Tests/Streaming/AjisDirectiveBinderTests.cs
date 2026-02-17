@@ -4,7 +4,6 @@ using Afrowave.AJIS.Streaming;
 using Afrowave.AJIS.Streaming.Segments;
 using Afrowave.AJIS.Streaming.Segments.Transforms;
 using System.Text;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
@@ -13,7 +12,7 @@ public sealed class AjisDirectiveBinderTests
    [Fact]
    public void BindDirectives_BindsDocumentDirective()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Directive(0, 0, Slice("#ajis mode=tryparse")),
          AjisSegment.Value(1, 0, AjisValueKind.Boolean, Slice("true"))
@@ -29,7 +28,7 @@ public sealed class AjisDirectiveBinderTests
    [Fact]
    public void BindDirectives_BindsTargetDirective()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("a")),
@@ -49,7 +48,7 @@ public sealed class AjisDirectiveBinderTests
    [Fact]
    public void BindDirectives_BindsTrailerDirective()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Value(0, 0, AjisValueKind.Boolean, Slice("true")),
          AjisSegment.Directive(1, 0, Slice("#ajis trailer"))
@@ -65,7 +64,7 @@ public sealed class AjisDirectiveBinderTests
    [Fact]
    public void BindAndParseDirectives_ReturnsSingleBinding()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Directive(0, 0, Slice("ajis mode key=tryparse")),
          AjisSegment.Value(1, 0, AjisValueKind.Boolean, Slice("true"))
@@ -79,7 +78,7 @@ public sealed class AjisDirectiveBinderTests
    [Fact]
    public void BindAndParseDirectives_ParsesNamespace()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Directive(0, 0, Slice("ajis mode key=tryparse")),
          AjisSegment.Value(1, 0, AjisValueKind.Boolean, Slice("true"))

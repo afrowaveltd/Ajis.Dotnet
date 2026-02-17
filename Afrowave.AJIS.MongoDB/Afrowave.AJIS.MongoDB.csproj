@@ -29,8 +29,7 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconMetadata>icon.png</PackageIconMetadata>
+ 
   </PropertyGroup>
 
   <ItemGroup>

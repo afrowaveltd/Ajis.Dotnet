@@ -47,10 +47,10 @@ public class MainWindow : Window
 
       _mainPanel = new StackPanel { Margin = new Thickness(20), Spacing = 10 };
 
-      var searchBox = new TextBox { Width = 300, Text = "" };
+      TextBox searchBox = new TextBox { Width = 300, Text = "" };
       searchBox.TextChanged += (s, e) => OnSearchChanged();
 
-      var loadBtn = new Button { Content = "Load Countries", Width = 120 };
+      Button loadBtn = new Button { Content = "Load Countries", Width = 120 };
       loadBtn.Click += LoadCountries;
 
       _statusBlock = new TextBlock { Text = "Ready - click Load button" };

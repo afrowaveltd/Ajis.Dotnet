@@ -46,7 +46,7 @@ public static class AjisFile
    {
       if(_converterFactories.TryGetValue(typeof(T), out object? factory))
       {
-         var factoryMethod = factory as Func<AjisConverter<T>>;
+         Func<AjisConverter<T>>? factoryMethod = factory as Func<AjisConverter<T>>;
          return factoryMethod?.Invoke() ?? new AjisConverter<T>();
       }
 
@@ -66,10 +66,10 @@ public static class AjisFile
          throw new ArgumentNullException(nameof(items));
 
       var converter = GetConverter<T>();
-      var itemList = items.ToList();
+      List<T> itemList = items.ToList();
 
       // Serialize all items to AJIS values
-      var ajisItems = itemList.Select(item => SerializeObject(converter, item)).ToList();
+      List<string> ajisItems = itemList.Select(item => SerializeObject(converter, item)).ToList();
 
       // Create directory if needed
       string? directory = Path.GetDirectoryName(filePath);
@@ -78,7 +78,7 @@ public static class AjisFile
 
       // Write array to file
       using var stream = File.Create(filePath);
-      using var writer = new StreamWriter(stream, System.Text.Encoding.UTF8);
+      using StreamWriter writer = new StreamWriter(stream, System.Text.Encoding.UTF8);
       writer.Write("[");
       for(int i = 0; i < ajisItems.Count; i++)
       {
@@ -100,7 +100,7 @@ public static class AjisFile
          throw new ArgumentNullException(nameof(items));
 
       var converter = GetConverter<T>();
-      var writer = new AjisFileWriter(filePath, FileMode.Create);
+      AjisFileWriter writer = new AjisFileWriter(filePath, FileMode.Create);
 
       try
       {
@@ -197,7 +197,7 @@ public static class AjisFile
       if(items == null)
          throw new ArgumentNullException(nameof(items));
 
-      var itemsList = items.ToList();
+      List<T> itemsList = items.ToList();
       if(itemsList.Count == 0)
          return;
 
@@ -234,7 +234,7 @@ public static class AjisFile
       if(items == null)
          throw new ArgumentNullException(nameof(items));
 
-      var itemsList = items.ToList();
+      List<T> itemsList = items.ToList();
       if(itemsList.Count == 0)
          return;
 
@@ -270,7 +270,7 @@ public static class AjisFile
       if(!File.Exists(filePath))
          throw new FileNotFoundException($"File not found: {filePath}", filePath);
 
-      var result = new List<T>();
+      List<T> result = new List<T>();
       foreach(var item in Enumerate<T>(filePath))
       {
          if(item != null)
@@ -472,7 +472,7 @@ public static class AjisFile
    /// </summary>
    private static List<string> SplitJsonObjects(string content)
    {
-      var objects = new List<string>();
+      List<string> objects = new List<string>();
       int depth = 0;
       int start = 0;
 

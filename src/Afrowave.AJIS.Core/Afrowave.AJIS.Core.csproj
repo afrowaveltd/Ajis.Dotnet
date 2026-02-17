@@ -11,8 +11,8 @@
     <Authors>Ajis</Authors>
     <Description>Core library for Ajis framework</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/ajis/dotnet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ajis/dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/afrowaveltd/Ajis.Dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/afrowaveltd/Ajis.Dotnet</RepositoryUrl>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>

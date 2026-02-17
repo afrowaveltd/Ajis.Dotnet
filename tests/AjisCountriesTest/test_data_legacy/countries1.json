@@ -1,52 +1,52 @@
 [
-  {
-    "name": "Afghanistan",
-    "capital": "Kabul",
-    "region": "Asia",
-    "population": 40050000,
-    "area": 652230,
-    "languages": ["Pashto", "Uzbek", "Turkmen"],
-    "currencies": ["AFN"],
-    "flagEmoji": "🇦🇫"
-  },
-  {
-    "name": "Albania",
-    "capital": "Tirana",
-    "region": "Europe",
-    "population": 2830000,
-    "area": 28748,
-    "languages": ["Albanian"],
-    "currencies": ["ALL"],
-    "flagEmoji": "🇦🇱"
-  },
-  {
-    "name": "Algeria",
-    "capital": "Algiers",
-    "region": "Africa",
-    "population": 44700000,
-    "area": 2381741,
-    "languages": ["Arabic"],
-    "currencies": ["DZD"],
-    "flagEmoji": "🇩🇿"
-  },
-  {
-    "name": "Argentina",
-    "capital": "Buenos Aires",
-    "region": "South America",
-    "population": 45606000,
-    "area": 2780400,
-    "languages": ["Spanish"],
-    "currencies": ["ARS"],
-    "flagEmoji": "🇦🇷"
-  },
-  {
-    "name": "Australia",
-    "capital": "Canberra",
-    "region": "Oceania",
-    "population": 25688000,
-    "area": 7692024,
-    "languages": ["English"],
-    "currencies": ["AUD"],
-    "flagEmoji": "🇦🇺"
-  }
+    {
+        "name": "Afghanistan",
+        "capital": "Kabul",
+        "region": "Asia",
+        "population": 40050000,
+        "area": 652230,
+        "languages": [ "Pashto", "Uzbek", "Turkmen" ],
+        "currencies": [ "AFN" ],
+        "flagEmoji": "🇦🇫"
+    },
+    {
+        "name": "Albania",
+        "capital": "Tirana",
+        "region": "Europe",
+        "population": 2830000,
+        "area": 28748,
+        "languages": [ "Albanian" ],
+        "currencies": [ "ALL" ],
+        "flagEmoji": "🇦🇱"
+    },
+    {
+        "name": "Algeria",
+        "capital": "Algiers",
+        "region": "Africa",
+        "population": 44700000,
+        "area": 2381741,
+        "languages": [ "Arabic" ],
+        "currencies": [ "DZD" ],
+        "flagEmoji": "🇩🇿"
+    },
+    {
+        "name": "Argentina",
+        "capital": "Buenos Aires",
+        "region": "South America",
+        "population": 45606000,
+        "area": 2780400,
+        "languages": [ "Spanish" ],
+        "currencies": [ "ARS" ],
+        "flagEmoji": "🇦🇷"
+    },
+    {
+        "name": "Australia",
+        "capital": "Canberra",
+        "region": "Oceania",
+        "population": 25688000,
+        "area": 7692024,
+        "languages": [ "English" ],
+        "currencies": [ "AUD" ],
+        "flagEmoji": "🇦🇺"
+    }
 ]

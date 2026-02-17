@@ -2,7 +2,6 @@
 
 using Afrowave.AJIS.Core;
 using Afrowave.AJIS.Serialization.Engines;
-using Xunit;
 
 namespace Afrowave.AJIS.Serialization.Tests;
 

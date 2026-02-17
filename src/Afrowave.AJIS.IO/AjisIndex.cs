@@ -80,7 +80,7 @@ public sealed class AjisIndex<T> : IDisposable where T : class
                return;
             }
 
-            var json = File.ReadAllText(_filePath);
+            string json = File.ReadAllText(_filePath);
             var items = _converter.Deserialize(json) ?? [];
 
             // Build index from items
@@ -89,7 +89,7 @@ public sealed class AjisIndex<T> : IDisposable where T : class
                if(item == null)
                   continue;
 
-               var value = GetIndexedValue(item);
+               object? value = GetIndexedValue(item);
                if(value != null)
                {
                   // Note: If multiple items have the same index value, only the last one is kept
@@ -153,7 +153,7 @@ public sealed class AjisIndex<T> : IDisposable where T : class
 
       if(File.Exists(_filePath))
       {
-         var json = await File.ReadAllTextAsync(_filePath);
+         string json = await File.ReadAllTextAsync(_filePath);
          allItems = _converter.Deserialize(json) ?? [];
       }
 
@@ -267,7 +267,7 @@ public sealed class AjisIndex<T> : IDisposable where T : class
       return ValueTask.CompletedTask;
    }
 
-   #endregion
+   #endregion IDisposable Implementation
 }
 
 /// <summary>

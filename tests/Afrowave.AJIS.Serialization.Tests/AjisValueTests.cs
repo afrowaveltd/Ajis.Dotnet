@@ -1,8 +1,5 @@
 #nullable enable
 
-using Afrowave.AJIS.Serialization;
-using Xunit;
-
 namespace Afrowave.AJIS.Serialization.Tests;
 
 public sealed class AjisValueTests
@@ -21,11 +18,11 @@ public sealed class AjisValueTests
    [Fact]
    public void ValueRecords_ExposeProvidedData()
    {
-      var boolValue = (AjisValue.BoolValue)AjisValue.Bool(true);
-      var numberValue = (AjisValue.NumberValue)AjisValue.Number("42");
-      var stringValue = (AjisValue.StringValue)AjisValue.String("v");
-      var arrayValue = (AjisValue.ArrayValue)AjisValue.Array(AjisValue.Null());
-      var objectValue = (AjisValue.ObjectValue)AjisValue.Object(new KeyValuePair<string, AjisValue>("k", AjisValue.Bool(false)));
+      AjisValue.BoolValue boolValue = (AjisValue.BoolValue)AjisValue.Bool(true);
+      AjisValue.NumberValue numberValue = (AjisValue.NumberValue)AjisValue.Number("42");
+      AjisValue.StringValue stringValue = (AjisValue.StringValue)AjisValue.String("v");
+      AjisValue.ArrayValue arrayValue = (AjisValue.ArrayValue)AjisValue.Array(AjisValue.Null());
+      AjisValue.ObjectValue objectValue = (AjisValue.ObjectValue)AjisValue.Object(new KeyValuePair<string, AjisValue>("k", AjisValue.Bool(false)));
 
       Assert.True(boolValue.Value);
       Assert.Equal("42", numberValue.Text);

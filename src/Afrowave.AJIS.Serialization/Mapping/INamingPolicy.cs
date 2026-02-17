@@ -1,5 +1,7 @@
 #nullable enable
 
+using System.Text;
+
 namespace Afrowave.AJIS.Serialization.Mapping;
 
 /// <summary>
@@ -132,7 +134,7 @@ public sealed class SnakeCaseNamingPolicy : INamingPolicy
       if(string.IsNullOrEmpty(propertyName))
          return propertyName;
 
-      var result = new System.Text.StringBuilder();
+      StringBuilder result = new System.Text.StringBuilder();
 
       for(int i = 0; i < propertyName.Length; i++)
       {
@@ -191,7 +193,7 @@ public sealed class KebabCaseNamingPolicy : INamingPolicy
       if(string.IsNullOrEmpty(propertyName))
          return propertyName;
 
-      var result = new System.Text.StringBuilder();
+      StringBuilder result = new System.Text.StringBuilder();
 
       for(int i = 0; i < propertyName.Length; i++)
       {

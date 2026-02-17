@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Serialization.Engines;
-using Xunit;
 
 namespace Afrowave.AJIS.Serialization.Tests;
 

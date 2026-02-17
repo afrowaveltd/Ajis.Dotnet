@@ -12,7 +12,7 @@ public sealed class AjisSegmentFilterTests
    [Fact]
    public void DropPropertyByName_RemovesPropertyAndValue()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("a")),
@@ -39,7 +39,7 @@ public sealed class AjisSegmentFilterTests
    [Fact]
    public void DropPropertyByPath_RemovesNestedProperty()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("config")),
@@ -72,7 +72,7 @@ public sealed class AjisSegmentFilterTests
    [Fact]
    public void FilterArrayItems_FiltersByPredicate()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Array, 0, 0),
          AjisSegment.Enter(AjisContainerKind.Object, 1, 1),
@@ -105,7 +105,7 @@ public sealed class AjisSegmentFilterTests
    [Fact]
    public void DropPropertyByName_SkipsContainerValue()
    {
-      var segments = new List<AjisSegment>
+      List<AjisSegment> segments = new List<AjisSegment>
       {
          AjisSegment.Enter(AjisContainerKind.Object, 0, 0),
          AjisSegment.Name(1, 1, Slice("a")),

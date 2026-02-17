@@ -55,8 +55,8 @@ public static class AjisDirectiveBinder
    {
       ArgumentNullException.ThrowIfNull(segments);
 
-      var tracker = new AjisSegmentPathTracker();
-      var pending = new List<AjisSliceUtf8>();
+      AjisSegmentPathTracker tracker = new AjisSegmentPathTracker();
+      List<AjisSliceUtf8> pending = new List<AjisSliceUtf8>();
       bool rootStarted = false;
       bool rootCompleted = false;
       int rootDepth = 0;

@@ -1,9 +1,10 @@
 #nullable enable
 
 using Afrowave.AJIS.Core;
+using Afrowave.AJIS.Core.Events;
+using Afrowave.AJIS.Serialization.Engines;
 using Afrowave.AJIS.Streaming.Segments; // AjisSegment
 using System.Text;
-using Afrowave.AJIS.Serialization.Engines;
 
 namespace Afrowave.AJIS.Serialization;
 
@@ -37,14 +38,14 @@ public static class AjisSerialize
       _ = AjisSerializationProfileSelector.Select(settings);
       _ = AjisSerializationEngineSelector.Select(AjisSerializationProfileSelector.Select(settings));
       AjisSerializationFormattingOptions format = AjisSerializationFormatting.GetOptions(settings);
-      var eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
+      IAjisEventSink eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
       await AjisSerializationEventEmitter.EmitPhaseAsync(eventSink, "serialize", "start", ct).ConfigureAwait(false);
       await AjisSerializationEventEmitter.EmitProgressAsync(eventSink, "serialize", 0, ct).ConfigureAwait(false);
 
       if(format.Canonicalize)
       {
          var materialized = new List<AjisSegment>();
-         await foreach(var segment in segments.WithCancellation(ct).ConfigureAwait(false))
+         await foreach(AjisSegment? segment in segments.WithCancellation(ct).ConfigureAwait(false))
             materialized.Add(segment);
 
          IEnumerable<AjisSegment> canonical = global::Afrowave.AJIS.Streaming.Segments.Transforms.AjisSegmentCanonicalizer.Canonicalize(materialized);
@@ -66,7 +67,6 @@ public static class AjisSerialize
       await Task.CompletedTask;
    }
 }
-
 
 /// <summary>
 /// High-level serializer facade.
@@ -123,7 +123,7 @@ public static class AjisSerializer
       AjisSettings? settings,
       CancellationToken ct)
    {
-      var eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
+      IAjisEventSink eventSink = settings?.EventSink ?? global::Afrowave.AJIS.Core.Events.NullAjisEventSink.Instance;
       await AjisSerializationEventEmitter.EmitPhaseAsync(eventSink, "serialize", "start", ct).ConfigureAwait(false);
       await AjisSerializationEventEmitter.EmitProgressAsync(eventSink, "serialize", 0, ct).ConfigureAwait(false);
 
@@ -145,7 +145,6 @@ public static class AjisSerializer
       string text = new AjisValueTextWriter(format).Write(value);
       return Encoding.UTF8.GetBytes(text);
    }
-
 }
 
 /// <summary>
@@ -214,8 +213,8 @@ public abstract record AjisValue
    /// </summary>
    public static AjisValue Array(params AjisValue[] items) => new ArrayValue(items);
 
-    /// <summary>
-    /// Creates an object.
-    /// </summary>
-    public static AjisValue Object(params KeyValuePair<string, AjisValue>[] props) => new ObjectValue(props);
+   /// <summary>
+   /// Creates an object.
+   /// </summary>
+   public static AjisValue Object(params KeyValuePair<string, AjisValue>[] props) => new ObjectValue(props);
 }

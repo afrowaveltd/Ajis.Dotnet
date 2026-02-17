@@ -2,7 +2,6 @@
 
 using Afrowave.AJIS.Core.Abstraction;
 using Afrowave.AJIS.Core.Localization;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Localization;
 
@@ -11,8 +10,8 @@ public sealed class AjisTextProviderBuilderTests
    [Fact]
    public void Build_RespectsPriorityOrder()
    {
-      var high = new AjisLocDictionary(new Dictionary<string, string> { ["k"] = "high" });
-      var low = new AjisLocDictionary(new Dictionary<string, string> { ["k"] = "low" });
+      AjisLocDictionary high = new AjisLocDictionary(new Dictionary<string, string> { ["k"] = "high" });
+      AjisLocDictionary low = new AjisLocDictionary(new Dictionary<string, string> { ["k"] = "low" });
 
       var provider = new AjisTextProviderBuilder()
          .AddLowPriority(low)
@@ -34,7 +33,7 @@ public sealed class AjisTextProviderBuilderTests
    [Fact]
    public void GetText_FormatsArgs_WhenProvided()
    {
-      var dict = new AjisLocDictionary(new Dictionary<string, string>
+      AjisLocDictionary dict = new AjisLocDictionary(new Dictionary<string, string>
       {
          ["fmt"] = "Value {0}"
       });
@@ -54,7 +53,7 @@ public sealed class AjisTextProviderBuilderTests
    [Fact]
    public void Format_UsesCultureAndArgs()
    {
-      var dict = new AjisLocDictionary(new Dictionary<string, string>
+      AjisLocDictionary dict = new AjisLocDictionary(new Dictionary<string, string>
       {
          ["fmt"] = "Value {0}"
       });

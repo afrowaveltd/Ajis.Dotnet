@@ -12,7 +12,7 @@ public static class AjisLargePayloadGenerator
       if(userCount < 0) throw new ArgumentOutOfRangeException(nameof(userCount));
       if(addressesPerUser < 0) throw new ArgumentOutOfRangeException(nameof(addressesPerUser));
 
-      using var writer = new StreamWriter(output, new UTF8Encoding(false), leaveOpen: true);
+      using StreamWriter writer = new StreamWriter(output, new UTF8Encoding(false), leaveOpen: true);
       writer.Write("{\"users\":[");
 
       for(int i = 0; i < userCount; i++)

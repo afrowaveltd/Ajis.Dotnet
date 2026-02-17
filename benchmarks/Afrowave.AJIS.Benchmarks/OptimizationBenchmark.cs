@@ -45,8 +45,8 @@ public class OptimizationBenchmark
 
    public static List<TestObject> GenerateTestData(int count)
    {
-      var random = new Random(42);
-      var result = new List<TestObject>(count);
+      Random random = new Random(42);
+      List<TestObject> result = new List<TestObject>(count);
 
       for(int i = 0; i < count; i++)
       {
@@ -67,7 +67,7 @@ public class OptimizationBenchmark
 
    private static List<TestItem> GenerateNestedItems(Random random, int count)
    {
-      var items = new List<TestItem>(count);
+      List<TestItem> items = new List<TestItem>(count);
       for(int i = 0; i < count; i++)
       {
          items.Add(new TestItem

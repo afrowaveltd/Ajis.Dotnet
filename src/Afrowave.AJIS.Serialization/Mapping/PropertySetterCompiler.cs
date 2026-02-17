@@ -29,10 +29,10 @@ internal sealed class PropertySetterCompiler
    [MethodImpl(MethodImplOptions.AggressiveInlining)]
    public Action<object, object?> GetOrCompileSetter(PropertyMetadata property)
    {
-      var key = (property.Member.DeclaringType!, property.Member.Name);
+      (Type, string Name) key = (property.Member.DeclaringType!, property.Member.Name);
 
       // Fast path - check cache without lock first
-      if(_setterCache.TryGetValue(key, out var entry))
+      if(_setterCache.TryGetValue(key, out SetterCacheEntry? entry))
       {
          entry.HitCount++;
          return entry.Setter;
@@ -47,7 +47,7 @@ internal sealed class PropertySetterCompiler
             return entry.Setter;
          }
 
-         var setter = CompileSetter(property);
+         Action<object, object?> setter = CompileSetter(property);
          _setterCache[key] = new SetterCacheEntry(setter);
          return setter;
       }
@@ -69,21 +69,21 @@ internal sealed class PropertySetterCompiler
 
    private Action<object, object?> CompilePropertySetter(PropertyInfo propInfo)
    {
-      var declaringType = propInfo.DeclaringType!;
-      var propertyType = propInfo.PropertyType;
+      Type declaringType = propInfo.DeclaringType!;
+      Type propertyType = propInfo.PropertyType;
 
-      var objParam = Expression.Parameter(typeof(object), "obj");
-      var valueParam = Expression.Parameter(typeof(object), "value");
+      ParameterExpression objParam = Expression.Parameter(typeof(object), "obj");
+      ParameterExpression valueParam = Expression.Parameter(typeof(object), "value");
 
       // Convert object to declaring type
-      var objCast = Expression.Convert(objParam, declaringType);
+      UnaryExpression objCast = Expression.Convert(objParam, declaringType);
 
       // Convert value to property type
-      var valueCast = Expression.Convert(valueParam, propertyType);
+      UnaryExpression valueCast = Expression.Convert(valueParam, propertyType);
 
       // Property access and assignment
-      var propertyAccess = Expression.Property(objCast, propInfo);
-      var assignment = Expression.Assign(propertyAccess, valueCast);
+      MemberExpression propertyAccess = Expression.Property(objCast, propInfo);
+      BinaryExpression assignment = Expression.Assign(propertyAccess, valueCast);
 
       // Build lambda and compile
       var lambda = Expression.Lambda<Action<object, object?>>(
@@ -97,16 +97,16 @@ internal sealed class PropertySetterCompiler
 
    private Action<object, object?> CompileFieldSetter(FieldInfo fieldInfo)
    {
-      var declaringType = fieldInfo.DeclaringType!;
-      var fieldType = fieldInfo.FieldType;
+      Type declaringType = fieldInfo.DeclaringType!;
+      Type fieldType = fieldInfo.FieldType;
 
-      var objParam = Expression.Parameter(typeof(object), "obj");
-      var valueParam = Expression.Parameter(typeof(object), "value");
+      ParameterExpression objParam = Expression.Parameter(typeof(object), "obj");
+      ParameterExpression valueParam = Expression.Parameter(typeof(object), "value");
 
-      var objCast = Expression.Convert(objParam, declaringType);
-      var valueCast = Expression.Convert(valueParam, fieldType);
-      var fieldAccess = Expression.Field(objCast, fieldInfo);
-      var assignment = Expression.Assign(fieldAccess, valueCast);
+      UnaryExpression objCast = Expression.Convert(objParam, declaringType);
+      UnaryExpression valueCast = Expression.Convert(valueParam, fieldType);
+      MemberExpression fieldAccess = Expression.Field(objCast, fieldInfo);
+      BinaryExpression assignment = Expression.Assign(fieldAccess, valueCast);
 
       var lambda = Expression.Lambda<Action<object, object?>>(
           assignment,

@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Core.Localization;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Localization;
 
@@ -10,7 +9,7 @@ public sealed class AjisLocDictionaryTests
    [Fact]
    public void TryGet_ReturnsExpectedValues()
    {
-      var dict = new AjisLocDictionary(new Dictionary<string, string>
+      AjisLocDictionary dict = new AjisLocDictionary(new Dictionary<string, string>
       {
          ["k"] = "v"
       });
@@ -23,8 +22,8 @@ public sealed class AjisLocDictionaryTests
    [Fact]
    public void Entries_ReturnsBackingDictionary()
    {
-      var source = new Dictionary<string, string> { ["k"] = "v" };
-      var dict = new AjisLocDictionary(source);
+      Dictionary<string, string> source = new Dictionary<string, string> { ["k"] = "v" };
+      AjisLocDictionary dict = new AjisLocDictionary(source);
 
       Assert.Same(source, dict.Entries);
    }

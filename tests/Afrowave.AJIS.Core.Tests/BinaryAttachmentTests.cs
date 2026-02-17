@@ -13,7 +13,7 @@ public sealed class BinaryAttachmentTests
    public void CreateAttachment_WithValidData_Succeeds()
    {
       // Arrange
-      var data = Encoding.UTF8.GetBytes("Hello, World!");
+      byte[] data = Encoding.UTF8.GetBytes("Hello, World!");
       var attachment = new BinaryAttachment
       {
          FileName = "test.txt",
@@ -34,7 +34,7 @@ public sealed class BinaryAttachmentTests
    public void VerifyChecksum_WithValidData_Succeeds()
    {
       // Arrange
-      var data = Encoding.UTF8.GetBytes("Test data");
+      byte[] data = Encoding.UTF8.GetBytes("Test data");
       var attachment = new BinaryAttachment
       {
          FileName = "test.txt",
@@ -43,7 +43,7 @@ public sealed class BinaryAttachmentTests
       attachment.ComputeChecksum();
 
       // Act
-      var isValid = attachment.VerifyChecksum();
+      bool isValid = attachment.VerifyChecksum();
 
       // Assert
       Assert.True(isValid);
@@ -53,7 +53,7 @@ public sealed class BinaryAttachmentTests
    public void VerifyChecksum_WithModifiedData_Fails()
    {
       // Arrange
-      var data = Encoding.UTF8.GetBytes("Original data");
+      byte[] data = Encoding.UTF8.GetBytes("Original data");
       var attachment = new BinaryAttachment
       {
          FileName = "test.txt",
@@ -63,7 +63,7 @@ public sealed class BinaryAttachmentTests
 
       // Act
       attachment.Data = Encoding.UTF8.GetBytes("Modified data");
-      var isValid = attachment.VerifyChecksum();
+      bool isValid = attachment.VerifyChecksum();
 
       // Assert
       Assert.False(isValid);
@@ -79,7 +79,7 @@ public sealed class BinaryAttachmentTests
       };
 
       // Act
-      var formatted = attachment.GetFormattedSize();
+      string formatted = attachment.GetFormattedSize();
 
       // Assert
       Assert.Contains("MB", formatted);
@@ -96,7 +96,7 @@ public sealed class BinaryAttachmentTests
       };
 
       // Act
-      var ratio = attachment.GetCompressionRatio();
+      double ratio = attachment.GetCompressionRatio();
 
       // Assert
       Assert.True(ratio > 59 && ratio < 61);  // ~60%
@@ -233,7 +233,7 @@ public sealed class BinaryAttachmentTests
    public void EstimateCompressionRatio_ForTextFiles_ReturnsHighRatio()
    {
       // Act
-      var ratio = AjisAttachmentHelper.EstimateCompressionRatio("text/plain");
+      double ratio = AjisAttachmentHelper.EstimateCompressionRatio("text/plain");
 
       // Assert
       Assert.True(ratio > 0.2);  // Text compresses well
@@ -243,7 +243,7 @@ public sealed class BinaryAttachmentTests
    public void EstimateCompressionRatio_ForImageFiles_ReturnsLowRatio()
    {
       // Act
-      var ratio = AjisAttachmentHelper.EstimateCompressionRatio("image/jpeg");
+      double ratio = AjisAttachmentHelper.EstimateCompressionRatio("image/jpeg");
 
       // Assert
       Assert.True(ratio < 0.1);  // Images already compressed
@@ -253,8 +253,8 @@ public sealed class BinaryAttachmentTests
    public void CreateFromFile_WithValidFile_CreatesAttachment()
    {
       // Arrange
-      var tempFile = Path.GetTempFileName();
-      var testData = Encoding.UTF8.GetBytes("Test file content");
+      string tempFile = Path.GetTempFileName();
+      byte[] testData = Encoding.UTF8.GetBytes("Test file content");
       File.WriteAllBytes(tempFile, testData);
 
       try
@@ -278,8 +278,8 @@ public sealed class BinaryAttachmentTests
    public void SaveToFile_WithValidAttachment_SavesSuccessfully()
    {
       // Arrange
-      var tempFile = Path.GetTempFileName();
-      var testData = Encoding.UTF8.GetBytes("Save test content");
+      string tempFile = Path.GetTempFileName();
+      byte[] testData = Encoding.UTF8.GetBytes("Save test content");
       var attachment = new BinaryAttachment
       {
          FileName = "test.txt",
@@ -292,7 +292,7 @@ public sealed class BinaryAttachmentTests
          AjisAttachmentHelper.SaveToFile(attachment, tempFile);
 
          // Assert
-         var savedData = File.ReadAllBytes(tempFile);
+         byte[] savedData = File.ReadAllBytes(tempFile);
          Assert.Equal(testData, savedData);
       }
       finally
@@ -370,7 +370,7 @@ public sealed class BinaryAttachmentTests
       var attachment = new BinaryAttachment { FileSize = size };
 
       // Act
-      var formatted = attachment.GetFormattedSize();
+      string formatted = attachment.GetFormattedSize();
 
       // Assert
       Assert.Contains(expected, formatted);

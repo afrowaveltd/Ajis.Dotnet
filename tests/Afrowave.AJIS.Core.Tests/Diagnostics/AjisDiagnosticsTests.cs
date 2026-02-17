@@ -1,7 +1,6 @@
 #nullable enable
 
 using CoreDiagnostics = global::Afrowave.AJIS.Core.Diagnostics;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Diagnostics;
 
@@ -10,7 +9,7 @@ public sealed class AjisDiagnosticsTests
    [Fact]
    public void Create_UsesStableKeyFromCode()
    {
-      var diag = CoreDiagnostics.AjisDiagnostics.Create(CoreDiagnostics.AjisDiagnosticCode.UnexpectedEof, offset: 5);
+      CoreDiagnostics.AjisDiagnostic diag = CoreDiagnostics.AjisDiagnostics.Create(CoreDiagnostics.AjisDiagnosticCode.UnexpectedEof, offset: 5);
 
       Assert.Equal(CoreDiagnostics.AjisDiagnosticKeys.For(CoreDiagnostics.AjisDiagnosticCode.UnexpectedEof), diag.Key);
       Assert.Equal(CoreDiagnostics.AjisDiagnosticSeverity.Error, diag.Severity);
@@ -20,7 +19,7 @@ public sealed class AjisDiagnosticsTests
    [Fact]
    public void Create_WithKey_PreservesProvidedKey()
    {
-      var diag = CoreDiagnostics.AjisDiagnostics.Create(
+      CoreDiagnostics.AjisDiagnostic diag = CoreDiagnostics.AjisDiagnostics.Create(
          CoreDiagnostics.AjisDiagnosticCode.Unknown,
          key: "custom_key",
          offset: 0,

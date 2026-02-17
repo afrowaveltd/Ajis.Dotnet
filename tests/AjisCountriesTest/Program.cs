@@ -1,18 +1,17 @@
 using Avalonia;
-using System;
 
 namespace AjisCountriesTest;
 
-class Program
+internal class Program
 {
-    [STAThread]
-    static void Main(string[] args)
-    {
-        BuildAvaloniaApp()
-            .StartWithClassicDesktopLifetime(args);
-    }
+   [STAThread]
+   private static void Main(string[] args)
+   {
+      BuildAvaloniaApp()
+          .StartWithClassicDesktopLifetime(args);
+   }
 
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
-            .UsePlatformDetect();
+   public static AppBuilder BuildAvaloniaApp()
+       => AppBuilder.Configure<App>()
+           .UsePlatformDetect();
 }

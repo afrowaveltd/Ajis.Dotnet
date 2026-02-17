@@ -1,5 +1,6 @@
 #nullable enable
 
+using Afrowave.AJIS.Core.Events;
 using NSubstitute;
 using CoreEvents = global::Afrowave.AJIS.Core.Events;
 
@@ -10,7 +11,7 @@ public sealed class AjisProgressReporterTests
    [Fact]
    public async Task ReportAsync_ClampsPercent_AndEmitsOncePerValue()
    {
-      var sink = Substitute.For<CoreEvents.IAjisEventSink>();
+      IAjisEventSink sink = Substitute.For<CoreEvents.IAjisEventSink>();
 #pragma warning disable CA2012 // Správně použít hodnot ValueTask
       _ = sink.EmitAsync(Arg.Any<CoreEvents.AjisEvent>(), Arg.Any<CancellationToken>())
          .Returns(ValueTask.CompletedTask);

@@ -18,8 +18,8 @@ public sealed class JsonToAtpConversionRunner
 ╚════════════════════════════════════════════════════════════════════════╝
 """);
 
-      var solutionRoot = FindSolutionRoot();
-      var legacyDataPath = Path.Combine(solutionRoot, "test_data_legacy");
+      string solutionRoot = FindSolutionRoot();
+      string legacyDataPath = Path.Combine(solutionRoot, "test_data_legacy");
 
       if(!Directory.Exists(legacyDataPath))
       {
@@ -33,7 +33,7 @@ public sealed class JsonToAtpConversionRunner
       // Convert each JSON file
       var jsonFiles = Directory.GetFiles(legacyDataPath, "*.json").OrderBy(f => f).ToList();
 
-      foreach(var jsonFile in jsonFiles)
+      foreach(string? jsonFile in jsonFiles)
       {
          Console.WriteLine($"\n\n📄 Processing: {Path.GetFileName(jsonFile)}");
          Console.WriteLine("═════════════════════════════════════════════════════════════════════════════");
@@ -58,7 +58,7 @@ public sealed class JsonToAtpConversionRunner
                }
 
                // Save as .atp
-               var atpOutputPath = Path.Combine(
+               string atpOutputPath = Path.Combine(
                    solutionRoot,
                    "converted_atp",
                    Path.GetFileNameWithoutExtension(jsonFile) + ".atp");
@@ -92,11 +92,11 @@ public sealed class JsonToAtpConversionRunner
       Console.WriteLine("\n📊 CONVERSION STATISTICS:");
       Console.WriteLine("─────────────────────────────────────────────────────────────────");
 
-      var successful = results.Count(r => r.Success);
-      var withBinary = results.Count(r => r.BinaryAttachmentsDetected > 0);
-      var totalOriginal = results.Sum(r => r.OriginalSize);
-      var totalAjis = results.Sum(r => r.AjisSize);
-      var totalBinary = results.SelectMany(r => r.DetectedAttachments ?? [])
+      int successful = results.Count(r => r.Success);
+      int withBinary = results.Count(r => r.BinaryAttachmentsDetected > 0);
+      long totalOriginal = results.Sum(r => r.OriginalSize);
+      long totalAjis = results.Sum(r => r.AjisSize);
+      int totalBinary = results.SelectMany(r => r.DetectedAttachments ?? [])
           .Sum(x => x.Attachment.Data.Length);
 
       Console.WriteLine($"Files Processed:         {results.Count}");
@@ -123,11 +123,11 @@ public sealed class JsonToAtpConversionRunner
       Console.WriteLine($"\n📁 OUTPUT FILES:");
       Console.WriteLine("─────────────────────────────────────────────────────────────────");
 
-      var atpDir = Path.Combine(FindSolutionRoot(), "converted_atp");
+      string atpDir = Path.Combine(FindSolutionRoot(), "converted_atp");
       if(Directory.Exists(atpDir))
       {
-         var atpFiles = Directory.GetFiles(atpDir, "*.atp");
-         foreach(var file in atpFiles)
+         string[] atpFiles = Directory.GetFiles(atpDir, "*.atp");
+         foreach(string file in atpFiles)
          {
             Console.WriteLine($"  • {Path.GetFileName(file),-30} ({FormatBytes(new FileInfo(file).Length)})");
          }

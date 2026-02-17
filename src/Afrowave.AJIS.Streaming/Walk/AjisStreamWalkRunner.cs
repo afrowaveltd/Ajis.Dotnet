@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using Afrowave.AJIS.Core.Diagnostics;
+using Afrowave.AJIS.Streaming.Segments;
 using Afrowave.AJIS.Streaming.Walk.Engines;
 using Afrowave.AJIS.Streaming.Walk.Input;
 using System.Globalization;
@@ -55,7 +56,7 @@ public static class AjisStreamWalkRunner
       ArgumentNullException.ThrowIfNull(settings);
 
       global::Afrowave.AJIS.Core.AjisSettings coreSettings = ToCoreSettings(settings);
-      var segments = global::Afrowave.AJIS.Streaming.Segments.AjisParse
+      AjisParse.AjisParseResult segments = global::Afrowave.AJIS.Streaming.Segments.AjisParse
          .ParseSegmentsWithDirectives(inputUtf8, coreSettings);
 
       global::Afrowave.AJIS.Core.Configuration.AjisSettings applied = ToConfigurationSettings(segments.Settings, settings);
@@ -127,6 +128,7 @@ public static class AjisStreamWalkRunner
          Numbers = settings.Numbers,
          Comments = settings.Comments
       };
+
    /// <summary>
    /// Runs StreamWalk over an in-memory UTF-8 payload.
    /// </summary>

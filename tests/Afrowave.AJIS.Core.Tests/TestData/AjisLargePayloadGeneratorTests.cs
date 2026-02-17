@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Testing.TestData;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.TestData;
 
@@ -10,7 +9,7 @@ public sealed class AjisLargePayloadGeneratorTests
    [Fact]
    public void WriteUsersJson_WritesExpectedShape()
    {
-      using var stream = new MemoryStream();
+      using MemoryStream stream = new MemoryStream();
 
       AjisLargePayloadGenerator.WriteUsersJson(stream, userCount: 2, addressesPerUser: 1);
 

@@ -32,19 +32,23 @@ public sealed class AjisSegmentPathTracker
             ConsumeValue();
             _stack.Add(new PathFrame(segment.ContainerKind ?? AjisContainerKind.Object, containerSegment));
             break;
+
          case AjisSegmentKind.ExitContainer:
             if(_stack.Count > 0)
                _stack.RemoveAt(_stack.Count - 1);
             CurrentPath = BuildPath(null);
             break;
+
          case AjisSegmentKind.PropertyName:
             _pendingPropertyName = Decode(segment.Slice);
             CurrentPath = BuildPath(_pendingPropertyName is null ? null : $".{_pendingPropertyName}");
             break;
+
          case AjisSegmentKind.Value:
             CurrentPath = BuildPath(GetValueSegment());
             ConsumeValue();
             break;
+
          default:
             break;
       }
@@ -86,7 +90,7 @@ public sealed class AjisSegmentPathTracker
 
    private string BuildPath(string? leafSegment)
    {
-      var builder = new StringBuilder("$");
+      StringBuilder builder = new StringBuilder("$");
       foreach(PathFrame frame in _stack)
          builder.Append(frame.PathSegment);
 

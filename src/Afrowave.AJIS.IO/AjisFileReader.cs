@@ -52,7 +52,7 @@ public sealed class AjisFileReader : IAsyncDisposable, IDisposable
       get
       {
          ThrowIfDisposed();
-         var info = new FileInfo(_filePath);
+         FileInfo info = new FileInfo(_filePath);
          return info.Length;
       }
    }

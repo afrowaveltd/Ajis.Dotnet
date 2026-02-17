@@ -2,7 +2,9 @@
 
 using Afrowave.AJIS.Serialization.Mapping;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Reflection;
 
 namespace Afrowave.AJIS.EntityFramework;
 
@@ -79,7 +81,6 @@ public static class AjisEntityFrameworkExtensions
 /// </summary>
 public abstract class AjisDbContext(DbContextOptions options) : DbContext(options)
 {
-
    /// <summary>
    /// Gets an AJIS converter for the specified type.
    /// </summary>
@@ -112,18 +113,18 @@ public abstract class AjisDbContext(DbContextOptions options) : DbContext(option
       base.OnModelCreating(modelBuilder);
 
       // Apply AJIS conversions to marked properties
-      foreach(var entityType in modelBuilder.Model.GetEntityTypes())
+      foreach(IMutableEntityType entityType in modelBuilder.Model.GetEntityTypes())
       {
-         foreach(var property in entityType.GetProperties())
+         foreach(IMutableProperty property in entityType.GetProperties())
          {
-            var clrType = property.ClrType;
+            Type clrType = property.ClrType;
 
             // Check for AjisSerializableAttribute
             if(Attribute.IsDefined(clrType, typeof(AjisSerializableAttribute)))
             {
                // Configure property to use AJIS serialization
-               var converterType = typeof(AjisValueConverter<>).MakeGenericType(clrType);
-               var converter = Activator.CreateInstance(converterType);
+               Type converterType = typeof(AjisValueConverter<>).MakeGenericType(clrType);
+               object? converter = Activator.CreateInstance(converterType);
                property.SetValueConverter((ValueConverter)converter!);
             }
          }
@@ -152,15 +153,15 @@ public class AjisFileRepository<T>(string filePath) where T : class, new()
       if(!File.Exists(_filePath))
          return [];
 
-      var json = await File.ReadAllTextAsync(_filePath);
+      string json = await File.ReadAllTextAsync(_filePath);
       return _converter.Deserialize(json) ?? [];
    }
 
    public async Task<T?> GetByIdAsync(object id)
    {
-      var all = await GetAllAsync();
+      List<T> all = await GetAllAsync();
       // Simple implementation - assumes T has Id property
-      var idProperty = typeof(T).GetProperty("Id");
+      PropertyInfo? idProperty = typeof(T).GetProperty("Id");
       if(idProperty == null) return null;
 
       return all.FirstOrDefault(item => idProperty.GetValue(item)?.Equals(id) == true);
@@ -168,23 +169,23 @@ public class AjisFileRepository<T>(string filePath) where T : class, new()
 
    public async Task AddAsync(T item)
    {
-      var all = await GetAllAsync();
+      List<T> all = await GetAllAsync();
       all.Add(item);
       await SaveAllAsync(all);
    }
 
    public async Task UpdateAsync(T item)
    {
-      var all = await GetAllAsync();
+      List<T> all = await GetAllAsync();
       // Simple implementation - assumes T has Id property
-      var idProperty = typeof(T).GetProperty("Id");
+      PropertyInfo? idProperty = typeof(T).GetProperty("Id");
       if(idProperty == null) return;
 
-      var id = idProperty.GetValue(item);
-      var existing = all.FirstOrDefault(x => idProperty.GetValue(x)?.Equals(id) == true);
+      object? id = idProperty.GetValue(item);
+      T? existing = all.FirstOrDefault(x => idProperty.GetValue(x)?.Equals(id) == true);
       if(existing != null)
       {
-         var index = all.IndexOf(existing);
+         int index = all.IndexOf(existing);
          all[index] = item;
          await SaveAllAsync(all);
       }
@@ -192,8 +193,8 @@ public class AjisFileRepository<T>(string filePath) where T : class, new()
 
    public async Task DeleteAsync(object id)
    {
-      var all = await GetAllAsync();
-      var idProperty = typeof(T).GetProperty("Id");
+      List<T> all = await GetAllAsync();
+      PropertyInfo? idProperty = typeof(T).GetProperty("Id");
       if(idProperty == null) return;
 
       all.RemoveAll(item => idProperty.GetValue(item)?.Equals(id) == true);
@@ -202,7 +203,7 @@ public class AjisFileRepository<T>(string filePath) where T : class, new()
 
    private async Task SaveAllAsync(List<T> items)
    {
-      var json = _converter.Serialize(items);
+      string json = _converter.Serialize(items);
       await File.WriteAllTextAsync(_filePath, json);
    }
 }

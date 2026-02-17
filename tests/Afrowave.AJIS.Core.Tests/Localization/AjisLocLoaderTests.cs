@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Core.Localization;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Localization;
 
@@ -11,7 +10,7 @@ public sealed class AjisLocLoaderTests
    public async Task LoadAsync_ParsesValidLines()
    {
       const string text = "# comment\n\"k1\":\"v1\"\n\"k2\":\"v2\"\n";
-      await using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(text));
+      await using MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(text));
 
       var dict = await AjisLocLoader.LoadAsync(stream, TestContext.Current.CancellationToken);
 

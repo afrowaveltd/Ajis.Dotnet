@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Testing.TestData;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.TestData;
 
@@ -15,7 +14,7 @@ public sealed class AjisBenchmarkRunnerTests
 
       AjisLargePayloadGenerator.WriteUsersJsonFile(path, userCount: 2, addressesPerUser: 1);
 
-      var results = await AjisBenchmarkRunner.RunAsync(path, TestContext.Current.CancellationToken);
+      IReadOnlyList<AjisBenchmarkResult> results = await AjisBenchmarkRunner.RunAsync(path, TestContext.Current.CancellationToken);
 
       Assert.True(results.Count >= 3);
       Assert.Contains(results, r => r.Name.StartsWith("AJIS.", StringComparison.Ordinal));

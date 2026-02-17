@@ -80,7 +80,7 @@ internal class EnhancedAjisQueryVisitor<T> : ExpressionVisitor where T : notnull
 
    private void ParseWhere(MethodCallExpression node)
    {
-      var lambda = ExtractLambda(node.Arguments[1]);
+      LambdaExpression? lambda = ExtractLambda(node.Arguments[1]);
       if(lambda != null)
       {
          var compiled = lambda.Compile() as Func<T, bool>;
@@ -88,7 +88,7 @@ internal class EnhancedAjisQueryVisitor<T> : ExpressionVisitor where T : notnull
             WherePredicate = compiled;
          else
          {
-            var existing = WherePredicate;
+            Func<T, bool> existing = WherePredicate;
             WherePredicate = t => existing(t) && (compiled?.Invoke(t) ?? true);
          }
       }
@@ -96,7 +96,7 @@ internal class EnhancedAjisQueryVisitor<T> : ExpressionVisitor where T : notnull
 
    private void ParseOrderBy(MethodCallExpression node, bool descending)
    {
-      var lambda = ExtractLambda(node.Arguments[1]);
+      LambdaExpression? lambda = ExtractLambda(node.Arguments[1]);
       if(lambda != null)
       {
          OrderByExpressions.Clear(); // OrderBy replaces previous ordering
@@ -106,7 +106,7 @@ internal class EnhancedAjisQueryVisitor<T> : ExpressionVisitor where T : notnull
 
    private void ParseThenBy(MethodCallExpression node, bool descending)
    {
-      var lambda = ExtractLambda(node.Arguments[1]);
+      LambdaExpression? lambda = ExtractLambda(node.Arguments[1]);
       if(lambda != null)
       {
          OrderByExpressions.Add((lambda, descending));
@@ -166,8 +166,8 @@ internal class EnhancedAjisQueryVisitor<T> : ExpressionVisitor where T : notnull
 
          for(int i = 0; i < OrderByExpressions.Count; i++)
          {
-            var (keySelector, descending) = OrderByExpressions[i];
-            var compiled = keySelector.Compile();
+            (LambdaExpression? keySelector, bool descending) = OrderByExpressions[i];
+            Delegate compiled = keySelector.Compile();
 
             if(i == 0)
             {
@@ -203,8 +203,8 @@ internal class EnhancedAjisQueryVisitor<T> : ExpressionVisitor where T : notnull
       // Apply SELECT projection
       if(SelectExpression != null)
       {
-         var compiled = SelectExpression.Compile();
-         var projected = result.Select(t => compiled.DynamicInvoke(t));
+         Delegate compiled = SelectExpression.Compile();
+         IEnumerable<object?> projected = result.Select(t => compiled.DynamicInvoke(t));
          return projected.Cast<TResult>();
       }
 

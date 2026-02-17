@@ -27,8 +27,12 @@ public sealed class StringEscapeValidationTests
    private sealed class CapturingVisitor : IAjisStreamWalkVisitor
    {
       public AjisStreamWalkError? Error { get; private set; }
+
       public bool OnEvent(AjisStreamWalkEvent evt) => true;
+
       public void OnError(AjisStreamWalkError error) => Error = error;
-      public void OnCompleted() { }
+
+      public void OnCompleted()
+      { }
    }
 }

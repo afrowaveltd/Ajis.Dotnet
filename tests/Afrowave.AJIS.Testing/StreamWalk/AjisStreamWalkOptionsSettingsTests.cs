@@ -1,5 +1,6 @@
 #nullable enable
 
+using Afrowave.AJIS.Core.Configuration;
 using Afrowave.AJIS.Streaming.Walk;
 using Xunit;
 
@@ -10,7 +11,7 @@ public sealed class AjisStreamWalkOptionsSettingsTests
    [Fact]
    public void FromSettings_UsesMaxTokenBytes()
    {
-      var settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
       {
          MaxTokenBytes = 123
       };
@@ -23,7 +24,7 @@ public sealed class AjisStreamWalkOptionsSettingsTests
    [Fact]
    public void FromSettings_UsesIdentifiersSetting()
    {
-      var settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
       {
          Strings = new global::Afrowave.AJIS.Core.AjisStringOptions
          {
@@ -39,7 +40,7 @@ public sealed class AjisStreamWalkOptionsSettingsTests
    [Fact]
    public void FromSettings_UsesCommentOptions()
    {
-      var settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
       {
          Comments = new global::Afrowave.AJIS.Core.AjisCommentOptions
          {
@@ -56,7 +57,7 @@ public sealed class AjisStreamWalkOptionsSettingsTests
    [Fact]
    public void FromSettings_MapsJsonMode()
    {
-      var settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
+      AjisSettings settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
       {
          TextMode = global::Afrowave.AJIS.Core.AjisTextMode.Json
       };

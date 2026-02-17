@@ -1,7 +1,6 @@
 #nullable enable
 
 using Afrowave.AJIS.Streaming.Walk;
-using Xunit;
 
 namespace Afrowave.AJIS.Core.Tests.Streaming;
 
@@ -10,7 +9,7 @@ public sealed class StreamWalkRunnerOptionsTests
    [Fact]
    public void Defaults_AreExpected()
    {
-      var options = new AjisStreamWalkRunnerOptions();
+      AjisStreamWalkRunnerOptions options = new AjisStreamWalkRunnerOptions();
 
       Assert.False(options.AllowVisitorAbort);
       Assert.Equal(AjisStreamWalkEnginePreference.Balanced, options.EnginePreference);
@@ -22,7 +21,7 @@ public sealed class StreamWalkRunnerOptionsTests
    [Fact]
    public void Default_MatchesConstructorDefaults()
    {
-      var options = new AjisStreamWalkRunnerOptions();
+      AjisStreamWalkRunnerOptions options = new AjisStreamWalkRunnerOptions();
       Assert.Equal(options, AjisStreamWalkRunnerOptions.Default);
    }
 
@@ -53,12 +52,12 @@ public sealed class StreamWalkRunnerOptionsTests
    [Fact]
    public void FromSettings_AppliesParserProfile()
    {
-      var settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
+      Core.Configuration.AjisSettings settings = new global::Afrowave.AJIS.Core.Configuration.AjisSettings
       {
          ParserProfile = global::Afrowave.AJIS.Core.AjisProcessingProfile.LowMemory
       };
 
-      var options = AjisStreamWalkRunnerOptions.FromSettings(settings);
+      AjisStreamWalkRunnerOptions options = AjisStreamWalkRunnerOptions.FromSettings(settings);
 
       Assert.Equal(AjisStreamWalkEnginePreference.LowMemory, options.EnginePreference);
    }

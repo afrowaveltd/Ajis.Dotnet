@@ -22,4 +22,3 @@ public enum AjisProcessingProfile
    /// </summary>
    HighThroughput = 2
 }
-
