@@ -10,7 +10,7 @@
 
 HTTP Integration enables ASP.NET Core to serialize/deserialize AJIS through formatters.
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    HTTP Request                              │
 │  Content-Type: text/ajis                                     │
@@ -165,16 +165,19 @@ app.Run();
 ## 3. Integration Points
 
 ### 3.1 With M7 (Mapping Layer)
+
 - Formatters use `AjisConverter<T>` for all serialization/deserialization
 - Naming policies work automatically
 - Attributes ([AjisPropertyName], [AjisIgnore]) supported
 
 ### 3.2 With M4 (Serialization)
+
 - OutputFormatter calls `converter.Serialize(obj)`
 - InputFormatter calls `converter.Deserialize(text)`
 - All M4 serialization modes available
 
 ### 3.3 Content Negotiation
+
 - Accept header determines output format
 - Content-Type header determines input format
 - Quality factors supported (text/ajis;q=0.9)
@@ -225,7 +228,7 @@ public record UserDto(int Id, string Name, string Email);
 
 ## 6. Content Type Negotiation
 
-```
+```text
 Request Headers:
 Accept: application/json, text/ajis;q=0.9, */*;q=0.8
 
