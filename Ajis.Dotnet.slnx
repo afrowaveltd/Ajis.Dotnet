@@ -60,6 +60,10 @@
     <Project Path="tests/Afrowave.AJIS.Serialization.Tests/Afrowave.AJIS.Serialization.Tests.csproj" />
     <Project Path="tests/Afrowave.AJIS.Testing/Afrowave.AJIS.Testing.csproj" />
   </Folder>
-  <Project Path="src/Afrowave.AJIS.Identity/src/AjisIdentity/AjisIdentity.csproj" />
-  <Project Path="tests/Afrowave.AJIS.Countries.Tests/AjisCountriesTest.csproj" />
+  <Project Path="src/Afrowave.AJIS.Identity/src/AjisIdentity/AjisIdentity.csproj">
+    <Build Solution="Release|*" Project="false" />
+  </Project>
+  <Project Path="tests/Afrowave.AJIS.Countries.Tests/AjisCountriesTest.csproj">
+    <Build Solution="Release|*" Project="false" />
+  </Project>
 </Solution>

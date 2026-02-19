@@ -29,8 +29,6 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconMetadata>icon.png</PackageIconMetadata>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,7 +46,7 @@
   <ItemGroup>
 
     <None Include="$(MSBuildProjectDirectory)\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\..\Assets\icon.png" Pack="true" PackagePath="\" />
+    
   </ItemGroup>
 
 </Project>
